@@ -1,6 +1,8 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { normalize } from 'styled-normalize';
 
 const GlobalStyle = createGlobalStyle`
+  ${normalize}
   body {
     margin: 0;
     padding: 0;
@@ -13,6 +15,7 @@ const theme = {
     primary: '#0070f3',
   },
 };
+
 function MyApp({ Component, pageProps }) {
   return (
     <>
