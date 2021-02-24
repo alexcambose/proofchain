@@ -5,8 +5,8 @@ import "./Company.sol";
 import "./RawMaterial.sol";
 
 contract Factory {
-    address companyContractAddress;
-    address rawMaterialContractAddress;
+    address public companyContractAddress;
+    address public rawMaterialContractAddress;
 
     constructor() {
         Company company = new Company();
