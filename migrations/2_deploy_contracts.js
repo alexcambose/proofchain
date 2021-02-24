@@ -1,7 +1,7 @@
 // const Company = artifacts.require('Company');
-const RawMaterial = artifacts.require('RawMaterial');
+const Factory = artifacts.require('Factory');
 
 module.exports = function (deployer) {
   // deployer.deploy(Company);
-  deployer.deploy(RawMaterial);
+  deployer.deploy(Factory);
 };

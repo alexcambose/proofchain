@@ -3,11 +3,18 @@ pragma solidity >0.7.0 <0.9.0;
 
 contract Company {
     enum EntityTypeEnum {MANUFACTURER, LOGISTIC, WAREHOUSE, RETAILER}
-    EntityTypeEnum entityType;
-    string name;
 
-    constructor(string memory _name, EntityTypeEnum _entityType) {
-        name = _name;
-        entityType = _entityType;
+    struct CompanyInfo {
+        EntityTypeEnum _entityType;
+        string _name;
+    }
+    mapping(address => CompanyInfo) companies;
+
+    function createCompany(string memory name, EntityTypeEnum entityType)
+        public
+    {
+        address sender = msg.sender;
+        companies[sender]._name = name;
+        companies[sender]._entityType = entityType;
     }
 }
