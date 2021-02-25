@@ -5,16 +5,24 @@ contract Company {
     enum EntityTypeEnum {MANUFACTURER, LOGISTIC, WAREHOUSE, RETAILER}
 
     struct CompanyInfo {
-        EntityTypeEnum _entityType;
-        string _name;
+        EntityTypeEnum entityType;
+        string name;
+        bool isValue;
     }
     mapping(address => CompanyInfo) public companies;
 
-    function createCompany(string memory name, EntityTypeEnum entityType)
-        public
-    {
+    function create(string memory _name, EntityTypeEnum _entityType) public {
         address sender = msg.sender;
-        companies[sender]._name = name;
-        companies[sender]._entityType = entityType;
+        companies[sender].name = _name;
+        companies[sender].entityType = _entityType;
+        companies[sender].isValue = true;
+    }
+
+    function getCompany(address _addr)
+        public
+        view
+        returns (CompanyInfo memory)
+    {
+        return companies[_addr];
     }
 }

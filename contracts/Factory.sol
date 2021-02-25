@@ -11,7 +11,7 @@ contract Factory {
     constructor() {
         Company company = new Company();
         companyContractAddress = address(company);
-        RawMaterial rawMaterial = new RawMaterial();
+        RawMaterial rawMaterial = new RawMaterial(companyContractAddress);
         rawMaterialContractAddress = address(rawMaterial);
     }
 }
