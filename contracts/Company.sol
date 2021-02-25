@@ -8,7 +8,7 @@ contract Company {
         EntityTypeEnum _entityType;
         string _name;
     }
-    mapping(address => CompanyInfo) companies;
+    mapping(address => CompanyInfo) public companies;
 
     function createCompany(string memory name, EntityTypeEnum entityType)
         public
