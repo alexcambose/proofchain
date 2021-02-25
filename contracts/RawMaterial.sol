@@ -21,7 +21,7 @@ contract RawMaterial is Ownable, CompanyOwnable {
     }
 
     // Mapping from TokenID to address balances
-    mapping(uint256 => mapping(address => uint256)) private balances;
+    mapping(uint256 => mapping(address => uint256)) private balance;
     mapping(uint256 => MaterialTokenInfo) public materialToken;
     uint256 private materialTokenID = 0;
 
@@ -45,11 +45,20 @@ contract RawMaterial is Ownable, CompanyOwnable {
         materialTokenID++;
     }
 
-    function mint(uint256 tokenID, uint32 amount)
+    function mint(uint256 _tokenID, uint256 _amount)
         public
-        senderIsTokenCreator(tokenID)
+        senderIsTokenCreator(_tokenID)
     {
-        address companyAddress = materialToken[tokenID].creator;
-        emit RawMaterialTransfer(address(0), companyAddress, amount);
+        address companyAddress = materialToken[_tokenID].creator;
+        balance[_tokenID][msg.sender] += _amount;
+        emit RawMaterialTransfer(address(0), companyAddress, _amount);
+    }
+
+    function getBalance(uint256 _tokenID, address _address)
+        public
+        view
+        returns (uint256)
+    {
+        return balance[_tokenID][_address];
     }
 }
