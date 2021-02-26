@@ -11,6 +11,14 @@ contract Company {
     }
     mapping(address => CompanyInfo) public companies;
 
+    modifier doesNotHaveCompany {
+        require(
+            companies[msg.sender].isValue == false,
+            "Address already has a company"
+        );
+        _;
+    }
+
     function create(string memory _name, EntityTypeEnum _entityType) public {
         address sender = msg.sender;
         companies[sender].name = _name;

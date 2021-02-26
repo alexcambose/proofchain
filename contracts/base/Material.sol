@@ -9,12 +9,21 @@ contract Material {
         uint256 value
     );
     struct MaterialTokenInfo {
+        // a basic title for the material
         string title;
+        // a real-life identification code, see https://www.gs1.org/standards/id-keys/gtin
         uint256 code;
+        // the address of the creator, the creator must own a company
         address creator;
+        // certificates
         address[] certificates;
+        // ipfs images hash
         string[] images;
-        mapping(uint256 => uint256) recipe;
+        // mapping from (tokenID -> amount of the amount identifier)
+        uint256[] recipeMaterialTokenId;
+        uint256[] recipeMaterialAmount;
+        // amount identifier
+        string amountIdentifier;
     }
     // Mapping from TokenID to address balances
     mapping(uint256 => mapping(address => uint256)) balance;
@@ -32,14 +41,5 @@ contract Material {
         returns (uint256)
     {
         return balance[_tokenID][_address];
-    }
-
-    function mint(uint256 _tokenID, uint256 _amount)
-        public
-        senderIsTokenCreator(_tokenID)
-    {
-        address companyAddress = materialToken[_tokenID].creator;
-        balance[_tokenID][msg.sender] += _amount;
-        emit MaterialTransfer(address(0), companyAddress, _amount);
     }
 }
