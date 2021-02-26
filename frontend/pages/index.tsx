@@ -1,12 +1,9 @@
-import Head from 'next/head';
-import Button from '../components/button/Button';
-import styles from '../styles/Home.module.css';
+import { Button } from 'grommet';
 
 export default function Home() {
   return (
     <>
-      <h1>Salut</h1>
-      <Button>Submit</Button>
+      <Button primary label="label" />
     </>
   );
 }

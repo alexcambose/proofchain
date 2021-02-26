@@ -8,9 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.5.0",
+    "@toruslabs/torus-direct-web-sdk": "^4.5.0",
+    "grommet": "^2.16.3",
+    "grommet-icons": "^4.5.0",
     "next": "10.0.6",
+    "next-redux-wrapper": "^6.0.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-redux": "^7.2.2",
+    "redux-thunk": "^2.3.0",
     "styled-components": "^5.2.1",
     "styled-normalize": "^8.0.7",
     "tslint": "^6.1.3"
