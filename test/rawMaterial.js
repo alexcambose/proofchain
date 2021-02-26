@@ -25,7 +25,7 @@ contract('RawMaterial', (accounts) => {
       const tokenId = await rawMaterialInstance.methods
         .create('Tomatoes', 1823, ['0x28181'])
         .send({ from: account, gas: 300000 });
-      const eventReturn = tokenId.events.RawMaterialCreate.returnValues;
+      const eventReturn = tokenId.events.MaterialCreate.returnValues;
       const result = await rawMaterialInstance.methods
         .materialToken(eventReturn.materialTokenID)
         .call();
@@ -54,7 +54,7 @@ contract('RawMaterial', (accounts) => {
         .send({ from: account, gas: 300000 });
       const {
         materialTokenID,
-      } = createResult.events.RawMaterialCreate.returnValues;
+      } = createResult.events.MaterialCreate.returnValues;
 
       await rawMaterialInstance.methods
         .mint(materialTokenID, 100)
@@ -73,7 +73,7 @@ contract('RawMaterial', (accounts) => {
         .send({ from: account, gas: 300000 });
       const {
         materialTokenID,
-      } = createResult.events.RawMaterialCreate.returnValues;
+      } = createResult.events.MaterialCreate.returnValues;
 
       await rawMaterialInstance.methods
         .mint(materialTokenID, 100)
@@ -90,7 +90,7 @@ contract('RawMaterial', (accounts) => {
         .send({ from: account, gas: 300000 });
       const {
         materialTokenID,
-      } = createResult.events.RawMaterialCreate.returnValues;
+      } = createResult.events.MaterialCreate.returnValues;
       const t = async () => {
         await rawMaterialInstance.methods
           .mint(materialTokenID, 100)

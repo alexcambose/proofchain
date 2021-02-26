@@ -5,7 +5,7 @@ import "./abstract/Material.sol";
 import "./utils/Ownable.sol";
 import "./utils/CompanyOwnable.sol";
 
-contract RawMaterial is Material, Ownable, CompanyOwnable {
+contract CompoundMaterial is Material, Ownable, CompanyOwnable {
     constructor(address _companyContract) CompanyOwnable(_companyContract) {}
 
     function create(
