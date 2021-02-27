@@ -1,30 +1,47 @@
-import Document from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import Document, { Html, Head, Main, NextScript } from 'next/document';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { styletron } from '../styletron';
 
-export default class MyDocument extends Document {
-  static async getInitialProps(ctx) {
-    const sheet = new ServerStyleSheet();
-    const originalRenderPage = ctx.renderPage;
-
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
-        });
-
-      const initialProps = await Document.getInitialProps(ctx);
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
+class MyDocument extends Document {
+  static async getInitialProps(context) {
+    const renderPage = () =>
+      context.renderPage({
+        enhanceApp: (App) => (props) => (
+          <StyletronProvider value={styletron}>
+            <App {...props} />
+          </StyletronProvider>
         ),
-      };
-    } finally {
-      sheet.seal();
-    }
+      });
+
+    const initialProps = await Document.getInitialProps({
+      ...context,
+      renderPage,
+    });
+    const stylesheets = styletron.getStylesheets() || [];
+    return { ...initialProps, stylesheets };
+  }
+
+  render() {
+    return (
+      <Html>
+        <Head>
+          {this.props.stylesheets.map((sheet, i) => (
+            <style
+              className="_styletron_hydrate_"
+              dangerouslySetInnerHTML={{ __html: sheet.css }}
+              media={sheet.attrs.media}
+              data-hydrate={sheet.attrs['data-hydrate']}
+              key={i}
+            />
+          ))}
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
+
+export default MyDocument;

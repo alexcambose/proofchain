@@ -13,7 +13,11 @@ const AuthContainer: React.FC<AuthContainerProps> = ({
 }) => {
   return (
     <Card title="Authentication">
-      <StyledBody>{formElement}</StyledBody>
+      <StyledBody>
+        {formElement}
+        <hr />
+        {socialLoginElement}
+      </StyledBody>
     </Card>
   );
 };

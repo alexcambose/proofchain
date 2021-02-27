@@ -3,7 +3,7 @@ import {
   ButtonProps as BaseUiButtonProps,
 } from 'baseui/button';
 interface ButtonProps extends BaseUiButtonProps {}
-const Button: React.FC<ButtonProps> = ({ children, props }) => {
+const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   return (
     <BaseUiButton
       {...props}

@@ -1,9 +1,4 @@
-import { Button } from 'grommet';
-
-export default function Home() {
-  return (
-    <>
-      <Button primary label="label" />
-    </>
-  );
-}
+const Index = () => {
+  return 'ss';
+};
+export default Index;

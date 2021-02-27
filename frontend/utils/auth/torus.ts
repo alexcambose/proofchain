@@ -1,4 +1,5 @@
 import DirectWebSdk from '@toruslabs/torus-direct-web-sdk';
+
 export const init = async () => {
   const torus = new DirectWebSdk({
     baseUrl: 'http://localhost:3000',
