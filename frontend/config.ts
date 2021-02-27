@@ -8,6 +8,13 @@ const torusTestnet = {
       clientId:
         '586480264771-oesrj58j5hmbfvfj4fh5cvufveplgunt.apps.googleusercontent.com',
     },
+    [SocialLoginTypeEnum.EMAIL_PASSWORD]: {
+      name: 'Email Password',
+
+      typeOfLogin: 'email_password',
+      verifier: 'trackchin-email-password-testnet',
+      clientId: 'YFgVMzDivGqZOk4oYqasT57Iea7yvOPe',
+    },
   },
 };
 

@@ -17,15 +17,12 @@ const AuthContainer: React.FC<AuthContainerProps> = ({
   return (
     <Card title="Authentication">
       <StyledBody>
-        {formElement}
-        <hr />
+        {/* {formElement}
+        <hr /> */}
         {socialLoginElement}
         <hr />
 
-        <Grid>
-          {/* <Cell>{metamaskElement}</Cell> */}
-          <Cell>{mnemonicElement}</Cell>
-        </Grid>
+        {mnemonicElement}
       </StyledBody>
     </Card>
   );
