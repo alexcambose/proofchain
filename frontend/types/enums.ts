@@ -1,3 +1,4 @@
 export enum SocialLoginTypeEnum {
-  GOOGLE = 'google',
+  GOOGLE = 'Google',
+  METAMASK = 'Metamask',
 }

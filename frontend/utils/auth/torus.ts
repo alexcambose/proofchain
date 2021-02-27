@@ -6,8 +6,10 @@ const torus = new DirectWebSdk({
   proxyContractAddress: '0x4023d2a0D330bF11426B12C6144Cfb96B7fa6183', // details for test net
   network: 'testnet', // details for test net
 });
+
 export const init = async () => {
   await torus.init();
+  window.torus = torus;
 };
 export const triggerLogin = async (loginType: SocialLoginTypeEnum) => {
   console.log(config.torus.credentials[loginType]);

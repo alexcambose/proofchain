@@ -1,9 +1,11 @@
 import Button from '@components/Button';
+import Notification from '@components/Notification';
 import SocialIcon from '@components/icon/SocialIcon';
 import { SocialLoginTypeEnum } from '@types/enums.ts';
 import { KIND } from 'baseui/button';
 import React, { useState } from 'react';
 import uuid from 'react-uuid';
+import { KIND as NotificationKIND } from 'baseui/notification';
 
 interface SocialButtonsProps {
   onClick: (loginType: SocialLoginTypeEnum) => Promise<void>;
@@ -23,7 +25,10 @@ const SocialButtons: React.FC<SocialButtonsProps> = ({ onClick }) => {
     }
     setLoadingType(null);
   };
-  const loginButtons = [SocialLoginTypeEnum.GOOGLE].map((loginType) => (
+  const loginButtons = [
+    SocialLoginTypeEnum.METAMASK,
+    SocialLoginTypeEnum.GOOGLE,
+  ].map((loginType) => (
     <Button
       key={uuid()}
       startEnhancer={() => <SocialIcon icon={loginType} />}
@@ -39,7 +44,9 @@ const SocialButtons: React.FC<SocialButtonsProps> = ({ onClick }) => {
       {/* <SecurityInfo /> */}
       {loginButtons}
 
-      {/* {error && <Label2 color="negative">Error: {error}</Label2>} */}
+      {error && (
+        <Notification kind={NotificationKIND.negative}>{error}</Notification>
+      )}
     </>
   );
 };
