@@ -1,13 +1,9 @@
-import { Formik, FormikConfig, FormikValues, Form } from 'formik';
+import { Formik, FormikConfig, FormikValues, Form as FormikForm } from 'formik';
 interface FormProps {
   children: React.ReactNode;
 }
-const CustomForm: React.FC<FormProps> = ({ children, ...props }) => {
-  return (
-    // <Formik {...props}>
-    <Form>{children}</Form>
-    // </Formik>
-  );
+const Form: React.FC<FormProps> = ({ children, ...props }) => {
+  return <FormikForm>{children}</FormikForm>;
 };
 
-export default CustomForm;
+export default Form;
