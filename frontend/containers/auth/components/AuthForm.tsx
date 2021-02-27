@@ -20,7 +20,7 @@ const _AuthForm: React.FC = () => {
 };
 const AuthForm = withFormik<{}, AuthFormValues>({
   // Transform outer props into form values
-  mapPropsToValues: (props) => {
+  mapPropsToValues: () => {
     return {
       email: '',
       password: '',
