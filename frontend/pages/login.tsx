@@ -3,6 +3,7 @@ import { useStyletron } from 'baseui';
 import { Grid, Cell } from 'baseui/layout-grid';
 import initialState from '../store/user/initialState';
 import Auth from '@containers/auth/index';
+import LoginChecker from '@components/auth/LoginChecker';
 const Login = () => {
   return (
     <Grid>
@@ -12,4 +13,4 @@ const Login = () => {
     </Grid>
   );
 };
-export default Login;
+export default LoginChecker(false)(Login);

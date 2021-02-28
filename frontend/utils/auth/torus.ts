@@ -13,7 +13,10 @@ export const init = async () => {
   await torus.init();
   window.torus = torus;
 };
-export const triggerLogin = async (loginType: SocialLoginTypeEnum, data) => {
+export const triggerLogin = async (
+  loginType: SocialLoginTypeEnum,
+  data = {}
+) => {
   const loginData = config.torus.credentials[loginType];
   if ((loginType = SocialLoginTypeEnum.EMAIL_PASSWORD)) {
     loginData.jwtParams = { domain: 'https://dev-6eszxcvx.us.auth0.com' };
@@ -21,7 +24,7 @@ export const triggerLogin = async (loginType: SocialLoginTypeEnum, data) => {
   console.log(loginData);
   try {
     const userInfo = await torus.triggerLogin(loginData);
-    console.log(userInfo);
+    return userInfo;
   } catch (e) {
     console.log(e);
   }

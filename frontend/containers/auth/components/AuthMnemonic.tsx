@@ -3,15 +3,18 @@ import Form from '@components/form/formik/Form';
 import Modal from '@components/Modal';
 import React, { useState } from 'react';
 import MnemonicForm from './MnemonicForm';
-interface AuthMnemonicProps {}
+interface AuthMnemonicProps {
+  onSubmit: (mnemonic: string) => void;
+}
 
-const AuthMnemonic: React.FC<AuthMnemonicProps> = () => {
+const AuthMnemonic: React.FC<AuthMnemonicProps> = ({ onSubmit }) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const handleOnCreateClick = () => {
     setIsOpened(true);
   };
   const handleOnMnemonicFormSubmit = (mnemonic) => {
-    console.log(mnemonic);
+    onSubmit(mnemonic);
+    setIsOpened(false);
   };
   return (
     <>

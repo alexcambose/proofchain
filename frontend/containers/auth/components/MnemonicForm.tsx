@@ -25,7 +25,7 @@ const _MnemonicForm: React.FC<MnemonicFormProps> = () => {
           formControl={false}
         />
       </Block>
-      <Button>Import</Button>
+      <Button type="submit">Import</Button>
     </Form>
   );
 };

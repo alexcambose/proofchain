@@ -3,17 +3,20 @@ import { triggerLogin } from '@utils/auth/torus';
 import AuthContainer from './components/AuthContainer';
 import AuthForm from './components/AuthForm';
 import SocialButtons from './components/SocialButtons';
-import web3 from 'web3';
 import Web3 from 'web3';
 import AuthMnemonic from './components/AuthMnemonic';
+import { useDispatch } from 'react-redux';
+import { loginWithMetamask, loginWithTorus } from 'store/user/actions';
+import { loginWithMnemonic } from 'store/user';
+
 const Auth: React.FC = () => {
+  const dispatch = useDispatch();
   const onSocialButtonsClick = async (loginType: SocialLoginTypeEnum) => {
     if (loginType === SocialLoginTypeEnum.METAMASK) {
-      window.web3 = new Web3(window.ethereum);
-      await ethereum.send('eth_requestAccounts');
-      return;
+      await dispatch(loginWithMetamask());
+    } else {
+      await dispatch(loginWithTorus(loginType));
     }
-    return await triggerLogin(loginType);
   };
   const onFormSubmit = async (email, password) => {
     return await triggerLogin(SocialLoginTypeEnum.EMAIL_PASSWORD, {
@@ -21,11 +24,14 @@ const Auth: React.FC = () => {
       password,
     });
   };
+  const onMnemonicSubmit = (menmonic) => {
+    dispatch(loginWithMnemonic(menmonic));
+  };
   return (
     <AuthContainer
       formElement={<AuthForm onSubmit={onFormSubmit} />}
       socialLoginElement={<SocialButtons onClick={onSocialButtonsClick} />}
-      mnemonicElement={<AuthMnemonic />}
+      mnemonicElement={<AuthMnemonic onSubmit={onMnemonicSubmit} />}
     ></AuthContainer>
   );
 };
