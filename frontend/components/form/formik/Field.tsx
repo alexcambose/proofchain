@@ -12,7 +12,7 @@ interface FormikFieldProps {
   formControl?: boolean;
 
   caption?: string;
-  [key: string]: string;
+  [key: string]: any;
 }
 const InputMode = {
   text: 'text',
