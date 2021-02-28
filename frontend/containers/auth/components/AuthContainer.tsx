@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Card, StyledBody, StyledAction } from 'baseui/card';
-import { Button } from 'baseui/button';
-import { Cell, Grid } from 'baseui/layout-grid';
+import { Block } from 'baseui/block';
+import TooltipIcon from '@components/icon/TooltipIcon';
+import SecurityIcon from '@assets/images/icons/security.svg';
 interface AuthContainerProps {
   formElement?: React.ReactNode;
   socialLoginElement?: React.ReactNode;
@@ -14,8 +15,25 @@ const AuthContainer: React.FC<AuthContainerProps> = ({
   mnemonicElement,
   metamaskElement,
 }) => {
+  const title = (
+    <Block
+      overrides={{
+        Block: {
+          style: { display: 'flex', justifyContent: 'space-between' },
+        },
+      }}
+    >
+      <span>Authentication</span>
+      <span>
+        <TooltipIcon icon={SecurityIcon}>
+          We do NOT own your private keys and cannot access your funds. This is
+          your own non-custodial crypto wallet that only you have the keys for.
+        </TooltipIcon>
+      </span>
+    </Block>
+  );
   return (
-    <Card title="Authentication">
+    <Card title={title}>
       <StyledBody>
         {/* {formElement}
         <hr /> */}

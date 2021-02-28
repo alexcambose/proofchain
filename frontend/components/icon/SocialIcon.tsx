@@ -3,6 +3,7 @@ import { SocialLoginTypeEnum } from '@types/enums.ts';
 
 import GoogleIcon from '@assets/images/social/google.svg';
 import MetamaskIcon from '@assets/images/social/metamask.svg';
+import IconContainer from './IconContainer';
 // import ThemedIcon from './ThemedIcon';
 interface SocialIconsPrps {
   icon: SocialLoginTypeEnum;
@@ -15,12 +16,12 @@ const icons = {
 
 const SocialIcon: React.FC<SocialIconsPrps> = ({ icon }) => {
   const IconComponent = icons[icon];
-  return <IconComponent />;
-  // return (
-  //   <ThemedIcon
-  //     icon={(props) => <IconComponent style={iconStyle} {...props} />}
-  //   />
-  // );
+  return (
+    <IconContainer
+      style={iconStyle}
+      icon={(props) => <IconComponent {...props} />}
+    />
+  );
 };
 
 export default SocialIcon;
