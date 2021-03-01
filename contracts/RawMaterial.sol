@@ -43,8 +43,54 @@ contract RawMaterial is Material, Ownable, CompanyOwnable {
         public
         senderIsTokenCreator(_tokenID)
     {
+        require(
+            materialToken[_tokenID].recipeMaterialTokenId.length == 0,
+            "You need to specify the required products"
+        );
         address companyAddress = materialToken[_tokenID].creator;
         balance[_tokenID][msg.sender] += _amount;
         emit MaterialTransfer(address(0), companyAddress, _amount);
+    }
+
+    function mint(
+        uint256 _tokenID,
+        uint256 _amount,
+        uint256[] memory _batchesId,
+        uint256[] memory _batchesAmount
+    ) public senderIsTokenCreator(_tokenID) {
+        require(
+            _batchesId.length == _batchesAmount.length,
+            "Arrays must be the same length"
+        );
+        require(
+            materialToken[_tokenID].recipeMaterialTokenId.length == 0,
+            "The token does not need additional ingredients"
+        );
+        address companyAddress = materialToken[_tokenID].creator;
+        balance[_tokenID][msg.sender] += _amount;
+        emit MaterialTransfer(address(0), companyAddress, _amount);
+    }
+
+    function createBatch(
+        string memory _code,
+        uint256 _tokenID,
+        uint256 _amount
+    ) public senderHasCompany {
+        require(
+            balance[_tokenID][msg.sender] >= _amount,
+            "You do not have enough materials to create this batch"
+        );
+        balance[_tokenID][msg.sender] -= _amount;
+        // create instance
+        BatchInfo memory batchInfo =
+            BatchInfo({
+                code: _code,
+                materialTokenId: _tokenID,
+                materialTokenAmount: _amount
+            });
+        batch[batchId] = batchInfo;
+        addressBatches[msg.sender].push(batchId);
+        emit BatchCreate(msg.sender, batchId);
+        batchId++;
     }
 }

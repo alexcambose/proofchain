@@ -2,12 +2,17 @@
 pragma solidity >0.7.0 <0.9.0;
 
 contract Material {
-    event MaterialCreate(address indexed company, uint256 materialTokenID);
+    event MaterialCreate(
+        address indexed company,
+        uint256 indexed materialTokenID
+    );
     event MaterialTransfer(
         address indexed from,
         address indexed to,
         uint256 value
     );
+    event BatchCreate(address indexed company, uint256 indexed batchId);
+
     struct MaterialTokenInfo {
         // a basic title for the material
         string title;
@@ -36,8 +41,11 @@ contract Material {
     uint256 public materialTokenID = 0;
     mapping(uint256 => MaterialTokenInfo) public materialToken;
 
-    // all batches associated with an address (address => BatchInfo[])
-    mapping(address => BatchInfo[]) public batches;
+    // all batches associated with an address (address => batchId[])
+    mapping(address => uint256[]) public addressBatches;
+    // all batchId associated with a batch
+    mapping(uint256 => BatchInfo) public batch;
+    uint256 public batchId = 0;
 
     modifier senderIsTokenCreator(uint256 _materialTokenID) {
         require(msg.sender == materialToken[_materialTokenID].creator);
@@ -50,25 +58,5 @@ contract Material {
         returns (uint256)
     {
         return balance[_tokenID][_address];
-    }
-
-    function createBatch(
-        string memory _code,
-        uint256 _tokenID,
-        uint256 _amount
-    ) public {
-        require(
-            balance[_tokenID][msg.sender] >= _amount,
-            "You do not have enough materials to create this batch"
-        );
-        balance[_tokenID][msg.sender] -= _amount;
-        // create instance
-        BatchInfo memory batchInfo =
-            BatchInfo({
-                code: _code,
-                materialTokenId: _tokenID,
-                materialTokenAmount: _amount
-            });
-        batches[msg.sender].push(batchInfo);
     }
 }

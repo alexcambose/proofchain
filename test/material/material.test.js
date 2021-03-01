@@ -1,22 +1,21 @@
-const Factory = artifacts.require('Factory');
-const RawMaterial = artifacts.require('RawMaterial');
-const Company = artifacts.require('Company');
 const {
   getInstance,
   createMaterial: _createMaterial,
   createRawMaterial: _createRawMaterial,
+  createBatch: _createBatch,
 } = require('./utils');
 
 contract('RawMaterial', (accounts) => {
   const [account, otherAccount] = accounts;
   const createMaterial = _createMaterial(account);
   const createRawMaterial = _createRawMaterial(account);
+  const createBatch = _createBatch(account);
   beforeEach(async () => {
     const [rawMaterialInstance, companyInstance] = await getInstance();
 
     await companyInstance.methods.create('', 0).send({ from: account });
   });
-  describe('create', () => {
+  describe('create material', () => {
     describe('raw material', () => {
       it('creates a new raw material', async () => {
         const [rawMaterialInstance, companyInstance] = await getInstance();
@@ -63,6 +62,33 @@ contract('RawMaterial', (accounts) => {
         );
         console.log(materialTokenID3);
       });
+    });
+  });
+
+  describe('create batch', () => {
+    it('creates a new batch', async () => {
+      const [rawMaterialInstance, companyInstance] = await getInstance();
+      const materialTokenID = await createRawMaterial();
+      await rawMaterialInstance.methods
+        .mint(materialTokenID, 100)
+        .send({ from: account, gas: 300000 });
+      const batchId = await createBatch(123, materialTokenID, 90);
+      expect(batchId).equal('0');
+    });
+    it('throws error if the address does not have enough materials', async () => {
+      const [rawMaterialInstance, companyInstance] = await getInstance();
+      const materialTokenID = await createRawMaterial();
+      await rawMaterialInstance.methods
+        .mint(materialTokenID, 100)
+        .send({ from: account, gas: 300000 });
+      const t = async () => {
+        await createBatch(123, materialTokenID, 101);
+      };
+      try {
+        await t();
+      } catch (e) {
+        expect(e).to.be.instanceOf(Error);
+      }
     });
   });
 

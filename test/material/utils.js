@@ -22,10 +22,10 @@ const createRawMaterial = (account) => async (
   const [rawMaterialInstance, companyInstance] = await getInstance();
 
   // create a company
-  const tokenId = await rawMaterialInstance.methods
+  const result = await rawMaterialInstance.methods
     .create(title, code, images)
     .send({ from: account, gas: 300000 });
-  const eventReturn = tokenId.events.MaterialCreate.returnValues;
+  const eventReturn = result.events.MaterialCreate.returnValues;
   return eventReturn.materialTokenID;
 };
 
@@ -38,25 +38,19 @@ const createMaterial = (account) => async (
 ) => {
   const [rawMaterialInstance, companyInstance] = await getInstance();
 
-  // create a company
-  const tokenId = await rawMaterialInstance.methods
+  const result = await rawMaterialInstance.methods
     .create(title, code, images, recipeMaterialTokenId, recipeMaterialAmount)
     .send({ from: account, gas: 300000 });
-  const eventReturn = tokenId.events.MaterialCreate.returnValues;
+  const eventReturn = result.events.MaterialCreate.returnValues;
   return eventReturn.materialTokenID;
 };
-const createBatch = (account) => async (
-  code = 1234,
-  tokenId = [],
-  amount = []
-) => {
-  // const [rawMaterialInstance, companyInstance] = await getInstance();
-  // // create a company
-  // const tokenId = await rawMaterialInstance.methods
-  //   .createBatch(code, tokenId, amount)
-  //   .send({ from: account, gas: 300000 });
-  // const eventReturn = tokenId.events.MaterialCreate.returnValues;
-  // return eventReturn.materialTokenID;
+const createBatch = (account) => async (code, tokenId, amount) => {
+  const [rawMaterialInstance, companyInstance] = await getInstance();
+  const result = await rawMaterialInstance.methods
+    .createBatch(code, tokenId, amount)
+    .send({ from: account, gas: 300000 });
+  const eventReturn = result.events.BatchCreate.returnValues;
+  return eventReturn.batchId;
 };
 
 module.exports = {
