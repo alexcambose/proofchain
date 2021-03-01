@@ -25,10 +25,19 @@ contract Material {
         // amount identifier
         string amountIdentifier;
     }
+    struct BatchInfo {
+        string code;
+        uint256 materialTokenId;
+        uint256 materialTokenAmount;
+    }
     // Mapping from TokenID to address balances
     mapping(uint256 => mapping(address => uint256)) balance;
-    mapping(uint256 => MaterialTokenInfo) public materialToken;
+    // all tokens, (materialTokenID => MaterialTokenInfo)
     uint256 public materialTokenID = 0;
+    mapping(uint256 => MaterialTokenInfo) public materialToken;
+
+    // all batches associated with an address (address => BatchInfo[])
+    mapping(address => BatchInfo[]) public batches;
 
     modifier senderIsTokenCreator(uint256 _materialTokenID) {
         require(msg.sender == materialToken[_materialTokenID].creator);
@@ -41,5 +50,25 @@ contract Material {
         returns (uint256)
     {
         return balance[_tokenID][_address];
+    }
+
+    function createBatch(
+        string memory _code,
+        uint256 _tokenID,
+        uint256 _amount
+    ) public {
+        require(
+            balance[_tokenID][msg.sender] >= _amount,
+            "You do not have enough materials to create this batch"
+        );
+        balance[_tokenID][msg.sender] -= _amount;
+        // create instance
+        BatchInfo memory batchInfo =
+            BatchInfo({
+                code: _code,
+                materialTokenId: _tokenID,
+                materialTokenAmount: _amount
+            });
+        batches[msg.sender].push(batchInfo);
     }
 }

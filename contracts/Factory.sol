@@ -14,7 +14,7 @@ contract Factory {
     constructor() {
         masterAddress = msg.sender;
 
-        CertificateAuthority certificateAuthority = new CertificateAuthority();
+        // CertificateAuthority certificateAuthority = new CertificateAuthority();
         Company company = new Company();
         companyContractAddress = address(company);
         RawMaterial rawMaterial = new RawMaterial(companyContractAddress);
