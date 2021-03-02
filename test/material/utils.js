@@ -26,23 +26,23 @@ const createRawMaterial = (account) => async (
     .create(title, code, images)
     .send({ from: account, gas: 300000 });
   const eventReturn = result.events.MaterialCreate.returnValues;
-  return eventReturn.materialTokenID;
+  return eventReturn.materialTokenId;
 };
 
 const createMaterial = (account) => async (
   title = 'Tomatoes',
   code = 1234,
   images = ['abc'],
-  recipeMaterialTokenId = [],
+  recipematerialTokenId = [],
   recipeMaterialAmount = []
 ) => {
   const [rawMaterialInstance, companyInstance] = await getInstance();
 
   const result = await rawMaterialInstance.methods
-    .create(title, code, images, recipeMaterialTokenId, recipeMaterialAmount)
+    .create(title, code, images, recipematerialTokenId, recipeMaterialAmount)
     .send({ from: account, gas: 300000 });
   const eventReturn = result.events.MaterialCreate.returnValues;
-  return eventReturn.materialTokenID;
+  return eventReturn.materialTokenId;
 };
 const createBatch = (account) => async (code, tokenId, amount) => {
   const [rawMaterialInstance, companyInstance] = await getInstance();

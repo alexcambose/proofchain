@@ -4,7 +4,7 @@ pragma solidity >0.7.0 <0.9.0;
 contract Material {
     event MaterialCreate(
         address indexed company,
-        uint256 indexed materialTokenID
+        uint256 indexed materialTokenId
     );
     event MaterialTransfer(
         address indexed from,
@@ -12,7 +12,14 @@ contract Material {
         uint256 value
     );
     event BatchCreate(address indexed company, uint256 indexed batchId);
-
+    // amount is only specified on burn
+    event BatchTransfer(
+        address indexed from,
+        address indexed to,
+        uint256 indexed batchId,
+        uint256 amount
+    );
+    event T(uint256 data1, uint256 data2, uint256 data3, uint256 data4);
     struct MaterialTokenInfo {
         // a basic title for the material
         string title;
@@ -25,7 +32,7 @@ contract Material {
         // ipfs images hash
         string[] images;
         // mapping from (tokenID -> amount of the amount identifier)
-        uint256[] recipeMaterialTokenId;
+        uint256[] recipematerialTokenId;
         uint256[] recipeMaterialAmount;
         // amount identifier
         string amountIdentifier;
@@ -37,8 +44,8 @@ contract Material {
     }
     // Mapping from TokenID to address balances
     mapping(uint256 => mapping(address => uint256)) balance;
-    // all tokens, (materialTokenID => MaterialTokenInfo)
-    uint256 public materialTokenID = 0;
+    // all tokens, (materialTokenId => MaterialTokenInfo)
+    uint256 public materialTokenId = 0;
     mapping(uint256 => MaterialTokenInfo) public materialToken;
 
     // all batches associated with an address (address => batchId[])
@@ -47,8 +54,8 @@ contract Material {
     mapping(uint256 => BatchInfo) public batch;
     uint256 public batchId = 0;
 
-    modifier senderIsTokenCreator(uint256 _materialTokenID) {
-        require(msg.sender == materialToken[_materialTokenID].creator);
+    modifier senderIsTokenCreator(uint256 _materialTokenId) {
+        require(msg.sender == materialToken[_materialTokenId].creator);
         _;
     }
 
