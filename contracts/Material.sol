@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-import "./base/Material.sol";
+import "./base/MaterialBase.sol";
 import "./utils/Ownable.sol";
 import "./utils/Math.sol";
 import "./utils/CompanyOwnable.sol";
 
-contract RawMaterial is Material, Ownable, CompanyOwnable {
+contract Material is MaterialBase, Ownable, CompanyOwnable {
     using Math for uint256;
 
     constructor(address _companyContract) CompanyOwnable(_companyContract) {}

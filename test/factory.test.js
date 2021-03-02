@@ -13,14 +13,14 @@ contract('Factory', () => {
         companyContractAddress
       );
     });
-    it('deploys a new RawMaterial contract', async () => {
+    it('deploys a new Material contract', async () => {
       const instance = await Factory.deployed();
 
-      const rawMaterialContractAddress = await instance.contract.methods
-        .companyContractAddress()
+      const materialContractAddress = await instance.contract.methods
+        .materialContractAddress()
         .call();
-      expect(await web3.eth.getCode(rawMaterialContractAddress)).to.not.equal(
-        rawMaterialContractAddress
+      expect(await web3.eth.getCode(materialContractAddress)).to.not.equal(
+        materialContractAddress
       );
     });
   });

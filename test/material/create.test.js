@@ -11,25 +11,25 @@ contract('RawMaterial', (accounts) => {
   const createRawMaterial = _createRawMaterial(account);
   const createBatch = _createBatch(account);
   beforeEach(async () => {
-    const [rawMaterialInstance, companyInstance] = await getInstance();
+    const [materialInstance, companyInstance] = await getInstance();
 
     await companyInstance.methods.create('', 0).send({ from: account });
   });
   describe('create material', () => {
     describe('raw material', () => {
       it('creates a new raw material', async () => {
-        const [rawMaterialInstance, companyInstance] = await getInstance();
+        const [materialInstance, companyInstance] = await getInstance();
         const materialTokenId = await createRawMaterial();
-        const result = await rawMaterialInstance.methods
+        const result = await materialInstance.methods
           .materialToken(materialTokenId)
           .call();
         expect(result.title).equal('Tomatoes');
       });
       it(`fails to create a new material if the sender doesn't have a company registered`, async () => {
-        const [rawMaterialInstance] = await getInstance();
+        const [materialInstance] = await getInstance();
 
         const t = async () => {
-          await rawMaterialInstance.methods
+          await materialInstance.methods
             .create('Tomatoes', 1823, ['0x28181'])
             .send({ from: otherAccount, gas: 300000 });
         };
@@ -44,21 +44,21 @@ contract('RawMaterial', (accounts) => {
       let materialTokenId1;
       let materialTokenId2;
       beforeEach(async () => {
-        const [rawMaterialInstance, companyInstance] = await getInstance();
+        const [materialInstance, companyInstance] = await getInstance();
         // generate raw materials
 
         materialTokenId1 = await createRawMaterial('Material A');
         materialTokenId2 = await createRawMaterial('Material B');
         // mint raw materials
-        await rawMaterialInstance.methods
+        await materialInstance.methods
           .mint(materialTokenId1, 100)
           .send({ from: account, gas: 300000 });
-        await rawMaterialInstance.methods
+        await materialInstance.methods
           .mint(materialTokenId2, 100)
           .send({ from: account, gas: 300000 });
       });
       it('create a new material from existing raw materials', async () => {
-        const [rawMaterialInstance, companyInstance] = await getInstance();
+        const [materialInstance, companyInstance] = await getInstance();
 
         const materialTokenId3 = await createMaterial(
           'Salad',
@@ -72,11 +72,8 @@ contract('RawMaterial', (accounts) => {
         const batchId12 = await createBatch(123, materialTokenId1, 4);
         const batchId21 = await createBatch(123, materialTokenId2, 14);
         const batchId22 = await createBatch(123, materialTokenId2, 19);
-        console.log(await rawMaterialInstance.methods.batch(batchId11).call());
-        console.log(await rawMaterialInstance.methods.batch(batchId12).call());
-        console.log(await rawMaterialInstance.methods.batch(batchId21).call());
-        console.log(await rawMaterialInstance.methods.batch(batchId22).call());
-        const mintResult = await rawMaterialInstance.methods
+
+        await materialInstance.methods
           .mint(
             materialTokenId3,
             2,
@@ -85,26 +82,26 @@ contract('RawMaterial', (accounts) => {
           )
           .send({ from: account, gas: 300000 });
 
-        const balance = await rawMaterialInstance.methods
+        const balance = await materialInstance.methods
           .getBalance(materialTokenId3, account)
           .call();
         expect(balance).equal('2');
         expect(
-          (await rawMaterialInstance.methods.batch(batchId11).call())
+          (await materialInstance.methods.batch(batchId11).call())
             .materialTokenAmount
-        ).expect('1');
+        ).equal('1');
         expect(
-          (await rawMaterialInstance.methods.batch(batchId12).call())
+          (await materialInstance.methods.batch(batchId12).call())
             .materialTokenAmount
-        ).expect('1');
+        ).equal('1');
         expect(
-          (await rawMaterialInstance.methods.batch(batchId21).call())
+          (await materialInstance.methods.batch(batchId21).call())
             .materialTokenAmount
-        ).expect('1');
+        ).equal('1');
         expect(
-          (await rawMaterialInstance.methods.batch(batchId22).call())
+          (await materialInstance.methods.batch(batchId22).call())
             .materialTokenAmount
-        ).expect('14');
+        ).equal('14');
         // mintResult.events.T.forEach((e) => console.log(e.returnValues));
       });
       it('throws error if specified batch balance is not available in the batch', async () => {
@@ -119,7 +116,7 @@ contract('RawMaterial', (accounts) => {
         const batchId11 = await createBatch(123, materialTokenId1, 1);
         const batchId12 = await createBatch(123, materialTokenId1, 3);
         try {
-          await rawMaterialInstance.methods
+          await materialInstance.methods
             .mint(materialTokenId3, 1, [batchId11, batchId21], [4, 6])
             .send({ from: account, gas: 300000 });
         } catch (e) {

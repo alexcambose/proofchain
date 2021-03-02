@@ -2,22 +2,23 @@
 pragma solidity >0.7.0 <0.9.0;
 
 import "./Company.sol";
-import "./RawMaterial.sol";
-import "./certificate/CertificateAuthority.sol";
+import "./Material.sol";
+import "./certificate/CertificateAuthorityManager.sol";
 
 contract Factory {
     address masterAddress;
     address public companyContractAddress;
-    address public rawMaterialContractAddress;
-    address public certificateAuthorityIssuerAddress;
+    address public materialContractAddress;
+    address public certificateAuthorityManagerAddress;
 
     constructor() {
         masterAddress = msg.sender;
 
-        // CertificateAuthority certificateAuthority = new CertificateAuthority();
         Company company = new Company();
         companyContractAddress = address(company);
-        RawMaterial rawMaterial = new RawMaterial(companyContractAddress);
-        rawMaterialContractAddress = address(rawMaterial);
+        Material materialContract = new Material(companyContractAddress);
+        materialContractAddress = address(materialContract);
+        CertificateAuthorityManager certificateAuthorityManager =
+            new CertificateAuthorityManager();
     }
 }

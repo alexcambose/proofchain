@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-contract Material {
+contract MaterialBase {
     event MaterialCreate(
         address indexed company,
         uint256 indexed materialTokenId
