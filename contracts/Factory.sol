@@ -16,7 +16,7 @@ contract Factory {
 
         Company company = new Company();
         companyContractAddress = address(company);
-        Material materialContract = new Material(companyContractAddress);
+        Material materialContract = new Material();
         materialContractAddress = address(materialContract);
         CertificateAuthorityManager certificateAuthorityManager =
             new CertificateAuthorityManager();

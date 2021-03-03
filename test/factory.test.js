@@ -23,5 +23,15 @@ contract('Factory', () => {
         materialContractAddress
       );
     });
+    it('deploys a new CertificateeAuthorityManager contract', async () => {
+      const instance = await Factory.deployed();
+
+      const certificateAuthorityManagerContractAddress = await instance.contract.methods
+        .certificateAuthorityManagerContractAddress()
+        .call();
+      expect(
+        await web3.eth.getCode(certificateAuthorityManagerContractAddress)
+      ).to.not.equal(certificateAuthorityManagerContractAddress);
+    });
   });
 });

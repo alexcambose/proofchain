@@ -2,18 +2,15 @@
 pragma solidity >0.7.0 <0.9.0;
 
 import "../Company.sol";
+import "../Factory.sol";
+import "./CompanyReferencer.sol";
 
-abstract contract CompanyOwnable {
-    address private companyContract;
-    Company private company;
-
-    constructor(address _companyContract) {
-        companyContract = _companyContract;
-        company = Company(_companyContract);
-    }
-
+contract CompanyOwnable is CompanyReferencer {
     modifier senderHasCompany {
-        require(company.getCompany(msg.sender).isValue == true, "");
+        require(
+            getCompanyContract().getCompany(msg.sender).isValue == true,
+            ""
+        );
         _;
     }
 }

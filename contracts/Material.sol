@@ -9,8 +9,6 @@ import "./utils/CompanyOwnable.sol";
 contract Material is MaterialBase, Ownable, CompanyOwnable {
     using Math for uint256;
 
-    constructor(address _companyContract) CompanyOwnable(_companyContract) {}
-
     function create(
         string memory _title,
         uint256 _code,
