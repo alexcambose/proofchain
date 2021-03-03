@@ -20,6 +20,10 @@ contract MaterialBase {
         uint256 amount
     );
     event T(uint256 data1, uint256 data2, uint256 data3, uint256 data4);
+    struct CertificateInstance {
+        address certificateAuthority;
+        uint256 certificateCode;
+    }
     struct MaterialTokenInfo {
         // a basic title for the material
         string title;
@@ -28,7 +32,8 @@ contract MaterialBase {
         // the address of the creator, the creator must own a company
         address creator;
         // certificates
-        address[] certificates;
+        CertificateInstance[] certificates;
+        uint256 certificatesLength;
         // ipfs images hash
         string[] images;
         // mapping from (tokenID -> amount of the amount identifier)
@@ -45,6 +50,7 @@ contract MaterialBase {
     // Mapping from TokenID to address balances
     mapping(uint256 => mapping(address => uint256)) balance;
     // all tokens, (materialTokenId => MaterialTokenInfo)
+    // materialTokenId uniquely identifies a product
     uint256 public materialTokenId = 0;
     mapping(uint256 => MaterialTokenInfo) public materialToken;
 

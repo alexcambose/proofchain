@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-import "./base/MaterialBase.sol";
+import "./MaterialBase.sol";
 import "./utils/Ownable.sol";
 import "./utils/Math.sol";
 import "./utils/CompanyOwnable.sol";
@@ -161,22 +161,11 @@ contract Material is MaterialBase, Ownable, CompanyOwnable {
         );
 
         batch[_batchId].materialTokenAmount -= _amount;
-        // if (batch[_batchId].materialTokenAmount == 0) {}
-        // emit BatchTransfer(msg.sender, address(0), batchId, _amount);
+        if (batch[_batchId].materialTokenAmount == 0) {}
+        emit BatchTransfer(msg.sender, address(0), batchId, _amount);
     }
 
-    // function getBatch(uint256 _batchId)
-    //     public
-    //     returns (
-    //         string memory code,
-    //         uint256[] memory materialTokenId,
-    //         uint256[] memory materialTokenAmount
-    //     )
-    // {
-    //     return (
-    //         batch[_batchId].code,
-    //         batch[_batchId].materialTokenId,
-    //         batch[_batchId].materialTokenAmount
-    //     );
-    // }
+    // function assignCertificate(uint256 certificateCode) external {}
+
+    // function revokeCertificate(uint256 certificateCode) external {}
 }

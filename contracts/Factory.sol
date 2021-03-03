@@ -3,7 +3,8 @@ pragma solidity >0.7.0 <0.9.0;
 
 import "./Company.sol";
 import "./Material.sol";
-import "./certificate/CertificateAuthorityManager.sol";
+
+// import "./CertificateAuthorityManager.sol";
 
 contract Factory {
     address masterAddress;
@@ -18,7 +19,10 @@ contract Factory {
         companyContractAddress = address(company);
         Material materialContract = new Material();
         materialContractAddress = address(materialContract);
-        CertificateAuthorityManager certificateAuthorityManager =
-            new CertificateAuthorityManager();
+        // CertificateAuthorityManager certificateAuthorityManager =
+        // new CertificateAuthorityManager();
+        // certificateAuthorityManagerAddress = address(
+        //     certificateAuthorityManager
+        // );
     }
 }
