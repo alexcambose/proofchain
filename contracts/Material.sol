@@ -2,11 +2,13 @@
 pragma solidity >0.7.0 <0.9.0;
 
 import "./MaterialBase.sol";
-import "./utils/Ownable.sol";
 import "./utils/Math.sol";
 import "./utils/CompanyOwnable.sol";
+import "./Certifiable.sol";
 
-contract Material is MaterialBase, Ownable, CompanyOwnable {
+// import "./utils/CertificateAuthorityOwnable.sol";
+
+contract Material is Certifiable, MaterialBase, CompanyOwnable {
     using Math for uint256;
 
     function create(
@@ -165,7 +167,7 @@ contract Material is MaterialBase, Ownable, CompanyOwnable {
         emit BatchTransfer(msg.sender, address(0), batchId, _amount);
     }
 
-    // function assignCertificate(uint256 certificateCode) external {}
+    function assignCertificate(uint256 certificateCode) external override {}
 
-    // function revokeCertificate(uint256 certificateCode) external {}
+    function revokeCertificate(uint256 certificateCode) external override {}
 }

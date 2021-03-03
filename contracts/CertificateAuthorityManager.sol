@@ -5,11 +5,7 @@ import "./utils/Ownable.sol";
 import "./utils/CompanyReferencer.sol";
 import "./utils/MaterialReferencer.sol";
 
-contract CertificateAuthorityManager is
-    Ownable,
-    CompanyReferencer,
-    MaterialReferencer
-{
+contract CertificateAuthorityManager is MaterialReferencer, CompanyReferencer {
     // address public factoryContractAddress;
 
     struct Certificate {
@@ -61,5 +57,10 @@ contract CertificateAuthorityManager is
             msg.value >= minimumStake,
             "Received payment is lower that the minimum stake"
         );
+        material.assignCertificate(code);
+    }
+
+    function revokeCertificateToMaterial(uint256 code) public onlyOwner {
+        material.revokeCertificate(code);
     }
 }
