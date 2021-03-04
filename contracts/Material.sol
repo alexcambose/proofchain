@@ -4,9 +4,8 @@ pragma solidity >0.7.0 <0.9.0;
 import "./MaterialBase.sol";
 import "./utils/Math.sol";
 import "./utils/CompanyOwnable.sol";
+import "./utils/CertificateAuthorityManagerReferencer.sol";
 import "./Certifiable.sol";
-
-// import "./utils/CertificateAuthorityOwnable.sol";
 
 contract Material is Certifiable, MaterialBase, CompanyOwnable {
     using Math for uint256;
@@ -20,6 +19,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         materialToken[materialTokenId].code = _code;
         materialToken[materialTokenId].images = _images;
         materialToken[materialTokenId].creator = msg.sender;
+        materialToken[materialTokenId].isValue = true;
         emit MaterialCreate(msg.sender, materialTokenId);
         materialTokenId++;
     }
@@ -167,7 +167,32 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         emit BatchTransfer(msg.sender, address(0), batchId, _amount);
     }
 
-    function assignCertificate(uint256 certificateCode) external override {}
+    function assignCertificate(
+        uint256 _certificateCode,
+        uint256 _itemIdentifier
+    ) external payable override {
+        // Certifiable.assignCertificate(_certificateCode, _itemIdentifier);
 
-    function revokeCertificate(uint256 certificateCode) external override {}
+        CertificateInstance memory ci =
+            CertificateInstance({
+                code: _certificateCode,
+                time: block.timestamp,
+                stake: msg.value
+            });
+        materialToken[_itemIdentifier].certificates.push(ci);
+    }
+
+    function revokeCertificate(
+        uint256 _certificateCode,
+        uint256 _itemIdentifier
+    ) external override {
+        for (
+            uint8 i = 0;
+            i < materialToken[_itemIdentifier].certificates.length;
+            i++
+        ) {
+            if (materialToken[_itemIdentifier].certificates[i].code != 0) {}
+        }
+        require(msg.sender == owner());
+    }
 }

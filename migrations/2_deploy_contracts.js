@@ -1,5 +1,5 @@
-const Factory = artifacts.require('Factory');
+const Main = artifacts.require('Main');
 
 module.exports = function (deployer) {
-  deployer.deploy(Factory);
+  deployer.deploy(Main);
 };

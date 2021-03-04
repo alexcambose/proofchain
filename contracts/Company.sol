@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
+import "./Certifiable.sol";
 
-contract Company {
+contract Company is Certifiable {
     enum EntityTypeEnum {MANUFACTURER, LOGISTIC, WAREHOUSE, RETAILER}
 
     struct CompanyInfo {
@@ -33,4 +34,8 @@ contract Company {
     {
         return companies[_addr];
     }
+
+    // function assignCertificate(uint256 certificateCode) external override {}
+
+    // function revokeCertificate(uint256 certificateCode) external override {}
 }

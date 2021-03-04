@@ -21,8 +21,9 @@ contract MaterialBase {
     );
     event T(uint256 data1, uint256 data2, uint256 data3, uint256 data4);
     struct CertificateInstance {
-        address certificateAuthority;
-        uint256 certificateCode;
+        uint256 code;
+        uint256 time;
+        uint256 stake;
     }
     struct MaterialTokenInfo {
         // a basic title for the material
@@ -39,8 +40,9 @@ contract MaterialBase {
         // mapping from (tokenID -> amount of the amount identifier)
         uint256[] recipematerialTokenId;
         uint256[] recipeMaterialAmount;
-        // amount identifier
+        // amount identifier (kg, grams)
         string amountIdentifier;
+        bool isValue;
     }
     struct BatchInfo {
         string code;

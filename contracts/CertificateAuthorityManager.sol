@@ -2,10 +2,10 @@
 pragma solidity >0.7.0 <0.9.0;
 
 import "./utils/Ownable.sol";
-import "./utils/CompanyReferencer.sol";
-import "./utils/MaterialReferencer.sol";
 
-contract CertificateAuthorityManager is MaterialReferencer, CompanyReferencer {
+// import "./utils/MaterialReferencer.sol";
+
+contract CertificateAuthorityManager is Ownable {
     // address public factoryContractAddress;
 
     struct Certificate {
@@ -13,8 +13,7 @@ contract CertificateAuthorityManager is MaterialReferencer, CompanyReferencer {
         uint256 stake;
         // unique certificate code, used to assign a specific certificate code to a material/company
         uint256 code;
-        // true if this certificate is set
-        bool isValue;
+        address certificateAuthority;
     }
     struct CertificateAuthority {
         string name;
@@ -23,8 +22,8 @@ contract CertificateAuthorityManager is MaterialReferencer, CompanyReferencer {
         bool isValue;
     }
     // address => [code => certificate]
-    mapping(address => mapping(uint256 => Certificate))
-        public authorityCertificates;
+    mapping(uint256 => Certificate) public authorityCertificates;
+
     mapping(address => CertificateAuthority) public certificateAuthorities;
     address[] certificateAuthoritiesAddress;
     // minimum stake the certificate authorities need to deposit
@@ -42,25 +41,21 @@ contract CertificateAuthorityManager is MaterialReferencer, CompanyReferencer {
 
     function createCertificate(string memory _title, uint256 code) public {
         require(
-            authorityCertificates[msg.sender][code].isValue == false,
+            authorityCertificates[code].certificateAuthority == msg.sender,
             "This certificate already exists. You can not override this"
         );
         // certificateAuthorities[msg.sender].stake = msg.value;
-        authorityCertificates[msg.sender][code].title = _title;
+        authorityCertificates[code].title = _title;
     }
 
-    function assignCertificateToMaterial(uint256 code, uint256 materialTokenId)
-        public
-        payable
-    {
-        require(
-            msg.value >= minimumStake,
-            "Received payment is lower that the minimum stake"
-        );
-        material.assignCertificate(code);
+    function assignCertificateToMaterial(
+        uint256 _code,
+        uint256 _materialTokenId
+    ) public payable {
+        // material.assignCertificate(_code, _materialTokenId);
     }
 
     function revokeCertificateToMaterial(uint256 code) public onlyOwner {
-        material.revokeCertificate(code);
+        // material.revokeCertificate(code);
     }
 }
