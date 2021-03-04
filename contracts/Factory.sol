@@ -8,18 +8,19 @@ import "./CertificateAuthorityManager.sol";
 
 contract Factory {
     address public aggregator;
+    address public masterAddress;
 
     constructor() {
-        address masterAddress = msg.sender;
+        masterAddress = msg.sender;
         Aggregator aggregatorContract = new Aggregator();
         aggregator = address(aggregatorContract);
 
-        Company company = new Company(aggregator);
+        Company company = new Company(masterAddress, aggregator);
         address companyContractAddress = address(company);
-        Material materialContract = new Material(aggregator);
+        Material materialContract = new Material(masterAddress, aggregator);
         address materialContractAddress = address(materialContract);
         CertificateAuthorityManager certificateAuthorityManager =
-            new CertificateAuthorityManager(aggregator);
+            new CertificateAuthorityManager(masterAddress, aggregator);
         address certificateAuthorityManagerContractAddress =
             address(certificateAuthorityManager);
 

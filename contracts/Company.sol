@@ -20,8 +20,8 @@ contract Company is Certifiable {
         _;
     }
 
-    constructor(address _factoryContractAddress)
-        Ownable(_factoryContractAddress)
+    constructor(address _masterAddress, address _factoryContractAddress)
+        Ownable(_masterAddress, _factoryContractAddress)
     {}
 
     function create(string memory _name, EntityTypeEnum _entityType) public {

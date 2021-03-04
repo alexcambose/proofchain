@@ -6,12 +6,14 @@ import "./utils/Ownable.sol";
 // import "./utils/MaterialReferencer.sol";
 
 contract CertificateAuthorityManager is Ownable {
-    // address public factoryContractAddress;
-
+    event CertificateAuthorityCreated(address indexed owner);
+    event CertificateAuthorityCertificateCreated(
+        address indexed owner,
+        uint256 indexed code
+    );
     struct Certificate {
         string title;
         // unique certificate code, used to assign a specific certificate code to a material/company
-        uint256 code;
         address certificateAuthority;
     }
     struct CertificateAuthority {
@@ -22,39 +24,35 @@ contract CertificateAuthorityManager is Ownable {
     }
     // address => [code => certificate]
     mapping(uint256 => Certificate) public authorityCertificates;
-
+    uint256[] public authorityCertificatesCodes;
     mapping(address => CertificateAuthority) public certificateAuthorities;
     address[] certificateAuthoritiesAddress;
     // minimum stake the certificate authorities need to deposit
     uint256 public minimumStake = 1;
 
-    constructor(address _factoryContractAddress)
-        Ownable(_factoryContractAddress)
+    constructor(address _masterAddress, address _factoryContractAddress)
+        Ownable(_masterAddress, _factoryContractAddress)
     {}
+
+    function setMinimumStake(uint256 _stake) public onlyOwner {
+        minimumStake = _stake;
+    }
 
     function createCertificateAuthority(string memory _name) public {
         certificateAuthoritiesAddress.push(msg.sender);
         certificateAuthorities[msg.sender].name = _name;
         certificateAuthorities[msg.sender].isValue = true;
+        emit CertificateAuthorityCreated(msg.sender);
     }
 
-    function createCertificate(string memory _title, uint256 code) public {
+    function createCertificate(string memory _title, uint256 _code) public {
         require(
-            authorityCertificates[code].certificateAuthority == msg.sender,
+            authorityCertificates[_code].certificateAuthority == address(0),
             "This certificate already exists. You can not override this"
         );
-        // certificateAuthorities[msg.sender].stake = msg.value;
-        authorityCertificates[code].title = _title;
-    }
-
-    function assignCertificateToMaterial(
-        uint256 _code,
-        uint256 _materialTokenId
-    ) public payable {
-        // material.assignCertificate(_code, _materialTokenId);
-    }
-
-    function revokeCertificateToMaterial(uint256 code) public onlyOwner {
-        // material.revokeCertificate(code);
+        authorityCertificatesCodes.push(_code);
+        authorityCertificates[_code].title = _title;
+        authorityCertificates[_code].certificateAuthority = msg.sender;
+        emit CertificateAuthorityCertificateCreated(msg.sender, _code);
     }
 }

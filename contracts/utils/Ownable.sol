@@ -24,9 +24,9 @@ abstract contract Ownable {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor(address _aggregator_) {
+    constructor(address _masterAddress, address _aggregator_) {
         _aggregator = _aggregator_;
-        address msgSender = msg.sender;
+        address msgSender = _masterAddress;
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
     }

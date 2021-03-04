@@ -10,8 +10,9 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
     {
         CertificateAuthorityManager cam =
             getCertificateAuthorityManagerContract();
-        (, , address certificateAuthority) =
+        (, address certificateAuthority) =
             cam.authorityCertificates(_certificateCode);
+
         require(
             certificateAuthority == msg.sender,
             "You need to be the owner of the certificate in order to assign it"
