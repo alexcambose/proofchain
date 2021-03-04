@@ -20,6 +20,10 @@ contract Company is Certifiable {
         _;
     }
 
+    constructor(address _factoryContractAddress)
+        Ownable(_factoryContractAddress)
+    {}
+
     function create(string memory _name, EntityTypeEnum _entityType) public {
         address sender = msg.sender;
         companies[sender].name = _name;

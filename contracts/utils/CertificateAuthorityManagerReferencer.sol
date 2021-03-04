@@ -5,7 +5,7 @@ import "../Aggregator.sol";
 import "./Ownable.sol";
 import "../CertificateAuthorityManager.sol";
 
-contract CertificateAuthorityManagerReferencer is Ownable {
+abstract contract CertificateAuthorityManagerReferencer is Ownable {
     CertificateAuthorityManager internal certificateAuthorityManager;
     address internal certificateAuthorityManagerAddress;
 
@@ -14,7 +14,7 @@ contract CertificateAuthorityManagerReferencer is Ownable {
         returns (CertificateAuthorityManager)
     {
         if (certificateAuthorityManagerAddress == address(0)) {
-            certificateAuthorityManagerAddress = Aggregator(owner())
+            certificateAuthorityManagerAddress = Aggregator(aggregator())
                 .certificateAuthorityManagerContractAddress();
             certificateAuthorityManager = CertificateAuthorityManager(
                 certificateAuthorityManagerAddress

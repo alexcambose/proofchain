@@ -28,9 +28,9 @@ contract CertificateAuthorityManager is Ownable {
     // minimum stake the certificate authorities need to deposit
     uint256 public minimumStake = 1;
 
-    // constructor(address _factoryContractAddress) {
-    //     factoryContractAddress = _factoryContractAddress;
-    // }
+    constructor(address _factoryContractAddress)
+        Ownable(_factoryContractAddress)
+    {}
 
     function createCertificateAuthority(string memory _name) public {
         certificateAuthoritiesAddress.push(msg.sender);

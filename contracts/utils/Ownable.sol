@@ -15,7 +15,7 @@ pragma solidity >0.7.0 <0.9.0;
  */
 abstract contract Ownable {
     address private _owner;
-
+    address public _aggregator;
     event OwnershipTransferred(
         address indexed previousOwner,
         address indexed newOwner
@@ -24,10 +24,18 @@ abstract contract Ownable {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor() {
+    constructor(address _aggregator_) {
+        _aggregator = _aggregator_;
         address msgSender = msg.sender;
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
+    }
+
+    /**
+     * @dev Returns the address of the current aggregator.
+     */
+    function aggregator() public view virtual returns (address) {
+        return _aggregator;
     }
 
     /**

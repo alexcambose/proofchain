@@ -11,21 +11,22 @@ contract Factory {
 
     constructor() {
         address masterAddress = msg.sender;
+        Aggregator aggregatorContract = new Aggregator();
+        aggregator = address(aggregatorContract);
 
-        Company company = new Company();
+        Company company = new Company(aggregator);
         address companyContractAddress = address(company);
-        Material materialContract = new Material();
+        Material materialContract = new Material(aggregator);
         address materialContractAddress = address(materialContract);
         CertificateAuthorityManager certificateAuthorityManager =
-            new CertificateAuthorityManager();
+            new CertificateAuthorityManager(aggregator);
         address certificateAuthorityManagerContractAddress =
             address(certificateAuthorityManager);
-        aggregator = address(
-            new Aggregator(
-                companyContractAddress,
-                materialContractAddress,
-                certificateAuthorityManagerContractAddress
-            )
+
+        aggregatorContract.setContracts(
+            companyContractAddress,
+            materialContractAddress,
+            certificateAuthorityManagerContractAddress
         );
     }
 }

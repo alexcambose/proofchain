@@ -9,7 +9,9 @@ import "./Certifiable.sol";
 
 contract Material is Certifiable, MaterialBase, CompanyOwnable {
     using Math for uint256;
-
+  constructor(address _factoryContractAddress)
+        Ownable(_factoryContractAddress)
+    {}
     function create(
         string memory _title,
         uint256 _code,

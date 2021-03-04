@@ -7,7 +7,6 @@ contract('Factory', () => {
       const aggregatorAddress = await instance.contract.methods
         .aggregator()
         .call();
-      console.log(aggregatorAddress);
       expect(aggregatorAddress).to.not.equal(
         '0x' + Array(40).fill('0').join('')
       );
