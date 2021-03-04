@@ -1,19 +1,31 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-contract Factory {
-    address masterAddress;
-    address public companyContractAddress;
-    address public materialContractAddress;
-    address public certificateAuthorityManagerContractAddress;
+import "./Aggregator.sol";
+import "./Material.sol";
+import "./Company.sol";
+import "./CertificateAuthorityManager.sol";
 
-    constructor(
-        address _companyContractAddress,
-        address _materialContractAddress,
-        address _certificateAuthorityManagerContractAddress
-    ) {
-        companyContractAddress = _companyContractAddress;
-        materialContractAddress = _materialContractAddress;
-        certificateAuthorityManagerContractAddress = _certificateAuthorityManagerContractAddress;
+contract Factory {
+    address public aggregator;
+
+    constructor() {
+        address masterAddress = msg.sender;
+
+        Company company = new Company();
+        address companyContractAddress = address(company);
+        Material materialContract = new Material();
+        address materialContractAddress = address(materialContract);
+        CertificateAuthorityManager certificateAuthorityManager =
+            new CertificateAuthorityManager();
+        address certificateAuthorityManagerContractAddress =
+            address(certificateAuthorityManager);
+        aggregator = address(
+            new Aggregator(
+                companyContractAddress,
+                materialContractAddress,
+                certificateAuthorityManagerContractAddress
+            )
+        );
     }
 }

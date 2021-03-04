@@ -2,7 +2,7 @@
 pragma solidity >0.7.0 <0.9.0;
 
 import "../Material.sol";
-import "../Factory.sol";
+import "../Aggregator.sol";
 import "./Ownable.sol";
 
 contract MaterialReferencer is Ownable {
@@ -11,7 +11,7 @@ contract MaterialReferencer is Ownable {
 
     function getMaterialContract() public returns (Material) {
         if (materialAddress == address(0)) {
-            materialAddress = Factory(owner()).materialContractAddress();
+            materialAddress = Aggregator(owner()).materialContractAddress();
             material = Material(materialAddress);
             return material;
         }

@@ -1,18 +1,40 @@
 const Factory = artifacts.require('Factory');
 const Material = artifacts.require('Material');
 const Company = artifacts.require('Company');
-
-const getInstance = async () => {
+const Aggregator = artifacts.require('Aggregator');
+const CertificateAuthorityManager = artifacts.require(
+  'CertificateAuthorityManager'
+);
+const getAggregatorInstance = async () => {
   const instance = await Factory.deployed();
+  const aggregatorAddress = await instance.contract.methods.aggregator().call();
+  const aggregatorInstance = new web3.eth.Contract(
+    Aggregator.abi,
+    aggregatorAddress
+  );
+  return aggregatorInstance;
+};
+const getInstance = async () => {
+  const aggregatorInstance = await getAggregatorInstance();
   const materialInstance = new web3.eth.Contract(
     Material.abi,
-    await instance.contract.methods.materialContractAddress().call()
+    await aggregatorInstance.methods.materialContractAddress().call()
   );
   const companyInstance = new web3.eth.Contract(
     Company.abi,
-    await instance.contract.methods.companyContractAddress().call()
+    await aggregatorInstance.methods.companyContractAddress().call()
   );
-  return [materialInstance, companyInstance];
+  const certificateAuthorityManagerInstance = new web3.eth.Contract(
+    CertificateAuthorityManager.abi,
+    await aggregatorInstance.methods
+      .certificateAuthorityManagerContractAddress()
+      .call()
+  );
+  return [
+    materialInstance,
+    companyInstance,
+    certificateAuthorityManagerInstance,
+  ];
 };
 const createRawMaterial = (account) => async (
   title = 'Tomatoes',
@@ -58,4 +80,5 @@ module.exports = {
   createBatch,
   createRawMaterial,
   getInstance,
+  getAggregatorInstance,
 };

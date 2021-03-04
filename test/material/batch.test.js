@@ -3,7 +3,7 @@ const {
   createMaterial: _createMaterial,
   createRawMaterial: _createRawMaterial,
   createBatch: _createBatch,
-} = require('./utils');
+} = require('../utils');
 
 contract('Material', (accounts) => {
   const [account, otherAccount] = accounts;

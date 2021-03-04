@@ -2,7 +2,7 @@
 pragma solidity >0.7.0 <0.9.0;
 
 import "../Company.sol";
-import "../Factory.sol";
+import "../Aggregator.sol";
 import "./Ownable.sol";
 
 contract CompanyReferencer is Ownable {
@@ -11,7 +11,7 @@ contract CompanyReferencer is Ownable {
 
     function getCompanyContract() public returns (Company) {
         if (companyAddress == address(0)) {
-            companyAddress = Factory(owner()).companyContractAddress();
+            companyAddress = Aggregator(owner()).companyContractAddress();
             company = Company(companyAddress);
             return company;
         }

@@ -10,7 +10,6 @@ contract CertificateAuthorityManager is Ownable {
 
     struct Certificate {
         string title;
-        uint256 stake;
         // unique certificate code, used to assign a specific certificate code to a material/company
         uint256 code;
         address certificateAuthority;

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-import "../Factory.sol";
+import "../Aggregator.sol";
 import "./Ownable.sol";
 import "../CertificateAuthorityManager.sol";
 
@@ -14,7 +14,7 @@ contract CertificateAuthorityManagerReferencer is Ownable {
         returns (CertificateAuthorityManager)
     {
         if (certificateAuthorityManagerAddress == address(0)) {
-            certificateAuthorityManagerAddress = Factory(owner())
+            certificateAuthorityManagerAddress = Aggregator(owner())
                 .certificateAuthorityManagerContractAddress();
             certificateAuthorityManager = CertificateAuthorityManager(
                 certificateAuthorityManagerAddress
