@@ -17,13 +17,17 @@ contract('Certificate', (accounts) => {
   describe('createCertificate', () => {
     it('creates a new certificate', async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();
-      await certificateAuthorityManagerInstance.methods
+      const result = await certificateAuthorityManagerInstance.methods
         .createCertificate('Company donates to charity', 123)
         .send({ from: account, gas: 300000 });
-      const result = await certificateAuthorityManagerInstance.methods
-        .authorityCertificates(123)
+      const {
+        code,
+      } = result.events.CertificateAuthorityCertificateCreated.returnValues;
+
+      const certificate = await certificateAuthorityManagerInstance.methods
+        .authorityCertificates(code)
         .call();
-      expect(result.title).equal('Company donates to charity');
+      expect(certificate.title).equal('Company donates to charity');
     });
     it('can not create a certificate with the same code', async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();

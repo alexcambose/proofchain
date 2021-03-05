@@ -74,11 +74,25 @@ const createBatch = (account) => async (code, tokenId, amount) => {
   const eventReturn = result.events.BatchCreate.returnValues;
   return eventReturn.batchId;
 };
-
+const createCertificate = (account) => async (
+  title = 'Company donates to charity',
+  code = 123
+) => {
+  const [
+    materialInstance,
+    companyInstance,
+    certificateAuthorityManagerInstance,
+  ] = await getInstance();
+  const result = await certificateAuthorityManagerInstance.methods
+    .createCertificate(title, code)
+    .send({ from: account, gas: 300000 });
+  return result.events.CertificateAuthorityCertificateCreated.returnValues.code;
+};
 module.exports = {
   createMaterial,
   createBatch,
   createRawMaterial,
   getInstance,
   getAggregatorInstance,
+  createCertificate,
 };

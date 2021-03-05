@@ -174,8 +174,8 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     function assignCertificate(
         uint256 _certificateCode,
         uint256 _itemIdentifier
-    ) external payable override {
-        // Certifiable.assignCertificate(_certificateCode, _itemIdentifier);
+    ) public payable override {
+        super.assignCertificate(_certificateCode, _itemIdentifier);
 
         CertificateInstance memory ci =
             CertificateInstance({
@@ -183,20 +183,67 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 time: block.timestamp,
                 stake: msg.value
             });
+
         materialToken[_itemIdentifier].certificates.push(ci);
     }
 
+    function cancelCertificate(
+        uint256 _certificateCode,
+        uint256 _itemIdentifier
+    ) public override {
+        super.cancelCertificate(_certificateCode, _itemIdentifier);
+        uint256 length = materialToken[_itemIdentifier].certificates.length;
+        uint8 i;
+        for (i = 0; i < length; i++) {
+            if (
+                materialToken[_itemIdentifier].certificates[i].code ==
+                _certificateCode
+            ) {
+                materialToken[_itemIdentifier].certificates[i] = materialToken[
+                    _itemIdentifier
+                ]
+                    .certificates[length - 1];
+                delete materialToken[_itemIdentifier].certificates[length - 1];
+            }
+        }
+        if (i == length - 1) {
+            revert("Certificate code not found");
+        }
+    }
+
+    /*
+     */
     function revokeCertificate(
         uint256 _certificateCode,
         uint256 _itemIdentifier
-    ) external override {
-        for (
-            uint8 i = 0;
-            i < materialToken[_itemIdentifier].certificates.length;
-            i++
-        ) {
-            if (materialToken[_itemIdentifier].certificates[i].code != 0) {}
+    ) public override {
+        super.revokeCertificate(_certificateCode, _itemIdentifier);
+        uint256 length = materialToken[_itemIdentifier].certificates.length;
+        uint8 i;
+        for (i = 0; i < length; i++) {
+            if (
+                materialToken[_itemIdentifier].certificates[i].code ==
+                _certificateCode
+            ) {
+                materialToken[_itemIdentifier].certificates[i] = materialToken[
+                    _itemIdentifier
+                ]
+                    .certificates[length - 1];
+                emit T(
+                    certificateAuthorityManagerAddress,
+                    materialToken[_itemIdentifier].certificates[length - 1]
+                        .stake,
+                    address(this).balance,
+                    true
+                );
+                // payable(certificateAuthorityManagerAddress).transfer(
+                //     100000000000000000
+                // );
+                delete materialToken[_itemIdentifier].certificates[length - 1];
+            }
         }
-        require(msg.sender == owner());
+        if (i == length - 1) {
+            revert("Certificate code not found");
+        }
     }
 }

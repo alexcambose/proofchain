@@ -4,7 +4,7 @@ import "./utils/CertificateAuthorityManagerReferencer.sol";
 
 abstract contract Certifiable is CertificateAuthorityManagerReferencer {
     function assignCertificate(uint256 _certificateCode, uint256)
-        external
+        public
         payable
         virtual
     {
@@ -15,7 +15,7 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
 
         require(
             certificateAuthority == msg.sender,
-            "You need to be the owner of the certificate in order to assign it"
+            "You need to be the owner of the certificate authority in order to assign it"
         );
         require(
             msg.value >= cam.minimumStake(),
@@ -23,8 +23,25 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
         );
     }
 
-    function revokeCertificate(
-        uint256 _certificateCode,
-        uint256 _itemIdentifier
-    ) external virtual {}
+    function cancelCertificate(uint256 _certificateCode, uint256)
+        public
+        virtual
+    {
+        CertificateAuthorityManager cam =
+            getCertificateAuthorityManagerContract();
+        (, address certificateAuthority) =
+            cam.authorityCertificates(_certificateCode);
+
+        require(
+            certificateAuthority == msg.sender,
+            "You need to be the owner of the certificate authority in order to assign it"
+        );
+    }
+
+    function revokeCertificate(uint256, uint256) public virtual {
+        require(
+            getMasterAddress() == msg.sender,
+            "You need to be the owner of the factory in order to revoke it"
+        );
+    }
 }

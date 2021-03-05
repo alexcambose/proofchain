@@ -5,7 +5,7 @@ import "./utils/Ownable.sol";
 
 // import "./utils/MaterialReferencer.sol";
 
-contract CertificateAuthorityManager is Ownable {
+contract CertificateAuthorityManager {
     event CertificateAuthorityCreated(address indexed owner);
     event CertificateAuthorityCertificateCreated(
         address indexed owner,
@@ -28,13 +28,11 @@ contract CertificateAuthorityManager is Ownable {
     mapping(address => CertificateAuthority) public certificateAuthorities;
     address[] certificateAuthoritiesAddress;
     // minimum stake the certificate authorities need to deposit
-    uint256 public minimumStake = 1;
+    uint256 public minimumStake = 1 ether;
 
-    constructor(address _masterAddress, address _factoryContractAddress)
-        Ownable(_masterAddress, _factoryContractAddress)
-    {}
+    constructor(address _masterAddress, address _factoryContractAddress) {}
 
-    function setMinimumStake(uint256 _stake) public onlyOwner {
+    function setMinimumStake(uint256 _stake) public {
         minimumStake = _stake;
     }
 

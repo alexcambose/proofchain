@@ -5,7 +5,8 @@ contract Aggregator {
     address public companyContractAddress;
     address public materialContractAddress;
     address public certificateAuthorityManagerContractAddress;
-    address private owner;
+    address public masterAddress;
+    address public owner;
 
     constructor() {
         owner = msg.sender;
@@ -17,10 +18,12 @@ contract Aggregator {
     }
 
     function setContracts(
+        address _masterAddress,
         address _companyContractAddress,
         address _materialContractAddress,
         address _certificateAuthorityManagerContractAddress
     ) public onlyOwner {
+        masterAddress = _masterAddress;
         companyContractAddress = _companyContractAddress;
         materialContractAddress = _materialContractAddress;
         certificateAuthorityManagerContractAddress = _certificateAuthorityManagerContractAddress;

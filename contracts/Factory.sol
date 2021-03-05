@@ -25,6 +25,7 @@ contract Factory {
             address(certificateAuthorityManager);
 
         aggregatorContract.setContracts(
+            masterAddress,
             companyContractAddress,
             materialContractAddress,
             certificateAuthorityManagerContractAddress

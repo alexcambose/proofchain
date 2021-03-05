@@ -7,7 +7,7 @@ import "../CertificateAuthorityManager.sol";
 
 abstract contract CertificateAuthorityManagerReferencer is Ownable {
     CertificateAuthorityManager internal certificateAuthorityManager;
-    address internal certificateAuthorityManagerAddress;
+    address public certificateAuthorityManagerAddress;
 
     function getCertificateAuthorityManagerContract()
         public
@@ -22,5 +22,9 @@ abstract contract CertificateAuthorityManagerReferencer is Ownable {
             return certificateAuthorityManager;
         }
         return certificateAuthorityManager;
+    }
+
+    function getMasterAddress() public view returns (address) {
+        return Aggregator(aggregator()).masterAddress();
     }
 }

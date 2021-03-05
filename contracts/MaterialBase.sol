@@ -19,7 +19,7 @@ contract MaterialBase {
         uint256 indexed batchId,
         uint256 amount
     );
-    event T(uint256 data1, uint256 data2, uint256 data3, uint256 data4);
+    event T(address data1, uint256 data2, uint256 data3, bool data4);
     struct CertificateInstance {
         uint256 code;
         uint256 time;
@@ -73,5 +73,13 @@ contract MaterialBase {
         returns (uint256)
     {
         return balance[_tokenID][_address];
+    }
+
+    function getMaterialCertificate(uint256 _materialTokenId, uint256 _index)
+        public
+        view
+        returns (CertificateInstance memory)
+    {
+        return materialToken[_materialTokenId].certificates[_index];
     }
 }
