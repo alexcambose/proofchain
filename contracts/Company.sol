@@ -4,10 +4,15 @@ import "./Certifiable.sol";
 
 contract Company is Certifiable {
     enum EntityTypeEnum {MANUFACTURER, LOGISTIC, WAREHOUSE, RETAILER}
-
+    struct CertificateInstance {
+        uint256 code;
+        uint256 time;
+        uint256 stake;
+    }
     struct CompanyInfo {
         EntityTypeEnum entityType;
         string name;
+        CertificateInstance[] certificates;
         bool isValue;
     }
     mapping(address => CompanyInfo) public companies;
@@ -39,7 +44,61 @@ contract Company is Certifiable {
         return companies[_addr];
     }
 
-    // function assignCertificate(uint256 certificateCode) external override {}
+    function cancelCertificate(uint256 _certificateCode, address _company)
+        public
+    {
+        // super.cancelCertificate(_certificateCode, _company);
+        // uint256 length = materialToken[_itemIdentifier].certificates.length;
+        // uint8 i;
+        // for (i = 0; i < length; i++) {
+        //     if (
+        //         materialToken[_itemIdentifier].certificates[i].code ==
+        //         _certificateCode
+        //     ) {
+        //         materialToken[_itemIdentifier].certificates[i] = materialToken[
+        //             _itemIdentifier
+        //         ]
+        //             .certificates[length - 1];
+        //         delete materialToken[_itemIdentifier].certificates[length - 1];
+        //     }
+        // }
+        // if (i == length - 1) {
+        //     revert("Certificate code not found");
+        // }
+    }
 
-    // function revokeCertificate(uint256 certificateCode) external override {}
+    /*
+     */
+    function revokeCertificate(uint256 _certificateCode, address _company)
+        public
+    {
+        //     super.revokeCertificate(_certificateCode, _itemIdentifier);
+        //     uint256 length = materialToken[_itemIdentifier].certificates.length;
+        //     uint8 i;
+        //     for (i = 0; i < length; i++) {
+        //         if (
+        //             materialToken[_itemIdentifier].certificates[i].code ==
+        //             _certificateCode
+        //         ) {
+        //             materialToken[_itemIdentifier].certificates[i] = materialToken[
+        //                 _itemIdentifier
+        //             ]
+        //                 .certificates[length - 1];
+        //             emit T(
+        //                 certificateAuthorityManagerAddress,
+        //                 materialToken[_itemIdentifier].certificates[length - 1]
+        //                     .stake,
+        //                 address(this).balance,
+        //                 true
+        //             );
+        //             // payable(certificateAuthorityManagerAddress).transfer(
+        //             //     100000000000000000
+        //             // );
+        //             delete materialToken[_itemIdentifier].certificates[length - 1];
+        //         }
+        //     }
+        //     if (i == length - 1) {
+        //         revert("Certificate code not found");
+        //     }
+    }
 }

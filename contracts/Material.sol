@@ -174,8 +174,8 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     function assignCertificate(
         uint256 _certificateCode,
         uint256 _itemIdentifier
-    ) public payable override {
-        super.assignCertificate(_certificateCode, _itemIdentifier);
+    ) public payable {
+        super.assignCertificate(_certificateCode);
 
         CertificateInstance memory ci =
             CertificateInstance({
@@ -190,8 +190,8 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     function cancelCertificate(
         uint256 _certificateCode,
         uint256 _itemIdentifier
-    ) public override {
-        super.cancelCertificate(_certificateCode, _itemIdentifier);
+    ) public {
+        super.cancelCertificate(_certificateCode);
         uint256 length = materialToken[_itemIdentifier].certificates.length;
         uint8 i;
         for (i = 0; i < length; i++) {
@@ -216,8 +216,8 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     function revokeCertificate(
         uint256 _certificateCode,
         uint256 _itemIdentifier
-    ) public override {
-        super.revokeCertificate(_certificateCode, _itemIdentifier);
+    ) public {
+        super.revokeCertificate();
         uint256 length = materialToken[_itemIdentifier].certificates.length;
         uint8 i;
         for (i = 0; i < length; i++) {

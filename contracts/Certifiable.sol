@@ -3,11 +3,7 @@ pragma solidity >0.7.0 <0.9.0;
 import "./utils/CertificateAuthorityManagerReferencer.sol";
 
 abstract contract Certifiable is CertificateAuthorityManagerReferencer {
-    function assignCertificate(uint256 _certificateCode, uint256)
-        public
-        payable
-        virtual
-    {
+    function assignCertificate(uint256 _certificateCode) public payable {
         CertificateAuthorityManager cam =
             getCertificateAuthorityManagerContract();
         (, address certificateAuthority) =
@@ -23,10 +19,7 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
         );
     }
 
-    function cancelCertificate(uint256 _certificateCode, uint256)
-        public
-        virtual
-    {
+    function cancelCertificate(uint256 _certificateCode) public {
         CertificateAuthorityManager cam =
             getCertificateAuthorityManagerContract();
         (, address certificateAuthority) =
@@ -38,7 +31,7 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
         );
     }
 
-    function revokeCertificate(uint256, uint256) public virtual {
+    function revokeCertificate() public view {
         require(
             getMasterAddress() == msg.sender,
             "You need to be the owner of the factory in order to revoke it"

@@ -69,7 +69,7 @@ contract('Material', (accounts) => {
   });
   describe('cancelCertificate', () => {
     it('removes the certificate from the material', async () => {
-      cconst [
+      const [
         materialInstance,
         companyInstance,
         certificateAuthorityManagerInstance,
