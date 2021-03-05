@@ -1,19 +1,38 @@
 import Cookies from 'js-cookie';
 
-export default class AuthManager {
-  static setInfo(info) {
+class AuthManagerClass {
+  cookiesLib;
+  constructor(lib) {
+    this.cookiesLib = lib;
+  }
+  _get(key) {
+    return this.cookiesLib.get(key);
+  }
+  _set(key, value) {
+    if (typeof value === 'object') {
+      value = JSON.stringify(value);
+    }
+    this.cookiesLib.set(key, value);
+  }
+  setInfo(info) {
     console.log('set info', info);
-    Cookies.set('auth', JSON.stringify(info));
+    this._set('auth', JSON.stringify(info));
   }
-  static getInfo() {
-    const data = Cookies.get('auth');
-    if (!data) return false;
-    return JSON.parse(data);
+  getInfo() {
+    const data = this._get('auth');
+    if (!data || data === 'undefined') return false;
+    try {
+      return JSON.parse(data);
+    } catch (e) {
+      return JSON.parse(decodeURIComponent(data));
+    }
   }
-  static isLoggedIn() {
+  isLoggedIn() {
     return !!this.getInfo();
   }
-  static clearInfo() {
-    Cookies.remove('auth');
+  clearInfo() {
+    this._set('auth', undefined);
   }
 }
+export default new AuthManagerClass(Cookies);
+export const AuthManager = AuthManagerClass;

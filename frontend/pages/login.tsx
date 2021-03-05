@@ -4,13 +4,16 @@ import { Grid, Cell } from 'baseui/layout-grid';
 import initialState from '../store/user/initialState';
 import Auth from '@containers/auth/index';
 import LoginChecker from '@components/auth/LoginChecker';
+import Cookies from 'cookies';
+import { authCheck } from 'pages';
 const Login = () => {
   return (
     <Grid>
-      <Cell skip={3} span={4}>
-        <Auth></Auth>
+      <Cell skip={4} span={4}>
+        <Auth />
       </Cell>
     </Grid>
   );
 };
-export default LoginChecker(false)(Login);
+export const getServerSideProps = authCheck(false);
+export default Login;
