@@ -77,4 +77,21 @@ contract('Material', (accounts) => {
       expect(result.materialTokenAmount).equal('100');
     });
   });
+  describe('changeBatchOwnershipBatch', () => {
+    it('should fail if called outside the company contract', async () => {
+      const [materialInstance, companyInstance] = await getInstance();
+      const materialTokenId = await createRawMaterial();
+      await materialInstance.methods
+        .mint(materialTokenId, 100)
+        .send({ from: account, gas: 300000 });
+      const batchId = await createBatch(123, materialTokenId, 90);
+      try {
+        await materialInstance.methods
+          .changeBatchOwnershipBatch([batchId], otherAccount)
+          .send({ from: account, gas: 300000 });
+      } catch (e) {
+        expect(e).to.be.instanceOf(Error);
+      }
+    });
+  });
 });

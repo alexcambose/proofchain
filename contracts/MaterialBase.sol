@@ -48,6 +48,8 @@ contract MaterialBase {
         string code;
         uint256 materialTokenId;
         uint256 materialTokenAmount;
+        address owner;
+        bool isValue;
     }
     // Mapping from TokenID to address balances
     mapping(uint256 => mapping(address => uint256)) balance;
@@ -82,4 +84,12 @@ contract MaterialBase {
     {
         return materialToken[_materialTokenId].certificates[_index];
     }
+
+    // function getBatchById(uint256 _batchId)
+    //     public
+    //     view
+    //     returns (BatchInfo memory)
+    // {
+    //     return batch[_batchId];
+    // }
 }

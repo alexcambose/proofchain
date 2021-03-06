@@ -151,7 +151,9 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             BatchInfo({
                 code: _code,
                 materialTokenId: _tokenID,
-                materialTokenAmount: _amount
+                materialTokenAmount: _amount,
+                isValue: true,
+                owner: msg.sender
             });
         batch[batchId] = batchInfo;
         addressBatches[msg.sender].push(batchId);
@@ -244,6 +246,15 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         }
         if (i == length - 1) {
             revert("Certificate code not found");
+        }
+    }
+
+    function changeBatchOwnershipBatch(
+        uint256[] memory _batchIds,
+        address _newOwner
+    ) public fromCompanyContract {
+        for (uint8 i = 0; i < _batchIds.length; i++) {
+            batch[_batchIds[i]].owner = _newOwner;
         }
     }
 }
