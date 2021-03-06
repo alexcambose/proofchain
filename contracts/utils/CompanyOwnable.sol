@@ -25,4 +25,12 @@ abstract contract CompanyOwnable is Ownable {
         );
         _;
     }
+
+    modifier fromCompanyContract {
+        require(
+            msg.sender == companyAddress,
+            "You are not the company contract"
+        );
+        _;
+    }
 }

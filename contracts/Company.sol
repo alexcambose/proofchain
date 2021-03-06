@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 import "./Certifiable.sol";
+import "./Shipper.sol";
 
-contract Company is Certifiable {
+contract Company is Certifiable, Shipper {
     event CompanyCreate(address indexed owner);
     enum EntityTypeEnum {MANUFACTURER, LOGISTIC, WAREHOUSE, RETAILER}
     struct CertificateInstance {
@@ -80,8 +81,6 @@ contract Company is Certifiable {
         }
     }
 
-    /*
-     */
     function revokeCertificate(uint256 _certificateCode, address _company)
         public
     {

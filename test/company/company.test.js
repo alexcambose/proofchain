@@ -5,7 +5,7 @@ const {
   createRawMaterial: _createRawMaterial,
   createBatch: _createBatch,
   createCertificate: _createCertificate,
-} = require('./utils');
+} = require('../utils');
 
 contract('Company', (accounts) => {
   const [account] = accounts;
