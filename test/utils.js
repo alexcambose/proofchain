@@ -36,6 +36,17 @@ const getInstance = async () => {
     certificateAuthorityManagerInstance,
   ];
 };
+const createCompany = (account) => async (name = 'Company name') => {
+  const [, companyInstance] = await getInstance();
+
+  // create a company
+  const result = await companyInstance.methods
+    .create(name, 0)
+    .send({ from: account, gas: 300000 });
+  const eventReturn = result.events.CompanyCreate.returnValues;
+  return eventReturn.owner;
+};
+
 const createRawMaterial = (account) => async (
   title = 'Tomatoes',
   code = 1234,
@@ -95,4 +106,5 @@ module.exports = {
   getInstance,
   getAggregatorInstance,
   createCertificate,
+  createCompany,
 };
