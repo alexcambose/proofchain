@@ -3,3 +3,7 @@ export enum SocialLoginTypeEnum {
   METAMASK = 'Metamask',
   EMAIL_PASSWORD = 'email_password',
 }
+export enum UserType {
+  COMPANY,
+  CERTIFICATE_AUTHORITY,
+}
