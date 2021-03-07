@@ -1,10 +1,16 @@
+import { shortenAddress } from '@utils/eth';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
+import { State } from 'store';
 import Navbar from './components/Navbar';
+import NavDropdown from './components/NavDropdown';
 const GuestNav = () => {
+  const address = useSelector((state: State) => state.user.address);
+  console.log(address);
   const items = {
-    left: [
+    right: [
       {
-        content: 'aa',
+        content: <NavDropdown>{shortenAddress(address)}</NavDropdown>,
       },
     ],
   };

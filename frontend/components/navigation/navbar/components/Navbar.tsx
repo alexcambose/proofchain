@@ -7,6 +7,7 @@ import {
 } from 'baseui/header-navigation';
 import { StyledLink } from 'baseui/link';
 import { Button } from 'baseui/button';
+import uuid from 'react-uuid';
 
 interface ItemsInterface {
   content: any;
@@ -24,12 +25,12 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
   return (
     <HeaderNavigation>
       {['left', 'center', 'right'].map((alignment) => (
-        <StyledNavigationList $align={ALIGN[alignment]}>
-          <StyledNavigationItem>
-            {(items[alignment] || []).map((item) => (
-              <StyledNavigationItem>{item.content}</StyledNavigationItem>
-            ))}
-          </StyledNavigationItem>
+        <StyledNavigationList key={uuid()} $align={ALIGN[alignment]}>
+          {(items[alignment] || []).map((item) => (
+            <StyledNavigationItem key={uuid()}>
+              {item.content}
+            </StyledNavigationItem>
+          ))}
         </StyledNavigationList>
       ))}
     </HeaderNavigation>
