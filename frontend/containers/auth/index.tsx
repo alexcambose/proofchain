@@ -7,7 +7,7 @@ import Web3 from 'web3';
 import AuthMnemonic from './components/AuthMnemonic';
 import { useDispatch } from 'react-redux';
 import { loginWithMetamask, loginWithTorus } from 'store/user/actions';
-import { loginWithMnemonic } from 'store/user';
+import { loginWithMnemonic } from 'store/user/actions';
 
 const Auth: React.FC = () => {
   const dispatch = useDispatch();
@@ -19,13 +19,13 @@ const Auth: React.FC = () => {
     }
   };
   const onFormSubmit = async (email, password) => {
-    return await triggerLogin(SocialLoginTypeEnum.EMAIL_PASSWORD, {
+    await triggerLogin(SocialLoginTypeEnum.EMAIL_PASSWORD, {
       email,
       password,
     });
   };
-  const onMnemonicSubmit = (menmonic) => {
-    dispatch(loginWithMnemonic(menmonic));
+  const onMnemonicSubmit = async (menmonic) => {
+    await dispatch(loginWithMnemonic(menmonic));
   };
   return (
     <AuthContainer

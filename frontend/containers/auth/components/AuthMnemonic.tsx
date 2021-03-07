@@ -4,7 +4,7 @@ import Modal from '@components/Modal';
 import React, { useState } from 'react';
 import MnemonicForm from './MnemonicForm';
 interface AuthMnemonicProps {
-  onSubmit: (mnemonic: string) => void;
+  onSubmit: (mnemonic: string) => Promise<void>;
 }
 
 const AuthMnemonic: React.FC<AuthMnemonicProps> = ({ onSubmit }) => {
@@ -12,8 +12,8 @@ const AuthMnemonic: React.FC<AuthMnemonicProps> = ({ onSubmit }) => {
   const handleOnCreateClick = () => {
     setIsOpened(true);
   };
-  const handleOnMnemonicFormSubmit = (mnemonic) => {
-    onSubmit(mnemonic);
+  const handleOnMnemonicFormSubmit = async (mnemonic) => {
+    await onSubmit(mnemonic);
     setIsOpened(false);
   };
   return (

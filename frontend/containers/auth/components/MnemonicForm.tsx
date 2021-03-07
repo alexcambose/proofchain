@@ -2,7 +2,7 @@ import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
 import React from 'react';
 import { Block } from 'baseui/block';
-import { FormikErrors, withFormik } from 'formik';
+import { FormikErrors, FormikProps, withFormik } from 'formik';
 import * as bip39 from 'bip39';
 import Button from '@components/Button';
 
@@ -13,7 +13,10 @@ interface FormValues {
   mnemonic: string;
   confirmation: boolean;
 }
-const _MnemonicForm: React.FC<MnemonicFormProps> = () => {
+const _MnemonicForm: React.FC<MnemonicFormProps> = (
+  props: FormikProps<FormValues>
+) => {
+  const { isSubmitting } = props;
   return (
     <Form>
       <Field name="mnemonic" type="textarea" placeholder="Seed words" />
@@ -25,7 +28,9 @@ const _MnemonicForm: React.FC<MnemonicFormProps> = () => {
           formControl={false}
         />
       </Block>
-      <Button type="submit">Import</Button>
+      <Button isLoading={isSubmitting} type="submit">
+        Import
+      </Button>
     </Form>
   );
 };
@@ -51,7 +56,7 @@ const MnemonicForm = withFormik<MnemonicFormProps, FormValues>({
   },
 
   handleSubmit: async (values, { props }) => {
-    props.onSubmit(values.mnemonic);
+    await props.onSubmit(values.mnemonic);
   },
 })(_MnemonicForm);
 
