@@ -15,7 +15,6 @@ class AuthManagerClass {
     this.cookiesLib.set(key, value);
   }
   setInfo(info) {
-    console.log('set info', info);
     this._set('auth', JSON.stringify(info));
   }
   getInfo() {
@@ -28,10 +27,11 @@ class AuthManagerClass {
     }
   }
   isLoggedIn() {
+    if (this.getInfo() === 'false') return false;
     return !!this.getInfo();
   }
   clearInfo() {
-    this._set('auth', undefined);
+    this._set('auth', false);
   }
 }
 export default new AuthManagerClass(Cookies);

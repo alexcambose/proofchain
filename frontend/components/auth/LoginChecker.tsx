@@ -9,12 +9,12 @@ const LoginChecker = (loggedIn = false) => (Component) => () => {
   const isLoggedIn = useSelector((state: State) => state.user.loggedIn);
   const [finished, setFinished] = useState<boolean>(false);
   const check = () => {
-    if (loggedIn && !isLoggedIn) {
-      router.push('/login');
-    }
-    if (!loggedIn && isLoggedIn) {
-      router.push('/');
-    }
+    // if (loggedIn && !isLoggedIn) {
+    //   router.push('/login');
+    // }
+    // if (!loggedIn && isLoggedIn) {
+    //   router.push('/');
+    // }
     setFinished(true);
   };
   useEffect(() => {
@@ -26,4 +26,4 @@ const LoginChecker = (loggedIn = false) => (Component) => () => {
   if (!finished) return null;
   return <Component />;
 };
-export default LoginChecker;
+// export default LoginChecker;

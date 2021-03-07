@@ -13,3 +13,8 @@ export const getPrivateKeyFromMnemonic = async (mnemonic) => {
   const privateKey = wallet.privKey.toString('hex');
   return privateKey;
 };
+
+export const shortenAddress = (address: string): string =>
+  address.substring(0, 6) +
+  '...' +
+  address.substring(address.length - 6, address.length - 1);

@@ -9,7 +9,7 @@ import 'types/declarations';
 import '@assets/styles/style.css';
 import AuthManager from '@utils/auth/authManager';
 import { initWeb3Instance } from 'web3';
-import { refreshLogin } from 'store/user';
+import { refreshLogin } from 'store/user/actions';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
@@ -22,15 +22,20 @@ function MyApp({ Component, pageProps }) {
   const dispatch = useDispatch();
   const loggedIn = useSelector((state: State) => state.user.loggedIn);
   useEffect(() => {
-    if (!loggedIn) {
-      router.replace('/login');
-    } else {
-      router.replace('/');
+    if (loggedIn) {
+      dispatch(refreshLogin());
+    }
+  }, []);
+  useEffect(() => {
+    console.log(loggedIn, router.pathname);
+    if (loggedIn && router.pathname === '/login') {
+      router.push('/');
+    }
+    if (!loggedIn && router.pathname !== '/login') {
+      router.push('/login');
     }
   }, [loggedIn]);
-  if (AuthManager.isLoggedIn()) {
-    dispatch(refreshLogin());
-  }
+
   return (
     <StyletronProvider value={styletron}>
       <BaseProvider theme={LightTheme}>

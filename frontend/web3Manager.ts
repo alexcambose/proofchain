@@ -7,9 +7,10 @@ const initWeb3FromWallet = (wallet, password = 'password'): string => {
   web3Instance = new Web3(
     new Web3.providers.HttpProvider(config.ethProvider.ropsten.http)
   );
+
   const decrytedWallet = web3Instance.eth.accounts.decrypt(wallet, password);
   web3Instance.eth.accounts.wallet.add(decrytedWallet);
-  return web3Instance.eth.accounts.wallet[0];
+  return web3Instance.eth.accounts.wallet[0].address;
 };
 
 const initWeb3FromMetamask = async (): Promise<string> => {
@@ -23,10 +24,13 @@ export const initWeb3Instance = async (loginObject): Promise<string> => {
   const { type, wallet } = loginObject;
   // @ts-ignore
   window.web3 = web3Instance;
+  // @ts-ignore
+  window.Web3 = Web3;
   if (type === 'metamask') {
-    return initWeb3FromMetamask();
-  } else {
-    return initWeb3FromWallet(wallet);
+    console.log('Init with metamask');
+    return await initWeb3FromMetamask();
   }
+  console.log('Init with wallet');
+  return await initWeb3FromWallet(wallet);
 };
 export default web3Instance;
