@@ -9,10 +9,7 @@ abstract contract CertificateAuthorityManagerReferencer is Ownable {
     CertificateAuthorityManager internal certificateAuthorityManager;
     address public certificateAuthorityManagerAddress;
 
-    function getCertificateAuthorityManagerContract()
-        public
-        returns (CertificateAuthorityManager)
-    {
+    function getCertificateAuthorityManagerContract() public returns (CertificateAuthorityManager) {
         if (certificateAuthorityManagerAddress == address(0)) {
             certificateAuthorityManagerAddress = Aggregator(aggregator())
                 .certificateAuthorityManagerContractAddress();

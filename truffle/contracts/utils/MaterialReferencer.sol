@@ -11,8 +11,7 @@ abstract contract MaterialReferencer is Ownable {
 
     function getMaterialContract() public returns (Material) {
         if (materialAddress == address(0)) {
-            materialAddress = Aggregator(aggregator())
-                .materialContractAddress();
+            materialAddress = Aggregator(aggregator()).materialContractAddress();
             material = Material(materialAddress);
             return material;
         }

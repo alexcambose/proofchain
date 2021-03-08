@@ -2,15 +2,8 @@
 pragma solidity >0.7.0 <0.9.0;
 
 contract MaterialBase {
-    event MaterialCreate(
-        address indexed company,
-        uint256 indexed materialTokenId
-    );
-    event MaterialTransfer(
-        address indexed from,
-        address indexed to,
-        uint256 value
-    );
+    event MaterialCreate(address indexed company, uint256 indexed materialTokenId);
+    event MaterialTransfer(address indexed from, address indexed to, uint256 value);
     event BatchCreate(address indexed company, uint256 indexed batchId);
     // amount is only specified on burn
     event BatchTransfer(
@@ -69,11 +62,7 @@ contract MaterialBase {
         _;
     }
 
-    function getBalance(uint256 _tokenID, address _address)
-        public
-        view
-        returns (uint256)
-    {
+    function getBalance(uint256 _tokenID, address _address) public view returns (uint256) {
         return balance[_tokenID][_address];
     }
 

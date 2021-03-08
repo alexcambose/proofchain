@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-import "./MaterialBase.sol";
-import "./utils/Math.sol";
-import "./utils/CompanyOwnable.sol";
-import "./utils/CertificateAuthorityManagerReferencer.sol";
-import "./Certifiable.sol";
+import './MaterialBase.sol';
+import './utils/Math.sol';
+import './utils/CompanyOwnable.sol';
+import './utils/CertificateAuthorityManagerReferencer.sol';
+import './Certifiable.sol';
 
 contract Material is Certifiable, MaterialBase, CompanyOwnable {
     using Math for uint256;
@@ -37,22 +37,17 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     ) public senderHasCompany {
         require(
             _recipematerialTokenId.length == _recipeMaterialAmount.length,
-            "Arrays must be the same length"
+            'Arrays must be the same length'
         );
-        materialToken[materialTokenId]
-            .recipematerialTokenId = _recipematerialTokenId;
-        materialToken[materialTokenId]
-            .recipeMaterialAmount = _recipeMaterialAmount;
+        materialToken[materialTokenId].recipematerialTokenId = _recipematerialTokenId;
+        materialToken[materialTokenId].recipeMaterialAmount = _recipeMaterialAmount;
         create(_title, _code, _images);
     }
 
-    function mint(uint256 _tokenID, uint256 _amount)
-        public
-        senderIsTokenCreator(_tokenID)
-    {
+    function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {
         require(
             materialToken[_tokenID].recipematerialTokenId.length == 0,
-            "You need to specify the required products"
+            'You need to specify the required products'
         );
 
         address companyAddress = materialToken[_tokenID].creator;
@@ -67,39 +62,28 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         uint256[] memory _batchesAmount
     ) public senderIsTokenCreator(_tokenID) {
         // specified pairs must be of the same length
-        require(
-            _batchesId.length == _batchesAmount.length,
-            "Arrays must be the same length"
-        );
+        require(_batchesId.length == _batchesAmount.length, 'Arrays must be the same length');
         // the material token that we want to mint is a compound token
         require(
             materialToken[_tokenID].recipematerialTokenId.length != 0,
-            "The token does not need additional ingredients"
+            'The token does not need additional ingredients'
         );
         // specified batches must be at least the same length of the material token recipe
         require(
-            materialToken[_tokenID].recipematerialTokenId.length <=
-                _batchesId.length,
-            "Not enough ingredients provided"
+            materialToken[_tokenID].recipematerialTokenId.length <= _batchesId.length,
+            'Not enough ingredients provided'
         );
 
         address companyAddress = materialToken[_tokenID].creator;
 
         for (uint8 amountIndex = 0; amountIndex < _amount; amountIndex++) {
-            uint256[] memory recipeMaterialsAmount =
-                materialToken[_tokenID].recipeMaterialAmount;
-            uint256 recipeMaterialsAmountUnusedLength =
-                recipeMaterialsAmount.length;
-            for (
-                uint8 i = 0;
-                i < materialToken[_tokenID].recipematerialTokenId.length;
-                i++
-            ) {
+            uint256[] memory recipeMaterialsAmount = materialToken[_tokenID].recipeMaterialAmount;
+            uint256 recipeMaterialsAmountUnusedLength = recipeMaterialsAmount.length;
+            for (uint8 i = 0; i < materialToken[_tokenID].recipematerialTokenId.length; i++) {
                 for (uint8 j = 0; j < _batchesId.length; j++) {
                     require(
-                        batch[_batchesId[j]].materialTokenAmount >=
-                            _batchesAmount[j],
-                        "Invalid batch amount specification"
+                        batch[_batchesId[j]].materialTokenAmount >= _batchesAmount[j],
+                        'Invalid batch amount specification'
                     );
 
                     if (
@@ -113,8 +97,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                         // the actual batch has enougn materials
                         batch[_batchesId[j]].materialTokenAmount > 0
                     ) {
-                        uint256 toBeBurned =
-                            recipeMaterialsAmount[i].min(_batchesAmount[j]);
+                        uint256 toBeBurned = recipeMaterialsAmount[i].min(_batchesAmount[j]);
                         // remove products from existing batches
                         burnBatchToken(_batchesId[j], toBeBurned);
                         _batchesAmount[j] -= toBeBurned;
@@ -127,10 +110,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 }
             }
             // final check to see if all products were used
-            require(
-                recipeMaterialsAmountUnusedLength == 0,
-                "Could not satisfy all requirements"
-            );
+            require(recipeMaterialsAmountUnusedLength == 0, 'Could not satisfy all requirements');
         }
         balance[_tokenID][msg.sender] += _amount;
         emit MaterialTransfer(address(0), companyAddress, _amount);
@@ -143,7 +123,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     ) public senderHasCompany {
         require(
             balance[_tokenID][msg.sender] >= _amount,
-            "You do not have enough materials to create this batch"
+            'You do not have enough materials to create this batch'
         );
         balance[_tokenID][msg.sender] -= _amount;
         // create instance
@@ -162,79 +142,52 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     }
 
     function burnBatchToken(uint256 _batchId, uint256 _amount) public {
-        require(_amount > 0, "Amount needs to be bigger than 0");
-        require(
-            batch[_batchId].materialTokenAmount >= _amount,
-            "Amount not available"
-        );
+        require(_amount > 0, 'Amount needs to be bigger than 0');
+        require(batch[_batchId].materialTokenAmount >= _amount, 'Amount not available');
 
         batch[_batchId].materialTokenAmount -= _amount;
         if (batch[_batchId].materialTokenAmount == 0) {}
         emit BatchTransfer(msg.sender, address(0), batchId, _amount);
     }
 
-    function assignCertificate(
-        uint256 _certificateCode,
-        uint256 _itemIdentifier
-    ) public payable {
+    function assignCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public payable {
         super.assignCertificate(_certificateCode);
 
         CertificateInstance memory ci =
-            CertificateInstance({
-                code: _certificateCode,
-                time: block.timestamp,
-                stake: msg.value
-            });
+            CertificateInstance({code: _certificateCode, time: block.timestamp, stake: msg.value});
 
         materialToken[_itemIdentifier].certificates.push(ci);
     }
 
-    function cancelCertificate(
-        uint256 _certificateCode,
-        uint256 _itemIdentifier
-    ) public {
+    function cancelCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
         super.cancelCertificate(_certificateCode);
         uint256 length = materialToken[_itemIdentifier].certificates.length;
         uint8 i;
         for (i = 0; i < length; i++) {
-            if (
-                materialToken[_itemIdentifier].certificates[i].code ==
-                _certificateCode
-            ) {
-                materialToken[_itemIdentifier].certificates[i] = materialToken[
-                    _itemIdentifier
-                ]
+            if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
+                materialToken[_itemIdentifier].certificates[i] = materialToken[_itemIdentifier]
                     .certificates[length - 1];
                 delete materialToken[_itemIdentifier].certificates[length - 1];
             }
         }
         if (i == length - 1) {
-            revert("Certificate code not found");
+            revert('Certificate code not found');
         }
     }
 
     /*
      */
-    function revokeCertificate(
-        uint256 _certificateCode,
-        uint256 _itemIdentifier
-    ) public {
+    function revokeCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
         super.revokeCertificate();
         uint256 length = materialToken[_itemIdentifier].certificates.length;
         uint8 i;
         for (i = 0; i < length; i++) {
-            if (
-                materialToken[_itemIdentifier].certificates[i].code ==
-                _certificateCode
-            ) {
-                materialToken[_itemIdentifier].certificates[i] = materialToken[
-                    _itemIdentifier
-                ]
+            if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
+                materialToken[_itemIdentifier].certificates[i] = materialToken[_itemIdentifier]
                     .certificates[length - 1];
                 emit T(
                     certificateAuthorityManagerAddress,
-                    materialToken[_itemIdentifier].certificates[length - 1]
-                        .stake,
+                    materialToken[_itemIdentifier].certificates[length - 1].stake,
                     address(this).balance,
                     true
                 );
@@ -245,14 +198,14 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             }
         }
         if (i == length - 1) {
-            revert("Certificate code not found");
+            revert('Certificate code not found');
         }
     }
 
-    function changeBatchOwnershipBatch(
-        uint256[] memory _batchIds,
-        address _newOwner
-    ) public fromCompanyContract {
+    function changeBatchOwnershipBatch(uint256[] memory _batchIds, address _newOwner)
+        public
+        fromCompanyContract
+    {
         for (uint8 i = 0; i < _batchIds.length; i++) {
             batch[_batchIds[i]].owner = _newOwner;
         }
