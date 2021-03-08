@@ -5,12 +5,13 @@ node_js:
 cache:
   directories:
     - node_modules
+before_script: cd truffle
+
 install:
   - npm install truffle
   - npm install ganache-cli
   - npm install
 script:
-  - cd truffle
-  - truffle migrate
-  - truffle test
+  - ./node_modules/.bin/truffle migrate
+  - ./node_modules/.bin/truffle test
 after_script:
