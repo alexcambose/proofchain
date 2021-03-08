@@ -6,21 +6,21 @@ module.exports = {
   // for more details on how to specify configuration options!
   //
   networks: {
-    development: {
-      host: 'localhost',
-      port: 7545,
-      network_id: '5777',
-    },
-    develop: {
-      host: '127.0.0.1',
-      port: 7545,
-      network_id: '*',
-    },
-    test: {
-      host: '127.0.0.1',
-      port: 7545,
-      network_id: '*',
-    },
+    // development: {
+    //   host: 'localhost',
+    //   port: 7545,
+    //   network_id: '5777',
+    // },
+    // develop: {
+    //   host: '127.0.0.1',
+    //   port: 7545,
+    //   network_id: '*',
+    // },
+    // test: {
+    //   host: '127.0.0.1',
+    //   port: 7545,
+    //   network_id: '*',
+    // },
   },
   compilers: {
     solc: {
