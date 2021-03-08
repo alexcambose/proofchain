@@ -13,8 +13,8 @@ interface FormValues {
   mnemonic: string;
   confirmation: boolean;
 }
-const _MnemonicForm: React.FC<MnemonicFormProps> = (
-  props: FormikProps<FormValues>
+const _MnemonicForm: React.FC<MnemonicFormProps & FormikProps<FormValues>> = (
+  props
 ) => {
   const { isSubmitting } = props;
   return (

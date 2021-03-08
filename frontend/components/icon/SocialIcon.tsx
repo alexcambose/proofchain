@@ -1,5 +1,5 @@
 import React from 'react';
-import { SocialLoginTypeEnum } from '@types/enums';
+import { SocialLoginTypeEnum } from '@enums';
 
 import GoogleIcon from '@assets/images/social/google.svg';
 import MetamaskIcon from '@assets/images/social/metamask.svg';

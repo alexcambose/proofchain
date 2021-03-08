@@ -1,12 +1,8 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "baseUrl": ".",
+    "target": "es2020",
+    "lib": ["dom", "dom.iterable", "esnext", "es2020"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -18,45 +14,25 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "plugins": [
-      {
-        "transform": "typescript-plugin-styled-components",
-        "type": "config",
-        "minify": true,
-        "ssr": true
-      }
-    ],
     "paths": {
-      "@state/*": [
-        "./state/*"
-      ],
-      "@components/*": [
-        "./components/*"
-      ],
-      "@containers/*": [
-        "./containers/*"
-      ],
-      "@assets/*": [
-        "./assets/*"
-      ],
-      "@utils/*": [
-        "./utils/*"
-      ],
-      "@types/*": [
-        "./types/*"
-      ],
-      "@constants": [
-        "./constants.ts"
-      ]
+      "@store/*": ["store/*"],
+      "@components/*": ["components/*"],
+      "@containers/*": ["containers/*"],
+      "@assets/*": ["assets/*"],
+      "@utils/*": ["utils/*"],
+      "@enums": ["enums.ts"],
+      "@constants": ["constants.ts"]
     }
   },
-  // "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-  ]
+    "**/*.tsx",
+    "pages/index.tsx",
+    "pages/_error.js",
+    "pages/_document.js",
+    "test/utils/trade.test.js"
+  ],
+  "typeRoots": ["../../node_modules/@types", "./@types"]
 }

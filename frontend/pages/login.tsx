@@ -1,11 +1,7 @@
-import React from 'react';
-import { useStyletron } from 'baseui';
-import { Grid, Cell } from 'baseui/layout-grid';
-import initialState from '../store/user/initialState';
 import Auth from '@containers/auth/index';
-import LoginChecker from '@components/auth/LoginChecker';
-import Cookies from 'cookies';
+import { Cell, Grid } from 'baseui/layout-grid';
 import { authCheck } from 'pages';
+import React from 'react';
 const Login = () => {
   return (
     <Grid>

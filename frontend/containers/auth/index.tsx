@@ -1,4 +1,4 @@
-import { SocialLoginTypeEnum } from '@types/enums';
+import { SocialLoginTypeEnum } from 'enums';
 import { triggerLogin } from '@utils/auth/torus';
 import AuthContainer from './components/AuthContainer';
 import AuthForm from './components/AuthForm';
@@ -6,8 +6,8 @@ import SocialButtons from './components/SocialButtons';
 import Web3 from 'web3';
 import AuthMnemonic from './components/AuthMnemonic';
 import { useDispatch } from 'react-redux';
-import { loginWithMetamask, loginWithTorus } from 'store/user/actions';
-import { loginWithMnemonic } from 'store/user/actions';
+import { loginWithMetamask, loginWithTorus } from '@store/user/actions';
+import { loginWithMnemonic } from '@store/user/actions';
 
 const Auth: React.FC = () => {
   const dispatch = useDispatch();

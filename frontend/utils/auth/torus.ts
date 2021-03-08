@@ -1,5 +1,5 @@
 import DirectWebSdk from '@toruslabs/torus-direct-web-sdk';
-import { SocialLoginTypeEnum } from '@types/enums';
+import { SocialLoginTypeEnum } from 'enums';
 import config from 'config';
 const torus = new DirectWebSdk({
   baseUrl: 'http://localhost:3000',
@@ -11,6 +11,7 @@ const torus = new DirectWebSdk({
 
 export const init = async () => {
   await torus.init();
+  // @ts-ignore
   window.torus = torus;
 };
 export const triggerLogin = async (

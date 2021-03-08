@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SocialLoginTypeEnum } from '@types/enums';
+import { SocialLoginTypeEnum } from 'enums';
 import AuthManager from '@utils/auth/authManager';
 import { triggerLogin } from '@utils/auth/torus';
 import { getPrivateKeyFromMnemonic } from '@utils/eth';

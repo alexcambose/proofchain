@@ -1,13 +1,10 @@
-import LoginChecker from '@components/auth/LoginChecker';
-import { useDispatch } from 'react-redux';
-import { logout, setLoggedIn } from 'store/user';
-import web3Instance from '../web3Manager';
-import Cookies from 'cookies';
-import { AuthManager } from '@utils/auth/authManager';
 import Layout from '@containers/Layout';
-import { State, wrapper } from '../store';
+import { logout, setLoggedIn } from '@store/user';
+import { AuthManager } from '@utils/auth/authManager';
+import Cookies from 'cookies';
 import { useRouter } from 'next/router';
-import { refreshLogin } from 'store/user/actions';
+import { useDispatch } from 'react-redux';
+import { wrapper } from '../store';
 
 const Index = () => {
   const dispatch = useDispatch();

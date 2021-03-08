@@ -1,17 +1,15 @@
-import { Provider as StyletronProvider } from 'styletron-react';
-import { LightTheme, BaseProvider } from 'baseui';
-import { State, wrapper } from '../store';
-import { styletron } from '../styletron';
+import '@assets/styles/style.css';
+import { refreshLogin } from '@store/user/actions';
 import { init } from '@utils/auth/torus';
 import { isClient } from '@utils/next';
-import { useDispatch, useSelector } from 'react-redux';
-import 'types/declarations';
-import '@assets/styles/style.css';
-import AuthManager from '@utils/auth/authManager';
-import { initWeb3Instance } from 'web3';
-import { refreshLogin } from 'store/user/actions';
-import { useEffect } from 'react';
+import { BaseProvider, LightTheme } from 'baseui';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Provider as StyletronProvider } from 'styletron-react';
+import '@types/declarations';
+import { State, wrapper } from '../store';
+import { styletron } from '../styletron';
 
 if (isClient()) {
   init();

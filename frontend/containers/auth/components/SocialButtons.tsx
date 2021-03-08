@@ -1,7 +1,7 @@
 import Button from '@components/Button';
 import Notification from '@components/Notification';
 import SocialIcon from '@components/icon/SocialIcon';
-import { SocialLoginTypeEnum } from '@types/enums.ts';
+import { SocialLoginTypeEnum } from '@enums';
 import { KIND } from 'baseui/button';
 import React, { useState } from 'react';
 import uuid from 'react-uuid';

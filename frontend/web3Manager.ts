@@ -15,6 +15,7 @@ const initWeb3FromWallet = (wallet, password = 'password'): string => {
 
 const initWeb3FromMetamask = async (): Promise<string> => {
   const ethereum = window.ethereum;
+  // @ts-ignore
   web3Instance = new Web3(ethereum);
   await ethereum.send('eth_requestAccounts');
   return web3Instance.givenProvider.selectedAddress;

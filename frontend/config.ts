@@ -1,4 +1,4 @@
-import { SocialLoginTypeEnum } from '@types/enums';
+import { SocialLoginTypeEnum } from 'enums';
 
 const torusTestnet = {
   credentials: {

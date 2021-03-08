@@ -24,39 +24,42 @@ export const UserSlice = createSlice({
       AuthManager.clearInfo();
     },
   },
-  extraReducers: {
+  extraReducers: (builder: any) => {
     // had to google this for hours :( -> https://github.com/kirill-konshin/next-redux-wrapper/pull/295/files/1792221d7e792b917b63ccaf77f528fc13797ef3#diff-e5c99337b70249438cce35e58d28640fe7e4d0427b281532c163837649d989f9R22
-    [hydrate]: (state, { payload }) => {
+    builder.addCase(hydrate, (state) => (state, { payload }) => {
       for (let key of ['loggedIn']) {
         state[key] = payload[UserSlice.name][key];
       }
-    },
-    [loginWithMetamask.fulfilled]: (state, { payload }) => {
-      AuthManager.setInfo({ type: 'metamask' });
-      state.loggedIn = true;
-    },
-    [loginWithTorus.fulfilled]: (state, { payload }) => {
-      const { privateKey } = payload;
-      const encrypted = new Web3().eth.accounts.encrypt(privateKey, 'password');
+    }),
+      builder.addCase(loginWithMetamask.fulfilled, (state, { payload }) => {
+        AuthManager.setInfo({ type: 'metamask' });
+        state.loggedIn = true;
+      }),
+      builder.addCase(loginWithTorus.fulfilled, (state, { payload }) => {
+        const { privateKey } = payload;
+        const encrypted = new Web3().eth.accounts.encrypt(
+          privateKey,
+          'password'
+        );
 
-      AuthManager.setInfo({ type: 'torus', wallet: encrypted });
-      state.loggedIn = true;
-    },
-    [loginWithMnemonic.fulfilled]: (state, { payload }) => {
-      console.log('[loginWithMnemonic.fulfilled]');
-      const encrypted = new Web3().eth.accounts.encrypt(
-        payload.privateKey,
-        'password'
-      );
-      AuthManager.setInfo({ type: 'mnemonic', wallet: encrypted });
-      console.log(AuthManager.getInfo());
-      state.loggedIn = true;
-    },
-    [refreshLogin.fulfilled]: (state, { payload }) => {
-      state.loggedIn = true;
-      state.address = payload.address;
-      console.log('object');
-    },
+        AuthManager.setInfo({ type: 'torus', wallet: encrypted });
+        state.loggedIn = true;
+      }),
+      builder.addCase(loginWithMnemonic.fulfilled, (state, { payload }) => {
+        console.log('[loginWithMnemonic.fulfilled]');
+        const encrypted = new Web3().eth.accounts.encrypt(
+          payload.privateKey,
+          'password'
+        );
+        AuthManager.setInfo({ type: 'mnemonic', wallet: encrypted });
+        console.log(AuthManager.getInfo());
+        state.loggedIn = true;
+      }),
+      builder.addCase(refreshLogin.fulfilled, (state, { payload }) => {
+        state.loggedIn = true;
+        state.address = payload.address;
+        console.log('object');
+      });
   },
 });
 

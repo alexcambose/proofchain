@@ -6,7 +6,7 @@ import ChevronUp from 'baseui/icon/chevron-up';
 import { styled } from 'baseui';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { logout } from 'store/user';
+import { logout } from '@store/user/index';
 interface INavDropdownProps {
   avatarUrl?: string;
   children?: React.ReactNode;
