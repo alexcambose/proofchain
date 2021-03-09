@@ -12,6 +12,7 @@ install:
   - npm install ganache-cli
   - npm install
 script:
-  - ./node_modules/.bin/truffle migrate
+  - ./node_modules/.bin/ganache-cli &
+  - sleep 5
   - ./node_modules/.bin/truffle test
 after_script:
