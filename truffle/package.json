@@ -8,7 +8,8 @@
   },
   "scripts": {
     "prettier": "./node_modules/.bin/prettier --write contracts/**/*.sol",
-    "solhint": "./node_modules/.bin/solhint -f stylish contracts/**/*.sol"
+    "solhint": "./node_modules/.bin/solhint -f stylish contracts/**/*.sol",
+    "dev": "truffle develop"
   },
   "husky": {
     "hooks": {
@@ -23,5 +24,8 @@
     "prettier-plugin-solidity": "^1.0.0-beta.5",
     "solhint": "^3.3.3",
     "solhint-plugin-prettier": "0.0.5"
+  },
+  "dependencies": {
+    "ganache-cli": "^6.12.2"
   }
 }

@@ -1,4 +1,4 @@
-import Web3 from 'web3';
+import Web3 from "web3";
 interface IProofchainConfig {
   httpProvider: string;
   privateKey: string;
@@ -7,7 +7,7 @@ interface IProofchainConfig {
  * Main class
  */
 class Proofchain {
-  web3: Web3;
+  web3: Web3 | undefined;
   init({ httpProvider, privateKey }: IProofchainConfig) {
     this.web3 = new Web3(new Web3.providers.HttpProvider(httpProvider));
     this.web3.eth.accounts.wallet.add(privateKey);

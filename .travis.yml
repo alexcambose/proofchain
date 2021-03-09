@@ -5,7 +5,7 @@ node_js:
 cache:
   directories:
     - node_modules
-before_script: cd truffle
+before_install: cd truffle
 
 install:
   - npm install truffle

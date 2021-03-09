@@ -1,4 +1,3 @@
 export default interface IEntity {
-  create(name: string): Promise<string>
+  create(name: string): Promise<string>;
 }
-
