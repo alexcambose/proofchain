@@ -1,12 +1,30 @@
 {
-  "name": "root",
-  "private": true,
+  "name": "proofchain",
+  "version": "1.0.0",
+  "description": "[![Build Status](https://www.travis-ci.com/alexcambose/proofchain.svg?branch=master)](https://www.travis-ci.com/alexcambose/proofchain)",
+  "main": "index.js",
   "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "@commitlint/config-lerna-scopes": "^12.0.1",
+    "commitlint": "^12.0.1",
     "husky": "^5.1.3",
     "lerna": "^4.0.0"
   },
   "scripts": {
     "dev": "lerna run --parallel dev",
-    "prepare": "husky install"
-  }
+    "prepare": "husky install",
+    "test": "cd packages/library && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexcambose/proofchain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexcambose/proofchain/issues"
+  },
+  "homepage": "https://github.com/alexcambose/proofchain#readme"
 }

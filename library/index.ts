@@ -1,3 +1,3 @@
-import Proofchain from "./src";
+import Proofchain from './src';
 
 export default Proofchain;
