@@ -1,0 +1,1360 @@
+{
+  "contractName": "CompanyReferencer",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "_aggregator",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "aggregator",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCompanyContract",
+      "outputs": [
+        {
+          "internalType": "contract Company",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.2+commit.661d1103\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"_aggregator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"aggregator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCompanyContract\",\"outputs\":[{\"internalType\":\"contract Company\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"aggregator()\":{\"details\":\"Returns the address of the current aggregator.\"},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/alex/Desktop/proofchain/truffle/contracts/utils/CompanyReferencer.sol\":\"CompanyReferencer\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/alex/Desktop/proofchain/truffle/contracts/Aggregator.sol\":{\"keccak256\":\"0x8af4548f781676e3d1e5a23fb79f2e0f8373af0ba80b8d93196e0831750e688d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a654cfad32e96ca795dc7584b7092138777b2d9d357b1ba43592becf817ff353\",\"dweb:/ipfs/QmdXem134z8UWNRESJkrkxpDjJDLghVQUqMkPgYcBmhRZn\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/Certifiable.sol\":{\"keccak256\":\"0xd64bd410537d22c39f94cc43a27516ac35fdb32735e1cf88e66abc6482c22ed3\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://27394163c6c544b40a90103bc3871aa1be13a2f164e6ce38e6a93f87dbf74981\",\"dweb:/ipfs/QmVWPRrrPznH9Y3UhgRoPJGDoiZ3fibonPZU6ZuksUtxns\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/CertificateAuthorityManager.sol\":{\"keccak256\":\"0x6e087d83b253d347ab3a1d717b75436e41f0a4983db47bc0501b4ba883320feb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://da60583efa0428dc24bd2a92d170b416fa62c1cfe7b6d71336cf5b61effd28ad\",\"dweb:/ipfs/QmT8tqXrhEZCNQVnCoYbETSTZv2ZfqWiQar8dRzw9hwZh1\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/Company.sol\":{\"keccak256\":\"0xcb18dbd114414a34c0687328630b10075a19a5b509c70ff29d91b9594333af27\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://6e1b568492040fc4c8c65e2a40a801c0375a56e011cad1f17bde97ed06c5f435\",\"dweb:/ipfs/QmNwL1B7Xz6FX43Te1JN4LGT4YsLquTvZ29cBFDZBY1Tsc\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/Material.sol\":{\"keccak256\":\"0x8819e54a0a963a182cc58e41c9ed66e83e95b48b2c5ef015e17a598355dbbb7e\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d9c0459a9e278bd82f7013a00b3328e1eb4816ff7a4f22de7dd3e06de15a70de\",\"dweb:/ipfs/QmeJYK8jVKmewuJL5aW6ZrwkCJZMcm8DJp3sAPcABXvh45\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/MaterialBase.sol\":{\"keccak256\":\"0xa3d3c3a38cac1fe27b013e88e6ff6f698e09817c867077d7642a57955f394e3c\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fcd544ba1b842e44204d949c29b4fd8bc37b5e15f4bf885d0d218a87067bac92\",\"dweb:/ipfs/QmcHhvJTwucBBCfB2JdEYaFNj6uXUtUtdztUtoN53UXs2g\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/Shipper.sol\":{\"keccak256\":\"0xee2cfaa3a6dcc88e2f39b8345716a823d9c1545370b0b5e66567aa14151051f7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://edf622e3803d2e9d6c470eac2f25bb2a5157c523967e7ce8736a7d6980c2124b\",\"dweb:/ipfs/QmRMv7mjtvBpFFHKfgnFazJpcBgC3FXWLoLz5AtTp6b5Sr\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/CertificateAuthorityManagerReferencer.sol\":{\"keccak256\":\"0xd965aea8527eba9045b8a36cf5be2d8fb79cb849e0a5bbdf3b554e6897e95c66\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b2b5ac0a57766202224dc864d646ad86571e7d82c43b192bb850e56e53fbc7ee\",\"dweb:/ipfs/QmWV6KXPo5uANNHpSd49m6AdhmQP73MdvhTxjGPGgVuivj\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/CompanyOwnable.sol\":{\"keccak256\":\"0xc3049b597eeb1314f2c3a2749ebbd1953f8fb9ca61b7059cfee7c3110e39cb65\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://efbefb01c881c55a3d298a838516cd9dcc5065028c53c64c4052ae33e890ca4d\",\"dweb:/ipfs/QmNXrNToiEevgYVrwnMSUtP8nkEc3GaJoiiT6T78buZSBQ\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/CompanyReferencer.sol\":{\"keccak256\":\"0xa07a6c7c8e90ff09bbcfb040a741c57e88ddc70de199efe1976a0df6207c0518\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://d701b6381ded7b430834356e09ad4254d20e07d54f9121acf000be630f55146c\",\"dweb:/ipfs/QmcMAGrDt5BdXaPzxq4V5xLwG73asRTZxtapr1WFAYXMxK\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/MaterialReferencer.sol\":{\"keccak256\":\"0x513a6d6d770d960c4a9347e98ba81c645137dcc2628367eff2e01e8d1271d4e1\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://ce1c358cf0b6b065bb4681cb62ae6bad4cbe875ba0f339e71203f6458329bab7\",\"dweb:/ipfs/Qma97Ln9x5z8tATibWvCovpRx1CTNvH4dteBQqQV1tj6Rc\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/Math.sol\":{\"keccak256\":\"0x4b6df8c606deac20cbad65d8e59ff1dd0e6b8858f834c4e7547e9e119a8931d0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://fa811b7ad474fd1d70b1064f9d003c067b79ebd5fa7f2f82b6593f8eea6a3792\",\"dweb:/ipfs/QmSeLnUF6dV9Pg2w2PigPhQMvqDKwuiApgsTRdqe44MKjt\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/Ownable.sol\":{\"keccak256\":\"0xf5dcc7530c4e06117f93ee9609755485c1692f5d42f5d26dce3fefa9ac155275\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://468615347ec32dd78d0160348c7d6b3b5afb64694b678849d951a708f6d66162\",\"dweb:/ipfs/QmXJrpMu2raCXRxi9fSEiTVgSXXfKMj2oABrt9h4ctLJ8g\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >0.7.0 <0.9.0;\n\nimport \"../Company.sol\";\nimport \"../Aggregator.sol\";\nimport \"./Ownable.sol\";\n\nabstract contract CompanyReferencer is Ownable {\n    Company internal company;\n    address internal companyAddress;\n\n    function getCompanyContract() public returns (Company) {\n        if (companyAddress == address(0)) {\n            companyAddress = Aggregator(aggregator()).companyContractAddress();\n            company = Company(companyAddress);\n            return company;\n        }\n        return company;\n    }\n}\n",
+  "sourcePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/CompanyReferencer.sol",
+  "ast": {
+    "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/CompanyReferencer.sol",
+    "exportedSymbols": {
+      "Aggregator": [
+        63
+      ],
+      "Certifiable": [
+        146
+      ],
+      "CertificateAuthorityManager": [
+        291
+      ],
+      "CertificateAuthorityManagerReferencer": [
+        2147
+      ],
+      "Company": [
+        654
+      ],
+      "CompanyOwnable": [
+        2233
+      ],
+      "CompanyReferencer": [
+        2280
+      ],
+      "Material": [
+        1531
+      ],
+      "MaterialBase": [
+        1695
+      ],
+      "MaterialReferencer": [
+        2327
+      ],
+      "Math": [
+        2402
+      ],
+      "Ownable": [
+        2527
+      ],
+      "Shipper": [
+        2087
+      ]
+    },
+    "id": 2281,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2235,
+        "literals": [
+          "solidity",
+          ">",
+          "0.7",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:30:12"
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/Company.sol",
+        "file": "../Company.sol",
+        "id": 2236,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2281,
+        "sourceUnit": 655,
+        "src": "64:24:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/Aggregator.sol",
+        "file": "../Aggregator.sol",
+        "id": 2237,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2281,
+        "sourceUnit": 64,
+        "src": "89:27:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/Ownable.sol",
+        "file": "./Ownable.sol",
+        "id": 2238,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2281,
+        "sourceUnit": 2528,
+        "src": "117:23:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 2239,
+              "name": "Ownable",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 2527,
+              "src": "181:7:12"
+            },
+            "id": 2240,
+            "nodeType": "InheritanceSpecifier",
+            "src": "181:7:12"
+          }
+        ],
+        "contractDependencies": [
+          2527
+        ],
+        "contractKind": "contract",
+        "fullyImplemented": false,
+        "id": 2280,
+        "linearizedBaseContracts": [
+          2280,
+          2527
+        ],
+        "name": "CompanyReferencer",
+        "nameLocation": "160:17:12",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 2243,
+            "mutability": "mutable",
+            "name": "company",
+            "nameLocation": "212:7:12",
+            "nodeType": "VariableDeclaration",
+            "scope": 2280,
+            "src": "195:24:12",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_Company_$654",
+              "typeString": "contract Company"
+            },
+            "typeName": {
+              "id": 2242,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 2241,
+                "name": "Company",
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 654,
+                "src": "195:7:12"
+              },
+              "referencedDeclaration": 654,
+              "src": "195:7:12",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Company_$654",
+                "typeString": "contract Company"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 2245,
+            "mutability": "mutable",
+            "name": "companyAddress",
+            "nameLocation": "242:14:12",
+            "nodeType": "VariableDeclaration",
+            "scope": 2280,
+            "src": "225:31:12",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 2244,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "225:7:12",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2278,
+              "nodeType": "Block",
+              "src": "318:240:12",
+              "statements": [
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 2256,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 2251,
+                      "name": "companyAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2245,
+                      "src": "332:14:12",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "hexValue": "30",
+                          "id": 2254,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "358:1:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          }
+                        ],
+                        "id": 2253,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "350:7:12",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": {
+                          "id": 2252,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "350:7:12",
+                          "typeDescriptions": {}
+                        }
+                      },
+                      "id": 2255,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "350:10:12",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "332:28:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2275,
+                  "nodeType": "IfStatement",
+                  "src": "328:200:12",
+                  "trueBody": {
+                    "id": 2274,
+                    "nodeType": "Block",
+                    "src": "362:166:12",
+                    "statements": [
+                      {
+                        "expression": {
+                          "id": 2264,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2257,
+                            "name": "companyAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2245,
+                            "src": "376:14:12",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "arguments": [
+                                  {
+                                    "arguments": [],
+                                    "expression": {
+                                      "argumentTypes": [],
+                                      "id": 2259,
+                                      "name": "aggregator",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 2453,
+                                      "src": "404:10:12",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                                        "typeString": "function () view returns (address)"
+                                      }
+                                    },
+                                    "id": 2260,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "kind": "functionCall",
+                                    "lValueRequested": false,
+                                    "names": [],
+                                    "nodeType": "FunctionCall",
+                                    "src": "404:12:12",
+                                    "tryCall": false,
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  }
+                                ],
+                                "expression": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  ],
+                                  "id": 2258,
+                                  "name": "Aggregator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 63,
+                                  "src": "393:10:12",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_type$_t_contract$_Aggregator_$63_$",
+                                    "typeString": "type(contract Aggregator)"
+                                  }
+                                },
+                                "id": 2261,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "typeConversion",
+                                "lValueRequested": false,
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "393:24:12",
+                                "tryCall": false,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_contract$_Aggregator_$63",
+                                  "typeString": "contract Aggregator"
+                                }
+                              },
+                              "id": 2262,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "companyContractAddress",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 3,
+                              "src": "393:47:12",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                                "typeString": "function () view external returns (address)"
+                              }
+                            },
+                            "id": 2263,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "393:49:12",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "376:66:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 2265,
+                        "nodeType": "ExpressionStatement",
+                        "src": "376:66:12"
+                      },
+                      {
+                        "expression": {
+                          "id": 2270,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2266,
+                            "name": "company",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2243,
+                            "src": "456:7:12",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_Company_$654",
+                              "typeString": "contract Company"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [
+                              {
+                                "id": 2268,
+                                "name": "companyAddress",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 2245,
+                                "src": "474:14:12",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "id": 2267,
+                              "name": "Company",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 654,
+                              "src": "466:7:12",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_Company_$654_$",
+                                "typeString": "type(contract Company)"
+                              }
+                            },
+                            "id": 2269,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "466:23:12",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_Company_$654",
+                              "typeString": "contract Company"
+                            }
+                          },
+                          "src": "456:33:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Company_$654",
+                            "typeString": "contract Company"
+                          }
+                        },
+                        "id": 2271,
+                        "nodeType": "ExpressionStatement",
+                        "src": "456:33:12"
+                      },
+                      {
+                        "expression": {
+                          "id": 2272,
+                          "name": "company",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2243,
+                          "src": "510:7:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Company_$654",
+                            "typeString": "contract Company"
+                          }
+                        },
+                        "functionReturnParameters": 2250,
+                        "id": 2273,
+                        "nodeType": "Return",
+                        "src": "503:14:12"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "id": 2276,
+                    "name": "company",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2243,
+                    "src": "544:7:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Company_$654",
+                      "typeString": "contract Company"
+                    }
+                  },
+                  "functionReturnParameters": 2250,
+                  "id": 2277,
+                  "nodeType": "Return",
+                  "src": "537:14:12"
+                }
+              ]
+            },
+            "functionSelector": "1907209a",
+            "id": 2279,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCompanyContract",
+            "nameLocation": "272:18:12",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2246,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "290:2:12"
+            },
+            "returnParameters": {
+              "id": 2250,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2249,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2279,
+                  "src": "309:7:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_Company_$654",
+                    "typeString": "contract Company"
+                  },
+                  "typeName": {
+                    "id": 2248,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 2247,
+                      "name": "Company",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 654,
+                      "src": "309:7:12"
+                    },
+                    "referencedDeclaration": 654,
+                    "src": "309:7:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Company_$654",
+                      "typeString": "contract Company"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "308:9:12"
+            },
+            "scope": 2280,
+            "src": "263:295:12",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2281,
+        "src": "142:418:12"
+      }
+    ],
+    "src": "32:529:12"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/CompanyReferencer.sol",
+    "exportedSymbols": {
+      "Aggregator": [
+        63
+      ],
+      "Certifiable": [
+        146
+      ],
+      "CertificateAuthorityManager": [
+        291
+      ],
+      "CertificateAuthorityManagerReferencer": [
+        2147
+      ],
+      "Company": [
+        654
+      ],
+      "CompanyOwnable": [
+        2233
+      ],
+      "CompanyReferencer": [
+        2280
+      ],
+      "Material": [
+        1531
+      ],
+      "MaterialBase": [
+        1695
+      ],
+      "MaterialReferencer": [
+        2327
+      ],
+      "Math": [
+        2402
+      ],
+      "Ownable": [
+        2527
+      ],
+      "Shipper": [
+        2087
+      ]
+    },
+    "id": 2281,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2235,
+        "literals": [
+          "solidity",
+          ">",
+          "0.7",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:30:12"
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/Company.sol",
+        "file": "../Company.sol",
+        "id": 2236,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2281,
+        "sourceUnit": 655,
+        "src": "64:24:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/Aggregator.sol",
+        "file": "../Aggregator.sol",
+        "id": 2237,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2281,
+        "sourceUnit": 64,
+        "src": "89:27:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/Ownable.sol",
+        "file": "./Ownable.sol",
+        "id": 2238,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2281,
+        "sourceUnit": 2528,
+        "src": "117:23:12",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 2239,
+              "name": "Ownable",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 2527,
+              "src": "181:7:12"
+            },
+            "id": 2240,
+            "nodeType": "InheritanceSpecifier",
+            "src": "181:7:12"
+          }
+        ],
+        "contractDependencies": [
+          2527
+        ],
+        "contractKind": "contract",
+        "fullyImplemented": false,
+        "id": 2280,
+        "linearizedBaseContracts": [
+          2280,
+          2527
+        ],
+        "name": "CompanyReferencer",
+        "nameLocation": "160:17:12",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 2243,
+            "mutability": "mutable",
+            "name": "company",
+            "nameLocation": "212:7:12",
+            "nodeType": "VariableDeclaration",
+            "scope": 2280,
+            "src": "195:24:12",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_Company_$654",
+              "typeString": "contract Company"
+            },
+            "typeName": {
+              "id": 2242,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 2241,
+                "name": "Company",
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 654,
+                "src": "195:7:12"
+              },
+              "referencedDeclaration": 654,
+              "src": "195:7:12",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_Company_$654",
+                "typeString": "contract Company"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "id": 2245,
+            "mutability": "mutable",
+            "name": "companyAddress",
+            "nameLocation": "242:14:12",
+            "nodeType": "VariableDeclaration",
+            "scope": 2280,
+            "src": "225:31:12",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 2244,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "225:7:12",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "body": {
+              "id": 2278,
+              "nodeType": "Block",
+              "src": "318:240:12",
+              "statements": [
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 2256,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 2251,
+                      "name": "companyAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2245,
+                      "src": "332:14:12",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "hexValue": "30",
+                          "id": 2254,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "358:1:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          }
+                        ],
+                        "id": 2253,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "350:7:12",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": {
+                          "id": 2252,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "350:7:12",
+                          "typeDescriptions": {}
+                        }
+                      },
+                      "id": 2255,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "350:10:12",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "332:28:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2275,
+                  "nodeType": "IfStatement",
+                  "src": "328:200:12",
+                  "trueBody": {
+                    "id": 2274,
+                    "nodeType": "Block",
+                    "src": "362:166:12",
+                    "statements": [
+                      {
+                        "expression": {
+                          "id": 2264,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2257,
+                            "name": "companyAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2245,
+                            "src": "376:14:12",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "arguments": [
+                                  {
+                                    "arguments": [],
+                                    "expression": {
+                                      "argumentTypes": [],
+                                      "id": 2259,
+                                      "name": "aggregator",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 2453,
+                                      "src": "404:10:12",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                                        "typeString": "function () view returns (address)"
+                                      }
+                                    },
+                                    "id": 2260,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "kind": "functionCall",
+                                    "lValueRequested": false,
+                                    "names": [],
+                                    "nodeType": "FunctionCall",
+                                    "src": "404:12:12",
+                                    "tryCall": false,
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  }
+                                ],
+                                "expression": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  ],
+                                  "id": 2258,
+                                  "name": "Aggregator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 63,
+                                  "src": "393:10:12",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_type$_t_contract$_Aggregator_$63_$",
+                                    "typeString": "type(contract Aggregator)"
+                                  }
+                                },
+                                "id": 2261,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "typeConversion",
+                                "lValueRequested": false,
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "393:24:12",
+                                "tryCall": false,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_contract$_Aggregator_$63",
+                                  "typeString": "contract Aggregator"
+                                }
+                              },
+                              "id": 2262,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "companyContractAddress",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 3,
+                              "src": "393:47:12",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                                "typeString": "function () view external returns (address)"
+                              }
+                            },
+                            "id": 2263,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "393:49:12",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "376:66:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 2265,
+                        "nodeType": "ExpressionStatement",
+                        "src": "376:66:12"
+                      },
+                      {
+                        "expression": {
+                          "id": 2270,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2266,
+                            "name": "company",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2243,
+                            "src": "456:7:12",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_Company_$654",
+                              "typeString": "contract Company"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [
+                              {
+                                "id": 2268,
+                                "name": "companyAddress",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 2245,
+                                "src": "474:14:12",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "id": 2267,
+                              "name": "Company",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 654,
+                              "src": "466:7:12",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_Company_$654_$",
+                                "typeString": "type(contract Company)"
+                              }
+                            },
+                            "id": 2269,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "466:23:12",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_Company_$654",
+                              "typeString": "contract Company"
+                            }
+                          },
+                          "src": "456:33:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Company_$654",
+                            "typeString": "contract Company"
+                          }
+                        },
+                        "id": 2271,
+                        "nodeType": "ExpressionStatement",
+                        "src": "456:33:12"
+                      },
+                      {
+                        "expression": {
+                          "id": 2272,
+                          "name": "company",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2243,
+                          "src": "510:7:12",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_Company_$654",
+                            "typeString": "contract Company"
+                          }
+                        },
+                        "functionReturnParameters": 2250,
+                        "id": 2273,
+                        "nodeType": "Return",
+                        "src": "503:14:12"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "id": 2276,
+                    "name": "company",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2243,
+                    "src": "544:7:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Company_$654",
+                      "typeString": "contract Company"
+                    }
+                  },
+                  "functionReturnParameters": 2250,
+                  "id": 2277,
+                  "nodeType": "Return",
+                  "src": "537:14:12"
+                }
+              ]
+            },
+            "functionSelector": "1907209a",
+            "id": 2279,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCompanyContract",
+            "nameLocation": "272:18:12",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2246,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "290:2:12"
+            },
+            "returnParameters": {
+              "id": 2250,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2249,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2279,
+                  "src": "309:7:12",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_Company_$654",
+                    "typeString": "contract Company"
+                  },
+                  "typeName": {
+                    "id": 2248,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 2247,
+                      "name": "Company",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 654,
+                      "src": "309:7:12"
+                    },
+                    "referencedDeclaration": 654,
+                    "src": "309:7:12",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_Company_$654",
+                      "typeString": "contract Company"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "308:9:12"
+            },
+            "scope": 2280,
+            "src": "263:295:12",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2281,
+        "src": "142:418:12"
+      }
+    ],
+    "src": "32:529:12"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.2+commit.661d1103.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-03-09T12:23:37.691Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "aggregator()": {
+        "details": "Returns the address of the current aggregator."
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

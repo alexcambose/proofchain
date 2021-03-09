@@ -14,7 +14,7 @@
   "scripts": {
     "dev": "lerna run --parallel dev",
     "prepare": "husky install",
-    "test": "cd packages/library && npm run test"
+    "test": "cd library && npm run test"
   },
   "repository": {
     "type": "git",

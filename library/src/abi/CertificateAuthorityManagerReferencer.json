@@ -1,0 +1,1670 @@
+{
+  "contractName": "CertificateAuthorityManagerReferencer",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "_aggregator",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "aggregator",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "certificateAuthorityManagerAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCertificateAuthorityManagerContract",
+      "outputs": [
+        {
+          "internalType": "contract CertificateAuthorityManager",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMasterAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.2+commit.661d1103\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"_aggregator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"aggregator\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"certificateAuthorityManagerAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getCertificateAuthorityManagerContract\",\"outputs\":[{\"internalType\":\"contract CertificateAuthorityManager\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getMasterAddress\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"renounceOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"aggregator()\":{\"details\":\"Returns the address of the current aggregator.\"},\"owner()\":{\"details\":\"Returns the address of the current owner.\"},\"renounceOwnership()\":{\"details\":\"Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner.\"},\"transferOwnership(address)\":{\"details\":\"Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner.\"}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/alex/Desktop/proofchain/truffle/contracts/utils/CertificateAuthorityManagerReferencer.sol\":\"CertificateAuthorityManagerReferencer\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/alex/Desktop/proofchain/truffle/contracts/Aggregator.sol\":{\"keccak256\":\"0x8af4548f781676e3d1e5a23fb79f2e0f8373af0ba80b8d93196e0831750e688d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://a654cfad32e96ca795dc7584b7092138777b2d9d357b1ba43592becf817ff353\",\"dweb:/ipfs/QmdXem134z8UWNRESJkrkxpDjJDLghVQUqMkPgYcBmhRZn\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/CertificateAuthorityManager.sol\":{\"keccak256\":\"0x6e087d83b253d347ab3a1d717b75436e41f0a4983db47bc0501b4ba883320feb\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://da60583efa0428dc24bd2a92d170b416fa62c1cfe7b6d71336cf5b61effd28ad\",\"dweb:/ipfs/QmT8tqXrhEZCNQVnCoYbETSTZv2ZfqWiQar8dRzw9hwZh1\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/CertificateAuthorityManagerReferencer.sol\":{\"keccak256\":\"0xd965aea8527eba9045b8a36cf5be2d8fb79cb849e0a5bbdf3b554e6897e95c66\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b2b5ac0a57766202224dc864d646ad86571e7d82c43b192bb850e56e53fbc7ee\",\"dweb:/ipfs/QmWV6KXPo5uANNHpSd49m6AdhmQP73MdvhTxjGPGgVuivj\"]},\"/home/alex/Desktop/proofchain/truffle/contracts/utils/Ownable.sol\":{\"keccak256\":\"0xf5dcc7530c4e06117f93ee9609755485c1692f5d42f5d26dce3fefa9ac155275\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://468615347ec32dd78d0160348c7d6b3b5afb64694b678849d951a708f6d66162\",\"dweb:/ipfs/QmXJrpMu2raCXRxi9fSEiTVgSXXfKMj2oABrt9h4ctLJ8g\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\npragma solidity >0.7.0 <0.9.0;\n\nimport \"../Aggregator.sol\";\nimport \"./Ownable.sol\";\nimport \"../CertificateAuthorityManager.sol\";\n\nabstract contract CertificateAuthorityManagerReferencer is Ownable {\n    CertificateAuthorityManager internal certificateAuthorityManager;\n    address public certificateAuthorityManagerAddress;\n\n    function getCertificateAuthorityManagerContract() public returns (CertificateAuthorityManager) {\n        if (certificateAuthorityManagerAddress == address(0)) {\n            certificateAuthorityManagerAddress = Aggregator(aggregator())\n                .certificateAuthorityManagerContractAddress();\n            certificateAuthorityManager = CertificateAuthorityManager(\n                certificateAuthorityManagerAddress\n            );\n            return certificateAuthorityManager;\n        }\n        return certificateAuthorityManager;\n    }\n\n    function getMasterAddress() public view returns (address) {\n        return Aggregator(aggregator()).masterAddress();\n    }\n}\n",
+  "sourcePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/CertificateAuthorityManagerReferencer.sol",
+  "ast": {
+    "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/CertificateAuthorityManagerReferencer.sol",
+    "exportedSymbols": {
+      "Aggregator": [
+        63
+      ],
+      "CertificateAuthorityManager": [
+        291
+      ],
+      "CertificateAuthorityManagerReferencer": [
+        2147
+      ],
+      "Ownable": [
+        2527
+      ]
+    },
+    "id": 2148,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2089,
+        "literals": [
+          "solidity",
+          ">",
+          "0.7",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:30:9"
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/Aggregator.sol",
+        "file": "../Aggregator.sol",
+        "id": 2090,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2148,
+        "sourceUnit": 64,
+        "src": "64:27:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/Ownable.sol",
+        "file": "./Ownable.sol",
+        "id": 2091,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2148,
+        "sourceUnit": 2528,
+        "src": "92:23:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/CertificateAuthorityManager.sol",
+        "file": "../CertificateAuthorityManager.sol",
+        "id": 2092,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2148,
+        "sourceUnit": 292,
+        "src": "116:44:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 2093,
+              "name": "Ownable",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 2527,
+              "src": "221:7:9"
+            },
+            "id": 2094,
+            "nodeType": "InheritanceSpecifier",
+            "src": "221:7:9"
+          }
+        ],
+        "contractDependencies": [
+          2527
+        ],
+        "contractKind": "contract",
+        "fullyImplemented": false,
+        "id": 2147,
+        "linearizedBaseContracts": [
+          2147,
+          2527
+        ],
+        "name": "CertificateAuthorityManagerReferencer",
+        "nameLocation": "180:37:9",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 2097,
+            "mutability": "mutable",
+            "name": "certificateAuthorityManager",
+            "nameLocation": "272:27:9",
+            "nodeType": "VariableDeclaration",
+            "scope": 2147,
+            "src": "235:64:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+              "typeString": "contract CertificateAuthorityManager"
+            },
+            "typeName": {
+              "id": 2096,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 2095,
+                "name": "CertificateAuthorityManager",
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 291,
+                "src": "235:27:9"
+              },
+              "referencedDeclaration": 291,
+              "src": "235:27:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                "typeString": "contract CertificateAuthorityManager"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "functionSelector": "d1a1e683",
+            "id": 2099,
+            "mutability": "mutable",
+            "name": "certificateAuthorityManagerAddress",
+            "nameLocation": "320:34:9",
+            "nodeType": "VariableDeclaration",
+            "scope": 2147,
+            "src": "305:49:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 2098,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "305:7:9",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2132,
+              "nodeType": "Block",
+              "src": "456:447:9",
+              "statements": [
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 2110,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 2105,
+                      "name": "certificateAuthorityManagerAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2099,
+                      "src": "470:34:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "hexValue": "30",
+                          "id": 2108,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "516:1:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          }
+                        ],
+                        "id": 2107,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "508:7:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": {
+                          "id": 2106,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "508:7:9",
+                          "typeDescriptions": {}
+                        }
+                      },
+                      "id": 2109,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "508:10:9",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "470:48:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2129,
+                  "nodeType": "IfStatement",
+                  "src": "466:387:9",
+                  "trueBody": {
+                    "id": 2128,
+                    "nodeType": "Block",
+                    "src": "520:333:9",
+                    "statements": [
+                      {
+                        "expression": {
+                          "id": 2118,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2111,
+                            "name": "certificateAuthorityManagerAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2099,
+                            "src": "534:34:9",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "arguments": [
+                                  {
+                                    "arguments": [],
+                                    "expression": {
+                                      "argumentTypes": [],
+                                      "id": 2113,
+                                      "name": "aggregator",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 2453,
+                                      "src": "582:10:9",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                                        "typeString": "function () view returns (address)"
+                                      }
+                                    },
+                                    "id": 2114,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "kind": "functionCall",
+                                    "lValueRequested": false,
+                                    "names": [],
+                                    "nodeType": "FunctionCall",
+                                    "src": "582:12:9",
+                                    "tryCall": false,
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  }
+                                ],
+                                "expression": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  ],
+                                  "id": 2112,
+                                  "name": "Aggregator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 63,
+                                  "src": "571:10:9",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_type$_t_contract$_Aggregator_$63_$",
+                                    "typeString": "type(contract Aggregator)"
+                                  }
+                                },
+                                "id": 2115,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "typeConversion",
+                                "lValueRequested": false,
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "571:24:9",
+                                "tryCall": false,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_contract$_Aggregator_$63",
+                                  "typeString": "contract Aggregator"
+                                }
+                              },
+                              "id": 2116,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "certificateAuthorityManagerContractAddress",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 7,
+                              "src": "571:84:9",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                                "typeString": "function () view external returns (address)"
+                              }
+                            },
+                            "id": 2117,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "571:86:9",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "534:123:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 2119,
+                        "nodeType": "ExpressionStatement",
+                        "src": "534:123:9"
+                      },
+                      {
+                        "expression": {
+                          "id": 2124,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2120,
+                            "name": "certificateAuthorityManager",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2097,
+                            "src": "671:27:9",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                              "typeString": "contract CertificateAuthorityManager"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [
+                              {
+                                "id": 2122,
+                                "name": "certificateAuthorityManagerAddress",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 2099,
+                                "src": "746:34:9",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "id": 2121,
+                              "name": "CertificateAuthorityManager",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 291,
+                              "src": "701:27:9",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_CertificateAuthorityManager_$291_$",
+                                "typeString": "type(contract CertificateAuthorityManager)"
+                              }
+                            },
+                            "id": 2123,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "701:93:9",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                              "typeString": "contract CertificateAuthorityManager"
+                            }
+                          },
+                          "src": "671:123:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                            "typeString": "contract CertificateAuthorityManager"
+                          }
+                        },
+                        "id": 2125,
+                        "nodeType": "ExpressionStatement",
+                        "src": "671:123:9"
+                      },
+                      {
+                        "expression": {
+                          "id": 2126,
+                          "name": "certificateAuthorityManager",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2097,
+                          "src": "815:27:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                            "typeString": "contract CertificateAuthorityManager"
+                          }
+                        },
+                        "functionReturnParameters": 2104,
+                        "id": 2127,
+                        "nodeType": "Return",
+                        "src": "808:34:9"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "id": 2130,
+                    "name": "certificateAuthorityManager",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2097,
+                    "src": "869:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                      "typeString": "contract CertificateAuthorityManager"
+                    }
+                  },
+                  "functionReturnParameters": 2104,
+                  "id": 2131,
+                  "nodeType": "Return",
+                  "src": "862:34:9"
+                }
+              ]
+            },
+            "functionSelector": "568c00d8",
+            "id": 2133,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCertificateAuthorityManagerContract",
+            "nameLocation": "370:38:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2100,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "408:2:9"
+            },
+            "returnParameters": {
+              "id": 2104,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2103,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2133,
+                  "src": "427:27:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                    "typeString": "contract CertificateAuthorityManager"
+                  },
+                  "typeName": {
+                    "id": 2102,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 2101,
+                      "name": "CertificateAuthorityManager",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 291,
+                      "src": "427:27:9"
+                    },
+                    "referencedDeclaration": 291,
+                    "src": "427:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                      "typeString": "contract CertificateAuthorityManager"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "426:29:9"
+            },
+            "scope": 2147,
+            "src": "361:542:9",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2145,
+              "nodeType": "Block",
+              "src": "967:64:9",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "arguments": [
+                          {
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "id": 2139,
+                              "name": "aggregator",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 2453,
+                              "src": "995:10:9",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                                "typeString": "function () view returns (address)"
+                              }
+                            },
+                            "id": 2140,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "995:12:9",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 2138,
+                          "name": "Aggregator",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 63,
+                          "src": "984:10:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Aggregator_$63_$",
+                            "typeString": "type(contract Aggregator)"
+                          }
+                        },
+                        "id": 2141,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "984:24:9",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Aggregator_$63",
+                          "typeString": "contract Aggregator"
+                        }
+                      },
+                      "id": 2142,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "masterAddress",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 9,
+                      "src": "984:38:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                        "typeString": "function () view external returns (address)"
+                      }
+                    },
+                    "id": 2143,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "984:40:9",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "functionReturnParameters": 2137,
+                  "id": 2144,
+                  "nodeType": "Return",
+                  "src": "977:47:9"
+                }
+              ]
+            },
+            "functionSelector": "0d25a141",
+            "id": 2146,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMasterAddress",
+            "nameLocation": "918:16:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2134,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "934:2:9"
+            },
+            "returnParameters": {
+              "id": 2137,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2136,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2146,
+                  "src": "958:7:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2135,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "958:7:9",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "957:9:9"
+            },
+            "scope": 2147,
+            "src": "909:122:9",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2148,
+        "src": "162:871:9"
+      }
+    ],
+    "src": "32:1002:9"
+  },
+  "legacyAST": {
+    "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/CertificateAuthorityManagerReferencer.sol",
+    "exportedSymbols": {
+      "Aggregator": [
+        63
+      ],
+      "CertificateAuthorityManager": [
+        291
+      ],
+      "CertificateAuthorityManagerReferencer": [
+        2147
+      ],
+      "Ownable": [
+        2527
+      ]
+    },
+    "id": 2148,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 2089,
+        "literals": [
+          "solidity",
+          ">",
+          "0.7",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "32:30:9"
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/Aggregator.sol",
+        "file": "../Aggregator.sol",
+        "id": 2090,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2148,
+        "sourceUnit": 64,
+        "src": "64:27:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/utils/Ownable.sol",
+        "file": "./Ownable.sol",
+        "id": 2091,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2148,
+        "sourceUnit": 2528,
+        "src": "92:23:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "absolutePath": "/home/alex/Desktop/proofchain/truffle/contracts/CertificateAuthorityManager.sol",
+        "file": "../CertificateAuthorityManager.sol",
+        "id": 2092,
+        "nameLocation": "-1:-1:-1",
+        "nodeType": "ImportDirective",
+        "scope": 2148,
+        "sourceUnit": 292,
+        "src": "116:44:9",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "abstract": true,
+        "baseContracts": [
+          {
+            "baseName": {
+              "id": 2093,
+              "name": "Ownable",
+              "nodeType": "IdentifierPath",
+              "referencedDeclaration": 2527,
+              "src": "221:7:9"
+            },
+            "id": 2094,
+            "nodeType": "InheritanceSpecifier",
+            "src": "221:7:9"
+          }
+        ],
+        "contractDependencies": [
+          2527
+        ],
+        "contractKind": "contract",
+        "fullyImplemented": false,
+        "id": 2147,
+        "linearizedBaseContracts": [
+          2147,
+          2527
+        ],
+        "name": "CertificateAuthorityManagerReferencer",
+        "nameLocation": "180:37:9",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 2097,
+            "mutability": "mutable",
+            "name": "certificateAuthorityManager",
+            "nameLocation": "272:27:9",
+            "nodeType": "VariableDeclaration",
+            "scope": 2147,
+            "src": "235:64:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+              "typeString": "contract CertificateAuthorityManager"
+            },
+            "typeName": {
+              "id": 2096,
+              "nodeType": "UserDefinedTypeName",
+              "pathNode": {
+                "id": 2095,
+                "name": "CertificateAuthorityManager",
+                "nodeType": "IdentifierPath",
+                "referencedDeclaration": 291,
+                "src": "235:27:9"
+              },
+              "referencedDeclaration": 291,
+              "src": "235:27:9",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                "typeString": "contract CertificateAuthorityManager"
+              }
+            },
+            "visibility": "internal"
+          },
+          {
+            "constant": false,
+            "functionSelector": "d1a1e683",
+            "id": 2099,
+            "mutability": "mutable",
+            "name": "certificateAuthorityManagerAddress",
+            "nameLocation": "320:34:9",
+            "nodeType": "VariableDeclaration",
+            "scope": 2147,
+            "src": "305:49:9",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_address",
+              "typeString": "address"
+            },
+            "typeName": {
+              "id": 2098,
+              "name": "address",
+              "nodeType": "ElementaryTypeName",
+              "src": "305:7:9",
+              "stateMutability": "nonpayable",
+              "typeDescriptions": {
+                "typeIdentifier": "t_address",
+                "typeString": "address"
+              }
+            },
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2132,
+              "nodeType": "Block",
+              "src": "456:447:9",
+              "statements": [
+                {
+                  "condition": {
+                    "commonType": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    },
+                    "id": 2110,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "leftExpression": {
+                      "id": 2105,
+                      "name": "certificateAuthorityManagerAddress",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2099,
+                      "src": "470:34:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "nodeType": "BinaryOperation",
+                    "operator": "==",
+                    "rightExpression": {
+                      "arguments": [
+                        {
+                          "hexValue": "30",
+                          "id": 2108,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": true,
+                          "kind": "number",
+                          "lValueRequested": false,
+                          "nodeType": "Literal",
+                          "src": "516:1:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          },
+                          "value": "0"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_rational_0_by_1",
+                            "typeString": "int_const 0"
+                          }
+                        ],
+                        "id": 2107,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "lValueRequested": false,
+                        "nodeType": "ElementaryTypeNameExpression",
+                        "src": "508:7:9",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_address_$",
+                          "typeString": "type(address)"
+                        },
+                        "typeName": {
+                          "id": 2106,
+                          "name": "address",
+                          "nodeType": "ElementaryTypeName",
+                          "src": "508:7:9",
+                          "typeDescriptions": {}
+                        }
+                      },
+                      "id": 2109,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": true,
+                      "kind": "typeConversion",
+                      "lValueRequested": false,
+                      "names": [],
+                      "nodeType": "FunctionCall",
+                      "src": "508:10:9",
+                      "tryCall": false,
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "src": "470:48:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "id": 2129,
+                  "nodeType": "IfStatement",
+                  "src": "466:387:9",
+                  "trueBody": {
+                    "id": 2128,
+                    "nodeType": "Block",
+                    "src": "520:333:9",
+                    "statements": [
+                      {
+                        "expression": {
+                          "id": 2118,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2111,
+                            "name": "certificateAuthorityManagerAddress",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2099,
+                            "src": "534:34:9",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "expression": {
+                                "arguments": [
+                                  {
+                                    "arguments": [],
+                                    "expression": {
+                                      "argumentTypes": [],
+                                      "id": 2113,
+                                      "name": "aggregator",
+                                      "nodeType": "Identifier",
+                                      "overloadedDeclarations": [],
+                                      "referencedDeclaration": 2453,
+                                      "src": "582:10:9",
+                                      "typeDescriptions": {
+                                        "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                                        "typeString": "function () view returns (address)"
+                                      }
+                                    },
+                                    "id": 2114,
+                                    "isConstant": false,
+                                    "isLValue": false,
+                                    "isPure": false,
+                                    "kind": "functionCall",
+                                    "lValueRequested": false,
+                                    "names": [],
+                                    "nodeType": "FunctionCall",
+                                    "src": "582:12:9",
+                                    "tryCall": false,
+                                    "typeDescriptions": {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  }
+                                ],
+                                "expression": {
+                                  "argumentTypes": [
+                                    {
+                                      "typeIdentifier": "t_address",
+                                      "typeString": "address"
+                                    }
+                                  ],
+                                  "id": 2112,
+                                  "name": "Aggregator",
+                                  "nodeType": "Identifier",
+                                  "overloadedDeclarations": [],
+                                  "referencedDeclaration": 63,
+                                  "src": "571:10:9",
+                                  "typeDescriptions": {
+                                    "typeIdentifier": "t_type$_t_contract$_Aggregator_$63_$",
+                                    "typeString": "type(contract Aggregator)"
+                                  }
+                                },
+                                "id": 2115,
+                                "isConstant": false,
+                                "isLValue": false,
+                                "isPure": false,
+                                "kind": "typeConversion",
+                                "lValueRequested": false,
+                                "names": [],
+                                "nodeType": "FunctionCall",
+                                "src": "571:24:9",
+                                "tryCall": false,
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_contract$_Aggregator_$63",
+                                  "typeString": "contract Aggregator"
+                                }
+                              },
+                              "id": 2116,
+                              "isConstant": false,
+                              "isLValue": false,
+                              "isPure": false,
+                              "lValueRequested": false,
+                              "memberName": "certificateAuthorityManagerContractAddress",
+                              "nodeType": "MemberAccess",
+                              "referencedDeclaration": 7,
+                              "src": "571:84:9",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                                "typeString": "function () view external returns (address)"
+                              }
+                            },
+                            "id": 2117,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "571:86:9",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          },
+                          "src": "534:123:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_address",
+                            "typeString": "address"
+                          }
+                        },
+                        "id": 2119,
+                        "nodeType": "ExpressionStatement",
+                        "src": "534:123:9"
+                      },
+                      {
+                        "expression": {
+                          "id": 2124,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "leftHandSide": {
+                            "id": 2120,
+                            "name": "certificateAuthorityManager",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2097,
+                            "src": "671:27:9",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                              "typeString": "contract CertificateAuthorityManager"
+                            }
+                          },
+                          "nodeType": "Assignment",
+                          "operator": "=",
+                          "rightHandSide": {
+                            "arguments": [
+                              {
+                                "id": 2122,
+                                "name": "certificateAuthorityManagerAddress",
+                                "nodeType": "Identifier",
+                                "overloadedDeclarations": [],
+                                "referencedDeclaration": 2099,
+                                "src": "746:34:9",
+                                "typeDescriptions": {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              }
+                            ],
+                            "expression": {
+                              "argumentTypes": [
+                                {
+                                  "typeIdentifier": "t_address",
+                                  "typeString": "address"
+                                }
+                              ],
+                              "id": 2121,
+                              "name": "CertificateAuthorityManager",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 291,
+                              "src": "701:27:9",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_type$_t_contract$_CertificateAuthorityManager_$291_$",
+                                "typeString": "type(contract CertificateAuthorityManager)"
+                              }
+                            },
+                            "id": 2123,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "typeConversion",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "701:93:9",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                              "typeString": "contract CertificateAuthorityManager"
+                            }
+                          },
+                          "src": "671:123:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                            "typeString": "contract CertificateAuthorityManager"
+                          }
+                        },
+                        "id": 2125,
+                        "nodeType": "ExpressionStatement",
+                        "src": "671:123:9"
+                      },
+                      {
+                        "expression": {
+                          "id": 2126,
+                          "name": "certificateAuthorityManager",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2097,
+                          "src": "815:27:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                            "typeString": "contract CertificateAuthorityManager"
+                          }
+                        },
+                        "functionReturnParameters": 2104,
+                        "id": 2127,
+                        "nodeType": "Return",
+                        "src": "808:34:9"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "expression": {
+                    "id": 2130,
+                    "name": "certificateAuthorityManager",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 2097,
+                    "src": "869:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                      "typeString": "contract CertificateAuthorityManager"
+                    }
+                  },
+                  "functionReturnParameters": 2104,
+                  "id": 2131,
+                  "nodeType": "Return",
+                  "src": "862:34:9"
+                }
+              ]
+            },
+            "functionSelector": "568c00d8",
+            "id": 2133,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCertificateAuthorityManagerContract",
+            "nameLocation": "370:38:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2100,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "408:2:9"
+            },
+            "returnParameters": {
+              "id": 2104,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2103,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2133,
+                  "src": "427:27:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                    "typeString": "contract CertificateAuthorityManager"
+                  },
+                  "typeName": {
+                    "id": 2102,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 2101,
+                      "name": "CertificateAuthorityManager",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 291,
+                      "src": "427:27:9"
+                    },
+                    "referencedDeclaration": 291,
+                    "src": "427:27:9",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_contract$_CertificateAuthorityManager_$291",
+                      "typeString": "contract CertificateAuthorityManager"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "426:29:9"
+            },
+            "scope": 2147,
+            "src": "361:542:9",
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 2145,
+              "nodeType": "Block",
+              "src": "967:64:9",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "arguments": [
+                          {
+                            "arguments": [],
+                            "expression": {
+                              "argumentTypes": [],
+                              "id": 2139,
+                              "name": "aggregator",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 2453,
+                              "src": "995:10:9",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_function_internal_view$__$returns$_t_address_$",
+                                "typeString": "function () view returns (address)"
+                              }
+                            },
+                            "id": 2140,
+                            "isConstant": false,
+                            "isLValue": false,
+                            "isPure": false,
+                            "kind": "functionCall",
+                            "lValueRequested": false,
+                            "names": [],
+                            "nodeType": "FunctionCall",
+                            "src": "995:12:9",
+                            "tryCall": false,
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          }
+                        ],
+                        "expression": {
+                          "argumentTypes": [
+                            {
+                              "typeIdentifier": "t_address",
+                              "typeString": "address"
+                            }
+                          ],
+                          "id": 2138,
+                          "name": "Aggregator",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 63,
+                          "src": "984:10:9",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_type$_t_contract$_Aggregator_$63_$",
+                            "typeString": "type(contract Aggregator)"
+                          }
+                        },
+                        "id": 2141,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "kind": "typeConversion",
+                        "lValueRequested": false,
+                        "names": [],
+                        "nodeType": "FunctionCall",
+                        "src": "984:24:9",
+                        "tryCall": false,
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_contract$_Aggregator_$63",
+                          "typeString": "contract Aggregator"
+                        }
+                      },
+                      "id": 2142,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "masterAddress",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 9,
+                      "src": "984:38:9",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_view$__$returns$_t_address_$",
+                        "typeString": "function () view external returns (address)"
+                      }
+                    },
+                    "id": 2143,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "984:40:9",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "functionReturnParameters": 2137,
+                  "id": 2144,
+                  "nodeType": "Return",
+                  "src": "977:47:9"
+                }
+              ]
+            },
+            "functionSelector": "0d25a141",
+            "id": 2146,
+            "implemented": true,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getMasterAddress",
+            "nameLocation": "918:16:9",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 2134,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "934:2:9"
+            },
+            "returnParameters": {
+              "id": 2137,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 2136,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 2146,
+                  "src": "958:7:9",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 2135,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "958:7:9",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "957:9:9"
+            },
+            "scope": 2147,
+            "src": "909:122:9",
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "public"
+          }
+        ],
+        "scope": 2148,
+        "src": "162:871:9"
+      }
+    ],
+    "src": "32:1002:9"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.2+commit.661d1103.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.3.4",
+  "updatedAt": "2021-03-09T12:23:37.689Z",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "aggregator()": {
+        "details": "Returns the address of the current aggregator."
+      },
+      "owner()": {
+        "details": "Returns the address of the current owner."
+      },
+      "renounceOwnership()": {
+        "details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions anymore. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby removing any functionality that is only available to the owner."
+      },
+      "transferOwnership(address)": {
+        "details": "Transfers ownership of the contract to a new account (`newOwner`). Can only be called by the current owner."
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}

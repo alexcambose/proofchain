@@ -2,11 +2,13 @@
   "name": "proofchain-library",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
-    "test:watch": "ts-jest --watch",
-    "format": "prettier --write ."
+    "test:watch": "jest --watch",
+    "format": "prettier --write .",
+    "build-ts": "tsc -p tsconfig.json",
+    "get-abi": "cd ../truffle && truffle compile && cp ./build/contracts/* ../library/src/abi/"
   },
   "author": "",
   "license": "ISC",
