@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-import './MaterialBase.sol';
-import './utils/Math.sol';
-import './utils/CompanyOwnable.sol';
-import './utils/CertificateAuthorityManagerReferencer.sol';
-import './Certifiable.sol';
+import "./MaterialBase.sol";
+import "./utils/Math.sol";
+import "./utils/CertificateAuthorityManagerReferencer.sol";
+import "./Certifiable.sol";
 
-contract Material is Certifiable, MaterialBase, CompanyOwnable {
+contract Material is Certifiable, MaterialBase {
     using Math for uint256;
 
     constructor(address _masterAddress, address _factoryContractAddress)
@@ -18,7 +17,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         string memory _title,
         uint256 _code,
         string[] memory _images
-    ) public senderHasCompany {
+    ) public {
         materialToken[materialTokenId].title = _title;
         materialToken[materialTokenId].code = _code;
         materialToken[materialTokenId].images = _images;
@@ -34,10 +33,10 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         string[] memory _images,
         uint256[] memory _recipematerialTokenId,
         uint256[] memory _recipeMaterialAmount
-    ) public senderHasCompany {
+    ) public {
         require(
             _recipematerialTokenId.length == _recipeMaterialAmount.length,
-            'Arrays must be the same length'
+            "Arrays must be the same length"
         );
         materialToken[materialTokenId].recipematerialTokenId = _recipematerialTokenId;
         materialToken[materialTokenId].recipeMaterialAmount = _recipeMaterialAmount;
@@ -47,7 +46,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {
         require(
             materialToken[_tokenID].recipematerialTokenId.length == 0,
-            'You need to specify the required products'
+            "You need to specify the required products"
         );
 
         address companyAddress = materialToken[_tokenID].creator;
@@ -62,16 +61,16 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         uint256[] memory _batchesAmount
     ) public senderIsTokenCreator(_tokenID) {
         // specified pairs must be of the same length
-        require(_batchesId.length == _batchesAmount.length, 'Arrays must be the same length');
+        require(_batchesId.length == _batchesAmount.length, "Arrays must be the same length");
         // the material token that we want to mint is a compound token
         require(
             materialToken[_tokenID].recipematerialTokenId.length != 0,
-            'The token does not need additional ingredients'
+            "The token does not need additional ingredients"
         );
         // specified batches must be at least the same length of the material token recipe
         require(
             materialToken[_tokenID].recipematerialTokenId.length <= _batchesId.length,
-            'Not enough ingredients provided'
+            "Not enough ingredients provided"
         );
 
         address companyAddress = materialToken[_tokenID].creator;
@@ -83,7 +82,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 for (uint8 j = 0; j < _batchesId.length; j++) {
                     require(
                         batch[_batchesId[j]].materialTokenAmount >= _batchesAmount[j],
-                        'Invalid batch amount specification'
+                        "Invalid batch amount specification"
                     );
 
                     if (
@@ -110,7 +109,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 }
             }
             // final check to see if all products were used
-            require(recipeMaterialsAmountUnusedLength == 0, 'Could not satisfy all requirements');
+            require(recipeMaterialsAmountUnusedLength == 0, "Could not satisfy all requirements");
         }
         balance[_tokenID][msg.sender] += _amount;
         emit MaterialTransfer(address(0), companyAddress, _amount);
@@ -120,10 +119,10 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         string memory _code,
         uint256 _tokenID,
         uint256 _amount
-    ) public senderHasCompany {
+    ) public {
         require(
             balance[_tokenID][msg.sender] >= _amount,
-            'You do not have enough materials to create this batch'
+            "You do not have enough materials to create this batch"
         );
         balance[_tokenID][msg.sender] -= _amount;
         // create instance
@@ -142,8 +141,8 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     }
 
     function burnBatchToken(uint256 _batchId, uint256 _amount) public {
-        require(_amount > 0, 'Amount needs to be bigger than 0');
-        require(batch[_batchId].materialTokenAmount >= _amount, 'Amount not available');
+        require(_amount > 0, "Amount needs to be bigger than 0");
+        require(batch[_batchId].materialTokenAmount >= _amount, "Amount not available");
 
         batch[_batchId].materialTokenAmount -= _amount;
         if (batch[_batchId].materialTokenAmount == 0) {}
@@ -171,7 +170,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             }
         }
         if (i == length - 1) {
-            revert('Certificate code not found');
+            revert("Certificate code not found");
         }
     }
 
@@ -198,7 +197,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             }
         }
         if (i == length - 1) {
-            revert('Certificate code not found');
+            revert("Certificate code not found");
         }
     }
 

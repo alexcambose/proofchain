@@ -10,7 +10,8 @@
     "prettier": "./node_modules/.bin/prettier --write contracts/**/*.sol",
     "solhint": "./node_modules/.bin/solhint -f stylish contracts/**/*.sol",
     "dev": "truffle develop",
-    "test": "truffle test"
+    "test": "truffle test",
+    "solc-build": "cd ./build/solc && rm -rf ./* && solcjs --bin --abi --base-path ../../contracts ../../contracts/Factory.sol --optimize && cd ../.. && node sanitize-solc-build.js"
   },
   "husky": {
     "hooks": {
@@ -24,6 +25,7 @@
     "husky": "^5.1.3",
     "prettier": "^2.2.1",
     "prettier-plugin-solidity": "^1.0.0-beta.5",
+    "solc-js": "^1.0.1",
     "solhint": "^3.3.3",
     "solhint-plugin-prettier": "0.0.5",
     "truffle": "^5.2.3"
