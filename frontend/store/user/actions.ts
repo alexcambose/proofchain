@@ -25,7 +25,6 @@ export const loginWithMnemonic = createAsyncThunk(
   // Declare the type your function argument here:
   async (mnemonic: string) => {
     const privateKey = await getPrivateKeyFromMnemonic(mnemonic);
-
     return { privateKey };
   }
 );

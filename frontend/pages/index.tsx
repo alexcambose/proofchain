@@ -9,19 +9,13 @@ import { wrapper } from '../store';
 const Index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  return (
-    <Layout>
-      <a href="#" onClick={() => router.push('/products')}>
-        Products
-      </a>
-      <button onClick={() => dispatch(logout())}>Logout</button>
-    </Layout>
-  );
+  return <Layout>aa</Layout>;
 };
 export const authCheck = (expectLoggedIn) =>
   wrapper.getServerSideProps(async ({ store, req, res, ...other }) => {
     const cookies = new Cookies(req, res);
     const loggedIn = new AuthManager(cookies).isLoggedIn();
+
     if (loggedIn) {
       store.dispatch(setLoggedIn(true));
     }

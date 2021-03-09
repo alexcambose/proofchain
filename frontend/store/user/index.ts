@@ -26,7 +26,7 @@ export const UserSlice = createSlice({
   },
   extraReducers: (builder: any) => {
     // had to google this for hours :( -> https://github.com/kirill-konshin/next-redux-wrapper/pull/295/files/1792221d7e792b917b63ccaf77f528fc13797ef3#diff-e5c99337b70249438cce35e58d28640fe7e4d0427b281532c163837649d989f9R22
-    builder.addCase(hydrate, (state) => (state, { payload }) => {
+    builder.addCase(hydrate, (state, { payload }) => {
       for (let key of ['loggedIn']) {
         state[key] = payload[UserSlice.name][key];
       }
