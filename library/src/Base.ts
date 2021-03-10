@@ -20,7 +20,7 @@ class Base {
       Aggregator,
       aggregatorContractAddress
     );
-    return aggregatorContract.methods[this.contractName + 'address'].call();
+    return aggregatorContract.methods[this.contractName + 'Address']().call();
   }
 
   async ensureContract(abi: any) {
@@ -29,9 +29,14 @@ class Base {
         abi,
         await this.getContractAddress()
       );
+      // also set default wallet address
+
       return this.contract;
     }
     return this.contract;
+  }
+  async getAccount() {
+    return (await this.web3.eth.getAccounts())[0];
   }
 }
 

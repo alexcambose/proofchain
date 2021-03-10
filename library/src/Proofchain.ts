@@ -42,8 +42,9 @@ class Proofchain {
   }: IProofchainConfig & {
     web3Provider: any;
   }): Proofchain {
+    const web3 = new Web3(web3Provider);
     return new Proofchain({
-      web3: new Web3(web3Provider),
+      web3,
       factoryContractAddress,
     });
   }
