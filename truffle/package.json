@@ -30,5 +30,7 @@
     "solhint-plugin-prettier": "0.0.5",
     "truffle": "^5.2.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@truffle/hdwallet-provider": "^1.2.2"
+  }
 }
