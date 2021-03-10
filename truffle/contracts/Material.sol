@@ -3,10 +3,11 @@ pragma solidity >0.7.0 <0.9.0;
 
 import "./MaterialBase.sol";
 import "./utils/Math.sol";
+import "./utils/CompanyOwnable.sol";
 import "./utils/CertificateAuthorityManagerReferencer.sol";
 import "./Certifiable.sol";
 
-contract Material is Certifiable, MaterialBase {
+contract Material is Certifiable, MaterialBase, CompanyOwnable {
     using Math for uint256;
 
     constructor(address _masterAddress, address _factoryContractAddress)
@@ -17,7 +18,7 @@ contract Material is Certifiable, MaterialBase {
         string memory _title,
         uint256 _code,
         string[] memory _images
-    ) public {
+    ) public senderHasCompany {
         materialToken[materialTokenId].title = _title;
         materialToken[materialTokenId].code = _code;
         materialToken[materialTokenId].images = _images;
@@ -33,7 +34,7 @@ contract Material is Certifiable, MaterialBase {
         string[] memory _images,
         uint256[] memory _recipematerialTokenId,
         uint256[] memory _recipeMaterialAmount
-    ) public {
+    ) public senderHasCompany {
         require(
             _recipematerialTokenId.length == _recipeMaterialAmount.length,
             "Arrays must be the same length"
@@ -119,7 +120,7 @@ contract Material is Certifiable, MaterialBase {
         string memory _code,
         uint256 _tokenID,
         uint256 _amount
-    ) public {
+    ) public senderHasCompany {
         require(
             balance[_tokenID][msg.sender] >= _amount,
             "You do not have enough materials to create this batch"

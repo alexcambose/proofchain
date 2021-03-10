@@ -11,7 +11,7 @@ fs.readdir(testFolder, (err, files) => {
         `${path.join(testFolder, path.basename(file, path.extname(file)))}.bin.json`,
         `["${data}"]`
       );
-      fs.unlink(filepath);
+      fs.unlinkSync(filepath);
     } else {
       fs.renameSync(
         filepath,
