@@ -52,7 +52,12 @@ class Proofchain {
     return !!this.web3;
   }
   company(): Company {
-    return new Company(this.web3, this.factoryContract, 'companyContract');
+    const company = new Company(
+      this.web3,
+      this.factoryContract,
+      'companyContract'
+    );
+    return company;
   }
   certificateAuthority() {}
 }
