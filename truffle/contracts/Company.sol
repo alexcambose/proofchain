@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
-import './Certifiable.sol';
-import './Shipper.sol';
+import "./Certifiable.sol";
+import "./Shipper.sol";
 
 contract Company is Certifiable, Shipper {
     event CompanyCreate(address indexed owner);
@@ -20,7 +20,7 @@ contract Company is Certifiable, Shipper {
     mapping(address => CompanyInfo) public companies;
 
     modifier doesNotHaveCompany {
-        require(companies[msg.sender].isValue == false, 'Address already has a company');
+        require(companies[msg.sender].isValue == false, "Address already has a company");
         _;
     }
 
@@ -29,6 +29,7 @@ contract Company is Certifiable, Shipper {
     {}
 
     function create(string memory _name, EntityTypeEnum _entityType) public {
+        require(companies[msg.sender].isValue == false, "Company already exsists");
         address sender = msg.sender;
         companies[sender].name = _name;
         companies[sender].entityType = _entityType;
@@ -60,7 +61,7 @@ contract Company is Certifiable, Shipper {
             }
         }
         if (i == length - 1) {
-            revert('Certificate code not found');
+            revert("Certificate code not found");
         }
     }
 
@@ -78,7 +79,7 @@ contract Company is Certifiable, Shipper {
             }
         }
         if (i == length - 1) {
-            revert('Certificate code not found');
+            revert("Certificate code not found");
         }
     }
 
