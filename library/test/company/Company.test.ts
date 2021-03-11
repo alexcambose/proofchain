@@ -36,4 +36,7 @@ describe('Company', () => {
       //
     });
   });
+  describe('hasCompnay', () => {
+    it('returns true if the specified address has a company', async () => {});
+  });
 });

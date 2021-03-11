@@ -40,5 +40,13 @@ class Company extends Base implements IEntity {
     if (!address) address = await this.getAccount();
     return await this.contract.methods.companies(address).call();
   }
+  async hasCompany(address: string = ''): Promise<boolean> {
+    await this.ensureContract();
+
+    if (!address) address = await this.getAccount();
+    console.log(`Checking company for `, address);
+    const company = await this.contract.methods.companies(address).call();
+    return company.isValue;
+  }
 }
 export default Company;
