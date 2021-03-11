@@ -1,5 +1,5 @@
 import Base from './Base';
-import EntityTypeEnum from './enums/EntityTypeEnum';
+import CompanyEntityTypeEnum from './enums/CompanyEntityTypeEnum';
 import IEntity from './interface/IEntity';
 import { Company as CompanyAbi } from './abi';
 import IMinedTransaction from './interface/IMinedTransaction';
@@ -12,7 +12,7 @@ type CreateTransactionEvents = {
 };
 
 interface ICompany {
-  entityType: EntityTypeEnum;
+  entityType: CompanyEntityTypeEnum;
   name: string;
 }
 
@@ -25,25 +25,27 @@ class Company extends Base implements IEntity {
     entityType,
   }: {
     name: string;
-    entityType: EntityTypeEnum;
+    entityType: CompanyEntityTypeEnum;
   }): Promise<MinedTransaction<CreateTransactionEvents>> {
     await this.ensureContract();
-
+    const gas = await this.contract.methods
+      .create(name, entityType)
+      .estimateGas();
     const result: IMinedTransaction<CreateTransactionEvents> = await this.contract.methods
       .create(name, entityType)
-      .send({ from: await this.getAccount() });
+      .send({ from: this.fromAddress, gas: 300000 });
     return new MinedTransaction<CreateTransactionEvents>(result);
   }
   async getCompany(address: string = ''): Promise<ICompany> {
     await this.ensureContract();
 
-    if (!address) address = await this.getAccount();
+    if (!address) address = this.fromAddress;
     return await this.contract.methods.companies(address).call();
   }
   async hasCompany(address: string = ''): Promise<boolean> {
     await this.ensureContract();
 
-    if (!address) address = await this.getAccount();
+    if (!address) address = this.fromAddress;
     console.log(`Checking company for `, address);
     const company = await this.contract.methods.companies(address).call();
     return company.isValue;

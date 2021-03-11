@@ -5,6 +5,7 @@ class Base {
   contract: any = null;
   constructor(
     protected web3: Web3,
+    protected fromAddress: string,
     protected factoryContract: any,
     protected contractName:
       | 'companyContract'
@@ -34,9 +35,6 @@ class Base {
       return this.contract;
     }
     return this.contract;
-  }
-  async getAccount() {
-    return (await this.web3.eth.getAccounts())[0];
   }
 }
 

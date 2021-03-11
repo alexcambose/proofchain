@@ -3,8 +3,8 @@ import Proofchain from '../src';
 import { provider } from './provider';
 
 describe('Proofchain', () => {
-  it('instantiates a web3 instance with the provided configuration', () => {
-    const proofchainInstance = Proofchain.init({
+  it('instantiates a web3 instance with the provided configuration', async () => {
+    const proofchainInstance = await Proofchain.init({
       httpProvider: 'http://127.0.0.1:7545',
       privateKey:
         'b1d7f93e7a535ec11a5f99a358cd30d76de52a191e7872b304a5d940b77e743d',
@@ -12,10 +12,11 @@ describe('Proofchain', () => {
     });
     expect(proofchainInstance.isInitialised()).toEqual(true);
   });
-  it('instantiates a web3 from a provider', () => {
-    const proofchainInstance = Proofchain.providerInit({
+  it('instantiates a web3 from a provider', async () => {
+    const proofchainInstance = await Proofchain.providerInit({
       web3Provider: provider,
       factoryContractAddress: '',
+      fromAddress: '',
     });
     expect(proofchainInstance.isInitialised()).toEqual(true);
   });
