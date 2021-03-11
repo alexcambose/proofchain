@@ -7,8 +7,8 @@ import { Label4 } from 'baseui/typography';
 import { RadioGroup, Radio, ALIGN } from 'baseui/radio';
 import { useState } from 'react';
 import CreateEntityForm from './CreateEntityForm';
+import { EntityTypeEnum } from '@enums';
 
-type EntityType = 'company' | 'certificateAuthority';
 interface ISpacedButtonProps extends ButtonProps {
   primary?: boolean;
 }
@@ -32,7 +32,9 @@ const SpacedButton: React.FC<ISpacedButtonProps> = ({ primary, ...props }) => {
 };
 const InitialSetupSteps = () => {
   const [current, setCurrent] = useState(0);
-  const [entityType, setEntityType] = useState<EntityType>('company');
+  const [entityType, setEntityType] = useState<EntityTypeEnum>(
+    EntityTypeEnum.COMPANY
+  );
 
   const [css, theme] = useStyletron();
   const onRadioChanged = (e) => {
@@ -59,13 +61,13 @@ const InitialSetupSteps = () => {
                 align={ALIGN.vertical}
               >
                 <Radio
-                  value="company"
+                  value={EntityTypeEnum.COMPANY}
                   description="Creates and manufactures materials and products"
                 >
                   Company
                 </Radio>
                 <Radio
-                  value="certificateAuthority"
+                  value={EntityTypeEnum.CERTIFICATE_AUTHORITY}
                   description="Emits certificates for companies, products and materials"
                 >
                   Certificate Authority
@@ -78,7 +80,9 @@ const InitialSetupSteps = () => {
           <NumberedStep title="Fill information">
             <div className={css({ ...theme.typography.ParagraphSmall })}>
               <CreateEntityForm
-                isCertificateAuthority={entityType === 'certificateAuthority'}
+                isCertificateAuthority={
+                  entityType === EntityTypeEnum.CERTIFICATE_AUTHORITY
+                }
                 submitButtons={(isLoading) => (
                   <>
                     <SpacedButton onClick={() => setCurrent(0)}>

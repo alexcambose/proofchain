@@ -47,20 +47,19 @@ export const UserSlice = createSlice({
         state.loggedIn = true;
       }),
       builder.addCase(loginWithMnemonic.fulfilled, (state, { payload }) => {
-        console.log('[loginWithMnemonic.fulfilled]');
         const encrypted = new Web3().eth.accounts.encrypt(
           payload.privateKey,
           'password'
         );
         AuthManager.setInfo({ type: 'mnemonic', wallet: encrypted });
-        console.log(AuthManager.getInfo());
         state.loggedIn = true;
       }),
       builder.addCase(refreshLogin.fulfilled, (state, { payload }) => {
-        const { address, hasEntity } = payload;
+        const { address, hasEntity, entityType } = payload;
         state.loggedIn = true;
         state.address = address;
         state.hasEntity = hasEntity;
+        state.entityType = entityType;
       });
   },
 });

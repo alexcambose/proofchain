@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { SocialLoginTypeEnum } from 'enums';
+import { EntityTypeEnum, SocialLoginTypeEnum } from 'enums';
 import AuthManager from '@utils/auth/authManager';
 import { triggerLogin } from '@utils/auth/torus';
 import { getPrivateKeyFromMnemonic } from '@utils/eth';
@@ -38,6 +38,10 @@ export const refreshLogin = createAsyncThunk(
     const hasCompany = await proofchain().company().hasCompany();
     // todo add certificateAutoirity
     // console.log('refresh login', hasCompany);
-    return { address, hasEntity: hasCompany };
+    return {
+      address,
+      hasEntity: hasCompany,
+      entityType: EntityTypeEnum.COMPANY,
+    };
   }
 );

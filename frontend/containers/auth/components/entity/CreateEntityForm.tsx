@@ -1,13 +1,12 @@
-import Button from '@components/Button';
 import FormikField from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
+import { CompanyEntityTypeEnum } from '@enums';
+import transactionWrapper from '@utils/transactionWrapper';
 import validation from '@utils/validation';
 import { FormikProps, withFormik } from 'formik';
-import * as Yup from 'yup';
-import { EntityTypeEnum } from '@enums';
-import { useState } from 'react';
-import transactionWrapper from '@utils/transactionWrapper';
 import proofchain from 'proofchain';
+import * as Yup from 'yup';
+
 interface CreateEntityFormProps {
   // onSubmit: (email: string, password: string) => Promise<void>;
   isCertificateAuthority?: boolean;
@@ -20,26 +19,25 @@ interface CreateEntityFormValues {
 const options = [
   {
     label: 'Manufacturer',
-    id: EntityTypeEnum.MANUFACTURER,
+    id: CompanyEntityTypeEnum.MANUFACTURER,
   },
   {
     label: 'Logistic entity',
-    id: EntityTypeEnum.LOGISTIC,
+    id: CompanyEntityTypeEnum.LOGISTIC,
   },
   {
     label: 'Warehouse',
-    id: EntityTypeEnum.WAREHOUSE,
+    id: CompanyEntityTypeEnum.WAREHOUSE,
   },
   {
     label: 'Retailer',
-    id: EntityTypeEnum.RETAILER,
+    id: CompanyEntityTypeEnum.RETAILER,
   },
 ];
 const _CreateEntityForm: React.FC<
   CreateEntityFormProps & FormikProps<CreateEntityFormValues>
 > = (props) => {
   const { submitButtons, isSubmitting, values, isCertificateAuthority } = props;
-
   return (
     <Form>
       <FormikField label="Entity Name" name="name" />
@@ -68,7 +66,7 @@ const CreateEntityForm = withFormik<
   mapPropsToValues: () => {
     return {
       name: '',
-      entityType: EntityTypeEnum.MANUFACTURER,
+      entityType: CompanyEntityTypeEnum.MANUFACTURER,
     };
   },
 
@@ -85,7 +83,7 @@ const CreateEntityForm = withFormik<
       await transactionWrapper(async () => {
         const result = await proofchain()
           .company()
-          .create({ name, entityType: entityType as EntityTypeEnum });
+          .create({ name, entityType: entityType as CompanyEntityTypeEnum });
         console.log(result);
       });
     }

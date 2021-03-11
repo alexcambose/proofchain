@@ -19,6 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }
   return (
     <>
+      <GuestNav />
       <Grid
         behavior={BEHAVIOR.fluid}
         overrides={{
@@ -42,10 +43,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         >
           <CompanySidebar />
         </Cell>
-        <Cell span={10}>
-          <GuestNav />
-          {children}
-        </Cell>
+        <Cell span={10}>{children}</Cell>
       </Grid>
     </>
   );

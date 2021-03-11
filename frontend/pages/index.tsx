@@ -8,23 +8,26 @@ import Cookies from 'cookies';
 import { useRouter } from 'next/router';
 import proofchain, { initProofchain } from 'proofchain';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import web3Instance from 'web3Instance';
-import { wrapper } from '../store';
+import { State, wrapper } from '../store';
 
 const Index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-
-  return (
-    <Layout>
-      <Grid>
-        <Cell skip={[0, 1, 3]} span={[4, 6, 6]}>
-          <InitialSetupSteps />
-        </Cell>
-      </Grid>
-    </Layout>
-  );
+  const hasEntity = useSelector((state: State) => state.user.hasEntity);
+  if (!hasEntity) {
+    return (
+      <Layout>
+        <Grid>
+          <Cell skip={[0, 1, 3]} span={[4, 6, 6]}>
+            <InitialSetupSteps />
+          </Cell>
+        </Grid>
+      </Layout>
+    );
+  }
+  return <Layout>aa</Layout>;
 };
 export const authCheck = (expectLoggedIn) =>
   wrapper.getServerSideProps(async ({ store, req, res, ...other }) => {
