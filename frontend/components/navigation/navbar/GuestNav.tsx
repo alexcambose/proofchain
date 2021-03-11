@@ -6,7 +6,6 @@ import Navbar from './components/Navbar';
 import NavDropdown from './components/NavDropdown';
 const GuestNav = () => {
   const address = useSelector((state: State) => state.user.address);
-  console.log(address);
   const items = {
     right: [
       {

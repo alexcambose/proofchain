@@ -1,27 +1,38 @@
 import * as React from 'react';
 import { Navigation } from 'baseui/side-navigation';
+import { useRouter } from 'next/router';
 
 const CompanySidebar = () => {
-  const [activeItemId, setActiveItemId] = React.useState('#primary');
+  const router = useRouter();
+  const [activeItemId, setActiveItemId] = React.useState('#all-materials');
+  const onNavigationChange = ({ event, item }) => {
+    setActiveItemId(item.itemId);
+    // prevent page reload
+    event.preventDefault();
+    router.push(item.itemId);
+  };
   return (
     <Navigation
       items={[
         {
-          title: 'Colors',
-          itemId: '#colors',
+          title: 'Materials',
+          itemId: '/materials',
           subNav: [
-            { title: 'Primary', itemId: '#primary' },
+            { title: 'All materials', itemId: '/materials' },
             {
-              title: 'Shades',
-              itemId: '#shades',
-              subNav: [
-                { title: 'Dark', itemId: '#dark' },
-                {
-                  title: 'Disabled',
-                  itemId: '#disabled',
-                  disabled: true,
-                },
-              ],
+              title: 'Create material',
+              itemId: '/materials/create',
+            },
+          ],
+        },
+        {
+          title: 'Raw materials',
+          itemId: '#raw-materials',
+          subNav: [
+            { title: 'All raw materials', itemId: '#all-raw-materials' },
+            {
+              title: 'Create raw material',
+              itemId: '#create-raw-material',
             },
           ],
         },
@@ -33,7 +44,7 @@ const CompanySidebar = () => {
         }
         return e;
       }}
-      onChange={({ item }) => setActiveItemId(item.itemId)}
+      onChange={onNavigationChange}
     />
   );
 };

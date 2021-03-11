@@ -8,7 +8,7 @@ import {
 import { StyledLink } from 'baseui/link';
 import { Button } from 'baseui/button';
 import uuid from 'react-uuid';
-
+import Logo from '@assets/images/logo/logo-full-dark.svg';
 interface ItemsInterface {
   content: any;
 }
@@ -32,6 +32,11 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
         },
       }}
     >
+      <StyledNavigationList $align={ALIGN.left}>
+        <StyledNavigationItem>
+          <Logo style={{ width: '7em' }} />
+        </StyledNavigationItem>
+      </StyledNavigationList>
       {['left', 'center', 'right'].map((alignment) => (
         <StyledNavigationList key={uuid()} $align={ALIGN[alignment]}>
           {(items[alignment] || []).map((item) => (

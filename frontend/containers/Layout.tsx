@@ -1,3 +1,4 @@
+import EntityNav from '@components/navigation/navbar/EntityNav';
 import GuestNav from '@components/navigation/navbar/GuestNav';
 import CompanySidebar from '@components/navigation/sidebar/CompanySidebar';
 import { BEHAVIOR, Cell, Grid } from 'baseui/layout-grid';
@@ -19,7 +20,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }
   return (
     <>
-      <GuestNav />
+      <EntityNav />
       <Grid
         behavior={BEHAVIOR.fluid}
         overrides={{
