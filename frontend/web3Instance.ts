@@ -31,12 +31,12 @@ export const initWeb3Instance = async (loginObject): Promise<string> => {
   if (type === 'metamask') {
     console.log('Init with metamask');
     const address = await initWeb3FromMetamask();
-    initProofchain(web3Instance);
+    initProofchain(web3Instance, address);
     return address;
   }
   console.log('Init with wallet');
   const address = await initWeb3FromWallet(wallet);
-  initProofchain(web3Instance);
+  initProofchain(web3Instance, address);
   return address;
 };
 export default () => web3Instance;

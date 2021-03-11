@@ -57,9 +57,10 @@ export const UserSlice = createSlice({
         state.loggedIn = true;
       }),
       builder.addCase(refreshLogin.fulfilled, (state, { payload }) => {
+        const { address, hasEntity } = payload;
         state.loggedIn = true;
-        state.address = payload.address;
-        console.log('object');
+        state.address = address;
+        state.hasEntity = hasEntity;
       });
   },
 });

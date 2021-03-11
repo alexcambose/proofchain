@@ -23,7 +23,15 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ items }) => {
   return (
-    <HeaderNavigation>
+    <HeaderNavigation
+      overrides={{
+        Root: {
+          style: ({ $theme }) => ({
+            marginBottom: $theme.sizing.scale400,
+          }),
+        },
+      }}
+    >
       {['left', 'center', 'right'].map((alignment) => (
         <StyledNavigationList key={uuid()} $align={ALIGN[alignment]}>
           {(items[alignment] || []).map((item) => (

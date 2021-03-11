@@ -8,7 +8,15 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const loggedIn = useSelector((state: State) => state.user.loggedIn);
+  const hasEntity = useSelector((state: State) => state.user.hasEntity);
+  if (!hasEntity) {
+    return (
+      <>
+        <GuestNav />
+        {children}
+      </>
+    );
+  }
   return (
     <>
       <Grid

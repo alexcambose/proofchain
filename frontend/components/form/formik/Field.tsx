@@ -19,7 +19,7 @@ const InputMode = {
   number: 'numeric',
 };
 const FieldSwitch = React.forwardRef<HTMLButtonElement, any>(
-  ({ type, children, helpers, ...props }, ref) => {
+  ({ type, children, form, helpers, ...props }, ref) => {
     if (!props.value && props.value != '0') {
       props.value = '';
     }
@@ -37,7 +37,14 @@ const FieldSwitch = React.forwardRef<HTMLButtonElement, any>(
         return (
           <>
             {children}
-            <Select {...props} />
+
+            <Select
+              {...props}
+              onChange={({ option, ...rest }) => {
+                form.setFieldValue(props.name, option.id);
+              }}
+              value={[props.options.find((e) => e.id === props.value)]}
+            />
           </>
         );
       case 'textarea':
@@ -101,7 +108,7 @@ const FormikField: React.FC<FormikFieldProps> = ({
       <Field name={name}>
         {({
           field, // { name, value, onChange, onBlur }
-          form: { touched, errors }, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
+          form, // also values, setXXXX, handleXXXX, dirty, isValid, status, etc.
           meta,
         }) => {
           const content = (
@@ -110,11 +117,12 @@ const FormikField: React.FC<FormikFieldProps> = ({
               id={name}
               error={meta.touched && meta.error}
               type={type}
-              {...props}
+              form={form}
               {...field}
+              {...props}
               // ref={ref}
             >
-              {label}
+              {formControl ? undefined : label}
             </FieldSwitch>
           );
           if (formControl) {

@@ -6,16 +6,14 @@ import { FormikErrors, FormikProps, withFormik } from 'formik';
 import * as bip39 from 'bip39';
 import Button from '@components/Button';
 
-interface MnemonicFormProps {
+interface MnemonicFormProps extends FormikProps<FormValues> {
   onSubmit: (mnemonic: string) => void;
 }
 interface FormValues {
   mnemonic: string;
   confirmation: boolean;
 }
-const _MnemonicForm: React.FC<MnemonicFormProps & FormikProps<FormValues>> = (
-  props
-) => {
+const _MnemonicForm: React.FC<MnemonicFormProps> = (props) => {
   const { isSubmitting } = props;
   return (
     <Form>
