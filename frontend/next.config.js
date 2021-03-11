@@ -1,4 +1,7 @@
-module.exports = {
+const withPlugins = require('next-compose-plugins');
+const withTM = require('next-transpile-modules')(['proofchain-library']);
+
+module.exports = withPlugins([withTM], {
   webpack: function (config) {
     config.externals = config.externals || {};
     config.externals['styletron-server'] = 'styletron-server';
@@ -16,4 +19,4 @@ module.exports = {
     });
     return config;
   },
-};
+});

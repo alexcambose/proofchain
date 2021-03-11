@@ -22,8 +22,10 @@ export default {
   torus: torusTestnet,
   ethProvider: {
     ropsten: {
-      http: 'https://ropsten.infura.io/v3/27c99ce149ba413080a05eff7597f5cc',
-      wss: 'wss://ropsten.infura.io/ws/v3/27c99ce149ba413080a05eff7597f5cc',
+      //todo update this, contract is on rinkeby
+      http: 'https://rinkeby.infura.io/v3/27c99ce149ba413080a05eff7597f5cc',
+      wss: 'wss://rinkeby.infura.io/ws/v3/27c99ce149ba413080a05eff7597f5cc',
+      factoryContractAddress: '0xDeA383c812Fd8188534844d5ba0AaC3f39Ffe1eB',
     },
   },
 };

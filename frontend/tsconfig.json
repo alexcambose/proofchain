@@ -24,15 +24,15 @@
       "@constants": ["constants.ts"]
     }
   },
-  "exclude": ["node_modules"],
+  // "exclude": ["node_modules"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
     "pages/index.tsx",
     "pages/_error.js",
-    "pages/_document.js",
-    "test/utils/trade.test.js"
+    "pages/_document.js"
   ],
-  "typeRoots": ["../../node_modules/@types", "./@types"]
+  "typeRoots": ["../../node_modules/@types", "./@types"],
+  "exclude": []
 }

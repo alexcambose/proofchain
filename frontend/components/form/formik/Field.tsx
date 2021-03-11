@@ -7,7 +7,7 @@ import { Textarea } from 'baseui/textarea';
 import { Checkbox } from 'baseui/checkbox';
 interface FormikFieldProps {
   name: string;
-  type?: 'text' | 'password' | 'textarea' | 'checkbox';
+  type?: 'text' | 'password' | 'textarea' | 'checkbox' | 'select';
   label?: string;
   formControl?: boolean;
 

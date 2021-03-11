@@ -1,4 +1,5 @@
 import config from 'config';
+import proofchain, { initProofchain } from 'proofchain';
 import Web3 from 'web3';
 
 let web3Instance;
@@ -24,14 +25,18 @@ const initWeb3FromMetamask = async (): Promise<string> => {
 export const initWeb3Instance = async (loginObject): Promise<string> => {
   const { type, wallet } = loginObject;
   // @ts-ignore
-  window.web3 = web3Instance;
+  window.web3 = () => web3Instance;
   // @ts-ignore
   window.Web3 = Web3;
   if (type === 'metamask') {
     console.log('Init with metamask');
-    return await initWeb3FromMetamask();
+    const address = await initWeb3FromMetamask();
+    initProofchain(web3Instance);
+    return address;
   }
   console.log('Init with wallet');
-  return await initWeb3FromWallet(wallet);
+  const address = await initWeb3FromWallet(wallet);
+  initProofchain(web3Instance);
+  return address;
 };
-export default web3Instance;
+export default () => web3Instance;

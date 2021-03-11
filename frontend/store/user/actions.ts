@@ -3,7 +3,8 @@ import { SocialLoginTypeEnum } from 'enums';
 import AuthManager from '@utils/auth/authManager';
 import { triggerLogin } from '@utils/auth/torus';
 import { getPrivateKeyFromMnemonic } from '@utils/eth';
-import { initWeb3Instance } from 'web3Manager';
+import web3Instance, { initWeb3Instance } from 'web3Instance';
+import proofchain from 'proofchain';
 
 export const loginWithMetamask = createAsyncThunk(
   'users/loginWithMetamask',
@@ -34,7 +35,9 @@ export const refreshLogin = createAsyncThunk(
   // Declare the type your function argument here:
   async () => {
     const address = await initWeb3Instance(AuthManager.getInfo());
+    // const hasCompany = await proofchain().company().hasCompany();
 
+    // console.log('refresh login', hasCompany);
     return { address };
   }
 );

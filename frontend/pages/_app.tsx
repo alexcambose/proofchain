@@ -10,6 +10,7 @@ import { Provider as StyletronProvider } from 'styletron-react';
 import '@types/declarations';
 import { State, wrapper } from '../store';
 import { styletron } from '../styletron';
+import proofchain from 'proofchain';
 
 if (isClient()) {
   init();
@@ -19,11 +20,9 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const loggedIn = useSelector((state: State) => state.user.loggedIn);
-  useEffect(() => {
-    if (loggedIn) {
-      dispatch(refreshLogin());
-    }
-  }, []);
+  // useEffect(() => {
+
+  // }, []);
   useEffect(() => {
     console.log(loggedIn, router.pathname);
     if (loggedIn && router.pathname === '/login') {
@@ -31,6 +30,9 @@ function MyApp({ Component, pageProps }) {
     }
     if (!loggedIn && router.pathname !== '/login') {
       router.push('/login');
+    }
+    if (loggedIn) {
+      dispatch(refreshLogin());
     }
   }, [loggedIn]);
 

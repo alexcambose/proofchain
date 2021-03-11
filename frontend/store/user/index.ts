@@ -2,7 +2,7 @@ import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AuthManager from '@utils/auth/authManager';
 import { HYDRATE } from 'next-redux-wrapper';
 import Web3 from 'web3';
-import { initWeb3Instance } from '../../web3Manager';
+import { initWeb3Instance } from '../../web3Instance';
 import {
   loginWithMetamask,
   loginWithMnemonic,
@@ -21,6 +21,7 @@ export const UserSlice = createSlice({
     },
     logout: (state, action: PayloadAction<string>) => {
       state.loggedIn = false;
+      state.address = '';
       AuthManager.clearInfo();
     },
   },

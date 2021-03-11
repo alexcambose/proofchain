@@ -1,4 +1,3 @@
-import { createStore, AnyAction } from 'redux';
 import { MakeStore, createWrapper, Context, HYDRATE } from 'next-redux-wrapper';
 import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk';

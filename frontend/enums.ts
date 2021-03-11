@@ -7,3 +7,9 @@ export enum UserType {
   COMPANY,
   CERTIFICATE_AUTHORITY,
 }
+export enum EntityTypeEnum {
+  MANUFACTURER = '0',
+  LOGISTIC = '1',
+  WAREHOUSE = '2',
+  RETAILER = '3',
+}

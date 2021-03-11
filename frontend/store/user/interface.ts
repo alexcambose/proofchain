@@ -4,6 +4,7 @@ export interface IUserData {
   accessToken?: string;
   profileImage?: string;
   address?: string;
+  hasEntity: boolean;
 }
 export interface IUser extends IUserData {
   loggedIn?: boolean;
