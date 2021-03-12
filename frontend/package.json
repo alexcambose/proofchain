@@ -8,7 +8,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "proofchain-library": "file:../library",
     "@reduxjs/toolkit": "^1.5.0",
     "@toruslabs/torus-direct-web-sdk": "^4.5.0",
     "@types/react-redux": "^7.1.16",
@@ -24,6 +23,8 @@
     "next-compose-plugins": "^2.2.1",
     "next-redux-wrapper": "^6.0.2",
     "next-transpile-modules": "^6.3.0",
+    "normalize.css": "^8.0.1",
+    "proofchain-library": "file:../library",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-redux": "^7.2.2",

@@ -1,4 +1,5 @@
 import '@assets/styles/style.css';
+import 'normalize.css';
 import { refreshLogin } from '@store/user/actions';
 import { init } from '@utils/auth/torus';
 import { isClient } from '@utils/next';
@@ -10,7 +11,6 @@ import { Provider as StyletronProvider } from 'styletron-react';
 import '@types/declarations';
 import { State, wrapper } from '../store';
 import { styletron } from '../styletron';
-import proofchain from 'proofchain';
 import { EntityTypeEnum } from '@enums';
 import { fetchCompanyEntityInfo } from '@store/companyEntity/actions';
 
