@@ -32,6 +32,7 @@ function MyApp({ Component, pageProps }) {
       router.push('/login');
     }
     (async () => {
+      console.log(loggedIn);
       if (loggedIn) {
         await dispatch(refreshLogin());
       }

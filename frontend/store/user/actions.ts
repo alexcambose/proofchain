@@ -35,7 +35,7 @@ export const refreshLogin = createAsyncThunk(
   // Declare the type your function argument here:
   async () => {
     const address = await initWeb3Instance(AuthManager.getInfo());
-    const hasCompany = await proofchain().company().hasCompany();
+    const hasCompany = await proofchain().company.hasCompany();
     // todo add certificateAutoirity
     // console.log('refresh login', hasCompany);
     return {
