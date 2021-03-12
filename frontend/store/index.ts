@@ -5,10 +5,13 @@ import UserSlice from './user';
 import { IUser } from './user/interface';
 import CompanyEntitySlice from './companyEntity';
 import { ICompanyEntity } from './companyEntity/interface';
+import { MaterialSlice } from './material';
+import { IMaterialStore } from './material/interface';
 
 export interface State {
   user: IUser;
   companyEntity: ICompanyEntity;
+  material: IMaterialStore;
 }
 
 // create a makeStore function
@@ -18,6 +21,7 @@ const makeStore: MakeStore<State> = (context: Context) =>
     reducer: {
       user: UserSlice,
       companyEntity: CompanyEntitySlice,
+      material: MaterialSlice,
     },
   });
 
