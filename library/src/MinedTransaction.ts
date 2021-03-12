@@ -1,9 +1,10 @@
 import IMinedTransaction from './interface/IMinedTransaction';
+import { parseTransactionEvents } from './utils/eventsParser';
 
 class MinedTransaction<EmmitedEvents = {}> {
-  constructor(protected tx: IMinedTransaction<EmmitedEvents>) {}
+  constructor(protected transaction: IMinedTransaction<EmmitedEvents>) {}
   get events(): EmmitedEvents {
-    return this.tx.events;
+    return parseTransactionEvents<EmmitedEvents>(this.transaction.events);
   }
 }
 export default MinedTransaction;

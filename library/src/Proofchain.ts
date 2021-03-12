@@ -1,6 +1,10 @@
 import { Factory } from '../src/abi';
 import Web3 from 'web3';
 import Company from './Company';
+import { Company as CompanyAbi, Material as MaterialAbi } from './abi';
+import Material from './Material';
+import CertificateAuthority from './CertificateAuthority';
+
 interface IProofchainConfig {
   factoryContractAddress: string;
 }
@@ -11,6 +15,9 @@ class Proofchain {
   private factoryContract;
   private web3: Web3;
   private fromAddress: string;
+  public material: Material;
+  public company: Company;
+  public certificateAuthority: CertificateAuthority;
   constructor({
     web3,
     factoryContractAddress,
@@ -27,6 +34,27 @@ class Proofchain {
       factoryContractAddress
     );
     this.fromAddress = fromAddress;
+    this.company = new Company(
+      this.web3,
+      this.fromAddress,
+      this.factoryContract,
+      'companyContract',
+      CompanyAbi
+    );
+    this.material = new Material(
+      this.web3,
+      this.fromAddress,
+      this.factoryContract,
+      'materialContract',
+      MaterialAbi
+    );
+    this.certificateAuthority = new CertificateAuthority(
+      this.web3,
+      this.fromAddress,
+      this.factoryContract,
+      'certificateAuthorityManagerContract',
+      MaterialAbi
+    );
   }
   static init({
     httpProvider,
@@ -72,15 +100,5 @@ class Proofchain {
   isInitialised(): boolean {
     return !!this.web3;
   }
-  company(): Company {
-    const company = new Company(
-      this.web3,
-      this.fromAddress,
-      this.factoryContract,
-      'companyContract'
-    );
-    return company;
-  }
-  certificateAuthority() {}
 }
 export default Proofchain;

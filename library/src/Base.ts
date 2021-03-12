@@ -1,16 +1,19 @@
 import { Aggregator } from './abi';
 import Web3 from 'web3';
 
-class Base {
+type BaseContracts =
+  | 'companyContract'
+  | 'materialContract'
+  | 'certificateAuthorityManagerContract';
+
+abstract class Base {
   contract: any = null;
   constructor(
     protected web3: Web3,
     protected fromAddress: string,
     protected factoryContract: any,
-    protected contractName:
-      | 'companyContract'
-      | 'materialContract'
-      | 'certificateAuthorityManagerContract'
+    protected contractName: BaseContracts,
+    protected contractAbi: any[]
   ) {}
   async getContractAddress() {
     const aggregatorContractAddress = await this.factoryContract.methods
@@ -24,16 +27,16 @@ class Base {
     return aggregatorContract.methods[this.contractName + 'Address']().call();
   }
 
-  async ensureContract(abi: any) {
+  async ensureContract() {
+    // if the contract isn't set
     if (!this.contract) {
       this.contract = new this.web3.eth.Contract(
-        abi,
+        this.contractAbi,
         await this.getContractAddress()
       );
-      // also set default wallet address
-
       return this.contract;
     }
+    // if the contract is already set
     return this.contract;
   }
 }
