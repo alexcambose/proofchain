@@ -1,18 +1,22 @@
+import Button from '@components/Button';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
-import React from 'react';
-import { Block } from 'baseui/block';
+import { createMaterial } from '@store/material/actions';
+import name from '@utils/validation/name';
 import { FormikErrors, FormikProps, withFormik } from 'formik';
-import * as bip39 from 'bip39';
-import Button from '@components/Button';
+import React from 'react';
+import { connect } from 'react-redux';
+import * as yup from 'yup';
 
-interface CreateMaterialFormProps {
+interface CreateMaterialFormProps
+  extends ReturnType<typeof mapDispatchToProps> {
   onSubmit: (mnemonic: string) => void;
 }
 interface FormValues {
-  mnemonic: string;
-  confirmation: boolean;
+  name: string;
+  code: string;
 }
+
 const _CreateMaterialForm: React.FC<
   CreateMaterialFormProps & FormikProps<FormValues>
 > = (props) => {
@@ -20,13 +24,18 @@ const _CreateMaterialForm: React.FC<
   return (
     <Form>
       <Field
-        name="title"
+        name="name"
         type="text"
-        placeholder="Material title"
-        label="Material title"
-        caption="aa"
+        placeholder="Material name"
+        label="Material name"
+        caption="Descriptive material name"
       />
-      <Field name="title" type="text" placeholder="Material code" />
+      <Field
+        name="code"
+        type="text"
+        placeholder="Material code"
+        caption="Optional material identification code"
+      />
 
       <Button isLoading={isSubmitting} type="submit">
         Create material
@@ -38,26 +47,29 @@ const CreateMaterialForm = withFormik<CreateMaterialFormProps, FormValues>({
   // Transform outer props into form values
   mapPropsToValues: (props) => {
     return {
-      mnemonic: bip39.generateMnemonic(),
-      confirmation: false,
+      name: '',
+      code: '',
     };
   },
-
+  validationSchema: yup.object().shape({
+    name: name,
+  }),
   // Add a custom validation function (this can be async too!)
-  validate: (values: FormValues) => {
+  validate: async (values: FormValues) => {
     let errors: FormikErrors<any> = {};
-    if (values.mnemonic && !bip39.validateMnemonic(values.mnemonic)) {
-      errors.mnemonic = 'Invalid seed words';
-    }
-    if (!values.confirmation) {
-      errors.confirmation = ' ';
+    if (!yup.object().shape({ name }).isValidSync(values)) {
+      errors['name'] = 'Name is required!';
     }
     return errors;
   },
 
   handleSubmit: async (values, { props }) => {
-    await props.onSubmit(values.mnemonic);
+    await props.createMaterial(values);
   },
 })(_CreateMaterialForm);
-
-export default CreateMaterialForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createMaterial: (data) => dispatch(createMaterial(data)),
+  };
+};
+export default connect(null, mapDispatchToProps)(CreateMaterialForm);

@@ -7,7 +7,8 @@ const transactionWrapper = async (callback) => {
   let result;
   try {
     result = await callback();
-    transactionToast(shortenAddress(result.transactionHash));
+    console.log(result);
+    transactionToast(result.transactionHash);
     toaster.clear(toastPendingKey);
   } catch (e) {
     console.error(e);

@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Block } from 'baseui/block';
 import { Display4 } from 'baseui/typography';
+import uuid from 'react-uuid';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -52,7 +53,7 @@ const BreadcrumbNavigation = () => {
     >
       {breadcrumbs.map((breadcrumb, i) => {
         return (
-          <Link href={breadcrumb.href}>
+          <Link key={uuid()} href={breadcrumb.href}>
             {i === breadcrumbs.length - 1 ? (
               <span>{breadcrumb.text}</span>
             ) : (

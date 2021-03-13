@@ -5,6 +5,7 @@ import { Check } from 'baseui/icon';
 import config from 'config';
 import React, { useState } from 'react';
 import { styled } from 'baseui';
+import { shortenAddress } from '@utils/eth';
 const ButtonContainer = styled('div', ({ $theme }) => ({
   display: 'flex',
 }));
@@ -26,6 +27,7 @@ const CopyButton = ({ hash }) => {
   );
 };
 const transactionToast = (hash) => {
+  hash = shortenAddress(hash, 12);
   const onViewClick = () => {
     var win = window.open(
       config.ethProvider.default.etherscan + `tx/${hash}`,
@@ -35,7 +37,7 @@ const transactionToast = (hash) => {
   };
   return toaster.positive(
     <>
-      <div>Hash {hash}</div>
+      <div>Success! Hash: {hash}</div>
       <ButtonContainer>
         <CopyButton hash={hash} />
         <Button size={SIZE.mini} onClick={onViewClick}>
