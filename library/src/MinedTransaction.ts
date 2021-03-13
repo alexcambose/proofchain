@@ -6,5 +6,8 @@ class MinedTransaction<EmmitedEvents = {}> {
   get events(): EmmitedEvents {
     return parseTransactionEvents<EmmitedEvents>(this.transaction.events);
   }
+  get transactionHash() {
+    return this.transaction.transactionHash;
+  }
 }
 export default MinedTransaction;
