@@ -4,7 +4,7 @@ import MinedTransaction from './MinedTransaction';
 import { parseEvent } from './utils/eventsParser';
 
 interface IMaterial {
-  title: string;
+  name: string;
   code: string;
   images: string[];
 }
@@ -18,13 +18,13 @@ type CreateTransactionEvents = {
 
 class Material extends Base implements IEntity {
   async create({
-    title,
+    name,
     code,
     images,
   }: IMaterial): Promise<MinedTransaction<CreateTransactionEvents>> {
     await this.ensureContract();
     const transaction = await this.contract.methods
-      .create(title, code, images)
+      .create(name, code, images)
       .send({ from: this.fromAddress, gas: 300000 });
     return new MinedTransaction<CreateTransactionEvents>(transaction);
   }

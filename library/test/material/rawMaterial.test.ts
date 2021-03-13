@@ -17,7 +17,7 @@ describe('raw material', () => {
   describe('create raw material', () => {
     it('creates a new material', async () => {
       const result = await proofChain.material.create({
-        title: 'product',
+        name: 'product',
         code: '123',
         images: ['a'],
       });
@@ -29,7 +29,7 @@ describe('raw material', () => {
     it('returns all created materials', async () => {
       // at this point the length should be greater than 1
       await proofChain.material.create({
-        title: 'product',
+        name: 'product',
         code: '123',
         images: ['a'],
       });
@@ -41,14 +41,14 @@ describe('raw material', () => {
     it('returns a material based on the materialTokenId', async () => {
       // at this point the length should be greater than 1
       const result = await proofChain.material.create({
-        title: 'product',
+        name: 'product',
         code: '123',
         images: ['a'],
       });
       const fetched = await proofChain.material.getById(
         result.events.MaterialCreate.materialTokenId
       );
-      expect(fetched.title).toEqual('product');
+      expect(fetched.name).toEqual('product');
       expect(fetched.code).toEqual('123');
     });
   });
@@ -56,7 +56,7 @@ describe('raw material', () => {
     it('returns all created materials', async () => {
       // at this point the length should be greater than 1
       await proofChain.material.create({
-        title: 'product',
+        name: 'product',
         code: '123',
         images: ['a'],
       });
