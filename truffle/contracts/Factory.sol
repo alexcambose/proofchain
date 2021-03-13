@@ -2,7 +2,6 @@
 
 // File: contracts/Aggregator.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
 
 contract Aggregator {
@@ -17,7 +16,7 @@ contract Aggregator {
     }
 
     modifier onlyOwner {
-        require(msg.sender == owner, 'Only owner!');
+        require(msg.sender == owner, "Only owner!");
         _;
     }
 
@@ -35,7 +34,6 @@ contract Aggregator {
 }
 
 // File: contracts/MaterialBase.sol
-
 
 pragma solidity >0.7.0 <0.9.0;
 
@@ -57,8 +55,8 @@ contract MaterialBase {
         uint256 stake;
     }
     struct MaterialTokenInfo {
-        // a basic title for the material
-        string title;
+        // a basic name for the material
+        string name;
         // a real-life identification code, see https://www.gs1.org/standards/id-keys/gtin
         uint256 code;
         // the address of the creator, the creator must own a company
@@ -123,8 +121,6 @@ contract MaterialBase {
 
 // File: contracts/utils/Math.sol
 
-
-
 pragma solidity ^0.8.0;
 
 /**
@@ -156,7 +152,6 @@ library Math {
 }
 
 // File: contracts/utils/Ownable.sol
-
 
 pragma solidity >0.7.0 <0.9.0;
 
@@ -234,9 +229,7 @@ abstract contract Ownable {
 
 // File: contracts/CertificateAuthorityManager.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
 
 // import "./utils/MaterialReferencer.sol";
 
@@ -244,7 +237,7 @@ contract CertificateAuthorityManager {
     event CertificateAuthorityCreated(address indexed owner);
     event CertificateAuthorityCertificateCreated(address indexed owner, uint256 indexed code);
     struct Certificate {
-        string title;
+        string name;
         // unique certificate code, used to assign a specific certificate code to a material/company
         address certificateAuthority;
     }
@@ -275,13 +268,13 @@ contract CertificateAuthorityManager {
         emit CertificateAuthorityCreated(msg.sender);
     }
 
-    function createCertificate(string memory _title, uint256 _code) public {
+    function createCertificate(string memory _name, uint256 _code) public {
         require(
             authorityCertificates[_code].certificateAuthority == address(0),
-            'This certificate already exists. You can not override this'
+            "This certificate already exists. You can not override this"
         );
         authorityCertificatesCodes.push(_code);
-        authorityCertificates[_code].title = _title;
+        authorityCertificates[_code].name = _name;
         authorityCertificates[_code].certificateAuthority = msg.sender;
         emit CertificateAuthorityCertificateCreated(msg.sender, _code);
     }
@@ -289,11 +282,7 @@ contract CertificateAuthorityManager {
 
 // File: contracts/utils/CertificateAuthorityManagerReferencer.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
-
-
 
 abstract contract CertificateAuthorityManagerReferencer is Ownable {
     CertificateAuthorityManager internal certificateAuthorityManager;
@@ -318,9 +307,7 @@ abstract contract CertificateAuthorityManagerReferencer is Ownable {
 
 // File: contracts/Certifiable.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
 
 abstract contract Certifiable is CertificateAuthorityManagerReferencer {
     function assignCertificate(uint256 _certificateCode) public payable {
@@ -329,11 +316,11 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
 
         require(
             certificateAuthority == msg.sender,
-            'You need to be the owner of the certificate authority in order to assign it'
+            "You need to be the owner of the certificate authority in order to assign it"
         );
         require(
             msg.value >= cam.minimumStake(),
-            'Received payment is lower that the minimum stake'
+            "Received payment is lower that the minimum stake"
         );
     }
 
@@ -343,26 +330,21 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
 
         require(
             certificateAuthority == msg.sender,
-            'You need to be the owner of the certificate authority in order to assign it'
+            "You need to be the owner of the certificate authority in order to assign it"
         );
     }
 
     function revokeCertificate() public view {
         require(
             getMasterAddress() == msg.sender,
-            'You need to be the owner of the factory in order to revoke it'
+            "You need to be the owner of the factory in order to revoke it"
         );
     }
 }
 
 // File: contracts/Material.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
-
-
-
 
 contract Material is Certifiable, MaterialBase {
     using Math for uint256;
@@ -372,11 +354,11 @@ contract Material is Certifiable, MaterialBase {
     {}
 
     function create(
-        string memory _title,
+        string memory _name,
         uint256 _code,
         string[] memory _images
     ) public {
-        materialToken[materialTokenId].title = _title;
+        materialToken[materialTokenId].name = _name;
         materialToken[materialTokenId].code = _code;
         materialToken[materialTokenId].images = _images;
         materialToken[materialTokenId].creator = msg.sender;
@@ -386,7 +368,7 @@ contract Material is Certifiable, MaterialBase {
     }
 
     function create(
-        string memory _title,
+        string memory _name,
         uint256 _code,
         string[] memory _images,
         uint256[] memory _recipematerialTokenId,
@@ -398,7 +380,7 @@ contract Material is Certifiable, MaterialBase {
         );
         materialToken[materialTokenId].recipematerialTokenId = _recipematerialTokenId;
         materialToken[materialTokenId].recipeMaterialAmount = _recipeMaterialAmount;
-        create(_title, _code, _images);
+        create(_name, _code, _images);
     }
 
     function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {
@@ -559,9 +541,7 @@ contract Material is Certifiable, MaterialBase {
         }
     }
 
-    function changeBatchOwnershipBatch(uint256[] memory _batchIds, address _newOwner)
-        public
-    {
+    function changeBatchOwnershipBatch(uint256[] memory _batchIds, address _newOwner) public {
         for (uint8 i = 0; i < _batchIds.length; i++) {
             batch[_batchIds[i]].owner = _newOwner;
         }
@@ -570,11 +550,7 @@ contract Material is Certifiable, MaterialBase {
 
 // File: contracts/utils/MaterialReferencer.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
-
-
 
 abstract contract MaterialReferencer is Ownable {
     Material internal material;
@@ -592,9 +568,7 @@ abstract contract MaterialReferencer is Ownable {
 
 // File: contracts/Shipper.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
 
 abstract contract Shipper is MaterialReferencer {
     event TransportInitiated(uint256 indexed _transportId);
@@ -620,7 +594,7 @@ abstract contract Shipper is MaterialReferencer {
         for (uint8 i = 0; i < _batchIds.length; i++) {
             (, , , address batchIdOwner, ) = getMaterialContract().batch(_batchIds[i]);
             if (batchIdOwner != msg.sender) {
-                revert('You are not the owner of all batches');
+                revert("You are not the owner of all batches");
             }
         }
         _;
@@ -637,12 +611,12 @@ abstract contract Shipper is MaterialReferencer {
     modifier onlyReceiver(uint256 _transportId) {
         require(
             transports[_transportId].receiver == msg.sender,
-            'Only the transport receiver is allowed'
+            "Only the transport receiver is allowed"
         );
         _;
     }
     modifier onlyNotFinalizedTransport(uint256 _transportId) {
-        require(transports[_transportId].finalised == false, 'This transport is finalized');
+        require(transports[_transportId].finalised == false, "This transport is finalized");
         _;
     }
 
@@ -652,7 +626,7 @@ abstract contract Shipper is MaterialReferencer {
         address _transportCompany,
         uint256[] memory _batchIds
     ) public batchesOwner(_batchIds) {
-        require(msg.sender != _receiver, 'Cannot initiate a transport to yourself');
+        require(msg.sender != _receiver, "Cannot initiate a transport to yourself");
 
         TransportInfo memory ti =
             TransportInfo({
@@ -664,7 +638,7 @@ abstract contract Shipper is MaterialReferencer {
                 readyForShipment: false,
                 inTransit: false,
                 finalised: false,
-                hashedPassword: ''
+                hashedPassword: ""
             });
         transports.push(ti);
         emit TransportInitiated(transports.length - 1);
@@ -692,7 +666,7 @@ abstract contract Shipper is MaterialReferencer {
     function finaliseTransport(uint256 _transportId) public onlyReceiver(_transportId) {
         require(
             bytes(transports[_transportId].hashedPassword).length == 0,
-            'This transport can not be finalised without a password'
+            "This transport can not be finalised without a password"
         );
         transports[_transportId].finalised = true;
         getMaterialContract().changeBatchOwnershipBatch(
@@ -709,7 +683,7 @@ abstract contract Shipper is MaterialReferencer {
         require(
             (keccak256(abi.encodePacked((transports[_transportId].hashedPassword))) ==
                 keccak256(abi.encodePacked((_hashedPassword)))),
-            'Incorrect password'
+            "Incorrect password"
         );
         transports[_transportId].finalised = true;
         getMaterialContract().changeBatchOwnershipBatch(
@@ -722,10 +696,7 @@ abstract contract Shipper is MaterialReferencer {
 
 // File: contracts/Company.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
-
 
 contract Company is Certifiable, Shipper {
     event CompanyCreate(address indexed owner);
@@ -744,7 +715,7 @@ contract Company is Certifiable, Shipper {
     mapping(address => CompanyInfo) public companies;
 
     modifier doesNotHaveCompany {
-        require(companies[msg.sender].isValue == false, 'Address already has a company');
+        require(companies[msg.sender].isValue == false, "Address already has a company");
         _;
     }
 
@@ -784,7 +755,7 @@ contract Company is Certifiable, Shipper {
             }
         }
         if (i == length - 1) {
-            revert('Certificate code not found');
+            revert("Certificate code not found");
         }
     }
 
@@ -802,7 +773,7 @@ contract Company is Certifiable, Shipper {
             }
         }
         if (i == length - 1) {
-            revert('Certificate code not found');
+            revert("Certificate code not found");
         }
     }
 
@@ -825,12 +796,7 @@ contract Company is Certifiable, Shipper {
 
 // File: contracts/Factory.sol
 
-
 pragma solidity >0.7.0 <0.9.0;
-
-
-
-
 
 contract Factory {
     address public aggregator;
@@ -857,4 +823,3 @@ contract Factory {
         );
     }
 }
-

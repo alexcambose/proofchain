@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
 
-import './utils/Ownable.sol';
+import "./utils/Ownable.sol";
 
 // import "./utils/MaterialReferencer.sol";
 
@@ -9,7 +9,7 @@ contract CertificateAuthorityManager {
     event CertificateAuthorityCreated(address indexed owner);
     event CertificateAuthorityCertificateCreated(address indexed owner, uint256 indexed code);
     struct Certificate {
-        string title;
+        string name;
         // unique certificate code, used to assign a specific certificate code to a material/company
         address certificateAuthority;
     }
@@ -40,13 +40,13 @@ contract CertificateAuthorityManager {
         emit CertificateAuthorityCreated(msg.sender);
     }
 
-    function createCertificate(string memory _title, uint256 _code) public {
+    function createCertificate(string memory _name, uint256 _code) public {
         require(
             authorityCertificates[_code].certificateAuthority == address(0),
-            'This certificate already exists. You can not override this'
+            "This certificate already exists. You can not override this"
         );
         authorityCertificatesCodes.push(_code);
-        authorityCertificates[_code].title = _title;
+        authorityCertificates[_code].name = _name;
         authorityCertificates[_code].certificateAuthority = msg.sender;
         emit CertificateAuthorityCertificateCreated(msg.sender, _code);
     }

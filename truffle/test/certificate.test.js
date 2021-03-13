@@ -1,50 +1,48 @@
-const { getInstance } = require('./utils');
+const { getInstance } = require("./utils");
 
-contract('Certificate', (accounts) => {
+contract("Certificate", (accounts) => {
   const [account, otherAccount] = accounts;
-  describe('createCertificateAuthority', () => {
-    it('creates a new certificate authority', async () => {
+  describe("createCertificateAuthority", () => {
+    it("creates a new certificate authority", async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();
       await certificateAuthorityManagerInstance.methods
-        .createCertificateAuthority('My Company')
+        .createCertificateAuthority("My Company")
         .send({ from: account, gas: 300000 });
       const result = await certificateAuthorityManagerInstance.methods
         .certificateAuthorities(account)
         .call();
-      expect(result.name).equal('My Company');
+      expect(result.name).equal("My Company");
     });
   });
-  describe('createCertificate', () => {
-    it('creates a new certificate', async () => {
+  describe("createCertificate", () => {
+    it("creates a new certificate", async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();
       const result = await certificateAuthorityManagerInstance.methods
-        .createCertificate('Company donates to charity', 123)
+        .createCertificate("Company donates to charity", 123)
         .send({ from: account, gas: 300000 });
-      const {
-        code,
-      } = result.events.CertificateAuthorityCertificateCreated.returnValues;
+      const { code } = result.events.CertificateAuthorityCertificateCreated.returnValues;
 
       const certificate = await certificateAuthorityManagerInstance.methods
         .authorityCertificates(code)
         .call();
-      expect(certificate.title).equal('Company donates to charity');
+      expect(certificate.name).equal("Company donates to charity");
     });
-    it('can not create a certificate with the same code', async () => {
+    it("can not create a certificate with the same code", async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();
       await certificateAuthorityManagerInstance.methods
-        .createCertificate('Company donates to charity', 321)
+        .createCertificate("Company donates to charity", 321)
         .send({ from: account, gas: 300000 });
       try {
         await certificateAuthorityManagerInstance.methods
-          .createCertificate('Company donates to charity', 321)
+          .createCertificate("Company donates to charity", 321)
           .send({ from: account, gas: 300000 });
       } catch (e) {
         expect(e).to.be.instanceOf(Error);
       }
     });
   });
-  describe('setMinimumStake', () => {
-    it('sets the minimum stake', async () => {
+  describe("setMinimumStake", () => {
+    it("sets the minimum stake", async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();
       const initialMinimumStake = await certificateAuthorityManagerInstance.methods
         .minimumStake()
@@ -58,7 +56,7 @@ contract('Certificate', (accounts) => {
       expect(initialMinimumStake).to.not.equal(currentMinimumStake);
       expect(currentMinimumStake).equal(currentMinimumStake);
     });
-    it('only the deployer can set the minimum stake', async () => {
+    it("only the deployer can set the minimum stake", async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();
       try {
         await certificateAuthorityManagerInstance.methods

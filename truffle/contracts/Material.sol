@@ -15,11 +15,11 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     {}
 
     function create(
-        string memory _title,
+        string memory _name,
         uint256 _code,
         string[] memory _images
     ) public senderHasCompany {
-        materialToken[materialTokenId].title = _title;
+        materialToken[materialTokenId].name = _name;
         materialToken[materialTokenId].code = _code;
         materialToken[materialTokenId].images = _images;
         materialToken[materialTokenId].creator = msg.sender;
@@ -29,7 +29,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     }
 
     function create(
-        string memory _title,
+        string memory _name,
         uint256 _code,
         string[] memory _images,
         uint256[] memory _recipematerialTokenId,
@@ -41,7 +41,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         );
         materialToken[materialTokenId].recipematerialTokenId = _recipematerialTokenId;
         materialToken[materialTokenId].recipeMaterialAmount = _recipeMaterialAmount;
-        create(_title, _code, _images);
+        create(_name, _code, _images);
     }
 
     function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {

@@ -19,8 +19,8 @@ contract MaterialBase {
         uint256 stake;
     }
     struct MaterialTokenInfo {
-        // a basic title for the material
-        string title;
+        // a basic name for the material
+        string name;
         // a real-life identification code, see https://www.gs1.org/standards/id-keys/gtin
         uint256 code;
         // the address of the creator, the creator must own a company
