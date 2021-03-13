@@ -16,32 +16,32 @@ const CompanySidebar = () => {
       items={[
         {
           title: 'Materials',
-          itemId: '/materials',
+          itemId: '/material',
           subNav: [
-            { title: 'All materials', itemId: '/materials' },
+            { title: 'All materials', itemId: '/material' },
             {
               title: 'Create material',
-              itemId: '/materials/create',
+              itemId: '/material/create',
             },
           ],
         },
         {
           title: 'Raw materials',
-          itemId: '#raw-materials',
+          itemId: '/raw-material',
           subNav: [
-            { title: 'All raw materials', itemId: '#all-raw-materials' },
+            { title: 'All raw materials', itemId: '/raw-material' },
             {
               title: 'Create raw material',
-              itemId: '#create-raw-material',
+              itemId: '/raw-material/create',
             },
           ],
         },
       ]}
       activeItemId={activeItemId}
       mapItem={(e) => {
-        if (e.itemId === '#shades') {
-          e.subNav = [];
-        }
+        // if (e.itemId === '#shades') {
+        //   e.subNav = [];
+        // }
         return e;
       }}
       onChange={onNavigationChange}
