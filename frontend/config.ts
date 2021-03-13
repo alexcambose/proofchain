@@ -17,15 +17,16 @@ const torusTestnet = {
     },
   },
 };
-
+const ropsten = {
+  //todo update this, contract is on rinkeby
+  http: 'https://rinkeby.infura.io/v3/27c99ce149ba413080a05eff7597f5cc',
+  wss: 'wss://rinkeby.infura.io/ws/v3/27c99ce149ba413080a05eff7597f5cc',
+  factoryContractAddress: '0xefD122eE33f7e2fDD8F686E27d69bfB945135806',
+  etherscan: 'https://rinkeby.etherscan.io/',
+};
 export default {
   torus: torusTestnet,
   ethProvider: {
-    ropsten: {
-      //todo update this, contract is on rinkeby
-      http: 'https://rinkeby.infura.io/v3/27c99ce149ba413080a05eff7597f5cc',
-      wss: 'wss://rinkeby.infura.io/ws/v3/27c99ce149ba413080a05eff7597f5cc',
-      factoryContractAddress: '0xDeA383c812Fd8188534844d5ba0AaC3f39Ffe1eB',
-    },
+    default: ropsten,
   },
 };

@@ -1,13 +1,15 @@
 import FormikField from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
 import { CompanyEntityTypeEnum } from '@enums';
+import { refreshLogin } from '@store/user/actions';
 import transactionWrapper from '@utils/transactionWrapper';
 import validation from '@utils/validation';
 import { FormikProps, withFormik } from 'formik';
 import proofchain from 'proofchain';
+import { connect } from 'react-redux';
 import * as Yup from 'yup';
 
-interface CreateEntityFormProps {
+interface CreateEntityFormProps extends ReturnType<typeof mapDispatchToProps> {
   // onSubmit: (email: string, password: string) => Promise<void>;
   isCertificateAuthority?: boolean;
   submitButtons: (isLoading: boolean) => React.ReactNode;
@@ -81,6 +83,7 @@ const CreateEntityForm = withFormik<
       // todo
     } else {
       await transactionWrapper(async () => {
+        console.log(proofchain());
         const result = await proofchain().company.create({
           name,
           entityType: entityType as CompanyEntityTypeEnum,
@@ -88,7 +91,12 @@ const CreateEntityForm = withFormik<
         console.log(result);
       });
     }
-    // await props.onSubmit(name, entityType);
+    await props.refreshLogin();
   },
 })(_CreateEntityForm);
-export default CreateEntityForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    refreshLogin: () => dispatch(refreshLogin()),
+  };
+};
+export default connect(null, mapDispatchToProps)(CreateEntityForm);

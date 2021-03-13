@@ -37,7 +37,7 @@ export const refreshLogin = createAsyncThunk(
     const address = await initWeb3Instance(AuthManager.getInfo());
     const hasCompany = await proofchain().company.hasCompany();
     // todo add certificateAutoirity
-    // console.log('refresh login', hasCompany);
+    console.log('refresh login', address);
     return {
       address,
       hasEntity: hasCompany,

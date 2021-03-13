@@ -6,7 +6,7 @@ let web3Instance;
 
 const initWeb3FromWallet = (wallet, password = 'password'): string => {
   web3Instance = new Web3(
-    new Web3.providers.HttpProvider(config.ethProvider.ropsten.http)
+    new Web3.providers.HttpProvider(config.ethProvider.default.http)
   );
 
   const decrytedWallet = web3Instance.eth.accounts.decrypt(wallet, password);

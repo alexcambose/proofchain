@@ -13,6 +13,7 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
             width: '100%',
             marginTop: $theme.sizing.scale200,
             marginBottom: $theme.sizing.scale200,
+            marginRight: $theme.sizing.scale400,
           }),
         },
       }}

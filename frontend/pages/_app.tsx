@@ -5,7 +5,7 @@ import { init } from '@utils/auth/torus';
 import { isClient } from '@utils/next';
 import { BaseProvider, LightTheme } from 'baseui';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Provider as StyletronProvider } from 'styletron-react';
 import '@types/declarations';
@@ -13,6 +13,7 @@ import { State, wrapper } from '../store';
 import { styletron } from '../styletron';
 import { EntityTypeEnum } from '@enums';
 import { fetchCompanyEntityInfo } from '@store/companyEntity/actions';
+import { ToasterContainer } from 'baseui/toast';
 
 if (isClient()) {
   init();
@@ -48,7 +49,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <StyletronProvider value={styletron}>
       <BaseProvider theme={LightTheme}>
-        <Component {...pageProps} />
+        <ToasterContainer autoHideDuration={3500}>
+          <Component {...pageProps} />
+        </ToasterContainer>
       </BaseProvider>
     </StyletronProvider>
   );

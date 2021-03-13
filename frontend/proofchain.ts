@@ -5,7 +5,7 @@ export const initProofchain = (web3, fromAddress) => {
   proofchain = Proofchain.web3Init({
     web3,
     fromAddress: fromAddress,
-    factoryContractAddress: config.ethProvider.ropsten.factoryContractAddress,
+    factoryContractAddress: config.ethProvider.default.factoryContractAddress,
   });
   // @ts-ignore
   window.proofchain = proofchain;

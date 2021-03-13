@@ -14,7 +14,10 @@ export const getPrivateKeyFromMnemonic = async (mnemonic) => {
   return privateKey;
 };
 
-export const shortenAddress = (address: string = ''): string =>
-  address.substring(0, 6) +
+export const shortenAddress = (
+  address: string = '',
+  offset: number = 6
+): string =>
+  address.substring(0, offset) +
   '...' +
-  address.substring(address.length - 6, address.length - 1);
+  address.substring(address.length - offset, address.length - 1);
