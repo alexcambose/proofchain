@@ -6,7 +6,7 @@ import Web3 from 'web3';
 describe('Company', () => {
   let proofChain: Proofchain;
   let account;
-  beforeEach(async () => {
+  beforeAll(async () => {
     // @ts-ignore
     [account] = await new Web3(provider).eth.getAccounts();
     proofChain = await Proofchain.providerInit({
@@ -28,13 +28,8 @@ describe('Company', () => {
   });
   describe('getCompany', () => {
     it('returns the  company associated with the default address, if the address is not specified', async () => {
-      await proofChain.company.create({
-        name: 'company name',
-        entityType: CompanyEntityTypeEnum.MANUFACTURER,
-      });
-
       const companyInfo = await proofChain.company.getCompany();
-      expect(companyInfo.name).toEqual('company name');
+      expect(companyInfo.name).toEqual('company');
       expect(companyInfo.entityType).toEqual(
         CompanyEntityTypeEnum.MANUFACTURER
       );

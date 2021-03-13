@@ -1,6 +1,6 @@
 export { default as Factory } from './contract-build/_Factory_sol_Factory.abi.json';
-export { default as Aggregator } from './contract-build/_Factory_sol_Aggregator.abi.json';
-export { default as Company } from './contract-build/_Factory_sol_Company.abi.json';
-export { default as Material } from './contract-build/_Factory_sol_Material.abi.json';
+export { default as Aggregator } from './contract-build/_Aggregator_sol_Aggregator.abi.json';
+export { default as Company } from './contract-build/_Company_sol_Company.abi.json';
+export { default as Material } from './contract-build/_Material_sol_Material.abi.json';
 import FactoryBytecodeRaw from './contract-build/_Factory_sol_Factory.bin.json';
 export const FactoryBytecode = FactoryBytecodeRaw[0];

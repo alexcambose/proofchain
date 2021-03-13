@@ -1,17 +1,22 @@
 import Proofchain from '../../src';
 import { deployedFactoryAddress, provider } from '../provider';
 import Web3 from 'web3';
+import CompanyEntityTypeEnum from '../../src/enums/CompanyEntityTypeEnum';
 
 describe('raw material', () => {
   let proofChain: Proofchain;
   let account: string;
-  beforeEach(async () => {
+  beforeAll(async () => {
     // @ts-ignore
     [account] = await new Web3(provider).eth.getAccounts();
     proofChain = await Proofchain.providerInit({
       web3Provider: provider,
       factoryContractAddress: await deployedFactoryAddress(),
       fromAddress: account,
+    });
+    const result = await proofChain.company.create({
+      name: 'company',
+      entityType: CompanyEntityTypeEnum.MANUFACTURER,
     });
   });
   describe('create raw material', () => {
@@ -34,7 +39,7 @@ describe('raw material', () => {
         images: ['a'],
       });
       const materials = await proofChain.material.all();
-      expect(materials.length).toEqual(1);
+      expect(materials.length > 1).toEqual(true);
     });
   });
   describe('getById', () => {
@@ -61,7 +66,7 @@ describe('raw material', () => {
         images: ['a'],
       });
       const length = await proofChain.material.countAll();
-      expect(length).toEqual(1);
+      expect(length > 1).toEqual(true);
     });
   });
 });
