@@ -2,11 +2,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import transactionWrapper from '@utils/transactionWrapper';
 import proofchain from 'proofchain';
 
-export const fetchMaterials = createAsyncThunk(
-  'material/fetchMaterials',
+export const fetchRawMaterials = createAsyncThunk(
+  'material/fetchRawMaterials',
   async () => {
-    // const { entityType, name } = await proofchain().company.getCompany();
-    // return { name, entityType };
+    const materials = await proofchain().material.all();
+    console.log(materials);
+    return { materials };
   }
 );
 export const createMaterial = createAsyncThunk(

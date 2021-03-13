@@ -2,24 +2,29 @@ import Button from '@components/Button';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
 import { createMaterial } from '@store/material/actions';
+import { capitalizeFirstLetter } from '@utils/misc';
 import name from '@utils/validation/name';
+import { TYPE } from 'baseui/select';
 import { FormikErrors, FormikProps, withFormik } from 'formik';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as yup from 'yup';
-
+import commonUnits from '../../../data/commonUnits.json';
 interface CreateMaterialFormProps
-  extends ReturnType<typeof mapDispatchToProps> {
-  onSubmit: (mnemonic: string) => void;
-}
+  extends ReturnType<typeof mapDispatchToProps> {}
 interface FormValues {
   name: string;
   code: string;
+  amountIdentifier: any;
 }
-
+const unitsOfMeasurement = commonUnits.map((e, i) => ({
+  label: capitalizeFirstLetter(e['Name']) + ' - ' + e['Symbol'],
+  id: e['Symbol'],
+}));
 const _CreateMaterialForm: React.FC<
   CreateMaterialFormProps & FormikProps<FormValues>
 > = (props) => {
+  // console.log(unitsOfMeasurement);
   const { isSubmitting } = props;
   return (
     <Form>
@@ -36,7 +41,19 @@ const _CreateMaterialForm: React.FC<
         placeholder="Material code"
         caption="Optional material identification code"
       />
-
+      <Field
+        label="Entity type"
+        name="amountIdentifier"
+        type={'select'}
+        options={unitsOfMeasurement}
+        valueKey="id"
+        labelKey="label"
+        overrides={{
+          Dropdown: {
+            style: ({ $theme }) => ({ maxHeight: '22vh' }),
+          },
+        }}
+      />
       <Button isLoading={isSubmitting} type="submit">
         Create material
       </Button>
@@ -45,10 +62,11 @@ const _CreateMaterialForm: React.FC<
 };
 const CreateMaterialForm = withFormik<CreateMaterialFormProps, FormValues>({
   // Transform outer props into form values
-  mapPropsToValues: (props) => {
+  mapPropsToValues: () => {
     return {
       name: '',
       code: '',
+      amountIdentifier: 'kg',
     };
   },
   validationSchema: yup.object().shape({

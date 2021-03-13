@@ -5,7 +5,7 @@ import UserSlice from './user';
 import { IUser } from './user/interface';
 import CompanyEntitySlice from './companyEntity';
 import { ICompanyEntity } from './companyEntity/interface';
-import { MaterialSlice } from './material';
+import MaterialSlice from './material';
 import { IMaterialStore } from './material/interface';
 
 export interface State {

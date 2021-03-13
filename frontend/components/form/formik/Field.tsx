@@ -2,12 +2,18 @@ import React from 'react';
 import { Formik, Form, Field, FormikHelpers, ErrorMessage } from 'formik';
 import { Input } from 'baseui/input';
 import { FormControl } from 'baseui/form-control';
-import { Select } from 'baseui/select';
+import { Select, TYPE } from 'baseui/select';
 import { Textarea } from 'baseui/textarea';
 import { Checkbox } from 'baseui/checkbox';
 interface FormikFieldProps {
   name: string;
-  type?: 'text' | 'password' | 'textarea' | 'checkbox' | 'select';
+  type?:
+    | 'text'
+    | 'password'
+    | 'textarea'
+    | 'checkbox'
+    | 'select'
+    | TYPE['search'];
   label?: string;
   formControl?: boolean;
 
@@ -39,6 +45,21 @@ const FieldSwitch = React.forwardRef<HTMLButtonElement, any>(
             {children}
 
             <Select
+              {...props}
+              onChange={({ option, ...rest }) => {
+                form.setFieldValue(props.name, option.id);
+              }}
+              value={[props.options.find((e) => e.id === props.value)]}
+            />
+          </>
+        );
+      case TYPE.search:
+        return (
+          <>
+            {children}
+
+            <Select
+              type={TYPE.search}
               {...props}
               onChange={({ option, ...rest }) => {
                 form.setFieldValue(props.name, option.id);

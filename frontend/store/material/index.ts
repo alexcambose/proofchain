@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchMaterials } from './actions';
+import { fetchRawMaterials } from './actions';
 import initialState from './initialState';
 
 export const MaterialSlice = createSlice({
@@ -7,7 +7,16 @@ export const MaterialSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder: any) => {
-    builder.addCase(fetchMaterials.fulfilled, (state, { payload }) => {});
+    builder.addCase(fetchRawMaterials.fulfilled, (state, { payload }) => {
+      state.rawMaterials = payload.materials;
+      state.loadingRawMaterials = false;
+    });
+    builder.addCase(fetchRawMaterials.pending, (state, { payload }) => {
+      state.loadingRawMaterials = true;
+    });
+    builder.addCase(fetchRawMaterials.rejected, (state, { payload }) => {
+      state.loadingRawMaterials = false;
+    });
   },
 });
 
