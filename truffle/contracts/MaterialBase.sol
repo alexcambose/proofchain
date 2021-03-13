@@ -12,7 +12,6 @@ contract MaterialBase {
         uint256 indexed batchId,
         uint256 amount
     );
-    event T(address data1, uint256 data2, uint256 data3, bool data4);
     struct CertificateInstance {
         uint256 code;
         uint256 time;
@@ -22,7 +21,7 @@ contract MaterialBase {
         // a basic name for the material
         string name;
         // a real-life identification code, see https://www.gs1.org/standards/id-keys/gtin
-        uint256 code;
+        string code;
         // the address of the creator, the creator must own a company
         address creator;
         // certificates

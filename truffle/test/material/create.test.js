@@ -10,7 +10,7 @@ contract("RawMaterial", (accounts) => {
   const createMaterial = _createMaterial(account);
   const createRawMaterial = _createRawMaterial(account);
   const createBatch = _createBatch(account);
-  beforeEach(async () => {
+  before(async () => {
     const [materialInstance, companyInstance] = await getInstance();
 
     await companyInstance.methods.create("", 0).send({ from: account });
@@ -28,7 +28,7 @@ contract("RawMaterial", (accounts) => {
 
         const t = async () => {
           await materialInstance.methods
-            .create("Tomatoes", 1823, ["0x28181"])
+            .create("Tomatoes", "1823", ["0x28181"])
             .send({ from: otherAccount, gas: 300000 });
         };
         try {
@@ -60,7 +60,7 @@ contract("RawMaterial", (accounts) => {
 
         const materialTokenId3 = await createMaterial(
           "Salad",
-          1234,
+          "1234",
           [""],
           [materialTokenId1, materialTokenId2],
           [2, 9]
@@ -94,7 +94,7 @@ contract("RawMaterial", (accounts) => {
       it("throws error if specified batch balance is not available in the batch", async () => {
         const materialTokenId3 = await createMaterial(
           "Salad",
-          1234,
+          "1234",
           [""],
           [materialTokenId1, materialTokenId2],
           [2, 3]

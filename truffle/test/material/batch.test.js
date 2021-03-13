@@ -3,20 +3,20 @@ const {
   createMaterial: _createMaterial,
   createRawMaterial: _createRawMaterial,
   createBatch: _createBatch,
-} = require('../utils');
+} = require("../utils");
 
-contract('Material', (accounts) => {
+contract("Material", (accounts) => {
   const [account, otherAccount] = accounts;
   const createMaterial = _createMaterial(account);
   const createRawMaterial = _createRawMaterial(account);
   const createBatch = _createBatch(account);
-  beforeEach(async () => {
+  before(async () => {
     const [materialInstance, companyInstance] = await getInstance();
 
-    await companyInstance.methods.create('', 0).send({ from: account });
+    await companyInstance.methods.create("", 0).send({ from: account });
   });
-  describe('create batch', () => {
-    it('creates a new batch', async () => {
+  describe("create batch", () => {
+    it("creates a new batch", async () => {
       const [materialInstance, companyInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
       await materialInstance.methods
@@ -24,9 +24,9 @@ contract('Material', (accounts) => {
         .send({ from: account, gas: 300000 });
       const batchId = await createBatch(123, materialTokenId, 90);
       // is numeric
-      expect(typeof Number(batchId)).equal('number');
+      expect(typeof Number(batchId)).equal("number");
     });
-    it('throws error if the address does not have enough materials', async () => {
+    it("throws error if the address does not have enough materials", async () => {
       const [materialInstance, companyInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
       await materialInstance.methods
@@ -43,8 +43,8 @@ contract('Material', (accounts) => {
     });
   });
 
-  describe('burnBatchToken', () => {
-    it('removes the specified amount from the batch', async () => {
+  describe("burnBatchToken", () => {
+    it("removes the specified amount from the batch", async () => {
       const [materialInstance, companyInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
       await materialInstance.methods
@@ -56,9 +56,9 @@ contract('Material', (accounts) => {
         .send({ from: account, gas: 300000 });
       const result = await materialInstance.methods.batch(batchId).call();
       expect(result.materialTokenId).equal(materialTokenId);
-      expect(result.materialTokenAmount).equal('90');
+      expect(result.materialTokenAmount).equal("90");
     });
-    it('throws error if the specified amount is bigger than the available amount', async () => {
+    it("throws error if the specified amount is bigger than the available amount", async () => {
       const [materialInstance, companyInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
       await materialInstance.methods
@@ -74,11 +74,11 @@ contract('Material', (accounts) => {
       }
       const result = await materialInstance.methods.batch(batchId).call();
       expect(result.materialTokenId).equal(materialTokenId);
-      expect(result.materialTokenAmount).equal('100');
+      expect(result.materialTokenAmount).equal("100");
     });
   });
-  describe('changeBatchOwnershipBatch', () => {
-    it('should fail if called outside the company contract', async () => {
+  describe("changeBatchOwnershipBatch", () => {
+    it("should fail if called outside the company contract", async () => {
       const [materialInstance, companyInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
       await materialInstance.methods

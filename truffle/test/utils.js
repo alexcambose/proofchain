@@ -34,7 +34,11 @@ const createCompany = (account) => async (name = "Company name") => {
   return eventReturn.owner;
 };
 
-const createRawMaterial = (account) => async (name = "Tomatoes", code = 1234, images = ["abc"]) => {
+const createRawMaterial = (account) => async (
+  name = "Tomatoes",
+  code = "1234",
+  images = ["abc"]
+) => {
   const [materialInstance, companyInstance] = await getInstance();
 
   // create a company
@@ -47,7 +51,7 @@ const createRawMaterial = (account) => async (name = "Tomatoes", code = 1234, im
 
 const createMaterial = (account) => async (
   name = "Tomatoes",
-  code = 1234,
+  code = "1234",
   images = ["abc"],
   recipematerialTokenId = [],
   recipeMaterialAmount = []

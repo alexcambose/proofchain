@@ -24,7 +24,6 @@ contract("Company", (accounts) => {
     });
     it("throws erorr if there is already a company created", async () => {
       // const [, companyInstance] = await getInstance();
-      await createCompany("Company name");
       try {
         await createCompany("Company name");
       } catch (e) {
@@ -39,7 +38,6 @@ contract("Company", (accounts) => {
         companyInstance,
         certificateAuthorityManagerInstance,
       ] = await getInstance();
-      await createCompany("Company name");
 
       const code = await createCertificate();
       try {
@@ -60,7 +58,6 @@ contract("Company", (accounts) => {
         companyInstance,
         certificateAuthorityManagerInstance,
       ] = await getInstance();
-      await createCompany("Company name");
 
       const code = await createCertificate("aa", 2);
       const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
@@ -85,7 +82,6 @@ contract("Company", (accounts) => {
         companyInstance,
         certificateAuthorityManagerInstance,
       ] = await getInstance();
-      await createCompany("Company name");
 
       const code = await createCertificate("aa", 3);
       const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
@@ -108,7 +104,6 @@ contract("Company", (accounts) => {
         companyInstance,
         certificateAuthorityManagerInstance,
       ] = await getInstance();
-      await createCompany("Company name");
 
       const code = await createCertificate("aa", 4);
       const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();

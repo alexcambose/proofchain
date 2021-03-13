@@ -11,7 +11,7 @@
     "solhint": "./node_modules/.bin/solhint -f stylish contracts/**/*.sol",
     "dev": "truffle develop",
     "test": "truffle test",
-    "solc-build": "mkdir ./build/solc && cd ./build/solc && rm -rf ./* && solcjs --bin --abi --base-path ../../contracts ../../contracts/Factory.sol --optimize && cd ../.. && node sanitize-solc-build.js",
+    "solc-build": "mkdir -p ./build/solc && cd ./build/solc && rm -rf ./* && solcjs --bin --abi --base-path ../../contracts ../../contracts/Factory.sol --optimize && cd ../.. && node sanitize-solc-build.js",
     "migrate:rinkeby": "truffle migrate --network rinkeby"
   },
   "husky": {

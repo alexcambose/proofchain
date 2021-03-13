@@ -16,7 +16,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
     function create(
         string memory _name,
-        uint256 _code,
+        string memory _code,
         string[] memory _images
     ) public senderHasCompany {
         materialToken[materialTokenId].name = _name;
@@ -30,7 +30,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
     function create(
         string memory _name,
-        uint256 _code,
+        string memory _code,
         string[] memory _images,
         uint256[] memory _recipematerialTokenId,
         uint256[] memory _recipeMaterialAmount
@@ -185,14 +185,9 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
                 materialToken[_itemIdentifier].certificates[i] = materialToken[_itemIdentifier]
                     .certificates[length - 1];
-                emit T(
-                    certificateAuthorityManagerAddress,
-                    materialToken[_itemIdentifier].certificates[length - 1].stake,
-                    address(this).balance,
-                    true
-                );
+
                 // payable(certificateAuthorityManagerAddress).transfer(
-                //     100000000000000000
+                //     100000000000000000pornu
                 // );
                 delete materialToken[_itemIdentifier].certificates[length - 1];
             }
