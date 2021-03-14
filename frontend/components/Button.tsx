@@ -6,7 +6,6 @@ interface ButtonProps extends BaseUiButtonProps {}
 const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
   return (
     <BaseUiButton
-      {...props}
       overrides={{
         BaseButton: {
           style: ({ $theme }) => ({
@@ -17,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
           }),
         },
       }}
+      {...props}
     >
       {children}
     </BaseUiButton>

@@ -9,6 +9,7 @@ interface FormikFieldProps {
   name: string;
   type?:
     | 'text'
+    | 'number'
     | 'password'
     | 'textarea'
     | 'checkbox'
