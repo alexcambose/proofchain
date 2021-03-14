@@ -18,6 +18,7 @@ contract MaterialBase {
         uint256 stake;
     }
     struct MaterialTokenInfo {
+        uint256 materialTokenId;
         // a basic name for the material
         string name;
         // a real-life identification code, see https://www.gs1.org/standards/id-keys/gtin
