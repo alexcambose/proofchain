@@ -58,7 +58,10 @@ contract MaterialBase {
     uint256 public batchId = 0;
 
     modifier senderIsTokenCreator(uint256 _materialTokenId) {
-        require(msg.sender == materialToken[_materialTokenId].creator);
+        require(
+            msg.sender == materialToken[_materialTokenId].creator,
+            "You are not the creator of this token"
+        );
         _;
     }
 

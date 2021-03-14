@@ -74,10 +74,12 @@ contract("Material", (accounts) => {
     });
   });
   describe("getMaterialImages", async () => {
-    const [materialInstance] = await getInstance();
-    const images = ["img1", "img2"];
-    materialTokenId = await createRawMaterial("Material A", "321", images);
-    const result = await materialInstance.methods.getMaterialImages(materialTokenId).call();
-    expect(JSON.stringify(result)).equal(JSON.stringify(images));
+    it("returns the material images", async () => {
+      const [materialInstance] = await getInstance();
+      const images = ["img1", "img2"];
+      materialTokenId = await createRawMaterial("Material A", "321", images);
+      const result = await materialInstance.methods.getMaterialImages(materialTokenId).call();
+      expect(JSON.stringify(result)).equal(JSON.stringify(images));
+    });
   });
 });

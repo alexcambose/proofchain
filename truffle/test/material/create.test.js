@@ -41,7 +41,7 @@ contract("RawMaterial", (accounts) => {
     describe("compound material", async () => {
       let materialTokenId1;
       let materialTokenId2;
-      beforeEach(async () => {
+      before(async () => {
         const [materialInstance, companyInstance] = await getInstance();
         // generate raw materials
 

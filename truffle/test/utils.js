@@ -43,7 +43,7 @@ const createRawMaterial = (account) => async (
 
   // create a company
   const result = await materialInstance.methods
-    .create(name, code, images)
+    .create(name, code, "", images)
     .send({ from: account, gas: 400000 });
   const eventReturn = result.events.MaterialCreate.returnValues;
   return eventReturn.materialTokenId;
@@ -59,7 +59,7 @@ const createMaterial = (account) => async (
   const [materialInstance, companyInstance] = await getInstance();
 
   const result = await materialInstance.methods
-    .create(name, code, images, recipeMaterialTokenId, recipeMaterialAmount)
+    .create(name, code, "", images, recipeMaterialTokenId, recipeMaterialAmount)
     .send({ from: account, gas: 400000 });
   const eventReturn = result.events.MaterialCreate.returnValues;
   return eventReturn.materialTokenId;
