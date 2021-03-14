@@ -173,7 +173,7 @@ const _CreateMaterialForm: React.FC<
   CreateMaterialFormProps & FormikProps<FormValues>
 > = (props) => {
   // console.log(unitsOfMeasurement);
-  const { isSubmitting, values } = props;
+  const { isSubmitting, values, isRawMaterial } = props;
   return (
     <Form>
       <Field
@@ -187,6 +187,7 @@ const _CreateMaterialForm: React.FC<
         name="code"
         type="text"
         placeholder="Material code"
+        label="Material code"
         caption="Optional material identification code"
       />
       <Field
@@ -203,35 +204,37 @@ const _CreateMaterialForm: React.FC<
           },
         }}
       />
-      <FieldArray
-        name="recipe"
-        render={(arrayHelpers) => (
-          <>
-            {values.recipe.map((recipe, index) => (
-              <RecipeButtons index={index} arrayHelpers={arrayHelpers} />
-            ))}
-            <Button
-              kind={KIND.secondary}
-              type="button"
-              overrides={{
-                BaseButton: {
-                  style: ({ $theme }) => ({
-                    width: 'auto',
-                  }),
-                },
-              }}
-              onClick={() =>
-                arrayHelpers.push({
-                  materialTokenAmount: 1,
-                  materialTokenId: '',
-                })
-              }
-            >
-              <Plus /> Add material
-            </Button>
-          </>
-        )}
-      />
+      {!isRawMaterial && (
+        <FieldArray
+          name="recipe"
+          render={(arrayHelpers) => (
+            <>
+              {values.recipe.map((recipe, index) => (
+                <RecipeButtons index={index} arrayHelpers={arrayHelpers} />
+              ))}
+              <Button
+                kind={KIND.secondary}
+                type="button"
+                overrides={{
+                  BaseButton: {
+                    style: ({ $theme }) => ({
+                      width: 'auto',
+                    }),
+                  },
+                }}
+                onClick={() =>
+                  arrayHelpers.push({
+                    materialTokenAmount: 1,
+                    materialTokenId: '',
+                  })
+                }
+              >
+                <Plus /> Add material
+              </Button>
+            </>
+          )}
+        />
+      )}
       <Button isLoading={isSubmitting} disabled={isSubmitting} type="submit">
         Create material
       </Button>
@@ -253,12 +256,13 @@ const CreateMaterialForm = withFormik<CreateMaterialFormProps, FormValues>({
       ],
     };
   },
-  validationSchema: yup.object().shape({
-    name: validation.name,
-    code: validation.code,
-    amountIdentifier: validation.amountIdentifier,
-    recipe: validation.recipe,
-  }),
+  validationSchema: (props) =>
+    yup.object().shape({
+      name: validation.name,
+      code: validation.code,
+      amountIdentifier: validation.amountIdentifier,
+      ...(!props.isRawMaterial ? { recipe: validation.recipe } : {}),
+    }),
   handleSubmit: async (values, { props }) => {
     const { createMaterial, onSuccess } = props;
     await createMaterial(values);

@@ -8,7 +8,7 @@ const CreateRawMaterial = () => {
   };
   return (
     <>
-      <CreateMaterialForm onSuccess={onSucess} isRawMaterial={true} />
+      <CreateMaterialForm isRawMaterial onSuccess={onSucess} />
     </>
   );
 };

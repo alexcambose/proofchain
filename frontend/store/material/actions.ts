@@ -44,11 +44,49 @@ export const fetchRawMaterials = createAsyncThunk(
 );
 export const createMaterial = createAsyncThunk(
   'material/createMaterial',
-  async ({ name, code }: { name: string; code: string }) => {
+  async ({
+    name,
+    code,
+    amountIdentifier,
+    recipe,
+  }: {
+    name: string;
+    code: string;
+    amountIdentifier: string;
+    recipe?: [
+      {
+        materialTokenId: string;
+        materialTokenAmount: number;
+      }
+    ];
+  }) => {
+    let recipeMaterialTokenId = [];
+    let recipeMaterialAmount = [];
+    for (let { materialTokenId, materialTokenAmount } of recipe) {
+      if (materialTokenId && materialTokenAmount) {
+        recipeMaterialTokenId.push(materialTokenId);
+        recipeMaterialAmount.push(materialTokenAmount);
+      }
+    }
+    console.log({
+      name,
+      code,
+      images: [],
+      amountIdentifier,
+      recipeMaterialTokenId,
+      recipeMaterialAmount,
+    });
     const result = await transactionWrapper(
-      async () => await proofchain().material.create({ name, code, images: [] })
+      async () =>
+        await proofchain().material.create({
+          name,
+          code,
+          images: [],
+          amountIdentifier,
+          recipeMaterialTokenId,
+          recipeMaterialAmount,
+        })
     );
-    console.log(result);
     return {};
   }
 );

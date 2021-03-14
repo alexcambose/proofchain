@@ -21,7 +21,7 @@ const ropsten = {
   //todo update this, contract is on rinkeby
   http: 'https://rinkeby.infura.io/v3/27c99ce149ba413080a05eff7597f5cc',
   wss: 'wss://rinkeby.infura.io/ws/v3/27c99ce149ba413080a05eff7597f5cc',
-  factoryContractAddress: '0x8d6eD3B69c05775Ef2e50Ad16c6627E800f218DF',
+  factoryContractAddress: '0x36FD641488D9373184a58AB8AB52F2e16005eFda',
   etherscan: 'https://rinkeby.etherscan.io/',
 };
 export default {
