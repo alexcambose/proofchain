@@ -9,6 +9,8 @@ interface IMaterial {
   name: string;
   code: string;
   images: string[];
+  amountIdentifier: string;
+
   recipeMaterialTokenId: number[];
   recipeMaterialAmount: number[];
   isValue: boolean;
@@ -16,6 +18,7 @@ interface IMaterial {
 interface ICreateRawMaterial {
   name: string;
   code: string;
+  amountIdentifier: string;
   images?: string[];
   recipeMaterialTokenId?: number[];
   recipeMaterialAmount?: number[];
@@ -37,6 +40,7 @@ class Material extends Base implements IEntity {
   async create({
     name,
     code,
+    amountIdentifier,
     images = [],
     recipeMaterialTokenId = [],
     recipeMaterialAmount = [],
@@ -45,19 +49,26 @@ class Material extends Base implements IEntity {
     // check if the specified recipe ids exist
     for (let id of recipeMaterialTokenId) {
       const material = await this.getById(id, false);
-      if (!material.isValue) {
+      if (!material) {
         throw new Error(`Material with id ${id} does not exist`);
       }
     }
     const transaction = await this.contract.methods
-      .create(name, code, images, recipeMaterialTokenId, recipeMaterialAmount)
+      .create(
+        name,
+        code,
+        amountIdentifier,
+        images,
+        recipeMaterialTokenId,
+        recipeMaterialAmount
+      )
       .send({ from: this.fromAddress, gas: 300000 });
     return new MinedTransaction<CreateTransactionEvents>(transaction);
   }
   async getById(
     materialTokenId: string | number,
     full: boolean = true
-  ): Promise<IMaterial> {
+  ): Promise<IMaterial | null> {
     await this.ensureContract();
     const material: IMaterial = await this.contract.methods
       .materialToken(String(materialTokenId))
@@ -69,13 +80,13 @@ class Material extends Base implements IEntity {
       material.recipeMaterialTokenId = recipe['0'];
       material.recipeMaterialAmount = recipe['1'];
     }
-
+    if (!material.isValue) return null;
     return material;
   }
   async all({
     onlyRawMaterials,
     onlyMaterials,
-  }: IMaterialTypeSelector = {}): Promise<IMaterial[]> {
+  }: IMaterialTypeSelector = {}): Promise<(IMaterial | null)[]> {
     await this.ensureContract();
     const createEvents = await this.getPastEvents<MaterialCreateEvent>(
       'MaterialCreate',
@@ -86,12 +97,12 @@ class Material extends Base implements IEntity {
       const fetchedMaterial = await this.getById(createEvent.materialTokenId);
       if (
         onlyRawMaterials &&
-        fetchedMaterial.recipeMaterialTokenId.length > 0
+        fetchedMaterial!.recipeMaterialTokenId.length > 0
       ) {
         continue;
       } else if (
         onlyMaterials &&
-        fetchedMaterial.recipeMaterialTokenId.length === 0
+        fetchedMaterial!.recipeMaterialTokenId.length === 0
       ) {
         continue;
       } else {

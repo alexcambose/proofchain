@@ -24,6 +24,7 @@ describe('raw material', () => {
       const result = await proofChain.material.create({
         name: 'product',
         code: '123',
+        amountIdentifier: 'kg',
       });
       expect(result.events.MaterialCreate.company).toEqual(account);
       expect(result.events.MaterialCreate.materialTokenId).toEqual('0');
@@ -35,6 +36,7 @@ describe('raw material', () => {
       await proofChain.material.create({
         name: 'product',
         code: '123',
+        amountIdentifier: 'kg',
       });
       const materials = await proofChain.material.all();
       expect(materials.length > 1).toEqual(true);
@@ -43,10 +45,12 @@ describe('raw material', () => {
       const rawMaterial = await proofChain.material.create({
         name: 'product',
         code: '123',
+        amountIdentifier: 'kg',
       });
       const result = await proofChain.material.create({
         name: 'product_not_raw',
         code: '123',
+        amountIdentifier: 'kg',
         recipeMaterialTokenId: [
           rawMaterial.events.MaterialCreate.materialTokenId,
         ],
@@ -60,13 +64,13 @@ describe('raw material', () => {
         onlyMaterials: true,
       });
       expect(
-        onlyRawMaterials.find((e) => e.name === 'product_not_raw')
+        onlyRawMaterials.find((e) => e!.name === 'product_not_raw')
       ).toEqual(undefined);
-      expect(materials.find((e) => e.name === 'product_not_raw')).not.toEqual(
+      expect(materials.find((e) => e!.name === 'product_not_raw')).not.toEqual(
         undefined
       );
       expect(
-        onlyMaterials.find((e) => e.name === 'product_not_raw')
+        onlyMaterials.find((e) => e!.name === 'product_not_raw')
       ).not.toEqual(undefined);
     });
   });
@@ -76,13 +80,14 @@ describe('raw material', () => {
       const result = await proofChain.material.create({
         name: 'product',
         code: '123',
+        amountIdentifier: 'kg',
         images: ['a'],
       });
       const fetched = await proofChain.material.getById(
         result.events.MaterialCreate.materialTokenId
       );
-      expect(fetched.name).toEqual('product');
-      expect(fetched.code).toEqual('123');
+      expect(fetched!.name).toEqual('product');
+      expect(fetched!.code).toEqual('123');
     });
   });
   describe('countAll', () => {
@@ -92,6 +97,7 @@ describe('raw material', () => {
         name: 'product',
         code: '123',
         images: ['a'],
+        amountIdentifier: 'kg',
       });
       const length = await proofChain.material.countAll();
       expect(length > 1).toEqual(true);

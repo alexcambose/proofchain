@@ -24,10 +24,12 @@ describe('Material', () => {
       const rawMaterial = await proofChain.material.create({
         name: 'raw product',
         code: '123',
+        amountIdentifier: 'kg',
       });
       const result = await proofChain.material.create({
         name: 'product',
         code: '123',
+        amountIdentifier: 'kg',
         recipeMaterialTokenId: [
           rawMaterial.events.MaterialCreate.materialTokenId,
         ],
@@ -40,6 +42,7 @@ describe('Material', () => {
       const resultPromise = proofChain.material.create({
         name: 'product',
         code: '123',
+        amountIdentifier: 'kg',
         images: ['a'],
         recipeMaterialTokenId: [99],
         recipeMaterialAmount: [2],
