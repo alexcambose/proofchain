@@ -19,6 +19,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         string memory _code,
         string[] memory _images
     ) public senderHasCompany {
+        materialToken[materialTokenId].materialTokenId = materialTokenId;
         materialToken[materialTokenId].name = _name;
         materialToken[materialTokenId].code = _code;
         materialToken[materialTokenId].images = _images;
