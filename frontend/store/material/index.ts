@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { refreshLogin } from '@store/user/actions';
-import { fetchRawMaterials } from './actions';
+import { fetchMaterials, fetchRawMaterials } from './actions';
 import initialState from './initialState';
 
 export const MaterialSlice = createSlice({
@@ -17,6 +17,16 @@ export const MaterialSlice = createSlice({
     });
     builder.addCase(fetchRawMaterials.rejected, (state, { payload }) => {
       state.loadingRawMaterials = false;
+    });
+    builder.addCase(fetchMaterials.fulfilled, (state, { payload }) => {
+      state.materials = payload.materials;
+      state.loadingMaterials = false;
+    });
+    builder.addCase(fetchMaterials.pending, (state, { payload }) => {
+      state.loadingMaterials = true;
+    });
+    builder.addCase(fetchMaterials.rejected, (state, { payload }) => {
+      state.loadingMaterials = false;
     });
   },
 });

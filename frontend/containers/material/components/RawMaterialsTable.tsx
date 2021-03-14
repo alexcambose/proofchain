@@ -1,33 +1,31 @@
+import Table from '@components/table/Table';
 import TableLoadingSkeleton from '@components/table/TableLoadingSkeleton';
+import TransactionLink from '@components/TransactionLink';
 import { shortenAddress } from '@utils/eth';
 import { StyledLink } from 'baseui/link';
-import { Table } from 'baseui/table-semantic';
 import config from 'config';
 import { IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
 interface IMaterialsTableProps {
   materials: IMaterial[];
-  loading?: boolean;
+  isLoading?: boolean;
 }
 const RawMaterialsTable: React.FC<IMaterialsTableProps> = ({
-  loading,
+  isLoading,
   materials,
 }) => {
   return (
     <Table
-      loadingMessage={<TableLoadingSkeleton />}
-      isLoading={loading}
+      isLoading={isLoading}
       columns={['ID', 'Name', 'Code', 'Create Transaction']}
       data={materials.map((e) => [
         e.materialTokenId,
         e.name,
         e.code,
-        <StyledLink
-          href={`${config.ethProvider.default.etherscan}tx/${e.events.MaterialCreate.transactionHash}`}
-        >
-          {shortenAddress(e.events.MaterialCreate.transactionHash, 10)}
-        </StyledLink>,
+        <TransactionLink>
+          {e.events.MaterialCreate.transactionHash}
+        </TransactionLink>,
       ])}
       emptyMessage={
         <Link href="/raw-material/create">

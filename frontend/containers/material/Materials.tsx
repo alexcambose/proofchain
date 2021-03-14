@@ -1,12 +1,12 @@
 import { State } from '@store/index';
-import { fetchRawMaterials } from '@store/material/actions';
-import { useEffect } from 'react';
+import { fetchMaterials } from '@store/material/actions';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import RawMaterialsTable from './components/RawMaterialsTable';
+import MaterialsTable from './components/MaterialsTable';
 
 const Materials = () => {
   const dispatch = useDispatch();
-  const Materials = useSelector((state: State) => state.material.materials);
+  const materials = useSelector((state: State) => state.material.materials);
   const loadingMaterials = useSelector(
     (state: State) => state.material.loadingMaterials
   );
@@ -15,7 +15,7 @@ const Materials = () => {
   }, []);
   return (
     <>
-      <MaterialsTable loading={loadingMaterials} materials={Materials} />
+      <MaterialsTable isLoading={loadingMaterials} materials={materials} />
     </>
   );
 };

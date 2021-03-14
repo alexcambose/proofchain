@@ -36,6 +36,28 @@ const CompanySidebar = () => {
             },
           ],
         },
+        {
+          title: 'Batches',
+          itemId: '/batch',
+          subNav: [
+            { title: 'All batches', itemId: '/batch' },
+            {
+              title: 'Create batch',
+              itemId: '/batch/create',
+            },
+          ],
+        },
+        {
+          title: 'Transactions',
+          itemId: '/transaction',
+          subNav: [
+            { title: 'All batches', itemId: '/transaction' },
+            {
+              title: 'Create transaction',
+              itemId: '/transaction/create',
+            },
+          ],
+        },
       ]}
       activeItemId={activeItemId}
       mapItem={(e) => {

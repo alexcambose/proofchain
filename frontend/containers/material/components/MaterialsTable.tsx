@@ -1,23 +1,29 @@
-import TableLoadingSkeleton from '@components/table/TableLoadingSkeleton';
+import Table from '@components/table/Table';
+import TransactionLink from '@components/TransactionLink';
 import { StyledLink } from 'baseui/link';
-import { Table } from 'baseui/table-semantic';
 import { IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
 interface IMaterialsTableProps {
   materials: IMaterial[];
-  loading?: boolean;
+  isLoading?: boolean;
 }
 const MaterialsTable: React.FC<IMaterialsTableProps> = ({
-  loading,
+  isLoading,
   materials,
 }) => {
   return (
     <Table
-      loadingMessage={<TableLoadingSkeleton />}
-      isLoading={loading}
+      isLoading={isLoading}
       columns={['ID', 'Name', 'Code', 'Create Transaction']}
-      data={materials.map((e) => [e.materialTokenId, e.name, e.code])}
+      data={materials.map((e) => [
+        e.materialTokenId,
+        e.name,
+        e.code,
+        <TransactionLink>
+          {e.events.MaterialCreate.transactionHash}
+        </TransactionLink>,
+      ])}
       emptyMessage={
         <Link href="/material/create">
           <StyledLink animateUnderline href="#">

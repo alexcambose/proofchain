@@ -1,6 +1,7 @@
 import Button from '@components/Button';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
+import MaterialRecipeSpecifier from '@components/MaterialRecipeSpecifier';
 import { createMaterial } from '@store/material/actions';
 import { capitalizeFirstLetter } from '@utils/misc';
 import name from '@utils/validation/name';
@@ -11,7 +12,10 @@ import { connect } from 'react-redux';
 import * as yup from 'yup';
 import commonUnits from '../../../data/commonUnits.json';
 interface CreateMaterialFormProps
-  extends ReturnType<typeof mapDispatchToProps> {}
+  extends ReturnType<typeof mapDispatchToProps> {
+  isRawMaterial?: boolean;
+  onSuccess?: () => void;
+}
 interface FormValues {
   name: string;
   code: string;
@@ -55,7 +59,8 @@ const _CreateMaterialForm: React.FC<
           },
         }}
       />
-      <Button isLoading={isSubmitting} type="submit">
+      <MaterialRecipeSpecifier />
+      <Button isLoading={isSubmitting} disabled={isSubmitting} type="submit">
         Create material
       </Button>
     </Form>
@@ -83,7 +88,9 @@ const CreateMaterialForm = withFormik<CreateMaterialFormProps, FormValues>({
   },
 
   handleSubmit: async (values, { props }) => {
-    await props.createMaterial(values);
+    const { createMaterial, onSuccess } = props;
+    await createMaterial(values);
+    onSuccess && onSuccess();
   },
 })(_CreateMaterialForm);
 const mapDispatchToProps = (dispatch) => {

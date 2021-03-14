@@ -18,7 +18,7 @@ const RawMaterials = () => {
   return (
     <>
       <RawMaterialsTable
-        loading={loadingRawMaterials}
+        isLoading={loadingRawMaterials}
         materials={rawMaterials}
       />
     </>
