@@ -1,8 +1,6 @@
 import TableLoadingSkeleton from '@components/table/TableLoadingSkeleton';
-import { shortenAddress } from '@utils/eth';
 import { StyledLink } from 'baseui/link';
 import { Table } from 'baseui/table-semantic';
-import config from 'config';
 import { IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
@@ -10,7 +8,7 @@ interface IMaterialsTableProps {
   materials: IMaterial[];
   loading?: boolean;
 }
-const RawMaterialsTable: React.FC<IMaterialsTableProps> = ({
+const MaterialsTable: React.FC<IMaterialsTableProps> = ({
   loading,
   materials,
 }) => {
@@ -19,20 +17,11 @@ const RawMaterialsTable: React.FC<IMaterialsTableProps> = ({
       loadingMessage={<TableLoadingSkeleton />}
       isLoading={loading}
       columns={['ID', 'Name', 'Code', 'Create Transaction']}
-      data={materials.map((e) => [
-        e.materialTokenId,
-        e.name,
-        e.code,
-        <StyledLink
-          href={`${config.ethProvider.default.etherscan}tx/${e.events.MaterialCreate.transactionHash}`}
-        >
-          {shortenAddress(e.events.MaterialCreate.transactionHash, 10)}
-        </StyledLink>,
-      ])}
+      data={materials.map((e) => [e.materialTokenId, e.name, e.code])}
       emptyMessage={
-        <Link href="/raw-material/create">
+        <Link href="/material/create">
           <StyledLink animateUnderline href="#">
-            Create a new raw material
+            Create a new material
           </StyledLink>
         </Link>
       }
@@ -40,4 +29,4 @@ const RawMaterialsTable: React.FC<IMaterialsTableProps> = ({
   );
 };
 
-export default RawMaterialsTable;
+export default MaterialsTable;

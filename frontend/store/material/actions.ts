@@ -5,7 +5,19 @@ import proofchain from 'proofchain';
 export const fetchRawMaterials = createAsyncThunk(
   'material/fetchRawMaterials',
   async () => {
-    const materials = await proofchain().material.all();
+    let materials = await proofchain().material.all();
+    materials = await Promise.all(
+      materials.map(async (e) => ({
+        ...e,
+        events: {
+          MaterialCreate: (
+            await proofchain().material.getRawPastEvents('MaterialCreate', {
+              company: proofchain().material.fromAddress,
+            })
+          )[0],
+        },
+      }))
+    );
     console.log(materials);
     return { materials };
   }

@@ -37,7 +37,7 @@ const BreadcrumbNavigation = () => {
     }
   }, [router]);
 
-  if (!breadcrumbs) {
+  if (router.pathname === '/' || !breadcrumbs) {
     return null;
   }
   return (
@@ -57,7 +57,9 @@ const BreadcrumbNavigation = () => {
             {i === breadcrumbs.length - 1 ? (
               <span>{breadcrumb.text}</span>
             ) : (
-              <StyledLink href={breadcrumb.href}>{breadcrumb.text}</StyledLink>
+              <StyledLink animateUnderline href={breadcrumb.href}>
+                {breadcrumb.text}
+              </StyledLink>
             )}
           </Link>
         );

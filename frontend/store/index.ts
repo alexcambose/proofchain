@@ -7,11 +7,14 @@ import CompanyEntitySlice from './companyEntity';
 import { ICompanyEntity } from './companyEntity/interface';
 import MaterialSlice from './material';
 import { IMaterialStore } from './material/interface';
+import ApplicationSlice from './application';
+import { IApplication } from './application/interface';
 
 export interface State {
   user: IUser;
   companyEntity: ICompanyEntity;
   material: IMaterialStore;
+  application: IApplication;
 }
 
 // create a makeStore function
@@ -22,6 +25,7 @@ const makeStore: MakeStore<State> = (context: Context) =>
       user: UserSlice,
       companyEntity: CompanyEntitySlice,
       material: MaterialSlice,
+      application: ApplicationSlice,
     },
   });
 

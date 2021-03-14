@@ -42,7 +42,8 @@ const _CreateMaterialForm: React.FC<
         caption="Optional material identification code"
       />
       <Field
-        label="Entity type"
+        label="Amount indentifier"
+        caption="The identifier of one unit of this material. (eg: 1 liter of water)"
         name="amountIdentifier"
         type={'select'}
         options={unitsOfMeasurement}

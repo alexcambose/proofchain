@@ -27,7 +27,6 @@ const CopyButton = ({ hash }) => {
   );
 };
 const transactionToast = (hash) => {
-  hash = shortenAddress(hash, 12);
   const onViewClick = () => {
     var win = window.open(
       config.ethProvider.default.etherscan + `tx/${hash}`,
@@ -37,7 +36,7 @@ const transactionToast = (hash) => {
   };
   return toaster.positive(
     <>
-      <div>Success! Hash: {hash}</div>
+      <div>Success! Hash: {shortenAddress(hash, 10)}</div>
       <ButtonContainer>
         <CopyButton hash={hash} />
         <Button size={SIZE.mini} onClick={onViewClick}>
