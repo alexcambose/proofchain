@@ -31,7 +31,7 @@ contract MaterialBase {
         // ipfs images hash
         string[] images;
         // mapping from (tokenID -> amount of the amount identifier)
-        uint256[] recipematerialTokenId;
+        uint256[] recipeMaterialTokenId;
         uint256[] recipeMaterialAmount;
         // amount identifier (kg, grams)
         string amountIdentifier;
@@ -74,6 +74,20 @@ contract MaterialBase {
         return materialToken[_materialTokenId].certificates[_index];
     }
 
+    function getMaterialImages(uint256 _materialTokenId) public view returns (string[] memory) {
+        return materialToken[_materialTokenId].images;
+    }
+
+    function getMaterialRecipe(uint256 _materialTokenId)
+        public
+        view
+        returns (uint256[] memory, uint256[] memory)
+    {
+        return (
+            materialToken[_materialTokenId].recipeMaterialTokenId,
+            materialToken[_materialTokenId].recipeMaterialAmount
+        );
+    }
     // function getBatchById(uint256 _batchId)
     //     public
     //     view

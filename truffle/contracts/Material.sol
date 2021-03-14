@@ -33,21 +33,21 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         string memory _name,
         string memory _code,
         string[] memory _images,
-        uint256[] memory _recipematerialTokenId,
+        uint256[] memory _recipeMaterialTokenId,
         uint256[] memory _recipeMaterialAmount
     ) public senderHasCompany {
         require(
-            _recipematerialTokenId.length == _recipeMaterialAmount.length,
+            _recipeMaterialTokenId.length == _recipeMaterialAmount.length,
             "Arrays must be the same length"
         );
-        materialToken[materialTokenId].recipematerialTokenId = _recipematerialTokenId;
+        materialToken[materialTokenId].recipeMaterialTokenId = _recipeMaterialTokenId;
         materialToken[materialTokenId].recipeMaterialAmount = _recipeMaterialAmount;
         create(_name, _code, _images);
     }
 
     function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {
         require(
-            materialToken[_tokenID].recipematerialTokenId.length == 0,
+            materialToken[_tokenID].recipeMaterialTokenId.length == 0,
             "You need to specify the required products"
         );
 
@@ -66,12 +66,12 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         require(_batchesId.length == _batchesAmount.length, "Arrays must be the same length");
         // the material token that we want to mint is a compound token
         require(
-            materialToken[_tokenID].recipematerialTokenId.length != 0,
+            materialToken[_tokenID].recipeMaterialTokenId.length != 0,
             "The token does not need additional ingredients"
         );
         // specified batches must be at least the same length of the material token recipe
         require(
-            materialToken[_tokenID].recipematerialTokenId.length <= _batchesId.length,
+            materialToken[_tokenID].recipeMaterialTokenId.length <= _batchesId.length,
             "Not enough ingredients provided"
         );
 
@@ -80,7 +80,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         for (uint8 amountIndex = 0; amountIndex < _amount; amountIndex++) {
             uint256[] memory recipeMaterialsAmount = materialToken[_tokenID].recipeMaterialAmount;
             uint256 recipeMaterialsAmountUnusedLength = recipeMaterialsAmount.length;
-            for (uint8 i = 0; i < materialToken[_tokenID].recipematerialTokenId.length; i++) {
+            for (uint8 i = 0; i < materialToken[_tokenID].recipeMaterialTokenId.length; i++) {
                 for (uint8 j = 0; j < _batchesId.length; j++) {
                     require(
                         batch[_batchesId[j]].materialTokenAmount >= _batchesAmount[j],
@@ -90,7 +90,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                     if (
                         // same ids
                         batch[_batchesId[j]].materialTokenId ==
-                        materialToken[_tokenID].recipematerialTokenId[i] &&
+                        materialToken[_tokenID].recipeMaterialTokenId[i] &&
                         // there is still a neeed for required material
                         recipeMaterialsAmount[i] != 0 &&
                         // the specified available amount for the current batch is > 0

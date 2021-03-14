@@ -53,13 +53,13 @@ const createMaterial = (account) => async (
   name = "Tomatoes",
   code = "1234",
   images = ["abc"],
-  recipematerialTokenId = [],
+  recipeMaterialTokenId = [],
   recipeMaterialAmount = []
 ) => {
   const [materialInstance, companyInstance] = await getInstance();
 
   const result = await materialInstance.methods
-    .create(name, code, images, recipematerialTokenId, recipeMaterialAmount)
+    .create(name, code, images, recipeMaterialTokenId, recipeMaterialAmount)
     .send({ from: account, gas: 400000 });
   const eventReturn = result.events.MaterialCreate.returnValues;
   return eventReturn.materialTokenId;

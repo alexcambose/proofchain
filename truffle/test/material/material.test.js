@@ -55,4 +55,29 @@ contract("Material", (accounts) => {
       }
     });
   });
+  describe("getMaterialRecipe", () => {
+    it("returns the material recipe", async () => {
+      const [materialInstance] = await getInstance();
+      materialTokenId1 = await createRawMaterial("Material A");
+      materialTokenId2 = await createRawMaterial("Material B");
+      const materialTokenId = await createMaterial(
+        "Salad",
+        "1234",
+        [""],
+        [materialTokenId1, materialTokenId2],
+        [2, 9]
+      );
+
+      const result = await materialInstance.methods.getMaterialRecipe(materialTokenId).call();
+      expect(result["0"].length).equal(2);
+      expect(result["1"].length).equal(2);
+    });
+  });
+  describe("getMaterialImages", async () => {
+    const [materialInstance] = await getInstance();
+    const images = ["img1", "img2"];
+    materialTokenId = await createRawMaterial("Material A", "321", images);
+    const result = await materialInstance.methods.getMaterialImages(materialTokenId).call();
+    expect(JSON.stringify(result)).equal(JSON.stringify(images));
+  });
 });
