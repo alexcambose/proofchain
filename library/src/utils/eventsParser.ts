@@ -4,6 +4,8 @@ export const parseTransactionEvents = <T>(events: any): T => {
   for (let name of eventNames) {
     // @ts-ignore
     computedEvents[name] = parseEvent(events[name]);
+    // @ts-ignore
+    computedEvents[name].event = events[name];
   }
   return computedEvents as T;
 };

@@ -42,7 +42,6 @@ class Company extends Base implements IEntity {
     await this.ensureContract();
 
     if (!address) address = this.fromAddress;
-    console.log(`Checking company for `, address);
     const company = await this.contract.methods.companies(address).call();
     return company.isValue;
   }

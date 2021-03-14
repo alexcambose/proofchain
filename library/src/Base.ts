@@ -1,5 +1,7 @@
 import { Aggregator } from './abi';
 import Web3 from 'web3';
+import { parseEvent } from './utils/eventsParser';
+import IEmittedEvent from './interface/IEmittedEvent';
 
 type BaseContracts =
   | 'companyContract'
@@ -10,7 +12,7 @@ abstract class Base {
   contract: any = null;
   constructor(
     protected web3: Web3,
-    protected fromAddress: string,
+    public fromAddress: string,
     protected factoryContract: any,
     protected contractName: BaseContracts,
     protected contractAbi: any[]
@@ -38,6 +40,21 @@ abstract class Base {
     }
     // if the contract is already set
     return this.contract;
+  }
+  async getRawPastEvents(
+    eventName: string,
+    filter: object = {}
+  ): Promise<IEmittedEvent[]> {
+    const events = await this.contract.getPastEvents(eventName, {
+      filter,
+      fromBlock: 0,
+      toBlock: 'latest',
+    });
+    return events;
+  }
+  async getPastEvents<T>(eventName: string, filter: object = {}): Promise<T[]> {
+    const events = await this.getRawPastEvents(eventName, filter);
+    return events.map(parseEvent);
   }
 }
 

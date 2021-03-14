@@ -38,7 +38,10 @@ describe('Company', () => {
       //
     });
   });
-  describe('hasCompnay', () => {
-    it('returns true if the specified address has a company', async () => {});
+  describe('hasCompany', () => {
+    it('returns true if the specified address has a company', async () => {
+      const hasCompany = await proofChain.company.hasCompany();
+      expect(hasCompany).toEqual(true);
+    });
   });
 });
