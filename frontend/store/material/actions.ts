@@ -68,14 +68,6 @@ export const createMaterial = createAsyncThunk(
         recipeMaterialAmount.push(materialTokenAmount);
       }
     }
-    console.log({
-      name,
-      code,
-      images: [],
-      amountIdentifier,
-      recipeMaterialTokenId,
-      recipeMaterialAmount,
-    });
     const result = await transactionWrapper(
       async () =>
         await proofchain().material.create({
@@ -88,5 +80,13 @@ export const createMaterial = createAsyncThunk(
         })
     );
     return {};
+  }
+);
+export const fetchMaterialInfo = createAsyncThunk(
+  'material/fetchMaterialInfo',
+  async ({ materialTokenId }: { materialTokenId: number }) => {
+    const material = await proofchain().material.getById(materialTokenId);
+    const balance = await proofchain().material.getBalance(materialTokenId);
+    return { material, balance };
   }
 );

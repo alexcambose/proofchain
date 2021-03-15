@@ -5,6 +5,11 @@ const initialState: IMaterialStore = {
   rawMaterials: [],
   loadingRawMaterials: false,
   loadingMaterials: false,
+  materialInfo: {
+    material: null,
+    balance: 0,
+  },
+  loadingMaterialInfo: false,
 };
 
 export default initialState;

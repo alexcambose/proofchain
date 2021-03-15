@@ -5,4 +5,9 @@ export interface IMaterialStore {
   rawMaterials?: IMaterial[];
   loadingRawMaterials?: boolean;
   loadingMaterials?: boolean;
+  materialInfo: {
+    balance: number;
+    material: IMaterial;
+  };
+  loadingMaterialInfo: boolean;
 }

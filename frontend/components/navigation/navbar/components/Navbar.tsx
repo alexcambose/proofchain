@@ -1,14 +1,12 @@
-import * as React from 'react';
-import {
-  HeaderNavigation,
-  ALIGN,
-  StyledNavigationList,
-  StyledNavigationItem,
-} from 'baseui/header-navigation';
-import { StyledLink } from 'baseui/link';
-import { Button } from 'baseui/button';
-import uuid from 'react-uuid';
 import Logo from '@assets/images/logo/logo-full-dark.svg';
+import {
+  ALIGN,
+  HeaderNavigation,
+  StyledNavigationItem,
+  StyledNavigationList,
+} from 'baseui/header-navigation';
+import * as React from 'react';
+import uuid from 'react-uuid';
 interface ItemsInterface {
   content: any;
 }
