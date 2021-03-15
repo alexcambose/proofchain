@@ -122,5 +122,23 @@ class Material extends Base implements IEntity {
     );
     return createEvents.length;
   }
+  async getBalance(materialTokenId: number): Promise<number> {
+    const balance = await this.contract.methods
+      .getBalance(materialTokenId, this.fromAddress)
+      .call();
+    return parseInt(balance);
+  }
+  async mint({
+    materialTokenId,
+    amount,
+  }: {
+    materialTokenId: number;
+    amount: number;
+  }) {
+    await this.ensureContract();
+    await this.contract.methods
+      .mint(materialTokenId, amount)
+      .send({ from: this.fromAddress, gas: 300000 });
+  }
 }
 export default Material;

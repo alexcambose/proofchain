@@ -4,12 +4,12 @@ import CompanyEntityTypeEnum from '../../src/enums/CompanyEntityTypeEnum';
 import Web3 from 'web3';
 
 describe('Company', () => {
-  let proofChain: Proofchain;
+  let proofchain: Proofchain;
   let account;
   beforeAll(async () => {
     // @ts-ignore
     [account] = await new Web3(provider).eth.getAccounts();
-    proofChain = await Proofchain.providerInit({
+    proofchain = await Proofchain.providerInit({
       web3Provider: provider,
       factoryContractAddress: await deployedFactoryAddress(),
       fromAddress: account,
@@ -17,7 +17,7 @@ describe('Company', () => {
   });
   describe('create', () => {
     it('creates a new company', async () => {
-      const result = await proofChain.company.create({
+      const result = await proofchain.company.create({
         name: 'company',
         entityType: CompanyEntityTypeEnum.MANUFACTURER,
       });
@@ -28,7 +28,7 @@ describe('Company', () => {
   });
   describe('getCompany', () => {
     it('returns the  company associated with the default address, if the address is not specified', async () => {
-      const companyInfo = await proofChain.company.getCompany();
+      const companyInfo = await proofchain.company.getCompany();
       expect(companyInfo.name).toEqual('company');
       expect(companyInfo.entityType).toEqual(
         CompanyEntityTypeEnum.MANUFACTURER
@@ -40,7 +40,7 @@ describe('Company', () => {
   });
   describe('hasCompany', () => {
     it('returns true if the specified address has a company', async () => {
-      const hasCompany = await proofChain.company.hasCompany();
+      const hasCompany = await proofchain.company.hasCompany();
       expect(hasCompany).toEqual(true);
     });
   });
