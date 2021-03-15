@@ -1,12 +1,19 @@
 import Layout from '@containers/Layout';
 import Materials from '@containers/material/Materials';
+import { Head } from 'next/document';
 import React from 'react';
 
 const Index = () => {
   return (
-    <Layout title="All Materials">
-      <Materials />
-    </Layout>
+    <>
+      <Head>
+        <title>Materials</title>
+      </Head>
+
+      <Layout title="All Materials">
+        <Materials />
+      </Layout>
+    </>
   );
 };
 export default Index;
