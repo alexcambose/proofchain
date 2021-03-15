@@ -17,3 +17,12 @@ export interface IMaterialTransfer {
   hash: string;
   event: any;
 }
+export interface IBatch {
+  batchId: number;
+  code: string;
+  materialTokenId: number;
+  materialTokenAmount: number;
+  events?: {
+    BatchCreate: any;
+  };
+}

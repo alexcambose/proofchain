@@ -5,6 +5,8 @@ import code from './code';
 import amountIdentifier from './amountIdentifier';
 import recipe from './recipe';
 import mintAmount from './mintAmount';
+import materialTokenAmount from './materialTokenAmount';
+import batchCode from './batchCode';
 export default {
   email,
   password,
@@ -13,4 +15,6 @@ export default {
   amountIdentifier,
   recipe,
   mintAmount,
+  materialTokenAmount,
+  batchCode,
 };
