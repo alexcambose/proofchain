@@ -1,11 +1,11 @@
 import Button from '@components/Button';
 import Table from '@components/table/Table';
+import ViewButton from '@components/table/ViewMaterialButton';
 import TransactionLink from '@components/TransactionLink';
 import { StyledLink } from 'baseui/link';
 import { IBatch, IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
-import ViewMaterialButton from './ViewMaterialButton';
 interface IBatchesTableProps {
   batches: IBatch[];
   isLoading?: boolean;
@@ -30,12 +30,12 @@ const BatchesTable: React.FC<IBatchesTableProps> = ({ isLoading, batches }) => {
         <TransactionLink>
           {e.events.BatchCreate.transactionHash}
         </TransactionLink>,
-        <ViewMaterialButton materialTokenId={e.materialTokenId} />,
+        <ViewButton id={e.materialTokenId} baseUrl="/batch" />,
       ])}
       emptyMessage={
-        <Link href="/material/create">
+        <Link href="/batch/create">
           <StyledLink animateUnderline href="#">
-            Create a new material
+            Create a new batch
           </StyledLink>
         </Link>
       }

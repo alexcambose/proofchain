@@ -17,7 +17,7 @@ const TransferTable: React.FC<ITransferTableProps> = ({
       data={transfers.map((e) => [
         e.from,
         e.to,
-        e.amount,
+        e.value,
         <TransactionLink>{e.hash}</TransactionLink>,
       ])}
       emptyMessage={'No transfers'}

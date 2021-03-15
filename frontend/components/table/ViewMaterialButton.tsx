@@ -4,15 +4,17 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 interface IViewMaterialButtonProps {
-  materialTokenId: number;
+  id: number;
+  baseUrl: string;
 }
 
-const ViewMaterialButton: React.FC<IViewMaterialButtonProps> = ({
-  materialTokenId,
+const ViewButton: React.FC<IViewMaterialButtonProps> = ({
+  id,
+  baseUrl
 }) => {
   const router = useRouter();
   const onViewClick = () => {
-    router.push(`/material/${materialTokenId}`);
+    router.push(`${baseUrl}/${id}`);
   };
   return (
     <Button
@@ -31,4 +33,4 @@ const ViewMaterialButton: React.FC<IViewMaterialButtonProps> = ({
     </Button>
   );
 };
-export default ViewMaterialButton;
+export default ViewButton;

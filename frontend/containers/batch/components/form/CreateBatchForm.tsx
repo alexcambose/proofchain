@@ -1,20 +1,10 @@
 import Button from '@components/Button';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
-import { CreateBatch } from '@store/material/actions';
+import { createBatch } from '@store/batch/actions';
 import validation from '@utils/validation';
-import { Block } from 'baseui/block';
-import { KIND } from 'baseui/button';
-import { FormControl } from 'baseui/form-control';
-import { Alert, Check, Delete, Plus } from 'baseui/icon';
-import { BEHAVIOR, Cell, Grid } from 'baseui/layout-grid';
-import { StatefulPopover, TRIGGER_TYPE } from 'baseui/popover';
-import { Spinner } from 'baseui/spinner';
-import { FieldArray, FormikProps, withFormik } from 'formik';
-import { IMaterial } from 'interface';
-import { debounce } from 'lodash';
-import proofchain from 'proofchain';
-import React, { useEffect, useState } from 'react';
+import { FormikProps, withFormik } from 'formik';
+import React from 'react';
 import { connect } from 'react-redux';
 import * as yup from 'yup';
 
@@ -62,27 +52,23 @@ const _CreateBatchForm: React.FC<
 };
 const CreateBatchForm = withFormik<CreateBatchFormProps, FormValues>({
   // Transform outer props into form values
-  mapPropsToValues: () => {
-    return {
-      materialTokenId: null,
-      materialTokenAmount: 1,
-      code: '',
-    };
-  },
+
   validationSchema: yup.object().shape({
-    mintAmount: validation.mintAmount,
+    materialTokenId: validation.materialTokenId,
+
     materialTokenAmount: validation.materialTokenAmount,
     code: validation.batchCode,
   }),
   handleSubmit: async (values, { props }) => {
-    const { CreateBatch, onSuccess } = props;
-    await CreateBatch(values);
+    const { createBatch, onSuccess } = props;
+    console.log(values);
+    await createBatch(values);
     onSuccess && onSuccess();
   },
 })(_CreateBatchForm);
 const mapDispatchToProps = (dispatch) => {
   return {
-    CreateBatch: (data) => dispatch(CreateBatch(data)),
+    createBatch: (data) => dispatch(createBatch(data)),
   };
 };
 export default connect(null, mapDispatchToProps)(CreateBatchForm);

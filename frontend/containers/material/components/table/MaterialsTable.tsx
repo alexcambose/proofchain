@@ -5,7 +5,7 @@ import { StyledLink } from 'baseui/link';
 import { IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
-import ViewMaterialButton from './ViewMaterialButton';
+import ViewButton from '../../../../components/table/ViewMaterialButton';
 interface IMaterialsTableProps {
   materials: IMaterial[];
   isLoading?: boolean;
@@ -25,7 +25,7 @@ const MaterialsTable: React.FC<IMaterialsTableProps> = ({
         <TransactionLink>
           {e.events.MaterialCreate.transactionHash}
         </TransactionLink>,
-        <ViewMaterialButton materialTokenId={e.materialTokenId}/>
+        <ViewButton id={e.materialTokenId} baseUrl="/material" />,
       ])}
       emptyMessage={
         <Link href="/material/create">

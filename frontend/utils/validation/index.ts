@@ -7,6 +7,7 @@ import recipe from './recipe';
 import mintAmount from './mintAmount';
 import materialTokenAmount from './materialTokenAmount';
 import batchCode from './batchCode';
+import materialTokenId from './materialTokenId';
 export default {
   email,
   password,
@@ -17,4 +18,5 @@ export default {
   mintAmount,
   materialTokenAmount,
   batchCode,
+  materialTokenId,
 };

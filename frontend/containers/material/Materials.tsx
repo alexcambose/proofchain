@@ -2,7 +2,7 @@ import { State } from '@store/index';
 import { fetchMaterials } from '@store/material/actions';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MaterialsTable from './components/MaterialsTable';
+import MaterialsTable from './components/table/MaterialsTable';
 
 const Materials = () => {
   const dispatch = useDispatch();

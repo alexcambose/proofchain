@@ -8,12 +8,15 @@ import { ICompanyEntity } from './companyEntity/interface';
 import MaterialSlice from './material';
 import { IMaterialStore } from './material/interface';
 import ApplicationSlice from './application';
+import BatchSlice from './batch';
 import { IApplication } from './application/interface';
+import { IBatchStore } from './batch/interface';
 
 export interface State {
   user: IUser;
   companyEntity: ICompanyEntity;
   material: IMaterialStore;
+  batch: IBatchStore;
   application: IApplication;
 }
 
@@ -26,6 +29,7 @@ const makeStore: MakeStore<State> = (context: Context) =>
       companyEntity: CompanyEntitySlice,
       material: MaterialSlice,
       application: ApplicationSlice,
+      batch: BatchSlice,
     },
   });
 
