@@ -3,7 +3,7 @@ import Materials from '@containers/material/Materials';
 import Head from 'next/head';
 import React from 'react';
 
-const Index = () => {
+const Material = () => {
   return (
     <>
       <Head>
@@ -16,4 +16,4 @@ const Index = () => {
     </>
   );
 };
-export default Index;
+export default Material;

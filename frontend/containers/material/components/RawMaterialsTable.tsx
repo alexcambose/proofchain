@@ -7,6 +7,7 @@ import config from 'config';
 import { IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
+import ViewMaterialButton from './ViewMaterialButton';
 interface IMaterialsTableProps {
   materials: IMaterial[];
   isLoading?: boolean;
@@ -18,7 +19,7 @@ const RawMaterialsTable: React.FC<IMaterialsTableProps> = ({
   return (
     <Table
       isLoading={isLoading}
-      columns={['ID', 'Name', 'Code', 'Create Transaction']}
+      columns={['ID', 'Name', 'Code', 'Create Transaction', 'Action']}
       data={materials.map((e) => [
         e.materialTokenId,
         e.name,
@@ -26,6 +27,7 @@ const RawMaterialsTable: React.FC<IMaterialsTableProps> = ({
         <TransactionLink>
           {e.events.MaterialCreate.transactionHash}
         </TransactionLink>,
+        <ViewMaterialButton materialTokenId={e.materialTokenId} />,
       ])}
       emptyMessage={
         <Link href="/raw-material/create">

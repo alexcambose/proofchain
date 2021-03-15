@@ -4,6 +4,18 @@ import TableLoadingSkeleton from './TableLoadingSkeleton';
 
 interface ITableProps extends TableProps {}
 const Table: React.FC<ITableProps> = ({ ...props }) => {
-  return <BaseUiTable loadingMessage={<TableLoadingSkeleton />} {...props} />;
+  return (
+    <BaseUiTable
+      overrides={{
+        TableBodyCell: {
+          style: ({ $theme }) => ({
+            verticalAlign: 'middle',
+          }),
+        },
+      }}
+      loadingMessage={<TableLoadingSkeleton />}
+      {...props}
+    />
+  );
 };
 export default Table;
