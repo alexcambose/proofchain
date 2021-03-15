@@ -56,7 +56,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
         address companyAddress = materialToken[_tokenID].creator;
         balance[_tokenID][msg.sender] += _amount;
-        emit MaterialTransfer(address(0), companyAddress,_tokenID, _amount);
+        emit MaterialTransfer(address(0), companyAddress, _tokenID, _amount);
     }
 
     function mint(
@@ -117,7 +117,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             require(recipeMaterialsAmountUnusedLength == 0, "Could not satisfy all requirements");
         }
         balance[_tokenID][msg.sender] += _amount;
-        emit MaterialTransfer(address(0), companyAddress,_tokenID, _amount);
+        emit MaterialTransfer(address(0), companyAddress, _tokenID, _amount);
     }
 
     function createBatch(
@@ -133,6 +133,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         // create instance
         BatchInfo memory batchInfo =
             BatchInfo({
+                batchId: batchId,
                 code: _code,
                 materialTokenId: _tokenID,
                 materialTokenAmount: _amount,

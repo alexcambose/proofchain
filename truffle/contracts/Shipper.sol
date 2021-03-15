@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
-import './utils/MaterialReferencer.sol';
+import "./utils/MaterialReferencer.sol";
 
 abstract contract Shipper is MaterialReferencer {
     event TransportInitiated(uint256 indexed _transportId);
@@ -24,9 +24,9 @@ abstract contract Shipper is MaterialReferencer {
     uint256 public transportId = 0;
     modifier batchesOwner(uint256[] memory _batchIds) {
         for (uint8 i = 0; i < _batchIds.length; i++) {
-            (, , , address batchIdOwner, ) = getMaterialContract().batch(_batchIds[i]);
+            (, , , , address batchIdOwner, ) = getMaterialContract().batch(_batchIds[i]);
             if (batchIdOwner != msg.sender) {
-                revert('You are not the owner of all batches');
+                revert("You are not the owner of all batches");
             }
         }
         _;
@@ -43,12 +43,12 @@ abstract contract Shipper is MaterialReferencer {
     modifier onlyReceiver(uint256 _transportId) {
         require(
             transports[_transportId].receiver == msg.sender,
-            'Only the transport receiver is allowed'
+            "Only the transport receiver is allowed"
         );
         _;
     }
     modifier onlyNotFinalizedTransport(uint256 _transportId) {
-        require(transports[_transportId].finalised == false, 'This transport is finalized');
+        require(transports[_transportId].finalised == false, "This transport is finalized");
         _;
     }
 
@@ -58,7 +58,7 @@ abstract contract Shipper is MaterialReferencer {
         address _transportCompany,
         uint256[] memory _batchIds
     ) public batchesOwner(_batchIds) {
-        require(msg.sender != _receiver, 'Cannot initiate a transport to yourself');
+        require(msg.sender != _receiver, "Cannot initiate a transport to yourself");
 
         TransportInfo memory ti =
             TransportInfo({
@@ -70,7 +70,7 @@ abstract contract Shipper is MaterialReferencer {
                 readyForShipment: false,
                 inTransit: false,
                 finalised: false,
-                hashedPassword: ''
+                hashedPassword: ""
             });
         transports.push(ti);
         emit TransportInitiated(transports.length - 1);
@@ -98,7 +98,7 @@ abstract contract Shipper is MaterialReferencer {
     function finaliseTransport(uint256 _transportId) public onlyReceiver(_transportId) {
         require(
             bytes(transports[_transportId].hashedPassword).length == 0,
-            'This transport can not be finalised without a password'
+            "This transport can not be finalised without a password"
         );
         transports[_transportId].finalised = true;
         getMaterialContract().changeBatchOwnershipBatch(
@@ -115,7 +115,7 @@ abstract contract Shipper is MaterialReferencer {
         require(
             (keccak256(abi.encodePacked((transports[_transportId].hashedPassword))) ==
                 keccak256(abi.encodePacked((_hashedPassword)))),
-            'Incorrect password'
+            "Incorrect password"
         );
         transports[_transportId].finalised = true;
         getMaterialContract().changeBatchOwnershipBatch(

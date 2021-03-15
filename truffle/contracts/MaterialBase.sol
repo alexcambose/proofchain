@@ -43,6 +43,7 @@ contract MaterialBase {
         bool isValue;
     }
     struct BatchInfo {
+        uint batchId;
         string code;
         uint256 materialTokenId;
         uint256 materialTokenAmount;
