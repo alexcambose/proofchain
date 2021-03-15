@@ -21,6 +21,7 @@ describe('Company', () => {
         name: 'company',
         entityType: CompanyEntityTypeEnum.MANUFACTURER,
       });
+      expect(result.transactionHash.length > 1).toBeTruthy();
       expect(result.events.CompanyCreate.owner.length).toEqual(
         '0xa3AAB829D1694E2B96b4905b0c7E17d86EC084ED'.length
       );

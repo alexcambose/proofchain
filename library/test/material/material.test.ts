@@ -144,9 +144,34 @@ describe('raw material', () => {
         );
         expect(newBalance).toEqual(oldBalance + 10);
       });
+      it('returns MaterialTransfer event', async () => {
+        const product = await proofchain.material.create({
+          name: 'product',
+          code: '123',
+          amountIdentifier: 'kg',
+        });
+        const { materialTokenId } = product.events.MaterialCreate;
+        const result = await proofchain.material.mint({
+          materialTokenId,
+          amount: 10,
+        });
+        const event = result.events.MaterialTransfer;
+        expect(event.from).toEqual(
+          '0x0000000000000000000000000000000000000000'
+        );
+        expect(event.materialTokenId).toEqual(materialTokenId);
+        expect(event.value).not.toEqual(10);
+      });
     });
   });
   describe('getBalance', () => {
     it('returns the available balance of a material', async () => {});
+  });
+  describe('getTransfers', () => {
+    it('filters by `to` address', async () => {
+      const transfers = await proofchain.material.getTransfers({ to: account });
+      console.log(transfers);
+      expect(transfers.length > 0).toBeTruthy();
+    });
   });
 });

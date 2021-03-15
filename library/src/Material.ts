@@ -32,10 +32,19 @@ type MaterialCreateEvent = {
   materialTokenId: number;
   event: IEmittedEvent;
 };
+type MaterialTransferEvent = {
+  materialTokenId: string;
+  from: string;
+  to: string;
+  value: number;
+  event: IEmittedEvent;
+};
 type CreateTransactionEvents = {
   MaterialCreate: MaterialCreateEvent;
 };
-
+type TransferTransactionEvents = {
+  MaterialTransfer: MaterialTransferEvent;
+};
 class Material extends Base implements IEntity {
   async create({
     name,
@@ -134,11 +143,27 @@ class Material extends Base implements IEntity {
   }: {
     materialTokenId: number;
     amount: number;
-  }) {
+  }): Promise<MinedTransaction<TransferTransactionEvents>> {
     await this.ensureContract();
-    await this.contract.methods
+    const result = await this.contract.methods
       .mint(materialTokenId, amount)
       .send({ from: this.fromAddress, gas: 300000 });
+    return new MinedTransaction<TransferTransactionEvents>(result);
+  }
+  async getTransfers({
+    from,
+    to,
+    materialTokenId,
+  }: {
+    from?: string;
+    to?: string;
+    materialTokenId?: number;
+  }): Promise<MaterialTransferEvent[]> {
+    const transferEvents = await this.getPastEvents<MaterialTransferEvent>(
+      'MaterialTransfer',
+      { from, to, materialTokenId }
+    );
+    return transferEvents;
   }
 }
 export default Material;

@@ -9,4 +9,4 @@ export const parseTransactionEvents = <T>(events: any): T => {
   }
   return computedEvents as T;
 };
-export const parseEvent = (event: any) => event.returnValues;
+export const parseEvent = (event: any) => ({ ...event.returnValues, event });

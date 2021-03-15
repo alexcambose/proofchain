@@ -54,7 +54,7 @@ abstract class Base {
   }
   async getPastEvents<T>(eventName: string, filter: object = {}): Promise<T[]> {
     const events = await this.getRawPastEvents(eventName, filter);
-    return events.map(parseEvent);
+    return events.map(parseEvent).reverse();
   }
 }
 
