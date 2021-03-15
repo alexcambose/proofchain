@@ -4,6 +4,7 @@ import name from './name';
 import code from './code';
 import amountIdentifier from './amountIdentifier';
 import recipe from './recipe';
+import mintAmount from './mintAmount';
 export default {
   email,
   password,
@@ -11,4 +12,5 @@ export default {
   code,
   amountIdentifier,
   recipe,
+  mintAmount,
 };

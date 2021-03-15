@@ -5,13 +5,17 @@ import React from 'react';
 
 interface ITransactionLinkProps {
   children: string;
+  full?: boolean;
 }
-const TransactionLink: React.FC<ITransactionLinkProps> = ({ children }) => (
+const TransactionLink: React.FC<ITransactionLinkProps> = ({
+  children,
+  full,
+}) => (
   <StyledLink
     target="_blank"
     href={`${config.ethProvider.default.etherscan}tx/${children}`}
   >
-    {shortenAddress(children, 10)}
+    {full ? children : shortenAddress(children, 10)}
   </StyledLink>
 );
 export default TransactionLink;

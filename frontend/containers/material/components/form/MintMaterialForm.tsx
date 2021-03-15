@@ -1,35 +1,31 @@
 import Button from '@components/Button';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
-import { createMaterial } from '@store/material/actions';
-import { capitalizeFirstLetter } from '@utils/misc';
+import { mintMaterial } from '@store/material/actions';
+import validation from '@utils/validation';
+import { Block } from 'baseui/block';
+import { KIND } from 'baseui/button';
 import { FormControl } from 'baseui/form-control';
+import { Alert, Check, Delete, Plus } from 'baseui/icon';
 import { BEHAVIOR, Cell, Grid } from 'baseui/layout-grid';
-import { TYPE } from 'baseui/select';
-import { FieldArray, FormikErrors, FormikProps, withFormik } from 'formik';
+import { StatefulPopover, TRIGGER_TYPE } from 'baseui/popover';
+import { Spinner } from 'baseui/spinner';
+import { FieldArray, FormikProps, withFormik } from 'formik';
+import { IMaterial } from 'interface';
+import { debounce } from 'lodash';
+import proofchain from 'proofchain';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import * as yup from 'yup';
-import { Spinner } from 'baseui/spinner';
-import { Delete, Plus, Check, Alert } from 'baseui/icon';
-import { debounce } from 'lodash';
-import commonUnits from '../../../data/commonUnits.json';
-import { KIND } from 'baseui/button';
-import validation from '@utils/validation';
-import proofchain from 'proofchain';
-import { Block } from 'baseui/block';
-import { StatefulPopover, TRIGGER_TYPE } from 'baseui/popover';
-import { IMaterial } from 'interface';
 
-interface CreateMaterialFormProps
-  extends ReturnType<typeof mapDispatchToProps> {
+interface MintMaterialFormProps extends ReturnType<typeof mapDispatchToProps> {
   isRawMaterial?: boolean;
+  materialTokenId: number;
+  amountIdentifier?: string;
   onSuccess?: () => void;
 }
 interface FormValues {
-  name: string;
-  code: string;
-  amountIdentifier: any;
+  mintAmount: number;
   recipe: [
     {
       materialTokenId: string;
@@ -55,7 +51,6 @@ const RecipeButtons = ({ index, arrayHelpers, ...props }) => {
   const {
     form: { values, touched, setFieldError },
   } = arrayHelpers;
-  console.log(arrayHelpers.form);
   const [materialInfo, setMaterialInfo] = useState<IMaterial>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -165,44 +160,20 @@ const RecipeButtons = ({ index, arrayHelpers, ...props }) => {
     </Grid>
   );
 };
-const unitsOfMeasurement = commonUnits.map((e, i) => ({
-  label: capitalizeFirstLetter(e['Name']) + ' - ' + e['Symbol'],
-  id: e['Symbol'],
-}));
-const _CreateMaterialForm: React.FC<
-  CreateMaterialFormProps & FormikProps<FormValues>
+const _MintMaterialForm: React.FC<
+  MintMaterialFormProps & FormikProps<FormValues>
 > = (props) => {
   // console.log(unitsOfMeasurement);
-  const { isSubmitting, values, isRawMaterial } = props;
+  const { isSubmitting, values, isRawMaterial, amountIdentifier } = props;
   return (
     <Form>
       <Field
-        name="name"
-        type="text"
-        placeholder="Material name"
-        label="Material name"
-        caption="Descriptive material name"
-      />
-      <Field
-        name="code"
-        type="text"
-        placeholder="Material code"
-        label="Material code"
-        caption="Optional material identification code"
-      />
-      <Field
-        label="Amount indentifier"
-        caption="The identifier of one unit of this material. (eg: 1 liter of water)"
-        name="amountIdentifier"
-        type={'select'}
-        options={unitsOfMeasurement}
-        valueKey="id"
-        labelKey="label"
-        overrides={{
-          Dropdown: {
-            style: ({ $theme }) => ({ maxHeight: '22vh' }),
-          },
-        }}
+        name="mintAmount"
+        type="number"
+        placeholder="Mint Amount"
+        label="Mint Amount"
+        caption="How many pieces of this material to create"
+        endEnhancer={() => amountIdentifier}
       />
       {!isRawMaterial && (
         <FieldArray
@@ -210,7 +181,11 @@ const _CreateMaterialForm: React.FC<
           render={(arrayHelpers) => (
             <>
               {values.recipe.map((recipe, index) => (
-                <RecipeButtons index={index} arrayHelpers={arrayHelpers} />
+                <RecipeButtons
+                  key={index}
+                  index={index}
+                  arrayHelpers={arrayHelpers}
+                />
               ))}
               <Button
                 kind={KIND.secondary}
@@ -236,18 +211,16 @@ const _CreateMaterialForm: React.FC<
         />
       )}
       <Button isLoading={isSubmitting} disabled={isSubmitting} type="submit">
-        Create material
+        Mint
       </Button>
     </Form>
   );
 };
-const CreateMaterialForm = withFormik<CreateMaterialFormProps, FormValues>({
+const MintMaterialForm = withFormik<MintMaterialFormProps, FormValues>({
   // Transform outer props into form values
   mapPropsToValues: () => {
     return {
-      name: '',
-      code: '',
-      amountIdentifier: 'kg',
+      mintAmount: 1,
       recipe: [
         {
           materialTokenAmount: 1,
@@ -258,20 +231,21 @@ const CreateMaterialForm = withFormik<CreateMaterialFormProps, FormValues>({
   },
   validationSchema: (props) =>
     yup.object().shape({
-      name: validation.name,
-      code: validation.code,
-      amountIdentifier: validation.amountIdentifier,
+      mintAmount: validation.mintAmount,
       ...(!props.isRawMaterial ? { recipe: validation.recipe } : {}),
     }),
   handleSubmit: async (values, { props }) => {
-    const { createMaterial, onSuccess } = props;
-    await createMaterial(values);
+    const { mintMaterial, onSuccess } = props;
+    await mintMaterial({
+      materialTokenId: props.materialTokenId,
+      amount: values.mintAmount,
+    });
     onSuccess && onSuccess();
   },
-})(_CreateMaterialForm);
+})(_MintMaterialForm);
 const mapDispatchToProps = (dispatch) => {
   return {
-    createMaterial: (data) => dispatch(createMaterial(data)),
+    mintMaterial: (data) => dispatch(mintMaterial(data)),
   };
 };
-export default connect(null, mapDispatchToProps)(CreateMaterialForm);
+export default connect(null, mapDispatchToProps)(MintMaterialForm);

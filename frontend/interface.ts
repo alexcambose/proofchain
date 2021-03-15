@@ -9,3 +9,11 @@ export interface IMaterial {
     MaterialCreate: any;
   };
 }
+export interface IMaterialTransfer {
+  from: string;
+  to: string;
+  value: number;
+  materialTokenId: number;
+  hash: string;
+  event: any;
+}

@@ -3,7 +3,9 @@ import { toaster } from 'baseui/toast';
 import { shortenAddress } from './eth';
 
 const transactionWrapper = async (callback) => {
-  const toastPendingKey = toaster.info('Pending transaction...', {});
+  const toastPendingKey = toaster.info('Pending transaction...', {
+    autoHideDuration: 0,
+  });
   let result;
   try {
     result = await callback();

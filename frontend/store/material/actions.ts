@@ -87,6 +87,33 @@ export const fetchMaterialInfo = createAsyncThunk(
   async ({ materialTokenId }: { materialTokenId: number }) => {
     const material = await proofchain().material.getById(materialTokenId);
     const balance = await proofchain().material.getBalance(materialTokenId);
-    return { material, balance };
+    const transfers = await proofchain().material.getTransfers({
+      materialTokenId,
+    });
+
+    return { material, balance, transfers };
+  }
+);
+export const mintMaterial = createAsyncThunk(
+  'material/mintMaterial',
+  async ({
+    materialTokenId,
+    amount,
+  }: {
+    materialTokenId: number;
+    amount: number;
+  }) => {
+    await transactionWrapper(() =>
+      proofchain().material.mint({
+        materialTokenId,
+        amount,
+      })
+    );
+
+    const balance = await proofchain().material.getBalance(materialTokenId);
+    const transfers = await proofchain().material.getTransfers({
+      materialTokenId,
+    });
+    return { balance, materialTokenId, transfers };
   }
 );

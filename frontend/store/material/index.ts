@@ -4,6 +4,7 @@ import {
   fetchMaterialInfo,
   fetchMaterials,
   fetchRawMaterials,
+  mintMaterial,
 } from './actions';
 import initialState from './initialState';
 
@@ -12,9 +13,17 @@ export const MaterialSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder: any) => {
+    builder.addCase(mintMaterial.fulfilled, (state, { payload }) => {
+      const { balance, materialTokenId, transfers } = payload;
+      if (materialTokenId == state.materialInfo.material.materialTokenId) {
+        state.materialInfo.balance = balance;
+        state.materialInfo.transfers = transfers;
+      }
+    });
     builder.addCase(fetchMaterialInfo.fulfilled, (state, { payload }) => {
       state.materialInfo.material = payload.material;
       state.materialInfo.balance = payload.balance;
+      state.materialInfo.transfers = payload.transfers;
 
       state.loadingMaterialInfo = false;
     });

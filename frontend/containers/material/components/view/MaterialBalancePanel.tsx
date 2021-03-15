@@ -1,9 +1,10 @@
 import { State } from '@store/index';
 import { Cell, Grid } from 'baseui/layout-grid';
-import { H6 } from 'baseui/typography';
+import { Label1, H6 } from 'baseui/typography';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import MintMaterialForm from '../forms/MintMaterialForm';
+import MintMaterialForm from '../form/MintMaterialForm';
+import MaterialMintTable from '../table/MaterialMintTable';
 
 interface IMaterialBalancePanelProps {
   materialTokenId: number;
@@ -11,23 +12,25 @@ interface IMaterialBalancePanelProps {
 const MaterialBalancePanel: React.FC<IMaterialBalancePanelProps> = ({
   materialTokenId,
 }) => {
-  const materialInfo = useSelector(
+  const { material, balance, transfers } = useSelector(
     (state: State) => state.material.materialInfo
   );
   return (
     <Grid>
       <Cell span={[2, 4, 6]}>
-        <H6>
-          Current balance: <strong>{materialInfo.balance}</strong>
-        </H6>
+        <Label1>
+          Current balance: <strong>{balance}</strong>
+        </Label1>
         <MintMaterialForm
-          isRawMaterial={
-            materialInfo.material.recipeMaterialAmount.length === 0
-          }
+          isRawMaterial={material.recipeMaterialAmount.length === 0}
           materialTokenId={materialTokenId}
+          amountIdentifier={material.amountIdentifier}
         />
       </Cell>
-      <Cell span={[2, 4, 6]}>b</Cell>
+      <Cell span={[2, 4, 6]}>
+        <Label1>Mint history</Label1>
+        <MaterialMintTable transfers={transfers} />
+      </Cell>
     </Grid>
   );
 };

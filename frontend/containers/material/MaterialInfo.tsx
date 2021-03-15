@@ -13,8 +13,8 @@ interface IMaterialInfoProps {
   materialTokenId: number;
 }
 const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
-  const material = useSelector(
-    (state: State) => state.material.materialInfo.material
+  const { material, balance } = useSelector(
+    (state: State) => state.material.materialInfo
   );
   const loadingMaterialInfo = useSelector(
     (state: State) => state.material.loadingMaterialInfo
@@ -30,8 +30,8 @@ const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
     <>
       <Display4>{material.name}</Display4>
       <Label1>{material.code}</Label1>
-      <Accordion onChange={({ expanded }) => console.log(expanded)}>
-        <Panel title="Balance">
+      <Accordion renderAll>
+        <Panel title={'Balance - ' + balance}>
           <MaterialBalancePanel materialTokenId={materialTokenId} />
         </Panel>
         <Panel title="Panel 2">Content 2</Panel>

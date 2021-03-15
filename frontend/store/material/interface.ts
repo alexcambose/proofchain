@@ -1,4 +1,4 @@
-import { IMaterial } from 'interface';
+import { IMaterial, IMaterialTransfer } from 'interface';
 
 export interface IMaterialStore {
   materials?: IMaterial[];
@@ -8,6 +8,7 @@ export interface IMaterialStore {
   materialInfo: {
     balance: number;
     material: IMaterial;
+    transfers: IMaterialTransfer[];
   };
   loadingMaterialInfo: boolean;
 }

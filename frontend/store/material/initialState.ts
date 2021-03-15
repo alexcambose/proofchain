@@ -8,6 +8,7 @@ const initialState: IMaterialStore = {
   materialInfo: {
     material: null,
     balance: 0,
+    transfers: [],
   },
   loadingMaterialInfo: false,
 };
