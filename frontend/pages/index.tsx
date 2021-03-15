@@ -5,7 +5,7 @@ import { logout, setLoggedIn } from '@store/user';
 import { AuthManager } from '@utils/auth/authManager';
 import { Cell, Grid } from 'baseui/layout-grid';
 import Cookies from 'cookies';
-import { Head } from 'next/document';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import proofchain, { initProofchain } from 'proofchain';
 import React from 'react';

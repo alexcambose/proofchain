@@ -1,6 +1,6 @@
 import Layout from '@containers/Layout';
 import CreateRawMaterial from '@containers/material/CreateRawMaterial';
-import { Head } from 'next/document';
+import Head from 'next/head';
 import React from 'react';
 
 const Index = () => {

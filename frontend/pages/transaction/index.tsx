@@ -3,17 +3,15 @@ import RawMaterials from '@containers/material/RawMaterials';
 import Head from 'next/head';
 import React from 'react';
 
-const Index = () => {
+const Transactions = () => {
   return (
     <>
       <Head>
-        <title>All Raw Materials</title>
+        <title>All Transactions</title>
       </Head>
 
-      <Layout title="All Raw Materials">
-        <RawMaterials />
-      </Layout>
+      <Layout title="All Transactions">... </Layout>
     </>
   );
 };
-export default Index;
+export default Transactions;

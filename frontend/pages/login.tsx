@@ -1,6 +1,6 @@
 import Auth from '@containers/auth/index';
 import { Cell, Grid } from 'baseui/layout-grid';
-import { Head } from 'next/document';
+import Head from 'next/head';
 import { authCheck } from 'pages';
 import React from 'react';
 const Login = () => {
