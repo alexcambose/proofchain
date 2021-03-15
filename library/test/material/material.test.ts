@@ -170,7 +170,6 @@ describe('raw material', () => {
   describe('getTransfers', () => {
     it('filters by `to` address', async () => {
       const transfers = await proofchain.material.getTransfers({ to: account });
-      console.log(transfers);
       expect(transfers.length > 0).toBeTruthy();
     });
   });

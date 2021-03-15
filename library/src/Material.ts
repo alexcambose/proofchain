@@ -159,6 +159,8 @@ class Material extends Base implements IEntity {
     to?: string;
     materialTokenId?: number;
   }): Promise<MaterialTransferEvent[]> {
+    await this.ensureContract();
+
     const transferEvents = await this.getPastEvents<MaterialTransferEvent>(
       'MaterialTransfer',
       { from, to, materialTokenId }

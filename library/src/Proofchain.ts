@@ -4,6 +4,7 @@ import Company from './Company';
 import { Company as CompanyAbi, Material as MaterialAbi } from './abi';
 import Material from './Material';
 import CertificateAuthority from './CertificateAuthority';
+import Batch from './Batch';
 
 interface IProofchainConfig {
   factoryContractAddress: string;
@@ -17,6 +18,7 @@ class Proofchain {
   private fromAddress: string;
   public material: Material;
   public company: Company;
+  public batch: Batch;
   public certificateAuthority: CertificateAuthority;
   constructor({
     web3,
@@ -53,6 +55,13 @@ class Proofchain {
       this.fromAddress,
       this.factoryContract,
       'certificateAuthorityManagerContract',
+      MaterialAbi
+    );
+    this.batch = new Batch(
+      this.web3,
+      this.fromAddress,
+      this.factoryContract,
+      'materialContract',
       MaterialAbi
     );
   }
