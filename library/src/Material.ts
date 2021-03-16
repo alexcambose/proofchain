@@ -71,7 +71,7 @@ class Material extends Base implements IEntity {
         recipeMaterialTokenId,
         recipeMaterialAmount
       )
-      .send({ from: this.fromAddress, gas: 300000 });
+      .send({ from: this.fromAddress, gas: 400000 });
     return new MinedTransaction<CreateTransactionEvents>(transaction);
   }
   async getById(

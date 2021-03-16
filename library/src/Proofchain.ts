@@ -1,4 +1,4 @@
-import { Factory } from '../src/abi';
+import { Factory } from './abi';
 import Web3 from 'web3';
 import Company from './Company';
 import { Company as CompanyAbi, Material as MaterialAbi } from './abi';

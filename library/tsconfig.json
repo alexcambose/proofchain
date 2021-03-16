@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
-
+    "module": "commonjs",
+    "target": "es2015",
+    "declaration": true,
+    "outDir": "./dist",
     /* Basic Options */
     // "incremental": true,                         /* Enable incremental compilation */
-    "target": "es5" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */,
-    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */,
     /* Concatenate and emit output to single file. */
-    "outDir": "./dist/",
     "types": ["node", "jest"],
     "strict": true /* Enable all strict type-checking options. */,
     /* Type declaration files to be included in compilation. */
@@ -16,7 +16,7 @@
 
     "skipLibCheck": true /* Skip type checking of declaration files. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
-    "resolveJsonModule": true,
-    "declaration": true
-  }
+    "resolveJsonModule": true
+  },
+  "include": ["src/**/*"]
 }
