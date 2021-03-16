@@ -7,6 +7,7 @@ import { IMaterial } from 'interface';
 import proofchain from 'proofchain';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import MaterialRecipeTable from './components/table/MaterialRecipeTable';
 import MaterialBalancePanel from './components/view/MaterialBalancePanel';
 
 interface IMaterialInfoProps {
@@ -26,10 +27,15 @@ const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
   if (loadingMaterialInfo || !material) {
     return <Skeleton rows={10} height="200px" width="100%" animation />;
   }
+  console.log(material);
   return (
     <>
       <Display4>{material.name}</Display4>
       <Label1>{material.code}</Label1>
+      <MaterialRecipeTable
+        materialTokenAmount={material.recipeMaterialAmount}
+        materialTokenId={material.recipeMaterialTokenId}
+      />
       <Accordion renderAll>
         <Panel title={'Balance - ' + balance}>
           <MaterialBalancePanel materialTokenId={materialTokenId} />

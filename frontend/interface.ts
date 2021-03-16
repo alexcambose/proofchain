@@ -3,7 +3,7 @@ export interface IMaterial {
   name: string;
   code: string;
   amountIdentifier: string;
-  recipeMaterialId?: number[];
+  recipeMaterialTokenId?: number[];
   recipeMaterialAmount?: number[];
   events?: {
     MaterialCreate: any;

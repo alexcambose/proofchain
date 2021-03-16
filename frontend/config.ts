@@ -1,3 +1,4 @@
+import { isDevelopment } from '@utils/next';
 import { SocialLoginTypeEnum } from 'enums';
 
 const torusTestnet = {
@@ -24,9 +25,16 @@ const ropsten = {
   factoryContractAddress: '0x592d365043776e092715A84F97292Dc3cfbedB88',
   etherscan: 'https://rinkeby.etherscan.io/',
 };
+const ganache = {
+  http: 'http://127.0.0.1:8545',
+  wss: '',
+  factoryContractAddress: '0xf2f6FE2C06763e590EBb959E04371EBcbE996543',
+  etherscan: 'https://rinkeby.etherscan.io/',
+};
 export default {
   torus: torusTestnet,
   ethProvider: {
-    default: ropsten,
+    // default: ropsten,
+    default: isDevelopment() ? ganache : ropsten,
   },
 };

@@ -66,6 +66,7 @@ const Table: React.FC<ITableProps> = ({
         </Grid>
       )}
       <TableBuilder
+        loadingMessage={<TableLoadingSkeleton />}
         overrides={{
           TableBodyCell: {
             style: ({ $theme }) => ({
