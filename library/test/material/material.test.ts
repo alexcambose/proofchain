@@ -137,12 +137,12 @@ describe('raw material', () => {
         );
         await proofchain.material.mint({
           materialTokenId: product.events.MaterialCreate.materialTokenId,
-          amount: 10,
+          amount: 2,
         });
         const newBalance = await proofchain.material.getBalance(
           materialTokenId
         );
-        expect(newBalance).toEqual(oldBalance + 10);
+        expect(newBalance).toEqual(oldBalance + 2);
       });
       it('returns MaterialTransfer event', async () => {
         const product = await proofchain.material.create({
@@ -153,14 +153,15 @@ describe('raw material', () => {
         const { materialTokenId } = product.events.MaterialCreate;
         const result = await proofchain.material.mint({
           materialTokenId,
-          amount: 10,
+          amount: 2,
         });
-        const event = result.events.MaterialTransfer;
-        expect(event.from).toEqual(
-          '0x0000000000000000000000000000000000000000'
-        );
-        expect(event.materialTokenId).toEqual(materialTokenId);
-        expect(event.value).not.toEqual(10);
+        for (let event of result.events.MaterialTransfer) {
+          expect(event.from).toEqual(
+            '0x0000000000000000000000000000000000000000'
+          );
+          expect(event.to).toEqual(account);
+          expect(event.uuid).not.toEqual(undefined);
+        }
       });
     });
   });
@@ -171,6 +172,42 @@ describe('raw material', () => {
     it('filters by `to` address', async () => {
       const transfers = await proofchain.material.getTransfers({ to: account });
       expect(transfers.length > 0).toBeTruthy();
+    });
+  });
+  describe('getMaterialByUuid', () => {
+    it('returns the material by uuid', async () => {
+      const product = await proofchain.material.create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      });
+      const { materialTokenId } = product.events.MaterialCreate;
+      const result = await proofchain.material.mint({
+        materialTokenId,
+        amount: 2,
+      });
+      const fetchedMaterial = await proofchain.material.getMaterialByUuid(
+        result.events.MaterialTransfer[0].uuid
+      );
+      expect(fetchedMaterial.materialTokenId).toEqual(materialTokenId);
+    });
+  });
+  describe('getOwnedMaterialsUuid', () => {
+    it('returns the owned material uuids', async () => {
+      const product = await proofchain.material.create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      });
+      const { materialTokenId } = product.events.MaterialCreate;
+      const result = await proofchain.material.mint({
+        materialTokenId,
+        amount: 2,
+      });
+      const fetchedMaterials = await proofchain.material.getOwnedMaterialsUuid(
+        materialTokenId
+      );
+      expect(fetchedMaterials.length).toEqual(2);
     });
   });
 });

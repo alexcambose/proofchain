@@ -5,8 +5,12 @@ export const parseTransactionEvents = <T>(events: any): T => {
     // @ts-ignore
     computedEvents[name] = parseEvent(events[name]);
     // @ts-ignore
-    computedEvents[name].event = events[name];
   }
   return computedEvents as T;
 };
-export const parseEvent = (event: any) => ({ ...event.returnValues, event });
+export const parseEvent = (event: any) => {
+  if (Array.isArray(event)) {
+    return event.map((e) => ({ ...e.returnValues, event: e }));
+  }
+  return { ...event.returnValues, event };
+};

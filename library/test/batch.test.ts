@@ -27,7 +27,7 @@ describe('batch', () => {
     materialTokenId = result.events.MaterialCreate.materialTokenId;
     await proofchain.material.mint({
       materialTokenId: materialTokenId,
-      amount: 10,
+      amount: 5,
     });
   });
   describe('create', () => {

@@ -2,18 +2,25 @@ import Base from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
 import MinedTransaction from './MinedTransaction';
+import { EMPTY_ADDRESS } from './utils/eth';
 import { parseEvent } from './utils/eventsParser';
 
-interface IMaterial {
+interface IMaterialTokenInfo {
   materialTokenId: number;
   name: string;
   code: string;
   images: string[];
   amountIdentifier: string;
-
   recipeMaterialTokenId: number[];
   recipeMaterialAmount: number[];
   isValue: boolean;
+}
+interface IMaterialInfo {
+  materialTokenId: number;
+  uuid: number;
+  fromBatchId: number[];
+  batchMaterialsUuid: number[][];
+  mintEvent: MaterialCreateEvent;
 }
 interface ICreateRawMaterial {
   name: string;
@@ -33,18 +40,15 @@ type MaterialCreateEvent = {
   event: IEmittedEvent;
 };
 type MaterialTransferEvent = {
-  materialTokenId: string;
   from: string;
   to: string;
-  value: number;
+  uuid: number;
   event: IEmittedEvent;
 };
 type CreateTransactionEvents = {
   MaterialCreate: MaterialCreateEvent;
 };
-type TransferTransactionEvents = {
-  MaterialTransfer: MaterialTransferEvent;
-};
+
 class Material extends Base implements IEntity {
   async create({
     name,
@@ -77,9 +81,9 @@ class Material extends Base implements IEntity {
   async getById(
     materialTokenId: string | number,
     full: boolean = true
-  ): Promise<IMaterial | null> {
+  ): Promise<IMaterialTokenInfo | null> {
     await this.ensureContract();
-    const material: IMaterial = await this.contract.methods
+    const material: IMaterialTokenInfo = await this.contract.methods
       .materialToken(String(materialTokenId))
       .call();
     if (full) {
@@ -95,7 +99,7 @@ class Material extends Base implements IEntity {
   async all({
     onlyRawMaterials,
     onlyMaterials,
-  }: IMaterialTypeSelector = {}): Promise<(IMaterial | null)[]> {
+  }: IMaterialTypeSelector = {}): Promise<(IMaterialTokenInfo | null)[]> {
     await this.ensureContract();
     const createEvents = await this.getPastEvents<MaterialCreateEvent>(
       'MaterialCreate',
@@ -143,12 +147,14 @@ class Material extends Base implements IEntity {
   }: {
     materialTokenId: number;
     amount: number;
-  }): Promise<MinedTransaction<TransferTransactionEvents>> {
+  }): Promise<MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>> {
     await this.ensureContract();
     const result = await this.contract.methods
       .mint(materialTokenId, amount)
-      .send({ from: this.fromAddress, gas: 300000 });
-    return new MinedTransaction<TransferTransactionEvents>(result);
+      .send({ from: this.fromAddress, gas: 400000 });
+    return new MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>(
+      result
+    );
   }
   async getTransfers({
     from,
@@ -166,6 +172,34 @@ class Material extends Base implements IEntity {
       { from, to, materialTokenId }
     );
     return transferEvents;
+  }
+  async getOwnedMaterialsUuid(
+    materialTokenId: number
+  ): Promise<IMaterialInfo[]> {
+    await this.ensureContract();
+    const materialsUuid: number[] = await this.contract.methods
+      .getOwnedMaterialsUuid(materialTokenId, this.fromAddress)
+      .call();
+    return Promise.all(
+      materialsUuid.map(async (e) => this.getMaterialByUuid(e))
+    );
+  }
+  async getMaterialByUuid(materialUuid: number): Promise<IMaterialInfo> {
+    await this.ensureContract();
+    const material: IMaterialInfo = await this.contract.methods
+      .uuidMaterialInfo(materialUuid)
+      .call();
+    const events = await this.getPastEvents<MaterialTransferEvent>(
+      'MaterialTransfer',
+      {
+        from: EMPTY_ADDRESS,
+        materialTokenId: material.materialTokenId,
+      }
+    );
+    // @ts-ignore
+    material.mintEvent = events.find((e) => e.uuid === material.uuid);
+    console.log(material);
+    return material;
   }
 }
 export default Material;
