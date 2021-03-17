@@ -24,6 +24,7 @@ export const MaterialSlice = createSlice({
       state.materialInfo.material = payload.material;
       state.materialInfo.balance = payload.balance;
       state.materialInfo.transfers = payload.transfers;
+      state.materialInfo.inventory = payload.inventory;
 
       state.loadingMaterialInfo = false;
     });

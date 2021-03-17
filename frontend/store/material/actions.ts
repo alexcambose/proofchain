@@ -90,8 +90,10 @@ export const fetchMaterialInfo = createAsyncThunk(
     const transfers = await proofchain().material.getTransfers({
       materialTokenId,
     });
-
-    return { material, balance, transfers };
+    const inventory = await proofchain().material.getOwnedMaterialsUuid(
+      materialTokenId
+    );
+    return { material, balance, transfers, inventory };
   }
 );
 export const mintMaterial = createAsyncThunk(

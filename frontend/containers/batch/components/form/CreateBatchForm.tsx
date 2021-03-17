@@ -1,6 +1,7 @@
 import Button from '@components/Button';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
+import MaterialsUuidInput from '@components/form/formik/MaterialsUuidInput';
 import { createBatch } from '@store/batch/actions';
 import validation from '@utils/validation';
 import { FormikProps, withFormik } from 'formik';
@@ -12,7 +13,7 @@ interface CreateBatchFormProps extends ReturnType<typeof mapDispatchToProps> {
   onSuccess?: () => void;
 }
 interface FormValues {
-  materialTokenId: number;
+  materialsUuid: any;
   materialTokenAmount: number;
   code: string;
 }
@@ -22,13 +23,7 @@ const _CreateBatchForm: React.FC<
   const { isSubmitting, values } = props;
   return (
     <Form>
-      <Field
-        name="materialTokenId"
-        type="text"
-        placeholder="Material Id"
-        label="Material Id"
-        caption="The id of the material that needs to be added to the batch"
-      />
+      <MaterialsUuidInput />
       <Field
         name="materialTokenAmount"
         type="text"
@@ -52,17 +47,28 @@ const _CreateBatchForm: React.FC<
 };
 const CreateBatchForm = withFormik<CreateBatchFormProps, FormValues>({
   // Transform outer props into form values
+  mapPropsToValues: () => {
+    return {
+      materialsUuid: [],
+      materialTokenAmount: 1,
+      code: '',
+    };
+  },
 
   validationSchema: yup.object().shape({
-    materialTokenId: validation.materialTokenId,
+    // materialsUuid: validation.materialTokenId,
 
     materialTokenAmount: validation.materialTokenAmount,
     code: validation.batchCode,
   }),
   handleSubmit: async (values, { props }) => {
     const { createBatch, onSuccess } = props;
-    console.log(values);
-    await createBatch(values);
+    const { code, materialTokenAmount, materialsUuid } = values;
+    await createBatch({
+      code,
+      materialTokenAmount,
+      materialsUuid: materialsUuid.map((e) => e.id),
+    });
     onSuccess && onSuccess();
   },
 })(_CreateBatchForm);
