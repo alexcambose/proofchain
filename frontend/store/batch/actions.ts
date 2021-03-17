@@ -35,7 +35,7 @@ export const createBatch = createAsyncThunk(
   }: {
     code: string;
     materialTokenId: number;
-    materialsUuid: number;
+    materialsUuid: number[];
   }) => {
     const result = await transactionWrapper(() =>
       proofchain().batch.create({

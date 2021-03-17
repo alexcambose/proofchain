@@ -4,7 +4,6 @@ import { Label1, H6 } from 'baseui/typography';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import MintMaterialForm from '../form/MintMaterialForm';
-import MaterialMintTable from '../table/MaterialMintTable';
 
 interface IMaterialBalancePanelProps {
   materialTokenId: number;

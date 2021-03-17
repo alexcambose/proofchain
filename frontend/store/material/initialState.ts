@@ -9,6 +9,7 @@ const initialState: IMaterialStore = {
     material: null,
     balance: 0,
     transfers: [],
+    inventory: [],
   },
   loadingMaterialInfo: false,
 };
