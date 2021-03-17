@@ -4,7 +4,7 @@ interface IBatch {
   batchId?: number;
   code: string;
   materialTokenId: number;
-  materialTokenAmount: number;
+  materialsUuid: number[];
 }
 type BatchCreateEvent = {
   company: string; // address
@@ -16,29 +16,33 @@ type CreateTransactionEvents = {
 class Batch extends Base {
   async create({
     code,
-    materialTokenId,
-    materialTokenAmount,
+    materialsUuid,
   }: IBatch): Promise<MinedTransaction<CreateTransactionEvents>> {
     await this.ensureContract();
     const transaction = await this.contract.methods
-      .createBatch(code, materialTokenId, materialTokenAmount)
+      .createBatch(code, materialsUuid)
       .send({ from: this.fromAddress, gas: 300000 });
     return new MinedTransaction<CreateTransactionEvents>(transaction);
   }
   async burn({
     batchId,
-    materialTokenAmount,
+    materialsUuid,
   }: {
     batchId: number;
-    materialTokenAmount: number;
+    materialsUuid: number[];
   }) {
     await this.ensureContract();
     const transaction = await this.contract.methods
-      .burnBatchToken(batchId, materialTokenAmount)
+      .burnBatchTokens(batchId, materialsUuid)
       .send({ from: this.fromAddress, gas: 300000 });
   }
-  async getById(batchId: number): Promise<IBatch> {
+  async getById(batchId: number, full: boolean = true): Promise<IBatch> {
     const batch: IBatch = await this.contract.methods.batch(batchId).call();
+    if (full) {
+      batch.materialsUuid = await this.contract.methods
+        .getBatchMaterialsUuid(batch.batchId)
+        .call();
+    }
     return batch;
   }
   async all() {

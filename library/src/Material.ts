@@ -177,12 +177,19 @@ class Material extends Base implements IEntity {
     materialTokenId: number
   ): Promise<IMaterialInfo[]> {
     await this.ensureContract();
-    const materialsUuid: number[] = await this.contract.methods
-      .getOwnedMaterialsUuid(materialTokenId, this.fromAddress)
-      .call();
+    const materialsUuid = await this.getOwnedMaterialsUuidCodes(
+      materialTokenId
+    );
     return Promise.all(
       materialsUuid.map(async (e) => this.getMaterialByUuid(e))
     );
+  }
+  async getOwnedMaterialsUuidCodes(materialTokenId: number): Promise<number[]> {
+    await this.ensureContract();
+    const materialsUuid: number[] = await this.contract.methods
+      .getOwnedMaterialsUuid(materialTokenId, this.fromAddress)
+      .call();
+    return materialsUuid;
   }
   async getMaterialByUuid(materialUuid: number): Promise<IMaterialInfo> {
     await this.ensureContract();
@@ -198,7 +205,6 @@ class Material extends Base implements IEntity {
     );
     // @ts-ignore
     material.mintEvent = events.find((e) => e.uuid === material.uuid);
-    console.log(material);
     return material;
   }
 }
