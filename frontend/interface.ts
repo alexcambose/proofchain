@@ -9,6 +9,13 @@ export interface IMaterial {
     MaterialCreate: any;
   };
 }
+export interface IMaterialInfo {
+  materialTokenId: number;
+  uuid: number;
+  fromBatchId: number[];
+  batchMaterialsUuid: number[][];
+  mintEvent: any;
+}
 export interface IMaterialTransfer {
   from: string;
   to: string;

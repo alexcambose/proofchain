@@ -8,11 +8,13 @@ import {
   TableBuilderColumn,
   TableProps,
 } from 'baseui/table-semantic';
+import { Display4 } from 'baseui/typography';
 import React, { useState } from 'react';
 import TableLoadingSkeleton from './TableLoadingSkeleton';
 
 interface ITableProps extends TableProps {
   withSearch?: boolean;
+  title?: string;
 }
 const cellOverride = {
   Cell: {
@@ -26,11 +28,13 @@ const Table: React.FC<ITableProps> = ({
   data,
   columns,
   withSearch = false,
+  title,
   ...props
 }) => {
   const [searchValue, setSearchValue] = useState('');
   return (
     <>
+      {title && <Display4>{title}</Display4>}
       {withSearch && (
         <Grid
           behavior={BEHAVIOR.fluid}
