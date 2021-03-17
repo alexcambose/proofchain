@@ -29,7 +29,7 @@ contract("RawMaterial", (accounts) => {
         const t = async () => {
           await materialInstance.methods
             .create("Tomatoes", "1823", ["0x28181"])
-            .send({ from: otherAccount, gas: 300000 });
+            .send({ from: otherAccount, gas: 400000 });
         };
         try {
           await t();
@@ -41,6 +41,8 @@ contract("RawMaterial", (accounts) => {
     describe("compound material", async () => {
       let materialTokenId1;
       let materialTokenId2;
+      let uuidsMaterialTokenId1;
+      let uuidsMaterialTokenId2;
       before(async () => {
         const [materialInstance, companyInstance] = await getInstance();
         // generate raw materials
@@ -48,50 +50,17 @@ contract("RawMaterial", (accounts) => {
         materialTokenId1 = await createRawMaterial("Material A");
         materialTokenId2 = await createRawMaterial("Material B");
         // mint raw materials
-        await materialInstance.methods
-          .mint(materialTokenId1, 100)
-          .send({ from: account, gas: 300000 });
-        await materialInstance.methods
-          .mint(materialTokenId2, 100)
-          .send({ from: account, gas: 300000 });
+        const result1 = await materialInstance.methods
+          .mint(materialTokenId1, 5)
+          .send({ from: account, gas: 400000 });
+        uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+        const result2 = await materialInstance.methods
+          .mint(materialTokenId2, 5)
+          .send({ from: account, gas: 400000 });
+        uuidsMaterialTokenId2 = result2.events.MaterialTransfer.map((e) => e.returnValues.uuid);
       });
-      it("create a new material from existing raw materials", async () => {
+      it("create a new material from existing raw  (simple operation)", async () => {
         const [materialInstance, companyInstance] = await getInstance();
-
-        const materialTokenId3 = await createMaterial(
-          "Salad",
-          "1234",
-          [""],
-          [materialTokenId1, materialTokenId2],
-          [2, 9]
-        );
-        // create batches
-        const batchId11 = await createBatch(123, materialTokenId1, 2);
-        const batchId12 = await createBatch(123, materialTokenId1, 4);
-        const batchId21 = await createBatch(123, materialTokenId2, 14);
-        const batchId22 = await createBatch(123, materialTokenId2, 19);
-
-        await materialInstance.methods
-          .mint(materialTokenId3, 2, [batchId11, batchId12, batchId21, batchId22], [1, 3, 13, 18])
-          .send({ from: account, gas: 300000 });
-
-        const balance = await materialInstance.methods.getBalance(materialTokenId3, account).call();
-        expect(balance).equal("2");
-        expect((await materialInstance.methods.batch(batchId11).call()).materialTokenAmount).equal(
-          "1"
-        );
-        expect((await materialInstance.methods.batch(batchId12).call()).materialTokenAmount).equal(
-          "1"
-        );
-        expect((await materialInstance.methods.batch(batchId21).call()).materialTokenAmount).equal(
-          "1"
-        );
-        expect((await materialInstance.methods.batch(batchId22).call()).materialTokenAmount).equal(
-          "14"
-        );
-        // mintResult.events.T.forEach((e) => console.log(e.returnValues));
-      });
-      it("throws error if specified batch balance is not available in the batch", async () => {
         const materialTokenId3 = await createMaterial(
           "Salad",
           "1234",
@@ -100,16 +69,89 @@ contract("RawMaterial", (accounts) => {
           [2, 3]
         );
         // create batches
-        const batchId11 = await createBatch(123, materialTokenId1, 1);
-        const batchId12 = await createBatch(123, materialTokenId1, 3);
-        try {
-          await materialInstance.methods
-            .mint(materialTokenId3, 1, [batchId11, batchId21], [4, 6])
-            .send({ from: account, gas: 300000 });
-        } catch (e) {
-          expect(e).to.be.instanceOf(Error);
-        }
+        const batchId1 = await createBatch(123, uuidsMaterialTokenId1);
+        const batchId2 = await createBatch(123, uuidsMaterialTokenId2);
+        await materialInstance.methods
+          .mint(
+            materialTokenId3,
+            [batchId1, batchId2],
+            [
+              [uuidsMaterialTokenId1[0], uuidsMaterialTokenId1[1]],
+              [uuidsMaterialTokenId2[0], uuidsMaterialTokenId2[1], uuidsMaterialTokenId2[2]],
+            ]
+          )
+          .send({ from: account, gas: 500000 });
+        const balance = await materialInstance.methods.getBalance(materialTokenId3, account).call();
+        expect(balance).equal("1");
+        const materials1 = await materialInstance.methods.getBatchMaterialsUuid(batchId1).call();
+        const materials2 = await materialInstance.methods.getBatchMaterialsUuid(batchId2).call();
+        expect(materials1.length).equal(
+          [uuidsMaterialTokenId1[2], uuidsMaterialTokenId1[3], uuidsMaterialTokenId1[4]].length
+        );
+        expect(materials2.length).equal(
+          [uuidsMaterialTokenId2[3], uuidsMaterialTokenId2[4]].length
+        );
       });
+      // it("create a new material from existing raw  (advanced operation)", async () => {
+      //   const [materialInstance, companyInstance] = await getInstance();
+      //   const materialTokenId3 = await createMaterial(
+      //     "Salad",
+      //     "1234",
+      //     [""],
+      //     [materialTokenId1, materialTokenId2],
+      //     [2, 3]
+      //   );
+      //   // create batches
+      //   const batchId11 = await createBatch(123, [uuidsMaterialTokenId1[0]]);
+      //   const batchId12 = await createBatch(123, [
+      //     uuidsMaterialTokenId1[1],
+      //     uuidsMaterialTokenId1[2],
+      //   ]);
+      //   const batchId21 = await createBatch(123, [
+      //     uuidsMaterialTokenId2[0],
+      //     uuidsMaterialTokenId2[1],
+      //   ]);
+      //   const batchId22 = await createBatch(123, [
+      //     uuidsMaterialTokenId2[2],
+      //     uuidsMaterialTokenId2[3],
+      //     uuidsMaterialTokenId2[4],
+      //   ]);
+      //   await materialInstance.methods
+      //     .mint(
+      //       materialTokenId3,
+      //       [batchId11, batchId12, batchId21, , batchId22],
+      //       [
+      //         [uuidsMaterialTokenId1[0]],
+      //         [uuidsMaterialTokenId2[0], uuidsMaterialTokenId2[1], uuidsMaterialTokenId2[2]],
+      //       ]
+      //     )
+      //     .send({ from: account, gas: 400000 });
+      //   const balance = await materialInstance.methods.getBalance(materialTokenId3, account).call();
+      //   expect(balance).equal("1");
+      //   const materials1 = await materialInstance.methods.getBatchMaterialsUuid(batchId1).call();
+      //   const materials2 = await materialInstance.methods.getBatchMaterialsUuid(batchId2).call();
+      //   expect(materials1).toEqual([""]);
+      //   expect(materials2).toEqual([""]);
+      // });
+      //   it("throws error if specified batch balance is not available in the batch", async () => {
+      //     const materialTokenId3 = await createMaterial(
+      //       "Salad",
+      //       "1234",
+      //       [""],
+      //       [materialTokenId1, materialTokenId2],
+      //       [2, 3]
+      //     );
+      //     // create batches
+      //     const batchId11 = await createBatch(123, materialTokenId1, 1);
+      //     const batchId12 = await createBatch(123, materialTokenId1, 3);
+      //     try {
+      //       await materialInstance.methods
+      //         .mint(materialTokenId3, 1, [batchId11, batchId21], [4, 6])
+      //         .send({ from: account, gas: 400000 });
+      //     } catch (e) {
+      //       expect(e).to.be.instanceOf(Error);
+      //     }
+      //   });
     });
   });
 });

@@ -7,15 +7,15 @@ contract MaterialBase {
         address indexed from,
         address indexed to,
         uint256 indexed materialTokenId,
-        uint256 value
+        uint256 uuid
     );
     event BatchCreate(address indexed company, uint256 indexed batchId);
-    // amount is only specified on burn
+
     event BatchTransfer(
         address indexed from,
         address indexed to,
         uint256 indexed batchId,
-        uint256 amount
+        uint256 uuid // uuid is only specified on burn
     );
     struct CertificateInstance {
         uint256 code;
@@ -42,16 +42,30 @@ contract MaterialBase {
         string amountIdentifier;
         bool isValue;
     }
+
+    struct MaterialInfo {
+        uint256 materialTokenId;
+        uint256 uuid;
+        uint256[] fromBatchId;
+        uint256[][] batchMaterialsUuid;
+        // uint batchMaterials
+        // batchId => materials uuids[]
+        // mapping(uint256 => uint256[]) batchMaterialsUuid;
+    }
+    // uuid generator
+    uint256 materialUuidGenerator = 0;
+    // uuid => MaterialInfo
+    mapping(uint256 => MaterialInfo) public uuidMaterialInfo;
     struct BatchInfo {
-        uint batchId;
+        uint256 batchId;
         string code;
         uint256 materialTokenId;
-        uint256 materialTokenAmount;
+        uint256[] materialsUuid;
         address owner;
         bool isValue;
     }
-    // Mapping from TokenID to address balances
-    mapping(uint256 => mapping(address => uint256)) balance;
+    // Mapping tokenid => to materials owned by an address (materials who are not in a batch)
+    mapping(uint256 => mapping(address => uint256[])) balance;
     // all tokens, (materialTokenId => MaterialTokenInfo)
     // materialTokenId uniquely identifies a product
     uint256 public materialTokenId = 0;
@@ -62,7 +76,7 @@ contract MaterialBase {
     // all batchId associated with a batch
     mapping(uint256 => BatchInfo) public batch;
     uint256 public batchId = 0;
-
+    event T(uint256 i, uint256 v);
     modifier senderIsTokenCreator(uint256 _materialTokenId) {
         require(
             msg.sender == materialToken[_materialTokenId].creator,
@@ -72,6 +86,21 @@ contract MaterialBase {
     }
 
     function getBalance(uint256 _tokenID, address _address) public view returns (uint256) {
+        // uint256 total = 0;
+        // for (uint256 i = 0; i < balance[_address].length; i++) {
+        //     if (_tokenID == balance[_address][i].materialTokenId) {
+        //         total++;
+        //     }
+        // }
+        // return total;
+        return balance[_tokenID][_address].length;
+    }
+
+    function getOwnedMaterialsUuid(uint256 _tokenID, address _address)
+        public
+        view
+        returns (uint256[] memory)
+    {
         return balance[_tokenID][_address];
     }
 
@@ -97,11 +126,8 @@ contract MaterialBase {
             materialToken[_materialTokenId].recipeMaterialAmount
         );
     }
-    // function getBatchById(uint256 _batchId)
-    //     public
-    //     view
-    //     returns (BatchInfo memory)
-    // {
-    //     return batch[_batchId];
-    // }
+
+    function getBatchMaterialsUuid(uint256 _batchId) public view returns (uint256[] memory) {
+        return batch[_batchId].materialsUuid;
+    }
 }

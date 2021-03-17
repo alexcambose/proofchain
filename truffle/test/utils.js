@@ -60,15 +60,15 @@ const createMaterial = (account) => async (
 
   const result = await materialInstance.methods
     .create(name, code, "", images, recipeMaterialTokenId, recipeMaterialAmount)
-    .send({ from: account, gas: 400000 });
+    .send({ from: account, gas: 500000 });
   const eventReturn = result.events.MaterialCreate.returnValues;
   return eventReturn.materialTokenId;
 };
-const createBatch = (account) => async (code, tokenId, amount) => {
+const createBatch = (account) => async (code, uuids) => {
   const [materialInstance, companyInstance] = await getInstance();
   const result = await materialInstance.methods
-    .createBatch(code, tokenId, amount)
-    .send({ from: account, gas: 300000 });
+    .createBatch(code, uuids)
+    .send({ from: account, gas: 400000 });
   const eventReturn = result.events.BatchCreate.returnValues;
   return eventReturn.batchId;
 };

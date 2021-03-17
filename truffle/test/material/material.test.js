@@ -9,7 +9,7 @@ contract("Material", (accounts) => {
   const [account, otherAccount] = accounts;
   const createMaterial = _createMaterial(account);
   const createRawMaterial = _createRawMaterial(account);
-  const createBatch = _createBatch(account);
+  // const createBatch = _createBatch(account);
   before(async () => {
     const [materialInstance, companyInstance] = await getInstance();
 
@@ -20,24 +20,20 @@ contract("Material", (accounts) => {
     it("returns the balance of an address and a material token", async () => {
       const [materialInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
-
-      await materialInstance.methods
-        .mint(materialTokenId, 100)
-        .send({ from: account, gas: 300000 });
+      console.log(materialTokenId);
+      await materialInstance.methods.mint(materialTokenId, 2).send({ from: account, gas: 300000 });
       const balance = await materialInstance.methods.getBalance(materialTokenId, account).call();
-      expect(balance).equal("100");
+      expect(balance).equal("2");
     });
   });
   describe("mint", () => {
     it("mints a new raw material", async () => {
       const [materialInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
-
-      await materialInstance.methods
-        .mint(materialTokenId, 100)
-        .send({ from: account, gas: 300000 });
+      console.log(materialTokenId);
+      await materialInstance.methods.mint(materialTokenId, 2).send({ from: account, gas: 300000 });
       const balance = await materialInstance.methods.getBalance(materialTokenId, account).call();
-      expect(balance).equal("100");
+      expect(balance).equal("2");
     });
     it(`throws an error if the sender isn't the owner of the raw material`, async () => {
       const [materialInstance] = await getInstance();
@@ -45,7 +41,7 @@ contract("Material", (accounts) => {
 
       const t = async () => {
         await materialInstance.methods
-          .mint(materialTokenId, 100)
+          .mint(materialTokenId, 2)
           .send({ from: otherAccount, gas: 300000 });
       };
       try {

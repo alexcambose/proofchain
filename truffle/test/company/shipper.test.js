@@ -23,10 +23,13 @@ contract("Company", (accounts) => {
         certificateAuthorityManagerInstance,
       ] = await getInstance();
       await createCompany();
-      const code = await createRawMaterial();
       await companyInstance.methods.create("", 1).send({ from: tcAccount, gas: 300000 });
-
-      batchId = await createBatch(123, code, 0);
+      const code = await createRawMaterial();
+      const result1 = await materialInstance.methods
+        .mint(code, 5)
+        .send({ from: account, gas: 400000 });
+      uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+      batchId = await createBatch(123, uuidsMaterialTokenId1);
       const result = await companyInstance.methods
         .initiateTransport(otherAccount, tcAccount, [batchId])
         .send({ from: account, gas: 300000 });
@@ -41,7 +44,11 @@ contract("Company", (accounts) => {
           certificateAuthorityManagerInstance,
         ] = await getInstance();
         const code = await createRawMaterial();
-        const batchId = await createBatch(123, code, 0);
+        const result1 = await materialInstance.methods
+          .mint(code, 5)
+          .send({ from: account, gas: 400000 });
+        uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+        const batchId = await createBatch(123, uuidsMaterialTokenId1);
         const result = await companyInstance.methods
           .initiateTransport(otherAccount, tcAccount, [batchId])
           .send({ from: account, gas: 300000 });
@@ -56,7 +63,11 @@ contract("Company", (accounts) => {
         certificateAuthorityManagerInstance,
       ] = await getInstance();
       const code = await createRawMaterial();
-      const batchId = await createBatch(123, code, 0);
+      const result1 = await materialInstance.methods
+        .mint(code, 5)
+        .send({ from: account, gas: 400000 });
+      uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+      const batchId = await createBatch(123, uuidsMaterialTokenId1);
       try {
         await companyInstance.methods
           .initiateTransport(otherAccount, tcAccount, [batchId])
@@ -155,7 +166,11 @@ contract("Company", (accounts) => {
           certificateAuthorityManagerInstance,
         ] = await getInstance();
         const code = await createRawMaterial();
-        const batchId = await createBatch(123, code, 0);
+        const result1 = await materialInstance.methods
+          .mint(code, 5)
+          .send({ from: account, gas: 400000 });
+        uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+        const batchId = await createBatch(123, uuidsMaterialTokenId1);
         const result = await companyInstance.methods
           .initiateTransport(otherAccount, tcAccount, [batchId], web3.utils.keccak256("password"))
           .send({ from: account, gas: 300000 });

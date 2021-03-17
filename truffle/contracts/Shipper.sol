@@ -24,7 +24,7 @@ abstract contract Shipper is MaterialReferencer {
     uint256 public transportId = 0;
     modifier batchesOwner(uint256[] memory _batchIds) {
         for (uint8 i = 0; i < _batchIds.length; i++) {
-            (, , , , address batchIdOwner, ) = getMaterialContract().batch(_batchIds[i]);
+            (, , , address batchIdOwner, ) = getMaterialContract().batch(_batchIds[i]);
             if (batchIdOwner != msg.sender) {
                 revert("You are not the owner of all batches");
             }
