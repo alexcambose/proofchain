@@ -48,13 +48,13 @@ const CompanySidebar = () => {
           ],
         },
         {
-          title: 'Transactions',
-          itemId: '/transaction',
+          title: 'Transports',
+          itemId: '/transport',
           subNav: [
-            { title: 'All batches', itemId: '/transaction' },
+            { title: 'All transports', itemId: '/transport' },
             {
-              title: 'Create transaction',
-              itemId: '/transaction/create',
+              title: 'Create transport',
+              itemId: '/transport/create',
             },
           ],
         },

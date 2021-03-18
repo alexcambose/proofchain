@@ -1,3 +1,14 @@
+import { TransportStatusEnum } from '@enums';
+
+export interface ITransport {
+  sender: string;
+  receiver: string;
+  transportCompany: string;
+  batchIds: number[];
+  value: string;
+  status: TransportStatusEnum;
+  hashedPassword: string;
+}
 export interface IMaterial {
   materialTokenId: number;
   name: string;

@@ -8,6 +8,8 @@ import mintAmount from './mintAmount';
 import materialTokenAmount from './materialTokenAmount';
 import batchCode from './batchCode';
 import materialTokenId from './materialTokenId';
+import companyAddress from './companyAddress';
+import transportCompany from './transportCompany';
 export default {
   email,
   password,
@@ -19,4 +21,6 @@ export default {
   materialTokenAmount,
   batchCode,
   materialTokenId,
+  companyAddress,
+  transportCompany,
 };

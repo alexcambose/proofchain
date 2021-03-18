@@ -9,8 +9,10 @@ import MaterialSlice from './material';
 import { IMaterialStore } from './material/interface';
 import ApplicationSlice from './application';
 import BatchSlice from './batch';
+import TransportSlice from './transport';
 import { IApplication } from './application/interface';
 import { IBatchStore } from './batch/interface';
+import { ITransportStore } from './transport/interface';
 
 export interface State {
   user: IUser;
@@ -18,6 +20,7 @@ export interface State {
   material: IMaterialStore;
   batch: IBatchStore;
   application: IApplication;
+  transport: ITransportStore;
 }
 
 // create a makeStore function
@@ -30,6 +33,7 @@ const makeStore: MakeStore<State> = (context: Context) =>
       material: MaterialSlice,
       application: ApplicationSlice,
       batch: BatchSlice,
+      transport: TransportSlice,
     },
   });
 

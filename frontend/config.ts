@@ -28,7 +28,7 @@ const ropsten = {
 const ganache = {
   http: 'http://127.0.0.1:8545',
   wss: '',
-  factoryContractAddress: '0xd77649018cb9F43B07787fCf59aA5774E4034b7b',
+  factoryContractAddress: '0x7CfB46353370F88043d9c28a26ad4aBc4438aDb3',
   etherscan: 'https://rinkeby.etherscan.io/',
 };
 export default {

@@ -17,3 +17,9 @@ export enum EntityTypeEnum {
   COMPANY = '0',
   CERTIFICATE_AUTHORITY = '1',
 }
+export enum TransportStatusEnum {
+  READY_FOR_TRANSIT,
+  PENDING_TRANSIT,
+  IN_TRANSIT,
+  FINALISED,
+}
