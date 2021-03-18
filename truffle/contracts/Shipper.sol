@@ -3,10 +3,13 @@ pragma solidity >0.7.0 <0.9.0;
 import "./utils/MaterialReferencer.sol";
 
 abstract contract Shipper is MaterialReferencer {
-    event TransportInitiated(uint256 indexed _transportId);
-    event TransportTransit(uint256 _transportId, bool _inTransit);
-    event TransportFinalised(uint256 _transportId);
-
+    event TransportInitiated(
+        address indexed sender,
+        address indexed receiver,
+        uint256 indexed transportId
+    );
+    event TransportStatus(uint256 indexed transportId, TransportStatusEnum indexed status);
+    enum TransportStatusEnum {READY_FOR_TRANSIT, PENDING_TRANSIT, IN_TRANSIT, FINALISED}
     struct TransportInfo {
         // sender company
         address sender;
@@ -14,17 +17,14 @@ abstract contract Shipper is MaterialReferencer {
         address transportCompany;
         uint256[] batchIds;
         uint256 value;
-        bool readyForShipment;
-        bool inTransit;
-        bool finalised;
+        TransportStatusEnum status;
         string hashedPassword;
     }
-    event T(address a, address b);
-    TransportInfo[] public transports;
-    uint256 public transportId = 0;
+    mapping(uint256 => TransportInfo) public transports;
+    uint256 public transportIdCounter = 0;
     modifier batchesOwner(uint256[] memory _batchIds) {
         for (uint8 i = 0; i < _batchIds.length; i++) {
-            (, , , address batchIdOwner, ) = getMaterialContract().batch(_batchIds[i]);
+            (, address batchIdOwner, , , ) = getMaterialContract().batch(_batchIds[i]);
             if (batchIdOwner != msg.sender) {
                 revert("You are not the owner of all batches");
             }
@@ -33,11 +33,10 @@ abstract contract Shipper is MaterialReferencer {
     }
 
     modifier onlyTransportCompany(uint256 _transportId) {
-        emit T(transports[_transportId].transportCompany, msg.sender);
-        // require(
-        //     transports[_transportId].transportCompany == msg.sender,
-        //     "Only the transport company is allowed"
-        // );
+        require(
+            transports[_transportId].transportCompany == msg.sender,
+            "Only the transport company is allowed"
+        );
         _;
     }
     modifier onlyReceiver(uint256 _transportId) {
@@ -48,7 +47,10 @@ abstract contract Shipper is MaterialReferencer {
         _;
     }
     modifier onlyNotFinalizedTransport(uint256 _transportId) {
-        require(transports[_transportId].finalised == false, "This transport is finalized");
+        require(
+            transports[_transportId].status != TransportStatusEnum.FINALISED,
+            "This transport is finalized"
+        );
         _;
     }
 
@@ -60,20 +62,14 @@ abstract contract Shipper is MaterialReferencer {
     ) public batchesOwner(_batchIds) {
         require(msg.sender != _receiver, "Cannot initiate a transport to yourself");
 
-        TransportInfo memory ti =
-            TransportInfo({
-                sender: msg.sender,
-                receiver: _receiver,
-                transportCompany: _transportCompany,
-                batchIds: _batchIds,
-                value: 0,
-                readyForShipment: false,
-                inTransit: false,
-                finalised: false,
-                hashedPassword: ""
-            });
-        transports.push(ti);
-        emit TransportInitiated(transports.length - 1);
+        transports[transportIdCounter].sender = msg.sender;
+        transports[transportIdCounter].receiver = _receiver;
+        transports[transportIdCounter].transportCompany = _transportCompany;
+        transports[transportIdCounter].batchIds = _batchIds;
+        transports[transportIdCounter].status = TransportStatusEnum.READY_FOR_TRANSIT;
+
+        emit TransportInitiated(msg.sender, _receiver, transportIdCounter);
+        transportIdCounter++;
     }
 
     function initiateTransport(
@@ -83,16 +79,21 @@ abstract contract Shipper is MaterialReferencer {
         string memory _hashedPassword
     ) public batchesOwner(_batchIds) {
         initiateTransport(_receiver, _transportCompany, _batchIds);
-        transports[transports.length - 1].hashedPassword = _hashedPassword;
+        transports[transportIdCounter - 1].hashedPassword = _hashedPassword;
     }
 
-    function setTransit(uint256 _transportId, bool _transitValue)
+    function setTransportStatus(uint256 _transportId, TransportStatusEnum _status)
         public
         onlyTransportCompany(_transportId)
         onlyNotFinalizedTransport(_transportId)
     {
-        transports[_transportId].inTransit = _transitValue;
-        emit TransportTransit(_transportId, _transitValue);
+        require(
+            _status != TransportStatusEnum.FINALISED,
+            "Can not set to finalised. Use finaliseTransport"
+        );
+
+        transports[_transportId].status = _status;
+        emit TransportStatus(_transportId, _status);
     }
 
     function finaliseTransport(uint256 _transportId) public onlyReceiver(_transportId) {
@@ -100,12 +101,12 @@ abstract contract Shipper is MaterialReferencer {
             bytes(transports[_transportId].hashedPassword).length == 0,
             "This transport can not be finalised without a password"
         );
-        transports[_transportId].finalised = true;
+        transports[_transportId].status = TransportStatusEnum.FINALISED;
         getMaterialContract().changeBatchOwnershipBatch(
             transports[_transportId].batchIds,
             transports[_transportId].receiver
         );
-        emit TransportFinalised(_transportId);
+        emit TransportStatus(_transportId, TransportStatusEnum.FINALISED);
     }
 
     function finaliseTransport(uint256 _transportId, string memory _hashedPassword)
@@ -117,11 +118,16 @@ abstract contract Shipper is MaterialReferencer {
                 keccak256(abi.encodePacked((_hashedPassword)))),
             "Incorrect password"
         );
-        transports[_transportId].finalised = true;
+        transports[_transportId].status = TransportStatusEnum.FINALISED;
+
         getMaterialContract().changeBatchOwnershipBatch(
             transports[_transportId].batchIds,
             transports[_transportId].receiver
         );
-        emit TransportFinalised(_transportId);
+        emit TransportStatus(_transportId, TransportStatusEnum.FINALISED);
+    }
+
+    function getTransportBatchids(uint256 _transportId) public view returns (uint256[] memory) {
+        return transports[_transportId].batchIds;
     }
 }

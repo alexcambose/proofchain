@@ -83,6 +83,15 @@ const createCertificate = (account) => async (name = "Company donates to charity
     .send({ from: account, gas: 300000 });
   return result.events.CertificateAuthorityCertificateCreated.returnValues.code;
 };
+const expectToThrow = async (promise) => {
+  let isOk = false;
+  try {
+    await promise;
+  } catch (error) {
+    isOk = true;
+  }
+  if (!isOk) throw "Expected throw not received";
+};
 module.exports = {
   createMaterial,
   createBatch,
@@ -91,4 +100,5 @@ module.exports = {
   getAggregatorInstance,
   createCertificate,
   createCompany,
+  expectToThrow,
 };

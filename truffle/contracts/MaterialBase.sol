@@ -58,10 +58,10 @@ contract MaterialBase {
     mapping(uint256 => MaterialInfo) public uuidMaterialInfo;
     struct BatchInfo {
         uint256 batchId;
+        address owner;
         string code;
         uint256 materialTokenId;
         uint256[] materialsUuid;
-        address owner;
         bool isValue;
     }
     // Mapping tokenid => to materials owned by an address (materials who are not in a batch)
