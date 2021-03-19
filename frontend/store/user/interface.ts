@@ -8,6 +8,8 @@ export interface IUserData {
   address?: string;
   hasEntity: boolean;
   entityType: EntityTypeEnum;
+  balance?: string;
+  loadingBalance?: boolean;
 }
 export interface IUser extends IUserData {
   loggedIn?: boolean;

@@ -1,6 +1,6 @@
 import '@assets/styles/style.css';
 import 'normalize.css';
-import { refreshLogin } from '@store/user/actions';
+import { refreshBalance, refreshLogin } from '@store/user/actions';
 import { init } from '@utils/auth/torus';
 import { isClient } from '@utils/next';
 import { BaseProvider, LightTheme } from 'baseui';
@@ -36,6 +36,7 @@ function MyApp({ Component, pageProps }) {
       console.log(loggedIn);
       if (loggedIn) {
         await dispatch(refreshLogin());
+        await dispatch(refreshBalance());
       }
     })();
   }, [loggedIn]);

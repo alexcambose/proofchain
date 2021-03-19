@@ -37,7 +37,7 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
       </StyledNavigationList>
       {['left', 'center', 'right'].map((alignment) => (
         <StyledNavigationList key={uuid()} $align={ALIGN[alignment]}>
-          {(items[alignment] || []).map((item) => (
+          {(items[alignment] || []).map((item: { content: any }) => (
             <StyledNavigationItem key={uuid()}>
               {item.content}
             </StyledNavigationItem>

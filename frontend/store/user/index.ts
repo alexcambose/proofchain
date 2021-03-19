@@ -7,6 +7,7 @@ import {
   loginWithMetamask,
   loginWithMnemonic,
   loginWithTorus,
+  refreshBalance,
   refreshLogin,
 } from './actions';
 import initialState from './initialState';
@@ -59,6 +60,13 @@ export const UserSlice = createSlice({
       state.hasEntity = hasEntity;
       state.entityType = entityType;
     });
+    builder.addCase(refreshBalance.fulfilled, (state, { payload }) => {
+      state.balance = payload.balance;
+      state.loadingBalance = false;
+    }),
+      builder.addCase(refreshBalance.pending, (state, { payload }) => {
+        state.loadingBalance = true;
+      });
   },
 });
 

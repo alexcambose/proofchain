@@ -5,6 +5,8 @@ const initialState: IUser = {
   address: '',
   hasEntity: false,
   entityType: null,
+  balance: '0',
+  loadingBalance: false,
 };
 
 export default initialState;

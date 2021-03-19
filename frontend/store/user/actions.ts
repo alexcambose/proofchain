@@ -5,6 +5,7 @@ import { triggerLogin } from '@utils/auth/torus';
 import { getPrivateKeyFromMnemonic } from '@utils/eth';
 import web3Instance, { initWeb3Instance } from 'web3Instance';
 import proofchain from 'proofchain';
+import { State } from '..';
 
 export const loginWithMetamask = createAsyncThunk(
   'users/loginWithMetamask',
@@ -43,5 +44,18 @@ export const refreshLogin = createAsyncThunk(
       hasEntity: hasCompany,
       entityType: EntityTypeEnum.COMPANY,
     };
+  }
+);
+export const refreshBalance = createAsyncThunk(
+  'users/refreshBalance',
+  // Declare the type your function argument here:
+  async (_, thunkApi) => {
+    const {
+      // @ts-ignore
+      user: { address },
+    } = thunkApi.getState();
+    const balanceInWei = await web3Instance().eth.getBalance(address);
+    const balance = web3Instance().utils.fromWei(balanceInWei);
+    return { balance };
   }
 );
