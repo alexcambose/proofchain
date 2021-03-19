@@ -11,6 +11,7 @@ abstract contract Shipper is MaterialReferencer {
     event TransportStatus(uint256 indexed transportId, TransportStatusEnum indexed status);
     enum TransportStatusEnum {READY_FOR_TRANSIT, PENDING_TRANSIT, IN_TRANSIT, FINALISED}
     struct TransportInfo {
+        uint256 transportId;
         // sender company
         address sender;
         address receiver;
@@ -62,6 +63,7 @@ abstract contract Shipper is MaterialReferencer {
     ) public batchesOwner(_batchIds) {
         require(msg.sender != _receiver, "Cannot initiate a transport to yourself");
 
+        transports[transportIdCounter].transportId = transportIdCounter;
         transports[transportIdCounter].sender = msg.sender;
         transports[transportIdCounter].receiver = _receiver;
         transports[transportIdCounter].transportCompany = _transportCompany;

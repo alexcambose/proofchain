@@ -13,6 +13,7 @@ type CreateTransactionEvents = {
 interface ICompany {
   entityType: CompanyEntityTypeEnum;
   name: string;
+  isValue: boolean;
 }
 
 class Company extends Base implements IEntity {
