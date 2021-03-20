@@ -43,7 +43,7 @@ contract("RawMaterial", (accounts) => {
       let materialTokenId2;
       let uuidsMaterialTokenId1;
       let uuidsMaterialTokenId2;
-      before(async () => {
+      beforeEach(async () => {
         const [materialInstance, companyInstance] = await getInstance();
         // generate raw materials
 
@@ -80,7 +80,7 @@ contract("RawMaterial", (accounts) => {
               [uuidsMaterialTokenId2[0], uuidsMaterialTokenId2[1], uuidsMaterialTokenId2[2]],
             ]
           )
-          .send({ from: account, gas: 500000 });
+          .send({ from: account, gas: 600000 });
         const balance = await materialInstance.methods.getBalance(materialTokenId3, account).call();
         expect(balance).equal("1");
         const materials1 = await materialInstance.methods.getBatchMaterialsUuid(batchId1).call();
@@ -92,47 +92,41 @@ contract("RawMaterial", (accounts) => {
           [uuidsMaterialTokenId2[3], uuidsMaterialTokenId2[4]].length
         );
       });
-      // it("create a new material from existing raw  (advanced operation)", async () => {
-      //   const [materialInstance, companyInstance] = await getInstance();
-      //   const materialTokenId3 = await createMaterial(
-      //     "Salad",
-      //     "1234",
-      //     [""],
-      //     [materialTokenId1, materialTokenId2],
-      //     [2, 3]
-      //   );
-      //   // create batches
-      //   const batchId11 = await createBatch(123, [uuidsMaterialTokenId1[0]]);
-      //   const batchId12 = await createBatch(123, [
-      //     uuidsMaterialTokenId1[1],
-      //     uuidsMaterialTokenId1[2],
-      //   ]);
-      //   const batchId21 = await createBatch(123, [
-      //     uuidsMaterialTokenId2[0],
-      //     uuidsMaterialTokenId2[1],
-      //   ]);
-      //   const batchId22 = await createBatch(123, [
-      //     uuidsMaterialTokenId2[2],
-      //     uuidsMaterialTokenId2[3],
-      //     uuidsMaterialTokenId2[4],
-      //   ]);
-      //   await materialInstance.methods
-      //     .mint(
-      //       materialTokenId3,
-      //       [batchId11, batchId12, batchId21, , batchId22],
-      //       [
-      //         [uuidsMaterialTokenId1[0]],
-      //         [uuidsMaterialTokenId2[0], uuidsMaterialTokenId2[1], uuidsMaterialTokenId2[2]],
-      //       ]
-      //     )
-      //     .send({ from: account, gas: 400000 });
-      //   const balance = await materialInstance.methods.getBalance(materialTokenId3, account).call();
-      //   expect(balance).equal("1");
-      //   const materials1 = await materialInstance.methods.getBatchMaterialsUuid(batchId1).call();
-      //   const materials2 = await materialInstance.methods.getBatchMaterialsUuid(batchId2).call();
-      //   expect(materials1).toEqual([""]);
-      //   expect(materials2).toEqual([""]);
-      // });
+      it("create a new material from existing raw  (advanced operation)", async () => {
+        const [materialInstance, companyInstance] = await getInstance();
+        const materialTokenId3 = await createMaterial(
+          "Salad",
+          "1234",
+          [""],
+          [materialTokenId1, materialTokenId2],
+          [2, 3]
+        );
+        // create batches
+        const batchId1 = await createBatch(123, uuidsMaterialTokenId1);
+        const batchId2 = await createBatch(123, uuidsMaterialTokenId2);
+        await materialInstance.methods
+          .mint(
+            materialTokenId3,
+            [batchId1, batchId2, batchId1, batchId2],
+            [
+              [uuidsMaterialTokenId1[0]],
+              [uuidsMaterialTokenId2[0], uuidsMaterialTokenId2[1]],
+              [uuidsMaterialTokenId1[2], uuidsMaterialTokenId1[1]],
+              [uuidsMaterialTokenId2[3], uuidsMaterialTokenId1[2]],
+            ]
+          )
+          .send({ from: account, gas: 700000 });
+        const balance = await materialInstance.methods.getBalance(materialTokenId3, account).call();
+        expect(balance).equal("1");
+        const materials1 = await materialInstance.methods.getBatchMaterialsUuid(batchId1).call();
+        const materials2 = await materialInstance.methods.getBatchMaterialsUuid(batchId2).call();
+        expect(materials1.length).equal(
+          [uuidsMaterialTokenId1[1], uuidsMaterialTokenId1[3], uuidsMaterialTokenId1[4]].length
+        );
+        expect(materials2.length).equal(
+          [uuidsMaterialTokenId2[2], uuidsMaterialTokenId2[4]].length
+        );
+      });
       //   it("throws error if specified batch balance is not available in the batch", async () => {
       //     const materialTokenId3 = await createMaterial(
       //       "Salad",

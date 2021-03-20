@@ -74,7 +74,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             mi.materialTokenId = _tokenID;
             balance[_tokenID][msg.sender].push(mi.uuid);
             uuidMaterialInfo[mi.uuid] = mi;
-            emit MaterialTransfer(address(0), companyAddress,_tokenID, mi.uuid);
+            emit MaterialTransfer(address(0), companyAddress, _tokenID, mi.uuid);
         }
     }
 
@@ -112,10 +112,11 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 batchMaterialsUuid: new uint256[][](0)
             });
         uuidMaterialInfo[mi.uuid] = mi;
-        // uint256[] memory recipeMaterialsAmount = materialToken[_tokenID].recipeMaterialAmount;
         // uint256 recipeMaterialsAmountUnusedLength = recipeMaterialsAmount.length;
         // for each recipe item
         for (uint8 i = 0; i < materialToken[_tokenID].recipeMaterialTokenId.length; i++) {
+            uint256 recipeMaterialsAmount = materialToken[_tokenID].recipeMaterialAmount[i];
+
             // for each batch
             for (uint8 j = 0; j < _batchesId.length; j++) {
                 // require(
@@ -126,22 +127,32 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 if (
                     // same materialTokenIds
                     batch[_batchesId[j]].materialTokenId ==
-                    materialToken[_tokenID].recipeMaterialTokenId[i]
+                    materialToken[_tokenID].recipeMaterialTokenId[i] &&
+                    recipeMaterialsAmount > 0
                     // the actual batch has enougn materials
                     // batch[_batchesId[j]].materialsUuid.length >=
                     // materialToken[_tokenID].recipeMaterialAmount[i]
                 ) {
                     uuidMaterialInfo[mi.uuid].fromBatchId.push(_batchesId[j]);
-                    uuidMaterialInfo[mi.uuid].batchMaterialsUuid.push(_batchesMaterialsUuid[j]);
-                    //     // remove products from existing batches
-                    burnBatchTokens(_batchesId[j], _batchesMaterialsUuid[j]);
+                    uint256[] storage uuidsToBeAdded =
+                        uuidMaterialInfo[mi.uuid].batchMaterialsUuid.push();
+                    for (
+                        uint256 k = 0;
+                        k < _batchesMaterialsUuid[j].length && recipeMaterialsAmount > 0;
+                        k++
+                    ) {
+                        uuidsToBeAdded.push(_batchesMaterialsUuid[j][k]);
+                        burnBatchToken(_batchesId[j], _batchesMaterialsUuid[j][k]);
+
+                        recipeMaterialsAmount--;
+                    }
                 }
             }
         }
         // final check to see if all products were used
         // require(recipeMaterialsAmountUnusedLength == 0, "Could not satisfy all requirements");
         balance[_tokenID][msg.sender].push(mi.uuid);
-        emit MaterialTransfer(address(0), companyAddress,_tokenID, mi.uuid);
+        emit MaterialTransfer(address(0), companyAddress, _tokenID, mi.uuid);
     }
 
     function createBatch(string memory _code, uint256[] memory _uuids) public senderHasCompany {
