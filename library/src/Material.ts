@@ -144,14 +144,27 @@ class Material extends Base implements IEntity {
   async mint({
     materialTokenId,
     amount,
+    fromBatchId,
+    fromBatchMaterialsUuid,
   }: {
     materialTokenId: number;
-    amount: number;
+    amount?: number;
+    fromBatchId?: number[];
+    fromBatchMaterialsUuid?: number[];
   }): Promise<MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>> {
     await this.ensureContract();
-    const result = await this.contract.methods
-      .mint(materialTokenId, amount)
-      .send({ from: this.fromAddress, gas: 400000 });
+    const material = await this.getById(materialTokenId);
+    const isRaw = material?.recipeMaterialAmount.length === 0;
+    let result;
+    if (isRaw) {
+      result = await this.contract.methods
+        .mint(materialTokenId, amount)
+        .send({ from: this.fromAddress, gas: 400000 });
+    } else {
+      result = await this.contract.methods
+        .mint(materialTokenId, fromBatchId, fromBatchMaterialsUuid)
+        .send({ from: this.fromAddress, gas: 900000 });
+    }
     return new MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>(
       result
     );
