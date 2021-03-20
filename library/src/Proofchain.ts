@@ -1,7 +1,11 @@
 import { Factory } from './abi';
 import Web3 from 'web3';
 import Company from './Company';
-import { Company as CompanyAbi, Material as MaterialAbi } from './abi';
+import {
+  Company as CompanyAbi,
+  Material as MaterialAbi,
+  CertificateAuthorityManagerAbi,
+} from './abi';
 import Material from './Material';
 import CertificateAuthority from './CertificateAuthority';
 import Batch from './Batch';
@@ -57,7 +61,7 @@ class Proofchain {
       this.fromAddress,
       this.factoryContract,
       'certificateAuthorityManagerContract',
-      MaterialAbi
+      CertificateAuthorityManagerAbi
     );
     this.batch = new Batch(
       this.web3,
