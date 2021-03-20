@@ -5,15 +5,22 @@ const {
   createRawMaterial: _createRawMaterial,
   createBatch: _createBatch,
   createCertificate: _createCertificate,
+  expectToThrow,
 } = require("../utils");
 
 contract("Company", (accounts) => {
-  const [account] = accounts;
+  const [account, caAccount] = accounts;
   const createCompany = _createCompany(account);
   const createMaterial = _createMaterial(account);
   const createRawMaterial = _createRawMaterial(account);
   const createBatch = _createBatch(account);
-  const createCertificate = _createCertificate(account);
+  const createCertificate = _createCertificate(caAccount);
+  before(async () => {
+    const [materialInstance, companyInstance, caInstance] = await getInstance();
+
+    await caInstance.methods.createCertificateAuthority("").send({ from: caAccount });
+  });
+
   describe("createCompany", () => {
     it("creates a new company", async () => {
       const [, companyInstance] = await getInstance();
@@ -24,11 +31,7 @@ contract("Company", (accounts) => {
     });
     it("throws erorr if there is already a company created", async () => {
       // const [, companyInstance] = await getInstance();
-      try {
-        await createCompany("Company name");
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-      }
+      expectToThrow(createCompany("Company name"));
     });
   });
   describe("assignCertificate", () => {
@@ -40,17 +43,15 @@ contract("Company", (accounts) => {
       ] = await getInstance();
 
       const code = await createCertificate();
-      try {
-        await companyInstance.methods
+      expectToThrow(
+        companyInstance.methods
           .assignCertificate(code, account)
-          .send({ from: account, gas: 300000 });
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-      }
+          .send({ from: caAccount, gas: 300000 })
+      );
       const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
       await companyInstance.methods
         .assignCertificate(code, account)
-        .send({ from: account, gas: 300000, value: minimumStake });
+        .send({ from: caAccount, gas: 300000, value: minimumStake });
     });
     it("assings a certificate to a product (only owner of the certificate)", async () => {
       const [
@@ -63,14 +64,13 @@ contract("Company", (accounts) => {
       const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
       await companyInstance.methods
         .assignCertificate(code, account)
-        .send({ from: account, gas: 300000, value: minimumStake });
-      try {
-        await companyInstance.methods
+        .send({ from: caAccount, gas: 300000, value: minimumStake });
+      expectToThrow(
+        companyInstance.methods
           .assignCertificate(code, account)
-          .send({ from: otherAccount, gas: 300000, value: minimumStake });
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-      }
+          .send({ from: account, gas: 300000, value: minimumStake })
+      );
+
       const result = await companyInstance.methods.getCompanyCertificate(account).call();
       expect(result.code).equal(code);
     });
@@ -88,7 +88,7 @@ contract("Company", (accounts) => {
       const initialBalance = await web3.eth.getBalance(account);
       await companyInstance.methods
         .assignCertificate(code, account)
-        .send({ from: account, gas: 300000, value: minimumStake });
+        .send({ from: caAccount, gas: 300000, value: minimumStake });
       // console.log(await web3.eth.getBalance(account));
       const r = await companyInstance.methods
         .revokeCertificate(code, account)
@@ -110,7 +110,7 @@ contract("Company", (accounts) => {
       const initialBalance = await web3.eth.getBalance(account);
       await companyInstance.methods
         .assignCertificate(code, account)
-        .send({ from: account, gas: 300000, value: minimumStake });
+        .send({ from: caAccount, gas: 300000, value: minimumStake });
       // console.log(await web3.eth.getBalance(account));
       const r = await companyInstance.methods
         .revokeCertificate(code, account)

@@ -10,44 +10,66 @@ contract CertificateAuthorityManager {
     event CertificateAuthorityCertificateCreated(address indexed owner, uint256 indexed code);
     struct Certificate {
         string name;
+        uint256 code;
+        string description;
         // unique certificate code, used to assign a specific certificate code to a material/company
         address certificateAuthority;
     }
     struct CertificateAuthority {
         string name;
         bool disabled;
+        address owner;
         // true if this certificate authority is set
         bool isValue;
     }
     // address => [code => certificate]
     mapping(uint256 => Certificate) public authorityCertificates;
-    uint256[] public authorityCertificatesCodes;
+    uint256 public codeCounter = 0;
     mapping(address => CertificateAuthority) public certificateAuthorities;
-    address[] certificateAuthoritiesAddress;
     // minimum stake the certificate authorities need to deposit
     uint256 public minimumStake = 1 ether;
+    address masterAddress;
 
-    constructor(address _masterAddress, address _factoryContractAddress) {}
+    constructor(address _masterAddress, address _factoryContractAddress) {
+        masterAddress = _masterAddress;
+    }
 
-    function setMinimumStake(uint256 _stake) public {
+    modifier onlyOwner {
+        require(masterAddress == msg.sender, "Only owner");
+        _;
+    }
+    modifier onlyCertificateAuthority {
+        require(
+            certificateAuthorities[msg.sender].isValue == true,
+            "Only a certificate authority is allowed"
+        );
+        _;
+    }
+
+    function setMinimumStake(uint256 _stake) public onlyOwner {
         minimumStake = _stake;
     }
 
     function createCertificateAuthority(string memory _name) public {
-        certificateAuthoritiesAddress.push(msg.sender);
+        require(
+            certificateAuthorities[msg.sender].isValue == false,
+            "This address alredy has a certificate authority"
+        );
         certificateAuthorities[msg.sender].name = _name;
+        certificateAuthorities[msg.sender].owner = msg.sender;
         certificateAuthorities[msg.sender].isValue = true;
         emit CertificateAuthorityCreated(msg.sender);
     }
 
-    function createCertificate(string memory _name, uint256 _code) public {
-        require(
-            authorityCertificates[_code].certificateAuthority == address(0),
-            "This certificate already exists. You can not override this"
-        );
-        authorityCertificatesCodes.push(_code);
-        authorityCertificates[_code].name = _name;
-        authorityCertificates[_code].certificateAuthority = msg.sender;
-        emit CertificateAuthorityCertificateCreated(msg.sender, _code);
+    function createCertificate(string memory _name, string memory _description)
+        public
+        onlyCertificateAuthority
+    {
+        authorityCertificates[codeCounter].name = _name;
+        authorityCertificates[codeCounter].description = _description;
+        authorityCertificates[codeCounter].certificateAuthority = msg.sender;
+        authorityCertificates[codeCounter].code = codeCounter;
+        emit CertificateAuthorityCertificateCreated(msg.sender, codeCounter);
+        codeCounter++;
     }
 }
