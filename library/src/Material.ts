@@ -75,7 +75,7 @@ class Material extends Base implements IEntity {
         recipeMaterialTokenId,
         recipeMaterialAmount
       )
-      .send({ from: this.fromAddress, gas: 400000 });
+      .send({ from: this.fromAddress, gas: 600000 });
     return new MinedTransaction<CreateTransactionEvents>(transaction);
   }
   async getById(
@@ -150,7 +150,7 @@ class Material extends Base implements IEntity {
     materialTokenId: number;
     amount?: number;
     fromBatchId?: number[];
-    fromBatchMaterialsUuid?: number[];
+    fromBatchMaterialsUuid?: number[][];
   }): Promise<MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>> {
     await this.ensureContract();
     const material = await this.getById(materialTokenId);

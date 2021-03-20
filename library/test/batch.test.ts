@@ -56,9 +56,9 @@ describe('batch', () => {
       const fetchedBatch = await proofchain.batch.getById(
         result.events.BatchCreate.batchId
       );
-      expect(fetchedBatch.code).toEqual('1');
-      expect(fetchedBatch.materialTokenId).toEqual(materialTokenId);
-      expect(fetchedBatch.materialsUuid).toEqual([materialsUuid[1]]);
+      expect(fetchedBatch!.code).toEqual('1');
+      expect(fetchedBatch!.materialTokenId).toEqual(materialTokenId);
+      expect(fetchedBatch!.materialsUuid).toEqual([materialsUuid[1]]);
     });
   });
   describe('burn', () => {
@@ -76,7 +76,7 @@ describe('batch', () => {
       });
       const newBatch = await proofchain.batch.getById(batchId);
       expect(
-        oldBatch.materialsUuid.length - newBatch.materialsUuid.length
+        oldBatch!.materialsUuid.length - newBatch!.materialsUuid.length
       ).toEqual(1);
     });
   });

@@ -3,7 +3,7 @@ import Proofchain from '../../src';
 import CompanyEntityTypeEnum from '../../src/enums/CompanyEntityTypeEnum';
 import { deployedFactoryAddress, provider } from '../provider';
 
-describe('raw material', () => {
+describe('material', () => {
   let proofchain: Proofchain;
   let account: string;
   beforeAll(async () => {
@@ -123,57 +123,23 @@ describe('raw material', () => {
       expect(length > 1).toEqual(true);
     });
   });
-  describe('mint', () => {
-    describe('raw material', () => {
-      it('adds to the balance', async () => {
-        const product = await proofchain.material.create({
-          name: 'product',
-          code: '123',
-          amountIdentifier: 'kg',
-        });
-        const { materialTokenId } = product.events.MaterialCreate;
-        const oldBalance = await proofchain.material.getBalance(
-          materialTokenId
-        );
-        await proofchain.material.mint({
-          materialTokenId: product.events.MaterialCreate.materialTokenId,
-          amount: 2,
-        });
-        const newBalance = await proofchain.material.getBalance(
-          materialTokenId
-        );
-        expect(newBalance).toEqual(oldBalance + 2);
-      });
-      it('returns MaterialTransfer event', async () => {
-        const product = await proofchain.material.create({
-          name: 'product',
-          code: '123',
-          amountIdentifier: 'kg',
-        });
-        const { materialTokenId } = product.events.MaterialCreate;
-        const result = await proofchain.material.mint({
-          materialTokenId,
-          amount: 2,
-        });
-        for (let event of result.events.MaterialTransfer) {
-          expect(event.from).toEqual(
-            '0x0000000000000000000000000000000000000000'
-          );
-          expect(event.to).toEqual(account);
-          expect(event.uuid).not.toEqual(undefined);
-        }
-      });
-    });
-  });
+
   describe('getBalance', () => {
-    it('returns the available balance of a material', async () => {});
-  });
-  describe('getTransfers', () => {
-    it('filters by `to` address', async () => {
-      const transfers = await proofchain.material.getTransfers({ to: account });
-      expect(transfers.length > 0).toBeTruthy();
+    it('returns the available balance of a material', async () => {
+      const product = await proofchain.material.create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      });
+      const { materialTokenId } = product.events.MaterialCreate;
+      await proofchain.material.mint({
+        materialTokenId,
+        amount: 2,
+      });
+      expect(await proofchain.material.getBalance(materialTokenId)).toEqual(2);
     });
   });
+
   describe('getMaterialByUuid', () => {
     it('returns the material by uuid', async () => {
       const product = await proofchain.material.create({

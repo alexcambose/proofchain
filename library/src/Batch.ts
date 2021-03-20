@@ -5,7 +5,7 @@ interface IBatch {
   code: string;
   materialTokenId: number;
   materialsUuid: number[];
-  isValue: boolean;
+  isValue?: boolean;
 }
 type BatchCreateEvent = {
   company: string; // address
@@ -22,7 +22,7 @@ class Batch extends Base {
     await this.ensureContract();
     const transaction = await this.contract.methods
       .createBatch(code, materialsUuid)
-      .send({ from: this.fromAddress, gas: 300000 });
+      .send({ from: this.fromAddress, gas: 500000 });
     return new MinedTransaction<CreateTransactionEvents>(transaction);
   }
   async burn({
