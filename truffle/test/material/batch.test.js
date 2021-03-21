@@ -3,6 +3,7 @@ const {
   createMaterial: _createMaterial,
   createRawMaterial: _createRawMaterial,
   createBatch: _createBatch,
+  expectToThrow,
 } = require("../utils");
 
 contract("Material", (accounts) => {
@@ -71,15 +72,25 @@ contract("Material", (accounts) => {
         .send({ from: account, gas: 400000 });
       const uuids = mintResult.events.MaterialTransfer.map((e) => e.returnValues.uuid);
       const batchId = await createBatch(123, uuids);
-      try {
-        await materialInstance.methods
+      expectToThrow(
+        materialInstance.methods
           .burnBatchToken(batchId, [1, 2, 3, 4, 5, 6, 7])
-          .send({ from: account, gas: 400000 });
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-      }
+          .send({ from: account, gas: 400000 })
+      );
       const result = await materialInstance.methods.getBatchMaterialsUuid(batchId).call();
       expect(result.length).equal(5);
+    });
+    it("throws error if the specified material is not in the batch", async () => {
+      const [materialInstance, companyInstance] = await getInstance();
+      const materialTokenId = await createRawMaterial();
+      const mintResult = await materialInstance.methods
+        .mint(materialTokenId, 5)
+        .send({ from: account, gas: 400000 });
+      const uuids = mintResult.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+      const batchId = await createBatch(123, uuids);
+      expectToThrow(
+        materialInstance.methods.burnBatchToken(batchId, [7]).send({ from: account, gas: 400000 })
+      );
     });
   });
   describe("changeBatchOwnershipBatch", () => {

@@ -41,7 +41,6 @@ module.exports = async function (callback) {
     console.log("Creating batches...");
     const materialBatches = await createBatches(rawMaterialsObject, instances, accounts);
     console.log(materialBatches);
-    const 
   } catch (e) {
     console.log(e);
   }

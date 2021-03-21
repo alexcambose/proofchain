@@ -3,6 +3,7 @@ const {
   createMaterial: _createMaterial,
   createRawMaterial: _createRawMaterial,
   createBatch: _createBatch,
+  expectToThrow,
 } = require("../utils");
 
 contract("RawMaterial", (accounts) => {
@@ -127,25 +128,56 @@ contract("RawMaterial", (accounts) => {
           [uuidsMaterialTokenId2[2], uuidsMaterialTokenId2[4]].length
         );
       });
-      //   it("throws error if specified batch balance is not available in the batch", async () => {
-      //     const materialTokenId3 = await createMaterial(
-      //       "Salad",
-      //       "1234",
-      //       [""],
-      //       [materialTokenId1, materialTokenId2],
-      //       [2, 3]
-      //     );
-      //     // create batches
-      //     const batchId11 = await createBatch(123, materialTokenId1, 1);
-      //     const batchId12 = await createBatch(123, materialTokenId1, 3);
-      //     try {
-      //       await materialInstance.methods
-      //         .mint(materialTokenId3, 1, [batchId11, batchId21], [4, 6])
-      //         .send({ from: account, gas: 400000 });
-      //     } catch (e) {
-      //       expect(e).to.be.instanceOf(Error);
-      //     }
-      //   });
+      it("throws error if there are not enough materials specified", async () => {
+        const [materialInstance, companyInstance] = await getInstance();
+        const materialTokenId3 = await createMaterial(
+          "Salad",
+          "1234",
+          [""],
+          [materialTokenId1, materialTokenId2],
+          [2, 3]
+        );
+        // create batches
+        const batchId1 = await createBatch(123, uuidsMaterialTokenId1);
+        const batchId2 = await createBatch(123, uuidsMaterialTokenId2);
+        expectToThrow(
+          materialInstance.methods
+            .mint(
+              materialTokenId3,
+              [batchId1, batchId2],
+              [
+                [uuidsMaterialTokenId1[0], uuidsMaterialTokenId1[1]],
+                [uuidsMaterialTokenId2[0], uuidsMaterialTokenId2[1]], //should be 3 items here
+              ]
+            )
+            .send({ from: account, gas: 600000 })
+        );
+      });
+      it("throws error if specified batch balance is not available in the batch", async () => {
+        const [materialInstance, companyInstance] = await getInstance();
+        const materialTokenId3 = await createMaterial(
+          "Salad",
+          "1234",
+          [""],
+          [materialTokenId1, materialTokenId2],
+          [2, 3]
+        );
+        // create batches
+        const batchId1 = await createBatch(123, uuidsMaterialTokenId1);
+        const batchId2 = await createBatch(123, uuidsMaterialTokenId2);
+        expectToThrow(
+          materialInstance.methods
+            .mint(
+              materialTokenId3,
+              [batchId1, batchId2],
+              [
+                [uuidsMaterialTokenId1[0], uuidsMaterialTokenId1[1]],
+                [uuidsMaterialTokenId2[0], uuidsMaterialTokenId2[1], uuidsMaterialTokenId1[2]], //last one shouldn't be here
+              ]
+            )
+            .send({ from: account, gas: 600000 })
+        );
+      });
     });
   });
 });

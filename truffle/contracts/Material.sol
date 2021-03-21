@@ -109,26 +109,18 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 batchMaterialsUuid: new uint256[][](0)
             });
         uuidMaterialInfo[mi.uuid] = mi;
-        // uint256 recipeMaterialsAmountUnusedLength = recipeMaterialsAmount.length;
         // for each recipe item
         for (uint8 i = 0; i < materialToken[_tokenID].recipeMaterialTokenId.length; i++) {
             uint256 recipeMaterialsAmount = materialToken[_tokenID].recipeMaterialAmount[i];
 
             // for each batch
             for (uint8 j = 0; j < _batchesId.length; j++) {
-                // require(
-                //     batch[_batchesId[j]].materialTokenAmount >= _batchesAmount[j],
-                //     "Invalid batch amount specification"
-                // );
                 // find the batch with the correct recipe item
                 if (
                     // same materialTokenIds
                     batch[_batchesId[j]].materialTokenId ==
                     materialToken[_tokenID].recipeMaterialTokenId[i] &&
                     recipeMaterialsAmount > 0
-                    // the actual batch has enougn materials
-                    // batch[_batchesId[j]].materialsUuid.length >=
-                    // materialToken[_tokenID].recipeMaterialAmount[i]
                 ) {
                     uuidMaterialInfo[mi.uuid].fromBatchId.push(_batchesId[j]);
                     uint256[] storage uuidsToBeAdded =
@@ -144,6 +136,9 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                         recipeMaterialsAmount--;
                     }
                 }
+            }
+            if (recipeMaterialsAmount != 0) {
+                revert("Not enough materials specified");
             }
         }
         // final check to see if all products were used
@@ -201,6 +196,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
     function burnBatchToken(uint256 _batchId, uint256 _uuid) public {
         require(batch[_batchId].materialsUuid.length >= 1, "Amount not available");
+        bool burned = false;
         // ensure these are my materials
         for (uint256 j = 0; j < batch[_batchId].materialsUuid.length; j++) {
             // material found
@@ -211,7 +207,12 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 ];
                 batch[_batchId].materialsUuid.pop();
                 emit BatchTransfer(msg.sender, address(0), batchId, _uuid);
+                burned = true;
             }
+        }
+        // material not in this batch
+        if (!burned) {
+            revert("The specified material uuid not present in this batch");
         }
     }
 
