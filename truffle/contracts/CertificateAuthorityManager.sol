@@ -19,8 +19,6 @@ contract CertificateAuthorityManager {
         string name;
         bool disabled;
         address owner;
-        // true if this certificate authority is set
-        bool isValue;
     }
     // address => [code => certificate]
     mapping(uint256 => Certificate) public authorityCertificates;
@@ -40,7 +38,7 @@ contract CertificateAuthorityManager {
     }
     modifier onlyCertificateAuthority {
         require(
-            certificateAuthorities[msg.sender].isValue == true,
+            certificateAuthorities[msg.sender].owner != address(0),
             "Only a certificate authority is allowed"
         );
         _;
@@ -52,12 +50,11 @@ contract CertificateAuthorityManager {
 
     function createCertificateAuthority(string memory _name) public {
         require(
-            certificateAuthorities[msg.sender].isValue == false,
+            certificateAuthorities[msg.sender].owner == address(0),
             "This address alredy has a certificate authority"
         );
         certificateAuthorities[msg.sender].name = _name;
         certificateAuthorities[msg.sender].owner = msg.sender;
-        certificateAuthorities[msg.sender].isValue = true;
         emit CertificateAuthorityCreated(msg.sender);
     }
 
