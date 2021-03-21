@@ -1,6 +1,6 @@
 import Base from './Base';
 import MinedTransaction from './MinedTransaction';
-interface ICertificate {
+export interface ICertificate {
   name: string;
   code: number;
   description: string;

@@ -1,11 +1,12 @@
 import Base from './Base';
 import MinedTransaction from './MinedTransaction';
+import { EMPTY_ADDRESS } from './utils/eth';
 interface IBatch {
   batchId?: number;
   code: string;
   materialTokenId: number;
   materialsUuid: number[];
-  isValue?: boolean;
+  owner?: string;
 }
 type BatchCreateEvent = {
   company: string; // address
@@ -41,7 +42,7 @@ class Batch extends Base {
     await this.ensureContract();
 
     const batch = await this.contract.methods.batch(batchId).call();
-    if (!batch.isValue) return null;
+    if (batch.owner == EMPTY_ADDRESS) return null;
     if (full) {
       batch.materialsUuid = await this.contract.methods
         .getBatchMaterialsUuid(batch.batchId)

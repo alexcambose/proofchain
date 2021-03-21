@@ -1,4 +1,5 @@
 import Base from './Base';
+import { ICertificate } from './CertificateAuthority';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
 import MinedTransaction from './MinedTransaction';
@@ -10,10 +11,10 @@ interface IMaterialTokenInfo {
   name: string;
   code: string;
   images: string[];
+  creator: string;
   amountIdentifier: string;
   recipeMaterialTokenId: number[];
   recipeMaterialAmount: number[];
-  isValue: boolean;
 }
 interface IMaterialInfo {
   materialTokenId: number;
@@ -34,6 +35,11 @@ interface IMaterialTypeSelector {
   onlyRawMaterials?: boolean;
   onlyMaterials?: boolean;
 }
+interface ICertificateInstance {
+  code: number;
+  time: number;
+  stake: number;
+}
 type MaterialCreateEvent = {
   company: string; // address
   materialTokenId: number;
@@ -44,6 +50,21 @@ type MaterialTransferEvent = {
   to: string;
   uuid: number;
   event: IEmittedEvent;
+};
+type AssignedCertificateEvent = {
+  certificateAuthority: string;
+  certificateCode: number;
+  materialTokenId: number;
+};
+type CanceledCertificateEvent = {
+  certificateAuthority: string;
+  certificateCode: number;
+  materialTokenId: number;
+};
+type RevokedCertificateEvent = {
+  certificateAuthority: string;
+  certificateCode: number;
+  materialTokenId: number;
 };
 type CreateTransactionEvents = {
   MaterialCreate: MaterialCreateEvent;
@@ -93,7 +114,7 @@ class Material extends Base implements IEntity {
       material.recipeMaterialTokenId = recipe['0'];
       material.recipeMaterialAmount = recipe['1'];
     }
-    if (!material.isValue) return null;
+    if (material.creator === EMPTY_ADDRESS) return null;
     return material;
   }
   async all({
@@ -219,6 +240,72 @@ class Material extends Base implements IEntity {
     // @ts-ignore
     material.mintEvent = events.find((e) => e.uuid === material.uuid);
     return material;
+  }
+  async assignCertificate({
+    certificateCode,
+    materialTokenId,
+    stake,
+  }: {
+    certificateCode: number;
+    materialTokenId: number;
+    stake: string;
+  }): Promise<
+    MinedTransaction<{ AssignedCertificate: AssignedCertificateEvent }>
+  > {
+    await this.ensureContract();
+    const result = await this.contract.methods
+      .assignCertificate(certificateCode, materialTokenId)
+      .send({ from: this.fromAddress, gas: 400000, value: stake });
+
+    return new MinedTransaction<{
+      AssignedCertificate: AssignedCertificateEvent;
+    }>(result);
+  }
+  async cancelCertificate({
+    certificateCode,
+    materialTokenId,
+  }: {
+    certificateCode: number;
+    materialTokenId: number;
+  }): Promise<
+    MinedTransaction<{ CanceledCertificate: CanceledCertificateEvent }>
+  > {
+    await this.ensureContract();
+    const result = await this.contract.methods
+      .cancelCertificate(certificateCode, materialTokenId)
+      .send({ from: this.fromAddress, gas: 400000 });
+
+    return new MinedTransaction<{
+      CanceledCertificate: CanceledCertificateEvent;
+    }>(result);
+  }
+  async revokeCertificate({
+    certificateCode,
+    materialTokenId,
+  }: {
+    certificateCode: number;
+    materialTokenId: number;
+  }): Promise<
+    MinedTransaction<{ RevokedCertificate: RevokedCertificateEvent }>
+  > {
+    await this.ensureContract();
+    const result = await this.contract.methods
+      .revokeCertificate(certificateCode, materialTokenId)
+      .send({ from: this.fromAddress, gas: 400000 });
+
+    return new MinedTransaction<{
+      RevokedCertificate: RevokedCertificateEvent;
+    }>(result);
+  }
+
+  async assigedCertificates(
+    materialTokenId: number
+  ): Promise<ICertificateInstance[]> {
+    await this.ensureContract();
+    const certificateInstances = await this.contract.methods
+      .getMaterialCertificates(materialTokenId)
+      .call();
+    return certificateInstances;
   }
 }
 export default Material;
