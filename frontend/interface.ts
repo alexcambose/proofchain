@@ -39,7 +39,8 @@ export interface IBatch {
   batchId: number;
   code: string;
   materialTokenId: number;
-  materialTokenAmount: number;
+  materialsUuid: number[];
+  isValue: boolean;
   events?: {
     BatchCreate: any;
   };

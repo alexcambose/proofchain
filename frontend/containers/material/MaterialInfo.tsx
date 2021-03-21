@@ -4,7 +4,7 @@ import { State } from '@store/index';
 import { fetchMaterialInfo } from '@store/material/actions';
 import { Accordion, Panel } from 'baseui/accordion';
 import { Skeleton } from 'baseui/skeleton';
-import { Display4, Label1 } from 'baseui/typography';
+import { Display4, Label1, Label2 } from 'baseui/typography';
 import { IMaterial } from 'interface';
 import proofchain from 'proofchain';
 import React, { useEffect, useState } from 'react';
@@ -35,19 +35,22 @@ const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
     <>
       <Display4>{material.name}</Display4>
       <Label1>{material.code}</Label1>
-      {/* <MaterialRecipeTable
-        materialTokenAmount={material.recipeMaterialAmount}
-        materialTokenId={material.recipeMaterialTokenId}
-      /> */}
+      {material.recipeMaterialAmount.length > 0 && (
+        <>
+          <Label1>Recipe</Label1>
+          <MaterialRecipeTable
+            materialTokenAmount={material.recipeMaterialAmount}
+            materialTokenId={material.recipeMaterialTokenId}
+          />
+        </>
+      )}
 
       <Grid2
         left={
-          <Accordion renderAll>
+          <Accordion>
             <Panel title={'Balance - ' + balance}>
               <MaterialBalancePanel materialTokenId={materialTokenId} />
             </Panel>
-            <Panel title="Panel 2">Content 2</Panel>
-            <Panel title="Panel 3">Content 3</Panel>
           </Accordion>
         }
         right={<MaterialInventory materialTokenId={materialTokenId} />}

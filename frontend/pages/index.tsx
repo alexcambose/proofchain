@@ -47,7 +47,7 @@ export const authCheck = (expectLoggedIn) =>
   wrapper.getServerSideProps(async ({ store, req, res, ...other }) => {
     const cookies = new Cookies(req, res);
     const loggedIn = new AuthManager(cookies).isLoggedIn();
-
+    console.log('Initial', store.getState());
     if (loggedIn) {
       store.dispatch(setLoggedIn(true));
     }

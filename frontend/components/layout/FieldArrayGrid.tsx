@@ -19,6 +19,12 @@ const cellOverrideRight = {
   },
 };
 const FieldArrayGrid: React.FC<IFieldArrayGridProps> = ({ colsContent }) => {
+  let spanTypes = [];
+  if (colsContent.length === 3) {
+    spanTypes[0] = [1, 3, 5];
+    spanTypes[1] = [2, 4, 5];
+    spanTypes[2] = [1, 1, 2];
+  }
   return (
     <Grid
       behavior={BEHAVIOR.fluid}
@@ -31,7 +37,20 @@ const FieldArrayGrid: React.FC<IFieldArrayGridProps> = ({ colsContent }) => {
         },
       }}
     >
-      <Cell overrides={cellOverrideLeft} span={[2, 4, 6]}></Cell>
+      {colsContent.map((c, i) => (
+        <Cell
+          overrides={
+            i === 0
+              ? cellOverrideLeft
+              : i === colsContent.length - 1
+              ? cellOverrideRight
+              : undefined
+          }
+          span={spanTypes[i]}
+        >
+          {c}
+        </Cell>
+      ))}
     </Grid>
   );
 };

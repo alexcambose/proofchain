@@ -19,11 +19,7 @@ const MaterialBalancePanel: React.FC<IMaterialBalancePanelProps> = ({
       <Label1>
         Current balance: <strong>{balance}</strong>
       </Label1>
-      <MintMaterialForm
-        isRawMaterial={material.recipeMaterialAmount.length === 0}
-        materialTokenId={materialTokenId}
-        amountIdentifier={material.amountIdentifier}
-      />
+      <MintMaterialForm materialTokenId={materialTokenId} />
     </>
   );
 };

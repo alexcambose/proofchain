@@ -101,17 +101,19 @@ const amountIdentifiers = [
       entityType: 1,
     });
   }
-  let createdRawMaterialsId = [];
+  let createdRawMaterials = {};
   console.log(`Creating ${config.rawMaterials} raw materials...`);
   for (let i = 0; i < 30; i++) {
     const name = faker.commerce.productMaterial();
-    const result = await proofchain.material.create({
-      name,
-      code: faker.random.word() + '-' + faker.random.number(),
-      images: [],
-      amountIdentifier:
+    const result = await materialInstance.methods
+      .create(
+        name,
+        faker.random.word() + '-' + faker.random.number(),
         amountIdentifiers[faker.random.number(amountIdentifiers.length - 1)],
-    });
+        images
+      )
+      .send({ from: account, gas: 400000 });
+    const { materialTokenId } = result.events.MaterialCreate.returnValues;
     console.log(`${i} - ${name} created!`);
     await proofchain.material.mint({
       materialTokenId: result.events.MaterialCreate.materialTokenId,

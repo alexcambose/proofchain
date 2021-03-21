@@ -6,26 +6,26 @@ import { IMaterial, ITransport } from 'interface';
 import Link from 'next/link';
 import React from 'react';
 import ViewButton from '../../../../components/table/ViewMaterialButton';
-interface ITransportsTableProps {
+interface IIncomingTransportsTableeProps {
   transports: ITransport[];
   isLoading?: boolean;
 }
-const TransportsTable: React.FC<ITransportsTableProps> = ({
+const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
   isLoading,
   transports,
 }) => {
   return (
     <Table
       isLoading={isLoading}
-      columns={['ID', 'Name', 'Code', 'Create Transaction', 'Action']}
+      columns={['From', 'Batch ids', 'Status', 'Create Transaction', 'Action']}
       data={transports.map((e) => [
-        e.materialTokenId,
-        e.name,
-        e.code,
-        <TransactionLink>
-          {e.events.MaterialCreate.transactionHash}
-        </TransactionLink>,
-        <ViewButton id={e.materialTokenId} baseUrl="/transport" />,
+        e.sender,
+        e.batchIds,
+        e.status,
+        // <TransactionLink>
+        //   {e.event}
+        // </TransactionLink>,
+        // <ViewButton id={e.materialTokenId} baseUrl="/transport" />,
       ])}
       emptyMessage={
         <Link href="/transport/create">
@@ -38,4 +38,4 @@ const TransportsTable: React.FC<ITransportsTableProps> = ({
   );
 };
 
-export default TransportsTable;
+export default IncomingTransportsTable;

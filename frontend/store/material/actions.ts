@@ -101,14 +101,20 @@ export const mintMaterial = createAsyncThunk(
   async ({
     materialTokenId,
     amount,
+    fromBatchId,
+    fromBatchMaterialsUuid,
   }: {
     materialTokenId: number;
-    amount: number;
+    amount?: number;
+    fromBatchId?: number[];
+    fromBatchMaterialsUuid?: number[][];
   }) => {
     await transactionWrapper(() =>
       proofchain().material.mint({
         materialTokenId,
         amount,
+        fromBatchId,
+        fromBatchMaterialsUuid,
       })
     );
 

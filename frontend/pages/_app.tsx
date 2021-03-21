@@ -14,6 +14,7 @@ import { styletron } from '../styletron';
 import { EntityTypeEnum } from '@enums';
 import { fetchCompanyEntityInfo } from '@store/companyEntity/actions';
 import { ToasterContainer } from 'baseui/toast';
+import LoadingOverlay from '@components/LoadingOverlay';
 
 if (isClient()) {
   init();
@@ -51,6 +52,7 @@ function MyApp({ Component, pageProps }) {
     <StyletronProvider value={styletron}>
       <BaseProvider theme={LightTheme}>
         <ToasterContainer autoHideDuration={3500}>
+          <LoadingOverlay />
           <Component {...pageProps} />
         </ToasterContainer>
       </BaseProvider>
