@@ -2,7 +2,6 @@ import { isDevelopment } from '@utils/next';
 import { SocialLoginTypeEnum } from 'enums';
 import getConfig from 'next/config';
 const { publicRuntimeConfig } = getConfig();
-console.log(getConfig());
 const torusTestnet = {
   credentials: {
     [SocialLoginTypeEnum.GOOGLE]: {

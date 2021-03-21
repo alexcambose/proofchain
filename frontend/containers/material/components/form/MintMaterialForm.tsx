@@ -29,7 +29,7 @@ interface MintMaterialFormProps extends ReturnType<typeof mapDispatchToProps> {
 interface FormValues {
   amount: number;
   fromBatchId: number[];
-  batchMaterialsUuid: number[][];
+  fromBatchMaterialsUuid: number[][];
 }
 
 const RecipeButtons = ({ index, ...props }) => {
@@ -85,14 +85,14 @@ const RecipeButtons = ({ index, ...props }) => {
           />
         </FormControl>,
         <FormControl
-          htmlFor={'batchMaterialsUuid'}
+          htmlFor={'fromBatchMaterialsUuid'}
           label={'Materials uuid'}
           caption={
             'Materials uuid from the batch that will be used to mint this material.'
           }
         >
           <Select
-            id="batchMaterialsUuid"
+            id="fromBatchMaterialsUuid"
             closeOnSelect={false}
             disabled={!batchInfo}
             options={
@@ -102,7 +102,7 @@ const RecipeButtons = ({ index, ...props }) => {
                 label: e,
               }))
             }
-            value={values.batchMaterialsUuid[index].map((e) => ({
+            value={values.fromBatchMaterialsUuid[index].map((e) => ({
               id: e,
               label: e,
             }))}
@@ -112,7 +112,7 @@ const RecipeButtons = ({ index, ...props }) => {
             placeholder="Materials uuid"
             onChange={(params) =>
               setFieldValue(
-                `batchMaterialsUuid[${index}]`,
+                `fromBatchMaterialsUuid[${index}]`,
                 params.value.map((e) => e.id)
               )
             }
@@ -124,8 +124,8 @@ const RecipeButtons = ({ index, ...props }) => {
             onClick={() => {
               setFieldValue('fromBatchId', values.fromBatchId.splice(index, 1));
               setFieldValue(
-                'batchMaterialsUuid',
-                values.batchMaterialsUuid.splice(index, 1)
+                'fromBatchMaterialsUuid',
+                values.fromBatchMaterialsUuid.splice(index, 1)
               );
             }}
             disabled={index === 0}
@@ -207,12 +207,13 @@ const _MintMaterialForm: React.FC<
               },
             }}
             disabled={
-              values.batchMaterialsUuid[values.batchMaterialsUuid.length - 1]
-                ?.length === 0 && values.fromBatchId.length > 0
+              values.fromBatchMaterialsUuid[
+                values.fromBatchMaterialsUuid.length - 1
+              ]?.length === 0 && values.fromBatchId.length > 0
             }
             onClick={() => {
               setFieldValue('batchMaterialsUuid', [
-                ...values.batchMaterialsUuid,
+                ...values.fromBatchMaterialsUuid,
                 [],
               ]);
               setFieldValue('fromBatchId', [...values.fromBatchId, null]);
@@ -234,7 +235,7 @@ const MintMaterialForm = withFormik<MintMaterialFormProps, FormValues>({
     return {
       amount: 1,
       fromBatchId: [null],
-      batchMaterialsUuid: [[]],
+      fromBatchMaterialsUuid: [[]],
     };
   },
   validationSchema: (props) =>

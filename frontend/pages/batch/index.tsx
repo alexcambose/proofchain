@@ -1,6 +1,7 @@
 import Batches from '@containers/batch/Batches';
 import Layout from '@containers/Layout';
 import Head from 'next/head';
+import { authCheck } from 'pages';
 import React from 'react';
 
 const Batch = () => {
@@ -16,4 +17,6 @@ const Batch = () => {
     </>
   );
 };
+export const getServerSideProps = authCheck(true);
+
 export default Batch;

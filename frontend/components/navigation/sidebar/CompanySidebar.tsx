@@ -15,6 +15,10 @@ const CompanySidebar = () => {
     <Navigation
       items={[
         {
+          title: 'Home',
+          itemId: '/',
+        },
+        {
           title: 'Materials',
           itemId: '/material',
           subNav: [

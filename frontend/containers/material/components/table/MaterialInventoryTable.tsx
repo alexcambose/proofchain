@@ -20,7 +20,7 @@ const MaterialInventoryTable: React.FC<IMaterialInventoryTableProps> = ({
         e.materialTokenId,
         <TransactionLink>{e.mintEvent.event.transactionHash}</TransactionLink>,
       ])}
-      emptyMessage={'No transfers'}
+      emptyMessage={'No materials'}
     />
   );
 };

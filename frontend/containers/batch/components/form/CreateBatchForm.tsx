@@ -14,7 +14,6 @@ interface CreateBatchFormProps extends ReturnType<typeof mapDispatchToProps> {
 }
 interface FormValues {
   materialsUuid: any;
-  materialTokenAmount: number;
   code: string;
 }
 const _CreateBatchForm: React.FC<
@@ -24,13 +23,7 @@ const _CreateBatchForm: React.FC<
   return (
     <Form>
       <MaterialsUuidInput />
-      <Field
-        name="materialTokenAmount"
-        type="text"
-        placeholder="Material amount"
-        label="Material amount"
-        caption="The amount of materials that will be added to the batch"
-      />
+
       <Field
         name="code"
         type="text"
@@ -50,7 +43,6 @@ const CreateBatchForm = withFormik<CreateBatchFormProps, FormValues>({
   mapPropsToValues: () => {
     return {
       materialsUuid: [],
-      materialTokenAmount: 1,
       code: '',
     };
   },
@@ -58,15 +50,14 @@ const CreateBatchForm = withFormik<CreateBatchFormProps, FormValues>({
   validationSchema: yup.object().shape({
     // materialsUuid: validation.materialTokenId,
 
-    materialTokenAmount: validation.materialTokenAmount,
+    // materialTokenAmount: validation.materialTokenAmount,
     code: validation.batchCode,
   }),
   handleSubmit: async (values, { props }) => {
     const { createBatch, onSuccess } = props;
-    const { code, materialTokenAmount, materialsUuid } = values;
+    const { code, materialsUuid } = values;
     await createBatch({
       code,
-      materialTokenAmount,
       materialsUuid: materialsUuid.map((e) => e.id),
     });
     onSuccess && onSuccess();
