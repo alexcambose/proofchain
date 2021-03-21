@@ -17,6 +17,21 @@ contract MaterialBase {
         uint256 indexed batchId,
         uint256 uuid // uuid is only specified on burn
     );
+    event AssignedCertificate(
+        address indexed certificateAuthority,
+        uint256 indexed certificateCode,
+        uint256 indexed materialTokenId
+    );
+    event CanceledCertificate(
+        address indexed certificateAuthority,
+        uint256 indexed certificateCode,
+        uint256 indexed materialTokenId
+    );
+    event RevokedCertificate(
+        address indexed certificateAuthority,
+        uint256 indexed certificateCode,
+        uint256 indexed materialTokenId
+    );
     struct CertificateInstance {
         uint256 code;
         uint256 time;
@@ -32,7 +47,6 @@ contract MaterialBase {
         address creator;
         // certificates
         CertificateInstance[] certificates;
-        uint256 certificatesLength;
         // ipfs images hash
         string[] images;
         // mapping from (tokenID -> amount of the amount identifier)
@@ -40,7 +54,6 @@ contract MaterialBase {
         uint256[] recipeMaterialAmount;
         // amount identifier (kg, grams)
         string amountIdentifier;
-        bool isValue;
     }
 
     struct MaterialInfo {
@@ -62,7 +75,6 @@ contract MaterialBase {
         string code;
         uint256 materialTokenId;
         uint256[] materialsUuid;
-        bool isValue;
     }
     // Mapping tokenid => to materials owned by an address (materials who are not in a batch)
     mapping(uint256 => mapping(address => uint256[])) balance;
@@ -129,5 +141,13 @@ contract MaterialBase {
 
     function getBatchMaterialsUuid(uint256 _batchId) public view returns (uint256[] memory) {
         return batch[_batchId].materialsUuid;
+    }
+
+    function getMaterialCertificates(uint256 _materialTokenId)
+        public
+        view
+        returns (CertificateInstance[] memory)
+    {
+        return materialToken[_materialTokenId].certificates;
     }
 }

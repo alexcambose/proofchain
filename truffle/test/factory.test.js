@@ -1,15 +1,11 @@
-const Factory = artifacts.require('Factory');
+const Factory = artifacts.require("Factory");
 
-contract('Factory', () => {
-  describe('Constructor', () => {
-    it('contains the aggregator address', async () => {
+contract("Factory", () => {
+  describe("Constructor", () => {
+    it("contains the factory contract", async () => {
       const instance = await Factory.deployed();
-      const aggregatorAddress = await instance.contract.methods
-        .aggregator()
-        .call();
-      expect(aggregatorAddress).to.not.equal(
-        '0x' + Array(40).fill('0').join('')
-      );
+
+      expect(instance).to.not.equal(undefined);
     });
   });
 });

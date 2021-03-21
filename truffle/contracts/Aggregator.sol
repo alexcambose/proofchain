@@ -6,14 +6,14 @@ contract Aggregator {
     address public materialContractAddress;
     address public certificateAuthorityManagerContractAddress;
     address public masterAddress;
-    address public owner;
+    address owner;
 
     constructor() {
         owner = msg.sender;
     }
 
     modifier onlyOwner {
-        require(msg.sender == owner, 'Only owner!');
+        require(msg.sender == owner, "Only owner!");
         _;
     }
 

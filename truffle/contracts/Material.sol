@@ -2,14 +2,12 @@
 pragma solidity >0.7.0 <0.9.0;
 
 import "./MaterialBase.sol";
-import "./utils/Math.sol";
+
 import "./utils/CompanyOwnable.sol";
 import "./utils/CertificateAuthorityManagerReferencer.sol";
 import "./Certifiable.sol";
 
 contract Material is Certifiable, MaterialBase, CompanyOwnable {
-    using Math for uint256;
-
     constructor(address _masterAddress, address _factoryContractAddress)
         Ownable(_masterAddress, _factoryContractAddress)
     {}
@@ -29,7 +27,6 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         materialToken[materialTokenId].amountIdentifier = _amountIdentifier;
         materialToken[materialTokenId].images = _images;
         materialToken[materialTokenId].creator = msg.sender;
-        materialToken[materialTokenId].isValue = true;
         emit MaterialCreate(msg.sender, materialTokenId);
         materialTokenId++;
     }
@@ -59,7 +56,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
      */
     function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {
         require(
-            materialToken[_tokenID].isValue == true,
+            materialToken[_tokenID].creator != address(0),
             "Can not mint a material that does not exist"
         );
         require(
@@ -185,7 +182,6 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 code: _code,
                 materialTokenId: materialTokenId,
                 materialsUuid: _uuids,
-                isValue: true,
                 owner: msg.sender
             });
         batch[batchId] = batchInfo;
@@ -221,11 +217,16 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
     function assignCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public payable {
         super.assignCertificate(_certificateCode);
-
+        for (uint256 i = 0; i < materialToken[_itemIdentifier].certificates.length; i++) {
+            if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
+                revert("Can not assign the same certificate twice");
+            }
+        }
         CertificateInstance memory ci =
             CertificateInstance({code: _certificateCode, time: block.timestamp, stake: msg.value});
 
         materialToken[_itemIdentifier].certificates.push(ci);
+        emit AssignedCertificate(msg.sender, _certificateCode, _itemIdentifier);
     }
 
     function cancelCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
@@ -236,12 +237,13 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
                 materialToken[_itemIdentifier].certificates[i] = materialToken[_itemIdentifier]
                     .certificates[length - 1];
-                delete materialToken[_itemIdentifier].certificates[length - 1];
+                materialToken[_itemIdentifier].certificates.pop();
             }
         }
         if (i == length - 1) {
             revert("Certificate code not found");
         }
+        emit CanceledCertificate(msg.sender, _certificateCode, _itemIdentifier);
     }
 
     /*
@@ -256,14 +258,16 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                     .certificates[length - 1];
 
                 // payable(certificateAuthorityManagerAddress).transfer(
-                //     100000000000000000pornu
+                //     100000000000000000
                 // );
-                delete materialToken[_itemIdentifier].certificates[length - 1];
+
+                materialToken[_itemIdentifier].certificates.pop();
             }
         }
         if (i == length - 1) {
             revert("Certificate code not found");
         }
+        emit RevokedCertificate(msg.sender, _certificateCode, _itemIdentifier);
     }
 
     function changeBatchOwnershipBatch(uint256[] memory _batchIds, address _newOwner)

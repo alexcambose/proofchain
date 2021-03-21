@@ -58,6 +58,24 @@ contract("Material", (accounts) => {
         .call();
       expect(result.code).equal("1");
     });
+    it("cannot assign the same certificate twice", async () => {
+      const [
+        materialInstance,
+        companyInstance,
+        certificateAuthorityManagerInstance,
+      ] = await getInstance();
+      const materialTokenId = await createRawMaterial();
+      const code = await createCertificate("aa", "desc");
+      const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
+      await materialInstance.methods
+        .assignCertificate(code, materialTokenId)
+        .send({ from: caAccount, gas: 300000, value: minimumStake });
+      expectToThrow(
+        materialInstance.methods
+          .assignCertificate(code, materialTokenId)
+          .send({ from: caAccount, gas: 300000, value: minimumStake })
+      );
+    });
   });
   describe("cancelCertificate", () => {
     it("removes the certificate from the material", async () => {
