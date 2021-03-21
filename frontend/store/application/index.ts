@@ -12,6 +12,10 @@ export const ApplicationSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder: any) => {
+    builder.addCase(hydrate, (state, { payload }) => {
+      state.hydrated = true;
+      console.log('app hydrate');
+    });
     builder.addCase(refreshLogin.pending, (state, { payload }) => {
       state.loading = true;
     });

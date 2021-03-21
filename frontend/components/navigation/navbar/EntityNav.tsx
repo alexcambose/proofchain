@@ -28,7 +28,7 @@ const EntityNav = () => {
         content: (
           <>
             <Address>{address}</Address> -{' '}
-            {loadingBalance ? <Spinner /> : balance + ' ETH'}
+            {loadingBalance ? '...' : balance + ' ETH'}
           </>
         ),
       },

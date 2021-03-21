@@ -25,12 +25,17 @@ export const UserSlice = createSlice({
       state.address = '';
       AuthManager.clearInfo();
     },
+    setInitialData: (state, action: PayloadAction<any>) => {
+      for (let key in action.payload) {
+        state[key] = action.payload[key];
+      }
+    },
   },
   extraReducers: (builder: any) => {
     // had to google this for hours :( -> https://github.com/kirill-konshin/next-redux-wrapper/pull/295/files/1792221d7e792b917b63ccaf77f528fc13797ef3#diff-e5c99337b70249438cce35e58d28640fe7e4d0427b281532c163837649d989f9R22
     builder.addCase(hydrate, (state, { payload }) => {
-      console.log('hydrate');
-      for (let key of ['loggedIn']) {
+      console.log('hydrate', payload);
+      for (let key in payload[UserSlice.name]) {
         state[key] = payload[UserSlice.name][key];
       }
     });
@@ -70,5 +75,5 @@ export const UserSlice = createSlice({
   },
 });
 
-export const { logout, setLoggedIn } = UserSlice.actions;
+export const { logout, setLoggedIn, setInitialData } = UserSlice.actions;
 export default UserSlice.reducer;

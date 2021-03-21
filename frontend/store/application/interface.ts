@@ -1,3 +1,4 @@
 export interface IApplication {
-  loading?: boolean;
+  loading: boolean;
+  hydrated: boolean;
 }

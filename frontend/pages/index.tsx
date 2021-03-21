@@ -1,7 +1,8 @@
 import CreateEntityForm from '@containers/auth/components/entity/CreateEntityForm';
 import InitialSetupSteps from '@containers/auth/components/entity/InitialSetupSteps';
 import Layout from '@containers/Layout';
-import { logout, setLoggedIn } from '@store/user';
+import { logout, setInitialData, setLoggedIn } from '@store/user';
+import { refreshLogin, refreshUserInfo } from '@store/user/actions';
 import { AuthManager } from '@utils/auth/authManager';
 import { Cell, Grid } from 'baseui/layout-grid';
 import Cookies from 'cookies';
@@ -47,9 +48,12 @@ export const authCheck = (expectLoggedIn) =>
   wrapper.getServerSideProps(async ({ store, req, res, ...other }) => {
     const cookies = new Cookies(req, res);
     const loggedIn = new AuthManager(cookies).isLoggedIn();
-    console.log('Initial', store.getState());
+
     if (loggedIn) {
       store.dispatch(setLoggedIn(true));
+      store.dispatch(
+        setInitialData(await refreshUserInfo(new AuthManager(cookies)))
+      );
     }
     const onLoginPage = req.url == '/login';
     if (expectLoggedIn && !loggedIn && !onLoginPage) {

@@ -5,8 +5,17 @@ import { triggerLogin } from '@utils/auth/torus';
 import { getPrivateKeyFromMnemonic } from '@utils/eth';
 import web3Instance, { initWeb3Instance } from 'web3Instance';
 import proofchain from 'proofchain';
-import { State } from '..';
-
+export const refreshUserInfo = async (authManager = AuthManager) => {
+  const address = await initWeb3Instance(authManager.getInfo());
+  const hasCompany = await proofchain().company.hasCompany();
+  // todo add certificateAutoirity
+  console.log('refresh login', address, hasCompany);
+  return {
+    address,
+    hasEntity: hasCompany,
+    entityType: EntityTypeEnum.COMPANY,
+  };
+};
 export const loginWithMetamask = createAsyncThunk(
   'users/loginWithMetamask',
   async () => {
@@ -35,15 +44,7 @@ export const refreshLogin = createAsyncThunk(
   'users/refreshLogin',
   // Declare the type your function argument here:
   async () => {
-    const address = await initWeb3Instance(AuthManager.getInfo());
-    const hasCompany = await proofchain().company.hasCompany();
-    // todo add certificateAutoirity
-    console.log('refresh login', address);
-    return {
-      address,
-      hasEntity: hasCompany,
-      entityType: EntityTypeEnum.COMPANY,
-    };
+    return await refreshUserInfo();
   }
 );
 export const refreshBalance = createAsyncThunk(
@@ -54,8 +55,14 @@ export const refreshBalance = createAsyncThunk(
       // @ts-ignore
       user: { address },
     } = thunkApi.getState();
-    const balanceInWei = await web3Instance().eth.getBalance(address);
-    const balance = web3Instance().utils.fromWei(balanceInWei);
-    return { balance };
+    try {
+      const balanceInWei = await web3Instance().eth.getBalance(address);
+      const balance = web3Instance().utils.fromWei(balanceInWei);
+
+      return { balance };
+    } catch (e) {
+      console.log(e);
+      return { balance: 0 };
+    }
   }
 );

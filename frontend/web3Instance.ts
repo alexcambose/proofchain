@@ -1,3 +1,4 @@
+import { isClient } from '@utils/next';
 import config from 'config';
 import proofchain, { initProofchain } from 'proofchain';
 import Web3 from 'web3';
@@ -24,10 +25,12 @@ const initWeb3FromMetamask = async (): Promise<string> => {
 
 export const initWeb3Instance = async (loginObject): Promise<string> => {
   const { type, wallet } = loginObject;
-  // @ts-ignore
-  window.web3 = () => web3Instance;
-  // @ts-ignore
-  window.Web3 = Web3;
+  if (isClient()) {
+    // @ts-ignore
+    window.web3 = () => web3Instance;
+    // @ts-ignore
+    window.Web3 = Web3;
+  }
   if (type === 'metamask') {
     console.log('Init with metamask');
     const address = await initWeb3FromMetamask();

@@ -1,6 +1,7 @@
 import Layout from '@containers/Layout';
 import Materials from '@containers/material/Materials';
 import Head from 'next/head';
+import { authCheck } from 'pages';
 import React from 'react';
 
 const Material = () => {
@@ -16,4 +17,6 @@ const Material = () => {
     </>
   );
 };
+export const getServerSideProps = authCheck(true);
+
 export default Material;

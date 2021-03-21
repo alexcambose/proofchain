@@ -6,6 +6,7 @@ import Materials from '@containers/material/Materials';
 import { SIZE } from 'baseui/button';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { authCheck } from 'pages';
 import React from 'react';
 
 const ViewMaterial = () => {
@@ -24,4 +25,6 @@ const ViewMaterial = () => {
     </>
   );
 };
+export const getServerSideProps = authCheck(true);
+
 export default ViewMaterial;
