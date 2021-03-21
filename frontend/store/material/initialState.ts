@@ -11,7 +11,6 @@ const initialState: IMaterialStore = {
     transfers: [],
     inventory: [],
   },
-  loadingMaterialInfo: false,
 };
 
 export default initialState;

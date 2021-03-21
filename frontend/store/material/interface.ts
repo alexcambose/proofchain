@@ -11,5 +11,4 @@ export interface IMaterialStore {
     transfers: IMaterialTransfer[];
     inventory: IMaterialInfo[];
   };
-  loadingMaterialInfo: boolean;
 }

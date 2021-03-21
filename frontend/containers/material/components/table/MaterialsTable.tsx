@@ -25,7 +25,7 @@ const MaterialsTable: React.FC<IMaterialsTableProps> = ({
         <TransactionLink>
           {e.events.MaterialCreate.transactionHash}
         </TransactionLink>,
-        <ViewButton id={e.materialTokenId} baseUrl="/material" />,
+        <ViewButton id={e.materialTokenId} baseUrl={'/material'} />,
       ])}
       emptyMessage={
         <Link href="/material/create">

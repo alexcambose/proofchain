@@ -21,14 +21,11 @@ const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
   const { material, balance } = useSelector(
     (state: State) => state.material.materialInfo
   );
-  const loadingMaterialInfo = useSelector(
-    (state: State) => state.material.loadingMaterialInfo
-  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchMaterialInfo({ materialTokenId }));
   }, []);
-  if (loadingMaterialInfo || !material) {
+  if (!material) {
     return <Skeleton rows={10} height="200px" width="100%" animation />;
   }
   return (

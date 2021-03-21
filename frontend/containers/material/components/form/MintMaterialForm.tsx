@@ -4,7 +4,7 @@ import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
 import FieldArrayGrid from '@components/layout/FieldArrayGrid';
 import Grid2 from '@components/layout/Grid2';
-import { mintMaterial } from '@store/material/actions';
+import { fetchMaterialInfo, mintMaterial } from '@store/material/actions';
 import validation from '@utils/validation';
 import { KIND } from 'baseui/button';
 import { FormControl } from 'baseui/form-control';
@@ -27,7 +27,7 @@ interface MintMaterialFormProps extends ReturnType<typeof mapDispatchToProps> {
   onSuccess?: () => void;
 }
 interface FormValues {
-  mintAmount: number;
+  amount: number;
   fromBatchId: number[];
   batchMaterialsUuid: number[][];
 }
@@ -181,7 +181,7 @@ const _MintMaterialForm: React.FC<
     <Form>
       {isRawMaterial && (
         <Field
-          name="mintAmount"
+          name="amount"
           type="number"
           placeholder="Mint Amount"
           label="Mint Amount"
@@ -232,28 +232,35 @@ const MintMaterialForm = withFormik<MintMaterialFormProps, FormValues>({
   // Transform outer props into form values
   mapPropsToValues: () => {
     return {
-      mintAmount: 1,
+      amount: 1,
       fromBatchId: [null],
       batchMaterialsUuid: [[]],
     };
   },
   validationSchema: (props) =>
     yup.object().shape({
-      mintAmount: validation.mintAmount,
-      ...(!props.isRawMaterial ? { recipe: validation.recipe } : {}),
+      amount: validation.mintAmount,
     }),
-  handleSubmit: async (values, { props }) => {
-    const { mintMaterial, materialTokenId, onSuccess } = props;
+  handleSubmit: async (values, { props, resetForm }) => {
+    const {
+      mintMaterial,
+      materialTokenId,
+      onSuccess,
+      fetchMaterialInfo,
+    } = props;
     console.log(values);
     await mintMaterial({
       materialTokenId,
       ...values,
     });
+    await fetchMaterialInfo({ materialTokenId });
+    resetForm();
     onSuccess && onSuccess();
   },
 })(_MintMaterialForm);
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchMaterialInfo: (data) => dispatch(fetchMaterialInfo(data)),
     mintMaterial: (data) => dispatch(mintMaterial(data)),
   };
 };

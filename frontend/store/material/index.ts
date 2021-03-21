@@ -25,11 +25,6 @@ export const MaterialSlice = createSlice({
       state.materialInfo.balance = payload.balance;
       state.materialInfo.transfers = payload.transfers;
       state.materialInfo.inventory = payload.inventory;
-
-      state.loadingMaterialInfo = false;
-    });
-    builder.addCase(fetchMaterialInfo.pending, (state, { payload }) => {
-      state.loadingMaterialInfo = true;
     });
     builder.addCase(fetchRawMaterials.fulfilled, (state, { payload }) => {
       state.rawMaterials = payload.materials;
