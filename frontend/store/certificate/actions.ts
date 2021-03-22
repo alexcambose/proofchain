@@ -74,3 +74,11 @@ export const fetchMinimumStake = createAsyncThunk(
     return { minimumStake };
   }
 );
+export const fetchCertificateInfo = createAsyncThunk(
+  'certificate/fetchCertificateInfo',
+  async ({ code }: { code: number }) => {
+    const certificate = await proofchain().certificateAuthority.getByCode(code);
+
+    return { certificate };
+  }
+);

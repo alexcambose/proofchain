@@ -1,4 +1,5 @@
 import { TransportStatusEnum } from '@enums';
+import { number, string } from 'yup/lib/locale';
 
 export interface ITransport {
   sender: string;
@@ -59,4 +60,10 @@ interface ICertificateAuthority {
   disabled: boolean;
   owner: string;
   isValue: boolean;
+}
+
+export interface ICertificateInstance {
+  code: number;
+  time: number;
+  stake: number;
 }

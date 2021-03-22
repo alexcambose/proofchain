@@ -114,6 +114,12 @@ describe('Certificates', () => {
       expect(fetchedCertificate!.name).toEqual('name');
       expect(fetchedCertificate!.description).toEqual('description');
     });
+    it('returns null if the certificate code does not exist', async () => {
+      const fetchedCertificate = await proofchainCA.certificateAuthority.getByCode(
+        123456
+      );
+      expect(fetchedCertificate).toBeNull();
+    });
   });
   describe('getCertificateAutority', () => {
     it('returns a certificate autority by a provided address', async () => {

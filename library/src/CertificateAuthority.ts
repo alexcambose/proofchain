@@ -62,7 +62,7 @@ class CertificateAuthority extends Base {
     const certificate = await this.contract.methods
       .authorityCertificates(code)
       .call();
-    if (!certificate.certificateAuthority) return null;
+    if (certificate.certificateAuthority === EMPTY_ADDRESS) return null;
     return certificate;
   }
   async getCertificateAuthority(

@@ -8,10 +8,10 @@ const Index = () => {
   return (
     <>
       <Head>
-        <title>Create new certificate</title>
+        <title>Create Certificate</title>
       </Head>
 
-      <Layout title="Create Material">
+      <Layout title="Create Certificate">
         <CreateCertificate />
       </Layout>
     </>
