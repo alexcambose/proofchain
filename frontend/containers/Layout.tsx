@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { Block } from 'baseui/block';
 import { Display4 } from 'baseui/typography';
 import uuid from 'react-uuid';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -33,7 +34,10 @@ const BreadcrumbNavigation = () => {
         };
       });
 
-      setBreadcrumbs([{ text: 'home', href: '/' }, ...pathArray]);
+      setBreadcrumbs([
+        { text: <FontAwesomeIcon icon="home" />, href: '/' },
+        ...pathArray,
+      ]);
     }
   }, [router]);
 

@@ -1,5 +1,6 @@
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AuthManager from '@utils/auth/authManager';
+import { omit } from 'lodash';
 import { HYDRATE } from 'next-redux-wrapper';
 import Web3 from 'web3';
 import { initWeb3Instance } from '../../web3Instance';
@@ -34,8 +35,8 @@ export const UserSlice = createSlice({
   extraReducers: (builder: any) => {
     // had to google this for hours :( -> https://github.com/kirill-konshin/next-redux-wrapper/pull/295/files/1792221d7e792b917b63ccaf77f528fc13797ef3#diff-e5c99337b70249438cce35e58d28640fe7e4d0427b281532c163837649d989f9R22
     builder.addCase(hydrate, (state, { payload }) => {
-      console.log('hydrate', payload);
-      for (let key in payload[UserSlice.name]) {
+      const payloadToHydrate = payload[UserSlice.name];
+      for (let key in omit(payloadToHydrate, ['balance'])) {
         state[key] = payload[UserSlice.name][key];
       }
     });

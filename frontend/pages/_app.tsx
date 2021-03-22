@@ -18,6 +18,11 @@ import LoadingOverlay from '@components/LoadingOverlay';
 import { initWeb3Instance } from 'web3Instance';
 import authManager, { AuthManager } from '@utils/auth/authManager';
 import { setApplicationLoading } from '@store/application';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+
+library.add(fab, faHome);
 
 if (isClient()) {
   init();
