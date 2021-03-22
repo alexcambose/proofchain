@@ -51,7 +51,7 @@ class CertificateAuthority extends Base {
   > {
     await this.ensureContract();
     const transaction = await this.contract.methods
-      .createCertificate(name, description)
+      .createCertificate(name, description || '')
       .send({ from: this.fromAddress, gas: 400000 });
     return new MinedTransaction<{
       CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
@@ -86,6 +86,8 @@ class CertificateAuthority extends Base {
   async certificates(
     address: string = this.fromAddress
   ): Promise<ICertificate[]> {
+    await this.ensureContract();
+
     const createEvents = await this.getPastEvents<CertificateAuthorityCertificateCreatedEvent>(
       'CertificateAuthorityCertificateCreated',
       { owner: address }
@@ -111,6 +113,11 @@ class CertificateAuthority extends Base {
       );
     }
     return certificateAuthorities;
+  }
+
+  async minimumStake(): Promise<string> {
+    await this.ensureContract();
+    return this.contract.methods.minimumStake().call();
   }
 }
 export default CertificateAuthority;

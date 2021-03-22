@@ -145,4 +145,10 @@ describe('Certificates', () => {
       expect(result.length > 0).toBeTruthy();
     });
   });
+  describe('minimumStake', () => {
+    it('returns the minimum stake of the certificate', async () => {
+      const result = await proofchainCA.certificateAuthority.minimumStake();
+      expect(parseInt(result) > 0).toBeTruthy();
+    });
+  });
 });
