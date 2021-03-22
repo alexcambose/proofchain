@@ -24,8 +24,8 @@ const Auth: React.FC = () => {
       password,
     });
   };
-  const onMnemonicSubmit = async (menmonic) => {
-    await dispatch(loginWithMnemonic(menmonic));
+  const onMnemonicSubmit = async (mnemonic, derivationPath) => {
+    await dispatch(loginWithMnemonic({ mnemonic, derivationPath }));
   };
   return (
     <AuthContainer
