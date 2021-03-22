@@ -18,7 +18,7 @@ interface FormikFieldProps {
   label?: string;
   formControl?: boolean;
 
-  caption?: string;
+  caption?: React.ReactNode;
   [key: string]: any;
 }
 const InputMode = {

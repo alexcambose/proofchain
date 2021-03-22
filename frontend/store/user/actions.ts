@@ -8,12 +8,17 @@ import proofchain from 'proofchain';
 export const refreshUserInfo = async (authManager = AuthManager) => {
   const address = await initWeb3Instance(authManager.getInfo());
   const hasCompany = await proofchain().company.hasCompany();
+  const hasCertificateAuthority = await proofchain().certificateAuthority.hasCertificateAuthority();
   // todo add certificateAutoirity
   console.log('refresh login', address, hasCompany);
   return {
     address,
-    hasEntity: hasCompany,
-    entityType: EntityTypeEnum.COMPANY,
+    hasEntity: hasCompany || hasCertificateAuthority,
+    entityType: hasCompany
+      ? EntityTypeEnum.COMPANY
+      : hasCertificateAuthority
+      ? EntityTypeEnum.CERTIFICATE_AUTHORITY
+      : null,
   };
 };
 export const loginWithMetamask = createAsyncThunk(
@@ -34,8 +39,17 @@ export const loginWithTorus = createAsyncThunk(
 export const loginWithMnemonic = createAsyncThunk(
   'users/loginWithMnemonic',
   // Declare the type your function argument here:
-  async (mnemonic: string) => {
-    const privateKey = await getPrivateKeyFromMnemonic(mnemonic);
+  async ({
+    mnemonic,
+    derivationPath,
+  }: {
+    mnemonic: string;
+    derivationPath: string;
+  }) => {
+    const privateKey = await getPrivateKeyFromMnemonic(
+      mnemonic,
+      derivationPath
+    );
     return { privateKey };
   }
 );

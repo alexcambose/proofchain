@@ -45,3 +45,18 @@ export interface IBatch {
     BatchCreate: any;
   };
 }
+export interface ICertificate {
+  name: string;
+  code: number;
+  description: string;
+  certificateAuthority: string;
+  events?: {
+    CertificateAuthorityCertificateCreated: any;
+  };
+}
+interface ICertificateAuthority {
+  name: string;
+  disabled: boolean;
+  owner: string;
+  isValue: boolean;
+}

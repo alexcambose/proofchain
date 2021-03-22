@@ -80,7 +80,14 @@ const CreateEntityForm = withFormik<
   handleSubmit: async (values, { props }) => {
     const { name, entityType } = values;
     if (props.isCertificateAuthority) {
-      // todo
+      await transactionWrapper(async () => {
+        const result = await proofchain().certificateAuthority.createCertificateAuthority(
+          {
+            name,
+          }
+        );
+        console.log(result);
+      });
     } else {
       await transactionWrapper(async () => {
         const result = await proofchain().company.create({

@@ -13,6 +13,8 @@ import TransportSlice from './transport';
 import { IApplication } from './application/interface';
 import { IBatchStore } from './batch/interface';
 import { ITransportStore } from './transport/interface';
+import { ICertificateStore } from './certificate/interface';
+import CertificateSlice from './certificate';
 
 export interface State {
   user: IUser;
@@ -21,6 +23,7 @@ export interface State {
   batch: IBatchStore;
   application: IApplication;
   transport: ITransportStore;
+  certificate: ICertificateStore;
 }
 
 // create a makeStore function
@@ -34,6 +37,7 @@ const makeStore: MakeStore<State> = (context: Context) =>
       application: ApplicationSlice,
       batch: BatchSlice,
       transport: TransportSlice,
+      certificate: CertificateSlice,
     },
   });
 

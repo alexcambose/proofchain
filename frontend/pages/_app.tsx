@@ -17,6 +17,7 @@ import { ToasterContainer } from 'baseui/toast';
 import LoadingOverlay from '@components/LoadingOverlay';
 import { initWeb3Instance } from 'web3Instance';
 import authManager, { AuthManager } from '@utils/auth/authManager';
+import { setApplicationLoading } from '@store/application';
 
 if (isClient()) {
   init();
@@ -27,7 +28,6 @@ function MyApp({ Component, pageProps }) {
   const dispatch = useDispatch();
   const loggedIn = useSelector((state: State) => state.user.loggedIn);
   const entityType = useSelector((state: State) => state.user.entityType);
-  const hasEntity = useSelector((state: State) => state.user.hasEntity);
   const isLoading = useSelector((state: State) => state.application.loading);
   useEffect(() => {
     if (loggedIn && router.pathname === '/login') {
@@ -39,17 +39,13 @@ function MyApp({ Component, pageProps }) {
     (async () => {
       console.log(loggedIn);
       if (loggedIn) {
+        dispatch(setApplicationLoading(true));
         await initWeb3Instance(authManager.getInfo());
         await dispatch(refreshBalance());
+        dispatch(setApplicationLoading(false));
       }
     })();
   }, [loggedIn]);
-  //redirect to / if the user does not have an entity
-  // useEffect(() => {
-  //   if (!isLoading && !hasEntity && router.pathname !== '/') {
-  //     router.push('/');
-  //   }
-  // }, [hasEntity, isLoading]);
   useEffect(() => {
     if (entityType === EntityTypeEnum.COMPANY) {
       dispatch(fetchCompanyEntityInfo());
@@ -62,7 +58,7 @@ function MyApp({ Component, pageProps }) {
       <BaseProvider theme={LightTheme}>
         <ToasterContainer autoHideDuration={3500}>
           <LoadingOverlay />
-          <Component {...pageProps} />
+          {!isLoading && <Component {...pageProps} />}
         </ToasterContainer>
       </BaseProvider>
     </StyletronProvider>

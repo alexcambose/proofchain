@@ -1,6 +1,6 @@
 import EntityNav from '@components/navigation/navbar/EntityNav';
 import GuestNav from '@components/navigation/navbar/GuestNav';
-import CompanySidebar from '@components/navigation/sidebar/CompanySidebar';
+import CompanySidebar from '@components/navigation/Sidebar';
 import { BEHAVIOR, Cell, Grid } from 'baseui/layout-grid';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';

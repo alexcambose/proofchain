@@ -10,7 +10,11 @@ const hydrate = createAction(HYDRATE);
 export const ApplicationSlice = createSlice({
   name: 'appication',
   initialState,
-  reducers: {},
+  reducers: {
+    setApplicationLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
+  },
   extraReducers: (builder: any) => {
     builder.addCase(hydrate, (state, { payload }) => {
       state.hydrated = true;
@@ -25,5 +29,5 @@ export const ApplicationSlice = createSlice({
   },
 });
 
-export const {} = ApplicationSlice.actions;
+export const { setApplicationLoading } = ApplicationSlice.actions;
 export default ApplicationSlice.reducer;
