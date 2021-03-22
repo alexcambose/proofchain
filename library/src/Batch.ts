@@ -19,7 +19,10 @@ class Batch extends Base {
   async create({
     code,
     materialsUuid,
-  }: IBatch): Promise<MinedTransaction<CreateTransactionEvents>> {
+  }: {
+    code: string;
+    materialsUuid: number[];
+  }): Promise<MinedTransaction<CreateTransactionEvents>> {
     await this.ensureContract();
     const transaction = await this.contract.methods
       .createBatch(code, materialsUuid)

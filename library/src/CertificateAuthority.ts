@@ -1,5 +1,6 @@
 import Base from './Base';
 import MinedTransaction from './MinedTransaction';
+import { EMPTY_ADDRESS } from './utils/eth';
 export interface ICertificate {
   name: string;
   code: number;
@@ -68,11 +69,30 @@ class CertificateAuthority extends Base {
     address: string
   ): Promise<ICertificateAuthority | null> {
     await this.ensureContract();
-    const ca = await this.contract.methods
+    const ca: ICertificateAuthority = await this.contract.methods
       .certificateAuthorities(address)
       .call();
-    if (!ca.isValue) return null;
+    if (ca.owner === EMPTY_ADDRESS) return null;
     return ca;
+  }
+
+  async hasCertificateAuthority(
+    address: string = this.fromAddress
+  ): Promise<boolean> {
+    await this.ensureContract();
+    return !!(await this.getCertificateAuthority(address));
+  }
+
+  async certificates(
+    address: string = this.fromAddress
+  ): Promise<ICertificate[]> {
+    const createEvents = await this.getPastEvents<CertificateAuthorityCertificateCreatedEvent>(
+      'CertificateAuthorityCertificateCreated',
+      { owner: address }
+    );
+    return Promise.all(
+      createEvents.map((e) => this.getByCode(e.code) as Promise<ICertificate>)
+    );
   }
   async allCertificateAutorities(
     full: boolean = true

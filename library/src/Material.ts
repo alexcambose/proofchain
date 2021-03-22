@@ -174,6 +174,7 @@ class Material extends Base implements IEntity {
     fromBatchMaterialsUuid?: number[][];
   }): Promise<MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>> {
     await this.ensureContract();
+  
     const material = await this.getById(materialTokenId);
     const isRaw = material?.recipeMaterialAmount.length === 0;
     let result;

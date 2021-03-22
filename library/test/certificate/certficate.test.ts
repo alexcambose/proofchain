@@ -129,4 +129,20 @@ describe('Certificates', () => {
       expect(certificateAuthorities.length >= 1).toEqual(true);
     });
   });
+  describe('hasCertificateAuthority', () => {
+    it('returns true if an address is a certificate authority', async () => {
+      const result = await proofchainCA.certificateAuthority.hasCertificateAuthority();
+      expect(result).toBeTruthy();
+    });
+    it('returns false if an address does not have a certificate authority', async () => {
+      const result = await proofchain.certificateAuthority.hasCertificateAuthority();
+      expect(result).toBeFalsy();
+    });
+  });
+  describe('certificates', () => {
+    it('returns certificates of a certificate authority', async () => {
+      const result = await proofchainCA.certificateAuthority.certificates();
+      expect(result.length > 0).toBeTruthy();
+    });
+  });
 });

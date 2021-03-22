@@ -37,7 +37,6 @@ describe('batch', () => {
     it('creates a new batch', async () => {
       const oldBalance = await proofchain.material.getBalance(materialTokenId);
       const result = await proofchain.batch.create({
-        materialTokenId,
         materialsUuid: [materialsUuid[0]],
         code: '1',
       });
@@ -49,7 +48,6 @@ describe('batch', () => {
   describe('getById', () => {
     it('return a batch by batchId', async () => {
       const result = await proofchain.batch.create({
-        materialTokenId,
         materialsUuid: [materialsUuid[1]],
         code: '1',
       });
@@ -64,7 +62,6 @@ describe('batch', () => {
   describe('burn', () => {
     it('decreases batch material quantity', async () => {
       const result = await proofchain.batch.create({
-        materialTokenId,
         materialsUuid: [materialsUuid[2], materialsUuid[3]],
         code: '1',
       });

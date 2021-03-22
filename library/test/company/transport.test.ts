@@ -54,13 +54,11 @@ describe('Company - transport', () => {
     });
     const materialsUuid = mintResult.events.MaterialTransfer.map((e) => e.uuid);
     const result1 = await proofchain.batch.create({
-      materialTokenId,
       materialsUuid: [materialsUuid[0]],
       code: '1',
     });
     batchId = result1.events.BatchCreate.batchId;
     const result2 = await proofchain.batch.create({
-      materialTokenId,
       materialsUuid: [materialsUuid[1]],
       code: '1',
     });

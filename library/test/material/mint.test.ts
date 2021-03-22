@@ -103,12 +103,10 @@ describe('material', () => {
           (e) => e.uuid
         );
         const createBatchResult1 = await proofchain.batch.create({
-          materialTokenId: materialTokenId1,
           materialsUuid: materialTokenId1Uuids,
           code: '1',
         });
         const createBatchResult2 = await proofchain.batch.create({
-          materialTokenId: materialTokenId2,
           materialsUuid: materialTokenId2Uuids,
           code: '1',
         });
