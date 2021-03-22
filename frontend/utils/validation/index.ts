@@ -10,6 +10,8 @@ import batchCode from './batchCode';
 import materialTokenId from './materialTokenId';
 import companyAddress from './companyAddress';
 import transportCompany from './transportCompany';
+import stake from './stake';
+import certificateCode from './certificateCode';
 export default {
   email,
   password,
@@ -23,4 +25,6 @@ export default {
   materialTokenId,
   companyAddress,
   transportCompany,
+  stake,
+  certificateCode,
 };

@@ -1,6 +1,6 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
-import { fetchCertificates } from './actions';
+import { fetchCertificates, fetchMinimumStake } from './actions';
 import initialState from './initialState';
 const hydrate = createAction(HYDRATE);
 
@@ -15,6 +15,9 @@ export const CertificateSlice = createSlice({
     builder.addCase(fetchCertificates.fulfilled, (state, { payload }) => {
       state.loadingCertificates = false;
       state.certificates = payload.certificates;
+    });
+    builder.addCase(fetchMinimumStake.fulfilled, (state, { payload }) => {
+      state.minimumStake = payload.minimumStake;
     });
   },
 });

@@ -1,5 +1,5 @@
+import AssignCertificate from '@containers/certificate/AssignCertificate';
 import Layout from '@containers/Layout';
-import CreateMaterial from '@containers/material/CreateMaterial';
 import Head from 'next/head';
 import { authCheck } from 'pages';
 import React from 'react';
@@ -12,7 +12,7 @@ const Index = () => {
       </Head>
 
       <Layout title="Assign certificate">
-        <CreateMaterial />
+        <AssignCertificate />
       </Layout>
     </>
   );

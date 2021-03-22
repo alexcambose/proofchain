@@ -6,7 +6,7 @@ import CertificatesTable from './components/table/CertificatesTable';
 
 const Certificates = () => {
   const dispatch = useDispatch();
-  const Certificates = useSelector(
+  const certificates = useSelector(
     (state: State) => state.certificate.certificates
   );
   const loadingCertificates = useSelector(
@@ -19,7 +19,7 @@ const Certificates = () => {
     <>
       <CertificatesTable
         isLoading={loadingCertificates}
-        certificates={Certificates}
+        certificates={certificates}
       />
     </>
   );
