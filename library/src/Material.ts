@@ -174,7 +174,7 @@ class Material extends Base implements IEntity {
     fromBatchMaterialsUuid?: number[][];
   }): Promise<MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>> {
     await this.ensureContract();
-  
+
     const material = await this.getById(materialTokenId);
     const isRaw = material?.recipeMaterialAmount.length === 0;
     let result;
@@ -307,6 +307,41 @@ class Material extends Base implements IEntity {
       .getMaterialCertificates(materialTokenId)
       .call();
     return certificateInstances;
+  }
+  async getFromCertificate(
+    certificateCode: number
+  ): Promise<
+    ({
+      materialTokenId: number;
+    } & ICertificateInstance)[]
+  > {
+    await this.ensureContract();
+    // assign certificate will always be the first
+    const assignedEvents = await this.getPastEvents<AssignedCertificateEvent>(
+      'AssignedCertificate',
+      { certificateCode }
+    );
+    let materialsTokenId: ({
+      materialTokenId: number;
+    } & ICertificateInstance)[] = [];
+    for (let { materialTokenId } of assignedEvents) {
+      if (materialsTokenId.find((e) => e.materialTokenId === materialTokenId)) {
+        continue;
+      }
+      const assignedCertificatesInstance = await this.assigedCertificates(
+        materialTokenId
+      );
+      const assignInstance = assignedCertificatesInstance.find(
+        (e) => e.code === certificateCode
+      );
+      if (assignInstance) {
+        materialsTokenId.push({ materialTokenId, ...assignInstance });
+      }
+    }
+    return materialsTokenId;
+  }
+  async certificateAssignmentHistory() {
+    await this.ensureContract();
   }
 }
 export default Material;
