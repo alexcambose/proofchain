@@ -46,7 +46,7 @@ contract MaterialBase {
         // the address of the creator, the creator must own a company
         address creator;
         // certificates
-        CertificateInstance[] certificates;
+        uint256[] certificateInstanceIds;
         // ipfs images hash
         string[] images;
         // mapping from (tokenID -> amount of the amount identifier)
@@ -80,15 +80,17 @@ contract MaterialBase {
     mapping(uint256 => mapping(address => uint256[])) balance;
     // all tokens, (materialTokenId => MaterialTokenInfo)
     // materialTokenId uniquely identifies a product
-    uint256 public materialTokenId = 0;
+    uint256 materialTokenId = 0;
     mapping(uint256 => MaterialTokenInfo) public materialToken;
 
     // all batches associated with an address (address => batchId[])
     mapping(address => uint256[]) public addressBatches;
     // all batchId associated with a batch
     mapping(uint256 => BatchInfo) public batch;
-    uint256 public batchId = 0;
-    event T(uint256 i, uint256 v);
+    uint256 batchId = 0;
+
+    mapping(uint256 => CertificateInstance) public certificateInstances;
+    uint256 certificateInstanceId = 0;
     modifier senderIsTokenCreator(uint256 _materialTokenId) {
         require(
             msg.sender == materialToken[_materialTokenId].creator,
@@ -98,13 +100,6 @@ contract MaterialBase {
     }
 
     function getBalance(uint256 _tokenID, address _address) public view returns (uint256) {
-        // uint256 total = 0;
-        // for (uint256 i = 0; i < balance[_address].length; i++) {
-        //     if (_tokenID == balance[_address][i].materialTokenId) {
-        //         total++;
-        //     }
-        // }
-        // return total;
         return balance[_tokenID][_address].length;
     }
 
@@ -116,12 +111,25 @@ contract MaterialBase {
         return balance[_tokenID][_address];
     }
 
-    function getMaterialCertificate(uint256 _materialTokenId, uint256 _index)
+    function getMaterialCertificateInstance(uint256 _materialTokenId, uint256 _code)
         public
         view
         returns (CertificateInstance memory)
     {
-        return materialToken[_materialTokenId].certificates[_index];
+        for (
+            uint256 i = 0;
+            i < materialToken[_materialTokenId].certificateInstanceIds.length;
+            i++
+        ) {
+            if (
+                certificateInstances[materialToken[_materialTokenId].certificateInstanceIds[i]]
+                    .code == _code
+            ) {
+                return
+                    certificateInstances[materialToken[_materialTokenId].certificateInstanceIds[i]];
+            }
+        }
+        // revert("Certificate with code is not assigned");
     }
 
     function getMaterialImages(uint256 _materialTokenId) public view returns (string[] memory) {
@@ -143,11 +151,11 @@ contract MaterialBase {
         return batch[_batchId].materialsUuid;
     }
 
-    function getMaterialCertificates(uint256 _materialTokenId)
+    function getMaterialCertificatesInstanceIds(uint256 _materialTokenId)
         public
         view
-        returns (CertificateInstance[] memory)
+        returns (uint256[] memory)
     {
-        return materialToken[_materialTokenId].certificates;
+        return materialToken[_materialTokenId].certificateInstanceIds;
     }
 }

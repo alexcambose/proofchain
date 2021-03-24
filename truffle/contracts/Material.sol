@@ -218,27 +218,35 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
     function assignCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public payable {
         super.assignCertificate(_certificateCode);
-        for (uint256 i = 0; i < materialToken[_itemIdentifier].certificates.length; i++) {
-            if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
+        for (uint256 i = 0; i < materialToken[_itemIdentifier].certificateInstanceIds.length; i++) {
+            if (
+                certificateInstances[materialToken[_itemIdentifier].certificateInstanceIds[i]]
+                    .code == _certificateCode
+            ) {
                 revert("Can not assign the same certificate twice");
             }
         }
         CertificateInstance memory ci =
             CertificateInstance({code: _certificateCode, time: block.timestamp, stake: msg.value});
-
-        materialToken[_itemIdentifier].certificates.push(ci);
+        materialToken[_itemIdentifier].certificateInstanceIds.push(certificateInstanceId);
+        certificateInstances[certificateInstanceId++] = ci;
         emit AssignedCertificate(msg.sender, _certificateCode, _itemIdentifier);
     }
 
     function cancelCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
         super.cancelCertificate(_certificateCode);
-        uint256 length = materialToken[_itemIdentifier].certificates.length;
+        uint256 length = materialToken[_itemIdentifier].certificateInstanceIds.length;
         uint8 i;
         for (i = 0; i < length; i++) {
-            if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
-                materialToken[_itemIdentifier].certificates[i] = materialToken[_itemIdentifier]
-                    .certificates[length - 1];
-                materialToken[_itemIdentifier].certificates.pop();
+            if (
+                certificateInstances[materialToken[_itemIdentifier].certificateInstanceIds[i]]
+                    .code == _certificateCode
+            ) {
+                materialToken[_itemIdentifier].certificateInstanceIds[i] = materialToken[
+                    _itemIdentifier
+                ]
+                    .certificateInstanceIds[length - 1];
+                materialToken[_itemIdentifier].certificateInstanceIds.pop();
             }
         }
         if (i == length - 1) {
@@ -251,18 +259,23 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
      */
     function revokeCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
         super.revokeCertificate();
-        uint256 length = materialToken[_itemIdentifier].certificates.length;
+        uint256 length = materialToken[_itemIdentifier].certificateInstanceIds.length;
         uint8 i;
         for (i = 0; i < length; i++) {
-            if (materialToken[_itemIdentifier].certificates[i].code == _certificateCode) {
-                materialToken[_itemIdentifier].certificates[i] = materialToken[_itemIdentifier]
-                    .certificates[length - 1];
+            if (
+                certificateInstances[materialToken[_itemIdentifier].certificateInstanceIds[i]]
+                    .code == _certificateCode
+            ) {
+                materialToken[_itemIdentifier].certificateInstanceIds[i] = materialToken[
+                    _itemIdentifier
+                ]
+                    .certificateInstanceIds[length - 1];
 
                 // payable(certificateAuthorityManagerAddress).transfer(
                 //     100000000000000000
                 // );
 
-                materialToken[_itemIdentifier].certificates.pop();
+                materialToken[_itemIdentifier].certificateInstanceIds.pop();
             }
         }
         if (i == length - 1) {

@@ -39,7 +39,7 @@ contract("Material", (accounts) => {
     it("assings a certificate to a product (only owner of the certificate)", async () => {
       const [
         materialInstance,
-        companyInstance,
+        companyInstance, 
         certificateAuthorityManagerInstance,
       ] = await getInstance();
       const materialTokenId = await createRawMaterial();
@@ -54,9 +54,9 @@ contract("Material", (accounts) => {
           .send({ from: otherCaAccount, gas: 300000, value: minimumStake })
       );
       const result = await materialInstance.methods
-        .getMaterialCertificate(materialTokenId, 0)
+        .getMaterialCertificateInstance(materialTokenId, code)
         .call();
-      expect(result.code).equal("1");
+      expect(result.code).equal(code);
     });
     it("cannot assign the same certificate twice", async () => {
       const [
