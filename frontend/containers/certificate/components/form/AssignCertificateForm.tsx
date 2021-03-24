@@ -14,6 +14,7 @@ interface AssignCertificateFormProps
   extends ReturnType<typeof mapDispatchToProps> {
   minimumStake: string;
   onSuccess?: () => void;
+  certificateCode: string;
 }
 interface FormValues {
   materialTokenId: string;
@@ -31,7 +32,7 @@ const _AssignCertificateForm: React.FC<
     );
   }, [minimumStake]);
   const minimumStakeEth = web3Instance().utils.fromWei(
-    minimumStake || '0',
+    values.stake || '0',
     'ether'
   );
   return (
@@ -71,10 +72,11 @@ const AssignCertificateForm = withFormik<
   FormValues
 >({
   // Transform outer props into form values
-  mapPropsToValues: ({ minimumStake }) => {
+  mapPropsToValues: ({ certificateCode }) => {
     return {
       materialTokenId: '',
-      code: '',
+      code:
+        certificateCode && certificateCode !== undefined ? certificateCode : '',
       stake: '0',
     };
   },

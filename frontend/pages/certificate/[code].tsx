@@ -17,7 +17,7 @@ const ViewCertificate = () => {
 
       <Layout>
         <BackButton />
-        <CertificateInfo code={parseInt(code as string)} />
+        <CertificateInfo certificateCode={parseInt(code as string)} />
       </Layout>
     </>
   );

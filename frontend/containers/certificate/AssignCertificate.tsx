@@ -18,9 +18,14 @@ const AssignCertificate = () => {
   const onSucess = () => {
     router.push('/certificate');
   };
+
   return (
     <>
-      <AssignCertificateForm minimumStake={minimumStake} onSuccess={onSucess} />
+      <AssignCertificateForm
+        certificateCode={router.query.certificateCode as string}
+        minimumStake={minimumStake}
+        onSuccess={onSucess}
+      />
     </>
   );
 };

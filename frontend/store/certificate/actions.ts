@@ -79,10 +79,10 @@ export const fetchMinimumStake = createAsyncThunk(
 );
 export const fetchCertificateInfo = createAsyncThunk(
   'certificate/fetchCertificateInfo',
-  async ({ code }: { code: number }) => {
+  async ({ certificateCode }: { certificateCode: number }) => {
     try {
       const certificate = await proofchain().certificateAuthority.getByCode(
-        code
+        certificateCode
       );
       let additionalInfo = [];
       const materials = await proofchain().material.getFromCertificate(
@@ -102,5 +102,22 @@ export const fetchCertificateInfo = createAsyncThunk(
     } catch (e) {
       console.log(e);
     }
+  }
+);
+export const cancelCertificate = createAsyncThunk(
+  'certificate/cancelCertificate',
+  async ({
+    certificateCode,
+    materialTokenId,
+  }: {
+    certificateCode: number;
+    materialTokenId: number;
+  }) => {
+    await transactionWrapper(() =>
+      proofchain().material.cancelCertificate({
+        certificateCode,
+        materialTokenId,
+      })
+    );
   }
 );

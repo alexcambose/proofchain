@@ -20,6 +20,7 @@ const Button: React.FC<ButtonProps> = ({ children, colorStyle, ...props }) => {
         },
       });
     }
+    return new Function();
   }, [colorStyle]);
 
   return (
