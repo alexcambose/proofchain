@@ -11,6 +11,7 @@ describe('certificate', () => {
   let caAccount: string;
   let certificateCode1: number;
   let certificateCode2: number;
+  let certificateCode3: number;
   let materialTokenId1: number;
   let certificateEvents: any = {};
   beforeAll(async () => {
@@ -56,6 +57,14 @@ describe('certificate', () => {
     );
     certificateCode2 =
       createResult2.events.CertificateAuthorityCertificateCreated.code;
+    const createResult3 = await proofchainCA.certificateAuthority.createCertificate(
+      {
+        name: 'name',
+        description: 'description',
+      }
+    );
+    certificateCode3 =
+      createResult3.events.CertificateAuthorityCertificateCreated.code;
     certificateEvents[certificateCode1] = [];
     certificateEvents[certificateCode2] = [];
     // create a material
@@ -131,11 +140,11 @@ describe('certificate', () => {
       const assignedMaterials = await proofchain.material.getFromCertificate(
         certificateCode1
       );
-      expect(assignedMaterials[0].materialTokenId).toEqual(materialTokenId1);
+      expect(assignedMaterials[0].assignEvent.materialTokenId).toEqual(materialTokenId1);
     });
     it('returns [] if there are no assigned materials to a certificate', async () => {
       const assignedMaterials = await proofchain.material.getFromCertificate(
-        certificateCode2
+        certificateCode3
       );
       expect(assignedMaterials).toEqual([]);
     });

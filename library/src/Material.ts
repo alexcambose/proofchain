@@ -319,16 +319,20 @@ class Material extends Base implements IEntity {
     materialTokenId: number
   ): Promise<ICertificateInstance[]> {
     await this.ensureContract();
-    const certificateInstances = await this.contract.methods
-      .getMaterialCertificates(materialTokenId)
+    const certificateInstanceIds = await this.contract.methods
+      .getMaterialCertificatesInstanceIds(materialTokenId)
       .call();
-    return certificateInstances;
+    return Promise.all(
+      certificateInstanceIds.map(async (e: number) =>
+        this.contract.methods.certificateInstances(e).call()
+      )
+    );
   }
   async getFromCertificate(
     certificateCode: number
   ): Promise<
     ({
-      materialTokenId: number;
+      assignEvent: AssignedCertificateEvent;
     } & ICertificateInstance)[]
   > {
     await this.ensureContract();
@@ -337,24 +341,33 @@ class Material extends Base implements IEntity {
       'AssignedCertificate',
       { certificateCode }
     );
-    let materialsTokenId: ({
-      materialTokenId: number;
+    // initialise variable
+    let materials: ({
+      assignEvent: AssignedCertificateEvent;
     } & ICertificateInstance)[] = [];
-    for (let { materialTokenId } of assignedEvents) {
-      if (materialsTokenId.find((e) => e.materialTokenId === materialTokenId)) {
+
+    for (let assignEvent of assignedEvents) {
+      const { materialTokenId } = assignEvent;
+      // if the material is already added, skip it
+      if (
+        materials.find((e) => e.assignEvent.materialTokenId === materialTokenId)
+      ) {
         continue;
       }
-      const assignedCertificatesInstance = await this.assigedCertificates(
-        materialTokenId
-      );
-      const assignInstance = assignedCertificatesInstance.find(
-        (e) => e.code === certificateCode
-      );
-      if (assignInstance) {
-        materialsTokenId.push({ materialTokenId, ...assignInstance });
+      // get instance
+      const assignedCertificatesInstance = await this.contract.methods
+        .getMaterialCertificateInstance(materialTokenId, certificateCode)
+        .call();
+
+      if (assignedCertificatesInstance) {
+        materials.push({
+          materialTokenId,
+          assignEvent: assignEvent,
+          ...assignedCertificatesInstance,
+        });
       }
     }
-    return materialsTokenId;
+    return materials;
   }
   async certificateAssignmentHistory({
     materialTokenId,
