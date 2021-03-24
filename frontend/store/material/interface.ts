@@ -1,4 +1,11 @@
-import { IMaterial, IMaterialInfo, IMaterialTransfer } from 'interface';
+import {
+  ICertificateInstance,
+  IMaterial,
+  IMaterialInfo,
+  ICertificateAuthority,
+  IMaterialTransfer,
+  ICertificate,
+} from 'interface';
 
 export interface IMaterialStore {
   materials?: IMaterial[];
@@ -10,5 +17,13 @@ export interface IMaterialStore {
     material: IMaterial;
     transfers: IMaterialTransfer[];
     inventory: IMaterialInfo[];
+    certificates: [
+      {
+        certificate: ICertificate;
+        certificateInstance: ICertificateInstance;
+        certificateAuthority: ICertificateAuthority;
+        assignEvent: any;
+      }
+    ];
   };
 }

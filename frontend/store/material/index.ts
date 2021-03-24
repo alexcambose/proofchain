@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { refreshLogin } from '@store/user/actions';
 import {
   fetchMaterialInfo,
+  fetchMaterialInfoCertificates,
   fetchMaterials,
   fetchRawMaterials,
   mintMaterial,
@@ -46,6 +47,12 @@ export const MaterialSlice = createSlice({
     builder.addCase(fetchMaterials.rejected, (state, { payload }) => {
       state.loadingMaterials = false;
     });
+    builder.addCase(
+      fetchMaterialInfoCertificates.fulfilled,
+      (state, { payload }) => {
+        state.materialInfo.certificates = payload.certificates;
+      }
+    );
   },
 });
 

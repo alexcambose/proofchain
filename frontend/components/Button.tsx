@@ -6,7 +6,7 @@ import { useMemo } from 'react';
 export enum ButtonColorStyle {
   DANGER,
 }
-interface ButtonProps extends BaseUiButtonProps {
+export interface ButtonProps extends BaseUiButtonProps {
   colorStyle?: ButtonColorStyle;
 }
 const Button: React.FC<ButtonProps> = ({ children, colorStyle, ...props }) => {

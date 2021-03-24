@@ -10,6 +10,7 @@ const initialState: IMaterialStore = {
     balance: 0,
     transfers: [],
     inventory: [],
+    certificates: null,
   },
 };
 

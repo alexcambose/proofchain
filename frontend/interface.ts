@@ -55,7 +55,7 @@ export interface ICertificate {
     CertificateAuthorityCertificateCreated: any;
   };
 }
-interface ICertificateAuthority {
+export interface ICertificateAuthority {
   name: string;
   disabled: boolean;
   owner: string;

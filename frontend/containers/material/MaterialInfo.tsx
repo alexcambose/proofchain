@@ -1,5 +1,6 @@
 import Grid2 from '@components/layout/Grid2';
 import NoPaddingGrid from '@components/layout/NoPaddingGrid';
+import LoadingSkeleton from '@components/LoadingSkeleton';
 import { State } from '@store/index';
 import { fetchMaterialInfo } from '@store/material/actions';
 import { Accordion, Panel } from 'baseui/accordion';
@@ -12,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import MaterialInventoryTable from './components/table/MaterialInventoryTable';
 import MaterialRecipeTable from './components/table/MaterialRecipeTable';
 import MaterialBalancePanel from './components/view/MaterialBalancePanel';
+import MaterialCertificatesPanel from './components/view/MaterialCertificatesPanel';
 import MaterialInventory from './components/view/MaterialInventory';
 
 interface IMaterialInfoProps {
@@ -26,7 +28,7 @@ const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
     dispatch(fetchMaterialInfo({ materialTokenId }));
   }, []);
   if (!material) {
-    return <Skeleton rows={10} height="200px" width="100%" animation />;
+    return <LoadingSkeleton />;
   }
   return (
     <>
@@ -47,6 +49,9 @@ const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
           <Accordion>
             <Panel title={'Balance - ' + balance}>
               <MaterialBalancePanel materialTokenId={materialTokenId} />
+            </Panel>
+            <Panel title={'Certificates'}>
+              <MaterialCertificatesPanel materialTokenId={materialTokenId} />
             </Panel>
           </Accordion>
         }

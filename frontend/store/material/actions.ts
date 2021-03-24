@@ -125,3 +125,35 @@ export const mintMaterial = createAsyncThunk(
     return { balance, materialTokenId, transfers };
   }
 );
+export const fetchMaterialInfoCertificates = createAsyncThunk(
+  'material/fetchMaterialInfoCertificates',
+  async ({ materialTokenId }: { materialTokenId: number }) => {
+    let certificates = [];
+    const certificateInstances = await proofchain().material.assigedCertificates(
+      materialTokenId
+    );
+    for (let certificateInstance of certificateInstances) {
+      const certificate = await proofchain().certificateAuthority.getByCode(
+        certificateInstance.code
+      );
+      const certificateAuthority = await proofchain().certificateAuthority.getCertificateAuthority(
+        certificate.certificateAuthority
+      );
+      const assignEvents = await proofchain().material.getPastEvents(
+        'AssignedCertificate',
+        {
+          certificateAuthority: certificateAuthority.owner,
+          certificateCode: certificate.code,
+          materialTokenId,
+        }
+      );
+      certificates.push({
+        certificate,
+        certificateInstance,
+        certificateAuthority,
+        assignEvent: assignEvents[0],
+      });
+    }
+    return { certificates };
+  }
+);
