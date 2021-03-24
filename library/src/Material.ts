@@ -55,21 +55,37 @@ type AssignedCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
+  event: IEmittedEvent;
 };
 type CanceledCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
+  event: IEmittedEvent;
 };
 type RevokedCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
+  event: IEmittedEvent;
 };
 type CreateTransactionEvents = {
   MaterialCreate: MaterialCreateEvent;
 };
-
+export enum CERTIFICATE_ASSIGNMENT_TYPE {
+  CREATE,
+  CANCEL,
+  REVOKE,
+}
+interface ICertificateAssignmentHistory {
+  [certificateCode: number]: {
+    type: CERTIFICATE_ASSIGNMENT_TYPE;
+    event:
+      | AssignedCertificateEvent
+      | CanceledCertificateEvent
+      | RevokedCertificateEvent;
+  }[];
+}
 class Material extends Base implements IEntity {
   async create({
     name,
@@ -340,8 +356,58 @@ class Material extends Base implements IEntity {
     }
     return materialsTokenId;
   }
-  async certificateAssignmentHistory() {
+  async certificateAssignmentHistory({
+    materialTokenId,
+  }: {
+    materialTokenId: number;
+  }): Promise<ICertificateAssignmentHistory> {
     await this.ensureContract();
+    let history: ICertificateAssignmentHistory = {};
+    let assignEvents = await this.getPastEvents<AssignedCertificateEvent>(
+      'AssignedCertificate',
+      { materialTokenId }
+    );
+    let revokeEvents = await this.getPastEvents<AssignedCertificateEvent>(
+      'RevokedCertificate',
+      { materialTokenId }
+    );
+    let cancelEvents = await this.getPastEvents<AssignedCertificateEvent>(
+      'CanceledCertificate',
+      { materialTokenId }
+    );
+
+    for (let { type, events } of [
+      {
+        type: CERTIFICATE_ASSIGNMENT_TYPE.CREATE,
+        events: assignEvents,
+      },
+      {
+        type: CERTIFICATE_ASSIGNMENT_TYPE.REVOKE,
+        events: revokeEvents,
+      },
+      {
+        type: CERTIFICATE_ASSIGNMENT_TYPE.CANCEL,
+        events: cancelEvents,
+      },
+    ]) {
+      for (let event of events) {
+        const { certificateCode } = event;
+        if (!history[certificateCode]) {
+          history[certificateCode] = [];
+        }
+        history[certificateCode].push({
+          type,
+          event,
+        });
+      }
+    }
+    //sort
+    for (let certificateCode in history) {
+      history[certificateCode] = history[certificateCode].sort(
+        (a, b) => a.event.event.blockNumber - b.event.event.blockNumber
+      );
+    }
+    return history;
   }
 }
 export default Material;

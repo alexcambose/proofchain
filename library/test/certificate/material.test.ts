@@ -2,6 +2,7 @@ import { deployedFactoryAddress, provider } from '../provider';
 import Proofchain from '../../src/index';
 import CompanyEntityTypeEnum from '../../src/enums/CompanyEntityTypeEnum';
 import Web3 from 'web3';
+import { CERTIFICATE_ASSIGNMENT_TYPE } from '../../src/Material';
 
 describe('certificate', () => {
   let proofchain: Proofchain;
@@ -11,7 +12,7 @@ describe('certificate', () => {
   let certificateCode1: number;
   let certificateCode2: number;
   let materialTokenId1: number;
-  let materialTokenId2: number;
+  let certificateEvents: any = {};
   beforeAll(async () => {
     const factoryContractAddress = await deployedFactoryAddress();
     // @ts-ignore
@@ -55,6 +56,8 @@ describe('certificate', () => {
     );
     certificateCode2 =
       createResult2.events.CertificateAuthorityCertificateCreated.code;
+    certificateEvents[certificateCode1] = [];
+    certificateEvents[certificateCode2] = [];
     // create a material
     const materialCreateResult1 = await proofchain.material.create({
       name: 'product',
@@ -63,39 +66,47 @@ describe('certificate', () => {
     });
     materialTokenId1 =
       materialCreateResult1.events.MaterialCreate.materialTokenId;
-    const materialCreateResult2 = await proofchain.material.create({
-      name: 'product',
-      code: '123',
-      amountIdentifier: 'kg',
-    });
-    materialTokenId2 =
-      materialCreateResult2.events.MaterialCreate.materialTokenId;
     // temporary methods for easier visibility
     const assignCertificate = async (
       certificateCode: number,
       materialTokenId: number
-    ) => {
-      await proofchainCA.material.assignCertificate({
-        certificateCode,
-        materialTokenId,
-        stake: Web3.utils.toWei('1', 'ether'),
+    ) =>
+      certificateEvents[certificateCode].push({
+        type: CERTIFICATE_ASSIGNMENT_TYPE.CREATE,
+        event: (
+          await proofchainCA.material.assignCertificate({
+            certificateCode,
+            materialTokenId,
+            stake: Web3.utils.toWei('1', 'ether'),
+          })
+        ).events.AssignedCertificate,
       });
-    };
+
     const revokeCertificate = async (
       certificateCode: number,
       materialTokenId: number
     ) =>
-      await proofchain.material.revokeCertificate({
-        certificateCode,
-        materialTokenId,
+      certificateEvents[certificateCode].push({
+        type: CERTIFICATE_ASSIGNMENT_TYPE.REVOKE,
+        event: (
+          await proofchain.material.revokeCertificate({
+            certificateCode,
+            materialTokenId,
+          })
+        ).events.RevokedCertificate,
       });
     const cancelCertificate = async (
       certificateCode: number,
       materialTokenId: number
     ) =>
-      await proofchainCA.material.cancelCertificate({
-        certificateCode,
-        materialTokenId,
+      certificateEvents[certificateCode].push({
+        type: CERTIFICATE_ASSIGNMENT_TYPE.CANCEL,
+        event: (
+          await proofchainCA.material.cancelCertificate({
+            certificateCode,
+            materialTokenId,
+          })
+        ).events.CanceledCertificate,
       });
     await assignCertificate(certificateCode1, materialTokenId1);
     await revokeCertificate(certificateCode1, materialTokenId1);
@@ -107,7 +118,13 @@ describe('certificate', () => {
     await cancelCertificate(certificateCode2, materialTokenId1);
   });
   describe('assignmentHistory', () => {
-    it('works', () => {});
+    it('returns an object with all assign, cancel and revoke event in chronological order', async () => {
+      const assignedMaterials = await proofchain.material.certificateAssignmentHistory(
+        { materialTokenId: materialTokenId1 }
+      );
+      expect(assignedMaterials).toEqual(certificateEvents);
+      // expect(assignedMaterials[0].materialTokenId).toEqual(materialTokenId1);
+    });
   });
   describe('getFromCertificate', () => {
     it('returns the assigned materials from a certificate', async () => {
@@ -115,6 +132,12 @@ describe('certificate', () => {
         certificateCode1
       );
       expect(assignedMaterials[0].materialTokenId).toEqual(materialTokenId1);
+    });
+    it('returns [] if there are no assigned materials to a certificate', async () => {
+      const assignedMaterials = await proofchain.material.getFromCertificate(
+        certificateCode2
+      );
+      expect(assignedMaterials).toEqual([]);
     });
   });
 });
