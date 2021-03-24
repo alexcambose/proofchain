@@ -6,10 +6,11 @@ export interface ICertificateStore {
   minimumStake: string;
   certificateInfo: {
     certificate: ICertificate;
-    materials: [
+    additionalInfo: [
       {
         material: IMaterial;
         certificateInstance: ICertificateInstance;
+        assignEvent: any;
       }
     ];
   };

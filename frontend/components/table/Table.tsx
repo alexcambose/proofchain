@@ -93,7 +93,7 @@ const Table: React.FC<ITableProps> = ({
         {...props}
       >
         {columns.map((e, i) => (
-          <TableBuilderColumn header={columns[i]}>
+          <TableBuilderColumn key={i} header={columns[i]}>
             {(row) => row[i]}
           </TableBuilderColumn>
         ))}

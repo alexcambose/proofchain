@@ -30,6 +30,10 @@ const _AssignCertificateForm: React.FC<
       web3Instance().utils.fromWei(minimumStake || '0', 'ether')
     );
   }, [minimumStake]);
+  const minimumStakeEth = web3Instance().utils.fromWei(
+    minimumStake || '0',
+    'ether'
+  );
   return (
     <Form>
       <Field
@@ -49,15 +53,12 @@ const _AssignCertificateForm: React.FC<
       <Field
         name="stake"
         type="number"
-        // min={}
+        min={minimumStakeEth}
+        step={0.0000001}
         endEnhancer={() => 'ETH'}
         placeholder="Stake"
         label="Certificate assignment stake"
-        caption={
-          'Minimum stake: ' +
-          web3Instance().utils.fromWei(minimumStake || '0', 'ether') +
-          ' ETH'
-        }
+        caption={'Minimum stake: ' + minimumStakeEth + ' ETH'}
       />
       <Button isLoading={isSubmitting} disabled={isSubmitting} type="submit">
         Assign Certificate
@@ -85,6 +86,7 @@ const AssignCertificateForm = withFormik<
   }),
   handleSubmit: async (values, { props }) => {
     const { assignCertificate, onSuccess } = props;
+    console.log(values);
     await assignCertificate({
       ...values,
       stake: web3Instance().utils.toWei(values.stake, 'ether'),

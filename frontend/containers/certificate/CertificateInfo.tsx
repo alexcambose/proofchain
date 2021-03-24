@@ -4,12 +4,13 @@ import { Skeleton } from 'baseui/skeleton';
 import { Display4, Label1 } from 'baseui/typography';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import CertificateTableMaterials from './components/table/CertificateTableMaterials';
 
 interface ICertificateInfoProps {
   code: number;
 }
 const CertificateInfo: React.FC<ICertificateInfoProps> = ({ code }) => {
-  const { certificate } = useSelector(
+  const { certificate, additionalInfo } = useSelector(
     (state: State) => state.certificate.certificateInfo
   );
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const CertificateInfo: React.FC<ICertificateInfoProps> = ({ code }) => {
     <>
       <Display4>{certificate.name}</Display4>
       <Label1>{certificate.description}</Label1>
+      <CertificateTableMaterials info={additionalInfo} />
     </>
   );
 };

@@ -2,8 +2,26 @@ import {
   Button as BaseUiButton,
   ButtonProps as BaseUiButtonProps,
 } from 'baseui/button';
-interface ButtonProps extends BaseUiButtonProps {}
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
+import { useMemo } from 'react';
+export enum ButtonColorStyle {
+  DANGER,
+}
+interface ButtonProps extends BaseUiButtonProps {
+  colorStyle?: ButtonColorStyle;
+}
+const Button: React.FC<ButtonProps> = ({ children, colorStyle, ...props }) => {
+  let colorOverrides = useMemo(() => {
+    if (colorStyle === ButtonColorStyle.DANGER) {
+      return ($theme) => ({
+        color: $theme.colors.contentOnColor,
+        backgroundColor: $theme.colors.negative,
+        [':hover']: {
+          backgroundColor: $theme.colors.negative500,
+        },
+      });
+    }
+  }, [colorStyle]);
+
   return (
     <BaseUiButton
       overrides={{
@@ -13,6 +31,8 @@ const Button: React.FC<ButtonProps> = ({ children, ...props }) => {
             marginTop: $theme.sizing.scale200,
             marginBottom: $theme.sizing.scale200,
             marginRight: $theme.sizing.scale400,
+
+            ...colorOverrides($theme),
           }),
         },
       }}

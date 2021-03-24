@@ -25,6 +25,7 @@ export const CertificateSlice = createSlice({
     });
     builder.addCase(fetchCertificateInfo.fulfilled, (state, { payload }) => {
       state.certificateInfo.certificate = payload.certificate;
+      state.certificateInfo.additionalInfo = payload.additionalInfo;
     });
   },
 });

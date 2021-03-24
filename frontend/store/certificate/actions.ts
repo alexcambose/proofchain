@@ -54,6 +54,9 @@ export const assignCertificate = createAsyncThunk(
     code: number;
     stake;
   }) => {
+    console.log(
+      `Assigning certificate ${code} to materialTokenId: ${materialTokenId} with stake ${stake}`
+    );
     const result = await transactionWrapper(() =>
       proofchain().material.assignCertificate({
         materialTokenId,
@@ -77,8 +80,27 @@ export const fetchMinimumStake = createAsyncThunk(
 export const fetchCertificateInfo = createAsyncThunk(
   'certificate/fetchCertificateInfo',
   async ({ code }: { code: number }) => {
-    const certificate = await proofchain().certificateAuthority.getByCode(code);
-
-    return { certificate };
+    try {
+      const certificate = await proofchain().certificateAuthority.getByCode(
+        code
+      );
+      let additionalInfo = [];
+      const materials = await proofchain().material.getFromCertificate(
+        certificate.code
+      );
+      for (let { assignEvent, ...certificateInstance } of materials) {
+        const material = await proofchain().material.getById(
+          assignEvent.materialTokenId
+        );
+        additionalInfo.push({
+          material,
+          certificateInstance,
+          assignEvent,
+        });
+      }
+      return { certificate, additionalInfo };
+    } catch (e) {
+      console.log(e);
+    }
   }
 );
