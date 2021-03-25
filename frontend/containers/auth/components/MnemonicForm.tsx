@@ -7,6 +7,7 @@ import * as bip39 from 'bip39';
 import Button from '@components/Button';
 import { KIND, SIZE } from 'baseui/button';
 import { StyledLink } from 'baseui/link';
+import { isDevelopment } from '@utils/next';
 
 export interface MnemonicFormProps {
   onSubmit: (mnemonic: string, derivationPath: string) => void;
@@ -69,7 +70,9 @@ const MnemonicForm = withFormik<MnemonicFormProps, FormValues>({
   // Transform outer props into form values
   mapPropsToValues: (props) => {
     return {
-      mnemonic: bip39.generateMnemonic(),
+      mnemonic: isDevelopment()
+        ? `stage analyst reform dune educate throw exile disagree pause search crouch finger`
+        : bip39.generateMnemonic(),
       derivationPath: `m/44'/60'/0'/0/0`,
       confirmation: false,
     };

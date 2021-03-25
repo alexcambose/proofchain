@@ -23,6 +23,7 @@ export interface IMaterialStore {
         certificateInstance: ICertificateInstance;
         certificateAuthority: ICertificateAuthority;
         assignEvent: any;
+        assignTimestamp: number;
       }
     ];
   };

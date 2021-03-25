@@ -11,6 +11,7 @@ export interface ICertificateStore {
         material: IMaterial;
         certificateInstance: ICertificateInstance;
         assignEvent: any;
+        assignTime: number;
       }
     ];
   };

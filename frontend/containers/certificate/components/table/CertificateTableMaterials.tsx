@@ -9,13 +9,14 @@ import { ICertificate, ICertificateInstance, IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
 import web3Instance from 'web3Instance';
-import CancelCertificateButton from '../CancelCertificateButton';
+import CancelCertificateButton from '../view/CancelCertificateButton';
 interface ICertificateTableMaterialsProps {
   certificateCode: number;
   info: {
     material: IMaterial;
     certificateInstance: ICertificateInstance;
     assignEvent: any;
+    assignTime: number;
   }[];
   isLoading?: boolean;
 }
@@ -41,7 +42,7 @@ const CertificateTableMaterials: React.FC<ICertificateTableMaterialsProps> = ({
         web3Instance() &&
           web3Instance().utils.fromWei(e.certificateInstance.stake, 'ether') +
             ' ETH',
-        <TimeIndicator>{e.certificateInstance.time}</TimeIndicator>,
+        <TimeIndicator>{e.assignTime}</TimeIndicator>,
         <TransactionLink>
           {e.assignEvent.event.transactionHash}
         </TransactionLink>,

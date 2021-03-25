@@ -1,11 +1,9 @@
 import LoadingSkeleton from '@components/LoadingSkeleton';
 import { State } from '@store/index';
 import { fetchMaterialInfoCertificates } from '@store/material/actions';
-import { Cell, Grid } from 'baseui/layout-grid';
-import { Label1, H6 } from 'baseui/typography';
-import React, { useEffect, useState } from 'react';
+import { Label1 } from 'baseui/typography';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import MintMaterialForm from '../form/MintMaterialForm';
 import MaterialCertificatesTable from '../table/MaterialCertificatesTable';
 
 interface IMaterialCertificatesPanelProps {

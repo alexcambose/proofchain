@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import transactionWrapper from '@utils/transactionWrapper';
 import proofchain from 'proofchain';
+import web3Instance from 'web3Instance';
 
 export const fetchCertificates = createAsyncThunk(
   'certificate/fetchCertificates',
@@ -96,6 +97,9 @@ export const fetchCertificateInfo = createAsyncThunk(
           material,
           certificateInstance,
           assignEvent,
+          assignTime: // @ts-ignore
+          (await web3Instance().eth.getBlock(assignEvent.blockNumber))
+            .timestamp,
         });
       }
       return { certificate, additionalInfo };

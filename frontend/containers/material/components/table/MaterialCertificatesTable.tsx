@@ -1,7 +1,7 @@
 import Table from '@components/table/Table';
 import TimeIndicator from '@components/TimeIndicator';
 import TransactionLink from '@components/TransactionLink';
-import { SIZE } from 'baseui/button';
+import { KIND, SIZE } from 'baseui/button';
 import {
   ICertificate,
   ICertificateAuthority,
@@ -17,6 +17,7 @@ interface IMaterialCertificatesTableProps {
       certificateInstance: ICertificateInstance;
       certificateAuthority: ICertificateAuthority;
       assignEvent: any;
+      assignTimestamp: number;
     }
   ];
 }
@@ -30,16 +31,21 @@ const MaterialCertificatesTable: React.FC<IMaterialCertificatesTableProps> = ({
       data={certficates.map((e) => [
         e.certificate.name,
         e.certificateAuthority.name,
-        web3Instance().utils.fromWei(e.certificateInstance.stake, 'ether'),
-        <TimeIndicator>{e.certificateInstance.time}</TimeIndicator>,
+        web3Instance().utils.fromWei(e.certificateInstance.stake, 'ether') +
+          ' ETH',
+        <TimeIndicator>{e.assignTimestamp}</TimeIndicator>,
         // <TransactionLink>
         //   {e.assignEvent.event.transactionHash}
         // </TransactionLink>,
-        <CertificateDetailsModalButton size={SIZE.mini}>
+        <CertificateDetailsModalButton
+          certificateInfo={e}
+          kind={KIND.secondary}
+          size={SIZE.mini}
+        >
           View
         </CertificateDetailsModalButton>,
       ])}
-      emptyMessage={'No transfers'}
+      emptyMessage={'No assigned certificates'}
     />
   );
 };

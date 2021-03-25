@@ -2,6 +2,7 @@ import { styled } from 'baseui';
 import { KIND as ButtonKind } from 'baseui/button';
 import {
   Modal as UIModal,
+  ModalProps as UIModalProps,
   ModalBody,
   ModalButton,
   ModalFooter,
@@ -9,9 +10,10 @@ import {
   ROLE,
   SIZE,
 } from 'baseui/modal';
+import { merge } from 'lodash';
 import React from 'react';
 
-interface ModalProps {
+interface ModalProps extends UIModalProps {
   onClose?: () => void;
   opened?: boolean;
   header?: any;
@@ -28,6 +30,7 @@ const Modal: React.FC<ModalProps> = ({
   header,
   children,
   footer,
+  ...props
 }) => {
   const standardFooter = (
     <>
@@ -44,7 +47,7 @@ const Modal: React.FC<ModalProps> = ({
       autoFocus
       size={SIZE.default}
       role={ROLE.dialog}
-      overrides={{
+      overrides={merge(props.overrides, {
         Root: {
           style: ({ $theme }) => {
             return {
@@ -52,7 +55,7 @@ const Modal: React.FC<ModalProps> = ({
             };
           },
         },
-      }}
+      })}
     >
       {header && <ModalHeader>{header}</ModalHeader>}
       {children && <ModalBody>{children}</ModalBody>}

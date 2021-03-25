@@ -1,5 +1,6 @@
 import Button, { ButtonProps } from '@components/Button';
 import Modal from '@components/Modal';
+import CertificateInformationTabs from '@containers/material/components/view/CertificateInformationTabs';
 import {
   ICertificate,
   ICertificateAuthority,
@@ -28,11 +29,21 @@ const CertificateInfoModalButton: React.FC<ICertificateInfoModal> = ({
     <>
       <Button {...props} onClick={handleClick} />
       <Modal
+        overrides={{
+          Dialog: {
+            style: {
+              width: '50vw',
+              minHeight: '50vh',
+              display: 'flex',
+              flexDirection: 'column',
+            },
+          },
+        }}
         header="Certificate Info"
         opened={isOpened}
         onClose={() => setIsOpened(false)}
       >
-        aaa
+        <CertificateInformationTabs certificateInfo={certificateInfo} />
       </Modal>
     </>
   );

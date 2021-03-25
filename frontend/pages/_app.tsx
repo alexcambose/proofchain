@@ -20,13 +20,18 @@ import authManager, { AuthManager } from '@utils/auth/authManager';
 import { setApplicationLoading } from '@store/application';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fab } from '@fortawesome/free-brands-svg-icons';
-import { faHome, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHome,
+  faTimes,
+  faLink,
+  faBan,
+  faHistory,
+} from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
 dayjs.extend(relativeTime);
 
-library.add(fab, faHome);
-library.add(fab, faTimes);
+library.add(fab, faHome, faTimes, faLink, faBan, faHistory);
 
 if (isClient()) {
   init();

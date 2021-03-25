@@ -22,6 +22,7 @@ const CancelCertificateButton: React.FC<ICancelCertificateButtonProps> = ({
   const dispatch = useDispatch();
   const handleClick = async () => {
     setIsLoading(true);
+    console.log(materialTokenId, certificateCode);
     await dispatch(cancelCertificate({ materialTokenId, certificateCode }));
     await dispatch(refreshBalance());
     await dispatch(fetchCertificateInfo({ certificateCode }));

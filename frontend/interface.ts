@@ -64,6 +64,5 @@ export interface ICertificateAuthority {
 
 export interface ICertificateInstance {
   code: number;
-  time: number;
   stake: number;
 }
