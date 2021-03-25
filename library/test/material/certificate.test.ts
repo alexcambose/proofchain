@@ -152,4 +152,31 @@ describe('material', () => {
       });
     });
   });
+  describe('getCertificateInstance', () => {
+    it('retuns the assigned certificate instance', async () => {
+      const certificateCreateResult = await proofchainCa.certificateAuthority.createCertificate(
+        {
+          name: 'certificate',
+          description: 'description',
+        }
+      );
+      const certificateCode =
+        certificateCreateResult.events.CertificateAuthorityCertificateCreated
+          .code;
+      const result = await proofchainCa.material.assignCertificate({
+        certificateCode,
+        materialTokenId,
+        stake: Web3.utils.toWei('2', 'ether'),
+      });
+      const certificateInstanceId =
+        result.events.AssignedCertificate.certificateInstanceId;
+      const fetchedCertificateInstance = await proofchain.material.getCertificateInstance(
+        certificateInstanceId
+      );
+      expect(fetchedCertificateInstance.code).toEqual(certificateCode);
+      expect(fetchedCertificateInstance.stake).toEqual(
+        Web3.utils.toWei('2', 'ether')
+      );
+    });
+  });
 });

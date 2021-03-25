@@ -37,7 +37,6 @@ interface IMaterialTypeSelector {
 }
 interface ICertificateInstance {
   code: number;
-  time: number;
   stake: number;
 }
 type MaterialCreateEvent = {
@@ -55,18 +54,21 @@ type AssignedCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
+  certificateInstanceId: number;
   event: IEmittedEvent;
 };
 type CanceledCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
+  certificateInstanceId: number;
   event: IEmittedEvent;
 };
 type RevokedCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
+  certificateInstanceId: number;
   event: IEmittedEvent;
 };
 type CreateTransactionEvents = {
@@ -359,7 +361,7 @@ class Material extends Base implements IEntity {
       const assignedCertificatesInstance = await this.contract.methods
         .getMaterialCertificateInstance(materialTokenId, certificateCode)
         .call();
-      if (assignedCertificatesInstance.time != 0) {
+      if (assignedCertificatesInstance.stake != 0) {
         materials.push({
           materialTokenId,
           assignEvent: assignEvent,
@@ -423,6 +425,11 @@ class Material extends Base implements IEntity {
       );
     }
     return history;
+  }
+
+  async getCertificateInstance(certificateInstanceId: number): Promise<ICertificateInstance> {
+    const certificateInstance = await this.contract.methods.certificateInstances(certificateInstanceId).call();
+    return certificateInstance;
   }
 }
 export default Material;
