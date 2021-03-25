@@ -128,11 +128,26 @@ describe('certificate', () => {
   });
   describe('assignmentHistory', () => {
     it('returns an object with all assign, cancel and revoke event in chronological order', async () => {
-      const assignedMaterials = await proofchain.material.certificateAssignmentHistory(
+      const assignedMaterialsHistory = await proofchain.material.certificateAssignmentHistory(
         { materialTokenId: materialTokenId1 }
       );
-      expect(assignedMaterials).toEqual(certificateEvents);
-      // expect(assignedMaterials[0].materialTokenId).toEqual(materialTokenId1);
+      expect(assignedMaterialsHistory).toEqual(certificateEvents);
+      // expect(assignedMaterialsHistory[0].materialTokenId).toEqual(materialTokenId1);
+    });
+    it('filters the history by materialTokenId and certificateCode', async () => {
+      const assignedMaterialsHistory = await proofchain.material.certificateAssignmentHistory(
+        { materialTokenId: materialTokenId1, certificateCode: certificateCode2 }
+      );
+      expect(Object.keys(assignedMaterialsHistory)).toEqual([certificateCode2]);
+    });
+    it('returns [] if there is not any history', async () => {
+      const assignedMaterialsHistory = await proofchain.material.certificateAssignmentHistory(
+        {
+          materialTokenId: materialTokenId1,
+          certificateCode: 99,
+        }
+      );
+      expect(assignedMaterialsHistory).toEqual({});
     });
   });
   describe('getFromCertificate', () => {
@@ -140,7 +155,9 @@ describe('certificate', () => {
       const assignedMaterials = await proofchain.material.getFromCertificate(
         certificateCode1
       );
-      expect(assignedMaterials[0].assignEvent.materialTokenId).toEqual(materialTokenId1);
+      expect(assignedMaterials[0].assignEvent.materialTokenId).toEqual(
+        materialTokenId1
+      );
     });
     it('returns [] if there are no assigned materials to a certificate', async () => {
       const assignedMaterials = await proofchain.material.getFromCertificate(

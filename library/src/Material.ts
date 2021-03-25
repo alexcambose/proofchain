@@ -328,6 +328,7 @@ class Material extends Base implements IEntity {
       )
     );
   }
+
   async getFromCertificate(
     certificateCode: number
   ): Promise<
@@ -358,8 +359,7 @@ class Material extends Base implements IEntity {
       const assignedCertificatesInstance = await this.contract.methods
         .getMaterialCertificateInstance(materialTokenId, certificateCode)
         .call();
-
-      if (assignedCertificatesInstance) {
+      if (assignedCertificatesInstance.time != 0) {
         materials.push({
           materialTokenId,
           assignEvent: assignEvent,
@@ -371,22 +371,24 @@ class Material extends Base implements IEntity {
   }
   async certificateAssignmentHistory({
     materialTokenId,
+    certificateCode,
   }: {
     materialTokenId: number;
+    certificateCode?: number;
   }): Promise<ICertificateAssignmentHistory> {
     await this.ensureContract();
     let history: ICertificateAssignmentHistory = {};
     let assignEvents = await this.getPastEvents<AssignedCertificateEvent>(
       'AssignedCertificate',
-      { materialTokenId }
+      { materialTokenId, certificateCode }
     );
     let revokeEvents = await this.getPastEvents<AssignedCertificateEvent>(
       'RevokedCertificate',
-      { materialTokenId }
+      { materialTokenId, certificateCode }
     );
     let cancelEvents = await this.getPastEvents<AssignedCertificateEvent>(
       'CanceledCertificate',
-      { materialTokenId }
+      { materialTokenId, certificateCode }
     );
 
     for (let { type, events } of [

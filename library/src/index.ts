@@ -1,4 +1,5 @@
-import Proofchain from "./Proofchain";
+export { CERTIFICATE_ASSIGNMENT_TYPE } from './Material';
+import Proofchain from './Proofchain';
 
 export default Proofchain;
 /*
