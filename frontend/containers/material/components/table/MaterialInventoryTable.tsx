@@ -1,3 +1,4 @@
+import MaterialUuidQrModal from '@components/MaterialUuidQrModal';
 import Table from '@components/table/Table';
 import TransactionLink from '@components/TransactionLink';
 import { IMaterialInfo, IMaterialTransfer } from 'interface';
@@ -16,7 +17,10 @@ const MaterialInventoryTable: React.FC<IMaterialInventoryTableProps> = ({
       isLoading={isLoading}
       columns={['UUID', 'Material ID', 'Mint Transaction']}
       data={materialInfo.map((e) => [
-        e.uuid,
+        <>
+          <MaterialUuidQrModal materialUuid={e.uuid} />
+          {e.uuid}
+        </>,
         e.materialTokenId,
         <TransactionLink>{e.mintEvent.event.transactionHash}</TransactionLink>,
       ])}

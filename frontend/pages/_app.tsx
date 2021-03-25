@@ -25,13 +25,14 @@ import {
   faTimes,
   faLink,
   faBan,
+  faQrcode,
   faHistory,
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
 dayjs.extend(relativeTime);
 
-library.add(fab, faHome, faTimes, faLink, faBan, faHistory);
+library.add(fab, faHome, faTimes, faLink, faBan, faHistory, faQrcode);
 
 if (isClient()) {
   init();
