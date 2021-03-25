@@ -20,21 +20,23 @@ contract MaterialBase {
     event AssignedCertificate(
         address indexed certificateAuthority,
         uint256 indexed certificateCode,
-        uint256 indexed materialTokenId
+        uint256 indexed materialTokenId,
+        uint256 certificateInstanceId
     );
     event CanceledCertificate(
         address indexed certificateAuthority,
         uint256 indexed certificateCode,
-        uint256 indexed materialTokenId
+        uint256 indexed materialTokenId,
+        uint256 certificateInstanceId
     );
     event RevokedCertificate(
         address indexed certificateAuthority,
         uint256 indexed certificateCode,
-        uint256 indexed materialTokenId
+        uint256 indexed materialTokenId,
+        uint256 certificateInstanceId
     );
     struct CertificateInstance {
         uint256 code;
-        uint256 time;
         uint256 stake;
     }
     struct MaterialTokenInfo {
@@ -89,6 +91,7 @@ contract MaterialBase {
     mapping(uint256 => BatchInfo) public batch;
     uint256 batchId = 0;
 
+    // certificateInstanceId => CertificateInstance
     mapping(uint256 => CertificateInstance) public certificateInstances;
     uint256 certificateInstanceId = 0;
     modifier senderIsTokenCreator(uint256 _materialTokenId) {

@@ -227,32 +227,46 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             }
         }
         CertificateInstance memory ci =
-            CertificateInstance({code: _certificateCode, time: block.timestamp, stake: msg.value});
+            CertificateInstance({code: _certificateCode, stake: msg.value});
         materialToken[_itemIdentifier].certificateInstanceIds.push(certificateInstanceId);
-        certificateInstances[certificateInstanceId++] = ci;
-        emit AssignedCertificate(msg.sender, _certificateCode, _itemIdentifier);
+        certificateInstances[certificateInstanceId] = ci;
+        emit AssignedCertificate(
+            msg.sender,
+            _certificateCode,
+            _itemIdentifier,
+            certificateInstanceId
+        );
+        certificateInstanceId++;
     }
 
     function cancelCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
         super.cancelCertificate(_certificateCode);
         uint256 length = materialToken[_itemIdentifier].certificateInstanceIds.length;
         uint8 i;
+        uint256 certificateInstanceId;
         for (i = 0; i < length; i++) {
             if (
                 certificateInstances[materialToken[_itemIdentifier].certificateInstanceIds[i]]
                     .code == _certificateCode
             ) {
+                certificateInstanceId = materialToken[_itemIdentifier].certificateInstanceIds[i];
                 materialToken[_itemIdentifier].certificateInstanceIds[i] = materialToken[
                     _itemIdentifier
                 ]
                     .certificateInstanceIds[length - 1];
                 materialToken[_itemIdentifier].certificateInstanceIds.pop();
+                break;
             }
         }
         if (i == length - 1) {
             revert("Certificate code not found");
         }
-        emit CanceledCertificate(msg.sender, _certificateCode, _itemIdentifier);
+        emit CanceledCertificate(
+            msg.sender,
+            _certificateCode,
+            _itemIdentifier,
+            certificateInstanceId
+        );
     }
 
     /*
@@ -261,11 +275,14 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         super.revokeCertificate();
         uint256 length = materialToken[_itemIdentifier].certificateInstanceIds.length;
         uint8 i;
+        uint256 certificateInstanceId;
         for (i = 0; i < length; i++) {
             if (
                 certificateInstances[materialToken[_itemIdentifier].certificateInstanceIds[i]]
                     .code == _certificateCode
             ) {
+                certificateInstanceId = materialToken[_itemIdentifier].certificateInstanceIds[i];
+
                 materialToken[_itemIdentifier].certificateInstanceIds[i] = materialToken[
                     _itemIdentifier
                 ]
@@ -281,7 +298,12 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         if (i == length - 1) {
             revert("Certificate code not found");
         }
-        emit RevokedCertificate(msg.sender, _certificateCode, _itemIdentifier);
+        emit RevokedCertificate(
+            msg.sender,
+            _certificateCode,
+            _itemIdentifier,
+            certificateInstanceId
+        );
     }
 
     function changeBatchOwnershipBatch(uint256[] memory _batchIds, address _newOwner)
