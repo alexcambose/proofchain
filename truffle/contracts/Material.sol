@@ -255,7 +255,6 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 ]
                     .certificateInstanceIds[length - 1];
                 materialToken[_itemIdentifier].certificateInstanceIds.pop();
-                break;
             }
         }
         if (i == length - 1) {
