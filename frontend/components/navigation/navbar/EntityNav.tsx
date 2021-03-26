@@ -9,14 +9,7 @@ import Navbar from './components/Navbar';
 import NavDropdown from './components/NavDropdown';
 
 const EntityNav = () => {
-  const name = useSelector((state: State) => {
-    const type = state.user.entityType;
-    if (type === EntityTypeEnum.CERTIFICATE_AUTHORITY) {
-      // return state.
-    } else {
-      return state.companyEntity.name;
-    }
-  });
+  const name = useSelector((state: State) => state.user.name);
   const balance = useSelector((state: State) => state.user.balance);
   const loadingBalance = useSelector(
     (state: State) => state.user.loadingBalance
@@ -28,7 +21,22 @@ const EntityNav = () => {
         content: (
           <>
             <Address>{address}</Address> -{' '}
-            {loadingBalance ? '...' : balance + ' ETH'}
+            {loadingBalance ? (
+              <Spinner
+                overrides={{
+                  Svg: {
+                    style: ({ $theme }) => ({
+                      position: 'relative',
+                      top: $theme.sizing.scale100,
+                      left: $theme.sizing.scale200,
+                    }),
+                  },
+                }}
+                size={20}
+              />
+            ) : (
+              balance + ' ETH'
+            )}
           </>
         ),
       },

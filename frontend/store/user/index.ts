@@ -1,4 +1,10 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  AsyncThunk,
+  createAction,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import builderRejectionHandler from '@store/builderRejectionHandler';
 import AuthManager from '@utils/auth/authManager';
 import { omit } from 'lodash';
 import { HYDRATE } from 'next-redux-wrapper';
@@ -36,6 +42,7 @@ export const UserSlice = createSlice({
     // had to google this for hours :( -> https://github.com/kirill-konshin/next-redux-wrapper/pull/295/files/1792221d7e792b917b63ccaf77f528fc13797ef3#diff-e5c99337b70249438cce35e58d28640fe7e4d0427b281532c163837649d989f9R22
     builder.addCase(hydrate, (state, { payload }) => {
       const payloadToHydrate = payload[UserSlice.name];
+      console.log(payloadToHydrate);
       for (let key in omit(payloadToHydrate, ['balance'])) {
         state[key] = payload[UserSlice.name][key];
       }
@@ -69,10 +76,11 @@ export const UserSlice = createSlice({
     builder.addCase(refreshBalance.fulfilled, (state, { payload }) => {
       state.balance = payload.balance;
       state.loadingBalance = false;
-    }),
-      builder.addCase(refreshBalance.pending, (state, { payload }) => {
-        state.loadingBalance = true;
-      });
+    });
+    builder.addCase(refreshBalance.pending, (state, { payload }) => {
+      state.loadingBalance = true;
+    });
+    builderRejectionHandler(builder);
   },
 });
 

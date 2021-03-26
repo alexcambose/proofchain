@@ -58,16 +58,10 @@ function MyApp({ Component, pageProps }) {
         await initWeb3Instance(authManager.getInfo());
         await dispatch(refreshBalance());
         dispatch(setApplicationLoading(false));
+        dispatch(fetchCompanyEntityInfo());
       }
     })();
   }, [loggedIn]);
-  useEffect(() => {
-    if (entityType === EntityTypeEnum.COMPANY) {
-      dispatch(fetchCompanyEntityInfo());
-    } else if (entityType === EntityTypeEnum.CERTIFICATE_AUTHORITY) {
-      // todo
-    }
-  }, [entityType]);
   return (
     <StyletronProvider value={styletron}>
       <BaseProvider theme={LightTheme}>

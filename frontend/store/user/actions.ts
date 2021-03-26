@@ -7,12 +7,24 @@ import web3Instance, { initWeb3Instance } from 'web3Instance';
 import proofchain from 'proofchain';
 export const refreshUserInfo = async (authManager = AuthManager) => {
   const address = await initWeb3Instance(authManager.getInfo());
+  console.log(proofchain());
   const hasCompany = await proofchain().company.hasCompany();
   const hasCertificateAuthority = await proofchain().certificateAuthority.hasCertificateAuthority();
+  let name;
+  if (hasCompany) {
+    const company = await proofchain().company.getCompany(address);
+    name = company.name;
+  } else if (hasCertificateAuthority) {
+    const certificateAuthority = await proofchain().certificateAuthority.getCertificateAuthority(
+      address
+    );
+    name = certificateAuthority.name;
+  }
   // todo add certificateAutoirity
   console.log('refresh login', address, hasCompany);
   return {
     address,
+    name,
     hasEntity: hasCompany || hasCertificateAuthority,
     entityType: hasCompany
       ? EntityTypeEnum.COMPANY
