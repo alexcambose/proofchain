@@ -72,14 +72,6 @@ const certificateAuthorityItems = [
 const CompanySidebar = () => {
   const router = useRouter();
   const entityType = useSelector((state: State) => state.user.entityType);
-  const [activeItemId, setActiveItemId] = React.useState('#all-materials');
-  const onNavigationChange = ({ event, item }) => {
-    setActiveItemId(item.itemId);
-    // prevent page reload
-    event.preventDefault();
-    router.push(item.itemId);
-  };
-  useEffect(() => {}, []);
   return (
     <Navigation
       items={[
@@ -91,14 +83,7 @@ const CompanySidebar = () => {
           ? certificateAuthorityItems
           : companyItems),
       ]}
-      activeItemId={activeItemId}
-      mapItem={(e) => {
-        // if (e.itemId === '#shades') {
-        //   e.subNav = [];
-        // }
-        return e;
-      }}
-      onChange={onNavigationChange}
+      activeItemId={router.route}
     />
   );
 };
