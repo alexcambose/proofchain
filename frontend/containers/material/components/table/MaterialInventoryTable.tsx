@@ -6,14 +6,16 @@ import React from 'react';
 interface IMaterialInventoryTableProps {
   materialInfo: IMaterialInfo[];
   isLoading?: boolean;
+  header?: string;
 }
 const MaterialInventoryTable: React.FC<IMaterialInventoryTableProps> = ({
   isLoading,
   materialInfo,
+  header = 'Your materials',
 }) => {
   return (
     <Table
-      title="Your materials"
+      title={header}
       isLoading={isLoading}
       columns={['UUID', 'Material ID', 'Mint Transaction']}
       data={materialInfo.map((e) => [

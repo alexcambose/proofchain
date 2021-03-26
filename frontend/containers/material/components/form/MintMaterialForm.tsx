@@ -21,6 +21,7 @@ import proofchain from 'proofchain';
 import React, { useCallback, useEffect, useState } from 'react';
 import { batch, connect } from 'react-redux';
 import * as yup from 'yup';
+import { refreshBalance } from '@store/user/actions';
 
 interface MintMaterialFormProps extends ReturnType<typeof mapDispatchToProps> {
   materialTokenId: number;
@@ -148,7 +149,6 @@ const RecipeButtons = ({ index, ...props }) => {
 const _MintMaterialForm: React.FC<
   MintMaterialFormProps & FormikProps<FormValues>
 > = (props) => {
-  // console.log(unitsOfMeasurement);
   const { isSubmitting, values, materialTokenId, setFieldValue } = props;
   const [material, setMaterial] = useState<IMaterial>(null);
   const [recipeMaterials, setRecipeMaterials] = useState<IMaterial[]>([]);
@@ -175,7 +175,6 @@ const _MintMaterialForm: React.FC<
       />
     );
   }
-  console.log(values);
   const isRawMaterial = material.recipeMaterialAmount.length === 0;
   return (
     <Form>
@@ -255,6 +254,7 @@ const MintMaterialForm = withFormik<MintMaterialFormProps, FormValues>({
       ...values,
     });
     await fetchMaterialInfo({ materialTokenId });
+    setTimeout(() => refreshBalance(), 3000);
     resetForm();
     onSuccess && onSuccess();
   },
@@ -263,6 +263,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchMaterialInfo: (data) => dispatch(fetchMaterialInfo(data)),
     mintMaterial: (data) => dispatch(mintMaterial(data)),
+    refreshBalance: () => dispatch(refreshBalance()),
   };
 };
 export default connect(null, mapDispatchToProps)(MintMaterialForm);
