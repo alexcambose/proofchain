@@ -45,6 +45,7 @@ abstract class Base {
     eventName: string,
     filter: object = {}
   ): Promise<IEmittedEvent[]> {
+    await this.ensureContract();
     const events = await this.contract.getPastEvents(eventName, {
       filter,
       fromBlock: 0,

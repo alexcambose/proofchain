@@ -197,13 +197,19 @@ class Material extends Base implements IEntity {
     const isRaw = material?.recipeMaterialAmount.length === 0;
     let result;
     if (isRaw) {
+      const estimatedGas = await this.contract.methods
+        .mint(materialTokenId, amount)
+        .estimateGas();
       result = await this.contract.methods
         .mint(materialTokenId, amount)
-        .send({ from: this.fromAddress, gas: 400000 });
+        .send({ from: this.fromAddress, gas: estimatedGas + 1 });
     } else {
+      const estimatedGas = await this.contract.methods
+        .mint(materialTokenId, amount)
+        .estimateGas();
       result = await this.contract.methods
         .mint(materialTokenId, fromBatchId, fromBatchMaterialsUuid)
-        .send({ from: this.fromAddress, gas: 900000 });
+        .send({ from: this.fromAddress, gas: estimatedGas + 1 });
     }
     return new MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>(
       result
@@ -427,8 +433,12 @@ class Material extends Base implements IEntity {
     return history;
   }
 
-  async getCertificateInstance(certificateInstanceId: number): Promise<ICertificateInstance> {
-    const certificateInstance = await this.contract.methods.certificateInstances(certificateInstanceId).call();
+  async getCertificateInstance(
+    certificateInstanceId: number
+  ): Promise<ICertificateInstance> {
+    const certificateInstance = await this.contract.methods
+      .certificateInstances(certificateInstanceId)
+      .call();
     return certificateInstance;
   }
 }
