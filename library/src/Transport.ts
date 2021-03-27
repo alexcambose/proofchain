@@ -18,6 +18,7 @@ interface ITransport {
 type TransportInitiatedEvent = {
   sender: string;
   receiver: string;
+  transportCompany: string;
   transportId: number;
 };
 type TransportStatusEvent = {
@@ -101,11 +102,23 @@ class Transport extends Base {
       .call();
     return batch;
   }
-  async all() {
+  async all({
+    sender,
+    receiver,
+    transportCompany,
+  }: {
+    sender?: string;
+    receiver?: string;
+    transportCompany?: string;
+  } = {}) {
     await this.ensureContract();
     const createEvents = await this.getPastEvents<TransportInitiatedEvent>(
       'TransportInitiated',
-      { company: this.fromAddress }
+      {
+        sender,
+        receiver,
+        transportCompany,
+      }
     );
     let transports = [];
     for (let createEvent of createEvents) {

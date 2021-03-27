@@ -105,16 +105,29 @@ class Material extends Base implements IEntity {
         throw new Error(`Material with id ${id} does not exist`);
       }
     }
-    const transaction = await this.contract.methods
-      .create(
-        name,
-        code,
-        amountIdentifier,
-        images,
-        recipeMaterialTokenId,
-        recipeMaterialAmount
-      )
-      .send({ from: this.fromAddress, gas: 600000 });
+    if (recipeMaterialTokenId.length !== recipeMaterialAmount.length) {
+      throw new Error(
+        'recipeMaterialTokenId and recipeMaterialAmount are different lengths'
+      );
+    }
+    let transaction;
+    if (recipeMaterialAmount.length) {
+      transaction = await this.contract.methods
+        .create(
+          name,
+          code,
+          amountIdentifier,
+          images,
+          recipeMaterialTokenId,
+          recipeMaterialAmount
+        )
+        .send({ from: this.fromAddress, gas: 600000 });
+    } else {
+      transaction = await this.contract.methods
+        .create(name, code, amountIdentifier, images)
+        .send({ from: this.fromAddress, gas: 600000 });
+    }
+
     return new MinedTransaction<CreateTransactionEvents>(transaction);
   }
   async getById(
@@ -194,19 +207,23 @@ class Material extends Base implements IEntity {
     await this.ensureContract();
 
     const material = await this.getById(materialTokenId);
+    if (material?.creator !== this.fromAddress) {
+      throw new Error('You are not the owner of this material');
+    }
     const isRaw = material?.recipeMaterialAmount.length === 0;
     let result;
+
     if (isRaw) {
       const estimatedGas = await this.contract.methods
         .mint(materialTokenId, amount)
-        .estimateGas();
+        .estimateGas({ from: this.fromAddress });
       result = await this.contract.methods
         .mint(materialTokenId, amount)
         .send({ from: this.fromAddress, gas: estimatedGas + 1 });
     } else {
       const estimatedGas = await this.contract.methods
-        .mint(materialTokenId, amount)
-        .estimateGas();
+        .mint(materialTokenId, fromBatchId, fromBatchMaterialsUuid)
+        .estimateGas({ from: this.fromAddress });
       result = await this.contract.methods
         .mint(materialTokenId, fromBatchId, fromBatchMaterialsUuid)
         .send({ from: this.fromAddress, gas: estimatedGas + 1 });

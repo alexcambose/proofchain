@@ -25,9 +25,6 @@ class Company extends Base implements IEntity {
     entityType: CompanyEntityTypeEnum;
   }): Promise<MinedTransaction<CreateTransactionEvents>> {
     await this.ensureContract();
-    const gas = await this.contract.methods
-      .create(name, entityType)
-      .estimateGas();
     const result: IMinedTransaction<CreateTransactionEvents> = await this.contract.methods
       .create(name, entityType)
       .send({ from: this.fromAddress, gas: 300000 });
