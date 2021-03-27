@@ -12,7 +12,7 @@
     "dev": "truffle develop",
     "test": "truffle test",
     "solc-build": "mkdir -p ./build/solc && cd ./build/solc && rm -rf ./* && solcjs --bin --abi --base-path ../../contracts ../../contracts/Factory.sol --optimize && cd ../.. && node sanitize-solc-build.js",
-    "migrate:rinkeby": "rm -rf ./build/* && truffle NETWORK_TYPE=production migrate --network rinkeby",
+    "migrate:rinkeby": "rm -rf ./build/* && NETWORK_TYPE=production truffle  migrate --network rinkeby",
     "migrate:test": "rm -rf ./build/* && NETWORK_TYPE=test truffle migrate --network test",
     "fixtures": "truffle exec ./fixtures/index.js --network test"
   },

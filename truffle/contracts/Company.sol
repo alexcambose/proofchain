@@ -28,8 +28,7 @@ contract Company is Certifiable, Shipper {
         Ownable(_masterAddress, _factoryContractAddress)
     {}
 
-    function create(string memory _name, EntityTypeEnum _entityType) public {
-        require(companies[msg.sender].isValue == false, "Company already exsists");
+    function create(string memory _name, EntityTypeEnum _entityType) doesNotHaveCompany public {
         address sender = msg.sender;
         companies[sender].name = _name;
         companies[sender].entityType = _entityType;
