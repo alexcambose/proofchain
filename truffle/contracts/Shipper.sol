@@ -6,7 +6,8 @@ abstract contract Shipper is MaterialReferencer {
     event TransportInitiated(
         address indexed sender,
         address indexed receiver,
-        uint256 indexed transportId
+        address indexed transportCompany,
+        uint256 transportId
     );
     event TransportStatus(uint256 indexed transportId, TransportStatusEnum indexed status);
     enum TransportStatusEnum {READY_FOR_TRANSIT, PENDING_TRANSIT, IN_TRANSIT, FINALISED}
@@ -70,7 +71,7 @@ abstract contract Shipper is MaterialReferencer {
         transports[transportIdCounter].batchIds = _batchIds;
         transports[transportIdCounter].status = TransportStatusEnum.READY_FOR_TRANSIT;
 
-        emit TransportInitiated(msg.sender, _receiver, transportIdCounter);
+        emit TransportInitiated(msg.sender, _receiver, _transportCompany, transportIdCounter);
         transportIdCounter++;
     }
 
