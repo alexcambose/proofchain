@@ -5,6 +5,7 @@ export const provider = ganache.provider({
   total_accounts: 10,
   mnemonic:
     'pilot derive lamp negative way glance science sniff member goat warrior hole',
+  gasLimit: 7721975,
 });
 
 export const deployedFactoryAddress = async () => {
