@@ -54,18 +54,46 @@ class Batch extends Base {
 
     return batch;
   }
-  async all() {
+  async allBatchIds(onlyExistingBatches = true): Promise<number[]> {
     await this.ensureContract();
     const createEvents = await this.getPastEvents<BatchCreateEvent>(
       'BatchCreate',
       { company: this.fromAddress }
     );
+    const ids = (
+      await Promise.all(
+        createEvents
+          .map((e) => e.batchId)
+          .map(async (e) => {
+            if (onlyExistingBatches) {
+              const exists = await this.contract.methods
+                .getAddressBatches(this.fromAddress, e)
+                .call();
+              if (exists) return e;
+            } else {
+              return e;
+            }
+          })
+      )
+    ).filter((e) => e);
+    // @ts-ignore
+    return ids;
+  }
+  async all(onlyExistingBatches = true) {
+    await this.ensureContract();
+    const batchIds = await this.allBatchIds(onlyExistingBatches);
     let batches = [];
-    for (let createEvent of createEvents) {
-      const fetchedBatch = await this.getById(createEvent.batchId);
+    for (let batchId of batchIds) {
+      const fetchedBatch = await this.getById(batchId);
       batches.push(fetchedBatch);
     }
     return batches;
+  }
+  async remove(batchId: number): Promise<any> {
+    await this.ensureContract();
+    await this.contract.methods
+      .removeBatchFromAddress(batchId)
+      .send({ from: this.fromAddress, gas: 300000 });
   }
 }
 export default Batch;

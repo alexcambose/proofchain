@@ -84,4 +84,13 @@ describe('batch', () => {
       expect(batches.length > 1).toEqual(true);
     });
   });
+  describe('remove', () => {
+    it('removes a batch from the user', async () => {
+      const oldBatches = await proofchain.batch.all();
+      // @ts-ignore
+      await proofchain.batch.remove(oldBatches[0]?.batchId);
+      const newBatches = await proofchain.batch.all();
+      expect(oldBatches.length - newBatches.length).toEqual(1);
+    });
+  });
 });
