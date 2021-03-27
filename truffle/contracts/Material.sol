@@ -180,7 +180,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 owner: msg.sender
             });
         batch[batchId] = batchInfo;
-        addressBatches[msg.sender].push(batchId);
+        addressBatches[msg.sender][batchId] = true;
         emit BatchCreate(msg.sender, batchId);
         batchId++;
     }
@@ -310,7 +310,17 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         fromCompanyContract
     {
         for (uint8 i = 0; i < _batchIds.length; i++) {
+            addressBatches[batch[_batchIds[i]].owner][_batchIds[i]] = false;
+            addressBatches[_newOwner][_batchIds[i]] = true;
             batch[_batchIds[i]].owner = _newOwner;
         }
+    }
+
+    function removeBatchFromAddress(uint256 _batchId) public {
+        // if (batch[_batchIds[i]].owner != msg.sender) {
+        //     revert("You are not the owner of the specified certificate");
+        // }
+        // no need to check, since this is always reffering the sender mapping
+        addressBatches[msg.sender][_batchId] = false;
     }
 }

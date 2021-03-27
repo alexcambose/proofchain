@@ -85,8 +85,8 @@ contract MaterialBase {
     uint256 materialTokenId = 0;
     mapping(uint256 => MaterialTokenInfo) public materialToken;
 
-    // all batches associated with an address (address => batchId[])
-    mapping(address => uint256[]) public addressBatches;
+    // all batches associated with an address (address => (batchId => (has|doesn't have)))
+    mapping(address => mapping(uint256 => bool)) public addressBatches;
     // all batchId associated with a batch
     mapping(uint256 => BatchInfo) public batch;
     uint256 batchId = 0;
@@ -160,5 +160,9 @@ contract MaterialBase {
         returns (uint256[] memory)
     {
         return materialToken[_materialTokenId].certificateInstanceIds;
+    }
+
+    function getAddressBatches(address _address, uint256 _batchId) public view returns (bool) {
+        return addressBatches[_address][_batchId];
     }
 }

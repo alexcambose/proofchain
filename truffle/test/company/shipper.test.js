@@ -136,15 +136,14 @@ contract("Company", (accounts) => {
       });
     });
     describe("finaliseTransport", () => {
-      it("sets a transport as finalised", async () => {
-        const [
-          materialInstance,
-          companyInstance,
-          certificateAuthorityManagerInstance,
-        ] = await getInstance();
+      before(async () => {
+        const [, companyInstance] = await getInstance();
         await companyInstance.methods
           .finaliseTransport(transportId)
           .send({ from: otherAccount, gas: 300000 });
+      });
+      it("sets a transport as finalised", async () => {
+        const [, companyInstance] = await getInstance();
         const value = await companyInstance.methods.transports(transportId).call();
         expect(value.status).equal("3");
       });
@@ -155,6 +154,9 @@ contract("Company", (accounts) => {
           certificateAuthorityManagerInstance,
         ] = await getInstance();
         const { owner } = await materialInstance.methods.batch(batchId).call();
+        const accountHasBatchIdBefore = await materialInstance.methods
+          .getAddressBatches(account, batchId)
+          .call();
         const result = await companyInstance.methods
           .initiateTransport(account, tcAccount, [batchId])
           .send({ from: otherAccount, gas: 300000 });
@@ -163,8 +165,15 @@ contract("Company", (accounts) => {
         await companyInstance.methods
           .finaliseTransport(transportId)
           .send({ from: account, gas: 300000 });
+        const accountHasBatchIdAfter = await materialInstance.methods
+          .getAddressBatches(account, batchId)
+          .call();
+
         const { owner: newOwner } = await materialInstance.methods.batch(batchId).call();
-        expect(owner).not.equal(newOwner);
+        expect(owner).equal(otherAccount);
+        expect(newOwner).equal(account);
+        expect(accountHasBatchIdBefore).equal(false);
+        expect(accountHasBatchIdAfter).equal(true);
       });
       it("only works for the receiver", async () => {
         const [

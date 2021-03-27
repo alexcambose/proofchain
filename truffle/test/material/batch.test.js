@@ -94,21 +94,34 @@ contract("Material", (accounts) => {
     });
   });
   describe("changeBatchOwnershipBatch", () => {
-    it("should fail if called outside the company contract", async () => {
+    let batchId;
+    beforeEach(async () => {
       const [materialInstance, companyInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
       const mintResult = await materialInstance.methods
         .mint(materialTokenId, 5)
         .send({ from: account, gas: 400000 });
       const uuids = mintResult.events.MaterialTransfer.map((e) => e.returnValues.uuid);
-      const batchId = await createBatch(123, uuids);
-      try {
-        await materialInstance.methods
+      batchId = await createBatch(123, uuids);
+    });
+
+    // describe("should change the batch ownership", () => {
+    //   before(async () => {});
+    //   it("should change the batch owner parameter", async () => {
+    //     const [materialInstance, companyInstance] = await getInstance();
+    //   });
+    //   it("should change the addressBatches global mapping", async () => {
+    //     const [materialInstance, companyInstance] = await getInstance();
+    //   });
+    // });
+    it("should fail if called outside the company contract", async () => {
+      const [materialInstance, companyInstance] = await getInstance();
+
+      expectToThrow(
+        materialInstance.methods
           .changeBatchOwnershipBatch([batchId], otherAccount)
-          .send({ from: account, gas: 400000 });
-      } catch (e) {
-        expect(e).to.be.instanceOf(Error);
-      }
+          .send({ from: account, gas: 400000 })
+      );
     });
   });
 });

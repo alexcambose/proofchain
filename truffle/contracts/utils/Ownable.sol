@@ -15,7 +15,7 @@ pragma solidity >0.7.0 <0.9.0;
  */
 abstract contract Ownable {
     address private _owner;
-    address public _aggregator;
+    address _aggregator;
 
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
