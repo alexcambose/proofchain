@@ -16,7 +16,7 @@
     "dev": "lerna run --parallel dev",
     "prepare": "husky install",
     "test": "cd library && npm run test",
-    "ganache": "ganache-cli --mnemonic \"stage analyst reform dune educate throw exile disagree pause search crouch finger\" --db ./.db"
+    "ganache": "ganache-cli --gasLimit 0x6acfc0 --mnemonic \"stage analyst reform dune educate throw exile disagree pause search crouch finger\" --db ./.db"
   },
   "repository": {
     "type": "git",
