@@ -317,9 +317,10 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     }
 
     function removeBatchFromAddress(uint256 _batchId) public {
-        // if (batch[_batchIds[i]].owner != msg.sender) {
-        //     revert("You are not the owner of the specified certificate");
-        // }
+        // require(
+        //     batch[_batchId].owner == _address,
+        //     "You are not the owner of the specified certificate"
+        // );
         // no need to check, since this is always reffering the sender mapping
         addressBatches[tx.origin][_batchId] = false;
     }

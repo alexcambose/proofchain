@@ -40,7 +40,6 @@ const createRawMaterial = (account) => async (
   images = ["abc"]
 ) => {
   const [materialInstance, companyInstance] = await getInstance();
-
   // create a company
   const result = await materialInstance.methods
     .create(name, code, "", images)
@@ -57,7 +56,6 @@ const createMaterial = (account) => async (
   recipeMaterialAmount = []
 ) => {
   const [materialInstance, companyInstance] = await getInstance();
-
   const result = await materialInstance.methods
     .create(name, code, "", images, recipeMaterialTokenId, recipeMaterialAmount)
     .send({ from: account, gas: 500000 });
@@ -83,6 +81,14 @@ const createCertificate = (account) => async (name = "Company donates to charity
     .send({ from: account, gas: 300000 });
   return result.events.CertificateAuthorityCertificateCreated.returnValues.code;
 };
+const createBatchWithMaterials = (account) => async () => {
+  const [materialInstance] = await getInstance();
+  const code = await createRawMaterial(account)();
+  const result1 = await materialInstance.methods.mint(code, 2).send({ from: account, gas: 400000 });
+  uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+  const batchId = await createBatch(account)(123, uuidsMaterialTokenId1);
+  return batchId;
+};
 const expectToThrow = async (promise) => {
   let isOk = false;
   try {
@@ -101,4 +107,5 @@ module.exports = {
   createCertificate,
   createCompany,
   expectToThrow,
+  createBatchWithMaterials,
 };

@@ -19,7 +19,10 @@ abstract contract CompanyOwnable is Ownable {
     }
 
     modifier senderHasCompany {
-        require(getCompanyContract().getCompany(msg.sender).isValue == true, "");
+        require(
+            getCompanyContract().getCompany(msg.sender).isValue == true,
+            "The sender does not have a company"
+        );
         _;
     }
 

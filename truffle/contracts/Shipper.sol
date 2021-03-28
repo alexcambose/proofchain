@@ -56,8 +56,6 @@ abstract contract Shipper is MaterialReferencer {
         _;
     }
 
-    event Ta(address a, uint256 id);
-
     // The sender calls this
     function initiateTransport(
         address _receiver,
@@ -65,6 +63,7 @@ abstract contract Shipper is MaterialReferencer {
         uint256[] memory _batchIds
     ) public batchesOwner(_batchIds) {
         require(msg.sender != _receiver, "Cannot initiate a transport to yourself");
+        // require(_batchIds.length > 0, "Can not create an empty transport");
 
         transports[transportIdCounter].transportId = transportIdCounter;
         transports[transportIdCounter].sender = msg.sender;
