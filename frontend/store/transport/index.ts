@@ -1,20 +1,22 @@
 import { createAction, createSlice } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
-import { fetchTransports } from './actions';
+import { fetchTransports, fetchYourTransports } from './actions';
 import initialState from './initialState';
-const hydrate = createAction(HYDRATE);
 
 export const TransportSlice = createSlice({
   name: 'appication',
   initialState,
   reducers: {},
   extraReducers: (builder: any) => {
-    builder.addCase(fetchTransports.pending, (state, { payload }) => {
-      state.loadingTransports = true;
-    });
-    builder.addCase(fetchTransports.fulfilled, (state, { payload }) => {
-      state.loadingTransports = false;
-      state.transports = payload.transports;
+    [fetchTransports, fetchYourTransports].forEach((action) => {
+      builder.addCase(action.pending, (state, { payload }) => {
+        state.loadingTransports = true;
+      });
+      builder.addCase(action.fulfilled, (state, { payload }) => {
+        state.loadingTransports = false;
+        console.log(payload);
+        state.transports = payload.transports;
+      });
     });
   },
 });

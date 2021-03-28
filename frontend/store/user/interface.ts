@@ -1,4 +1,4 @@
-import { EntityTypeEnum } from '@enums';
+import { CompanyEntityTypeEnum, EntityTypeEnum } from '@enums';
 
 export interface IUserData {
   name?: string;
@@ -7,6 +7,7 @@ export interface IUserData {
   profileImage?: string;
   address?: string;
   hasEntity: boolean;
+  companyEntityType: CompanyEntityTypeEnum;
   entityType: EntityTypeEnum;
   balance?: string;
   loadingBalance?: boolean;

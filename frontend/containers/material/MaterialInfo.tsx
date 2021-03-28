@@ -1,6 +1,6 @@
 import Grid2 from '@components/layout/Grid2';
 import NoPaddingGrid from '@components/layout/NoPaddingGrid';
-import LoadingSkeleton from '@components/LoadingSkeleton';
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import { State } from '@store/index';
 import { fetchMaterialInfo } from '@store/material/actions';
 import { Accordion, Panel } from 'baseui/accordion';

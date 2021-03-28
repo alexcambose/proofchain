@@ -1,7 +1,12 @@
-import { TransportStatusEnum } from '@enums';
+import { CompanyEntityTypeEnum, TransportStatusEnum } from '@enums';
 import { number, string } from 'yup/lib/locale';
-
+export interface ICompany {
+  entityType: CompanyEntityTypeEnum;
+  name: string;
+  isValue: boolean;
+}
 export interface ITransport {
+  transportId: number;
   sender: string;
   receiver: string;
   transportCompany: string;
@@ -9,6 +14,10 @@ export interface ITransport {
   value: string;
   status: TransportStatusEnum;
   hashedPassword: string;
+
+  events?: {
+    TransportInitiated: any;
+  };
 }
 export interface IMaterial {
   materialTokenId: number;

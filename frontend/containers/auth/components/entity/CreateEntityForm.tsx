@@ -89,13 +89,13 @@ const CreateEntityForm = withFormik<
         console.log(result);
       });
     } else {
-      await transactionWrapper(async () => {
-        const result = await proofchain().company.create({
-          name,
-          entityType: entityType as CompanyEntityTypeEnum,
-        });
-        console.log(result);
-      });
+      await transactionWrapper(
+        async () =>
+          await proofchain().company.create({
+            name,
+            entityType: entityType as CompanyEntityTypeEnum,
+          })
+      );
     }
     await props.refreshLogin();
   },

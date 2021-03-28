@@ -11,6 +11,7 @@ export default (builder) => {
       console.log(action);
       // @ts-ignore
       jsErrorToast(action.error);
+      throw new Error(action.error.message);
     }
   );
 };

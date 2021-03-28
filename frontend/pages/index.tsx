@@ -47,14 +47,20 @@ const Index = () => {
 export const authCheck = (expectLoggedIn) =>
   wrapper.getServerSideProps(async ({ store, req, res, ...other }) => {
     const cookies = new Cookies(req, res);
-    const loggedIn = new AuthManager(cookies).isLoggedIn();
+    const authManager = new AuthManager(cookies);
+    let loggedIn = authManager.isLoggedIn();
 
     if (loggedIn) {
       store.dispatch(setLoggedIn(true));
-      store.dispatch(
-        setInitialData(await refreshUserInfo(new AuthManager(cookies)))
-      );
+      store.dispatch(setInitialData(await refreshUserInfo(authManager)));
+      // after refresh user info, chech if hasEntity is set to true,
+      // if (!store.getState().user.hasEntity) {
+      //   authManager.clearInfo();
+      //   store.dispatch(logout());
+      // }
     }
+
+    console.log();
     const onLoginPage = req.url == '/login';
     if (expectLoggedIn && !loggedIn && !onLoginPage) {
       return {

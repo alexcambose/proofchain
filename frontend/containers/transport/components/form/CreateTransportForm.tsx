@@ -3,6 +3,7 @@ import BatchIdsInput from '@components/form/formik/BatchIdsInput';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
 import { initiateTransport } from '@store/transport/actions';
+import { isDevelopment } from '@utils/next';
 import validation from '@utils/validation';
 import { FormikProps, withFormik } from 'formik';
 import React from 'react';
@@ -51,8 +52,12 @@ const CreateTransportForm = withFormik<CreateTransportFormProps, FormValues>({
   // Transform outer props into form values
   mapPropsToValues: () => {
     return {
-      receiver: '',
-      transportCompany: '',
+      receiver: isDevelopment()
+        ? '0x92f28A28BEBAa0150d6A50752aB0AbC2FC3D0D35'
+        : '',
+      transportCompany: isDevelopment()
+        ? '0x15Af53F1ceA4f68710DF740538B26d0A90197B94'
+        : '',
       batchIds: [],
     };
   },
@@ -64,8 +69,13 @@ const CreateTransportForm = withFormik<CreateTransportFormProps, FormValues>({
     }),
   handleSubmit: async (values, { props }) => {
     const { createTransport, onSuccess } = props;
+    const { receiver, transportCompany, batchIds } = values;
     // console.log(values);
-    await createTransport(values);
+    await createTransport({
+      receiver: receiver.trim(),
+      transportCompany: transportCompany.trim(),
+      batchIds,
+    });
     onSuccess && onSuccess();
   },
 })(_CreateTransportForm);

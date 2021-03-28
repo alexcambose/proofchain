@@ -1,4 +1,4 @@
-import LoadingSkeleton from '@components/LoadingSkeleton';
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import VerticalTable from '@components/table/VerticalTable';
 import TimeIndicator from '@components/TimeIndicator';
 import TransactionLink from '@components/TransactionLink';

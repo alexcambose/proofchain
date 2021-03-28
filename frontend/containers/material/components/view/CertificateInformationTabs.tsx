@@ -13,7 +13,7 @@ import web3Instance from 'web3Instance';
 import TimeIndicator from '@components/TimeIndicator';
 import TransactionLink from '@components/TransactionLink';
 import proofchain from 'proofchain';
-import LoadingSkeleton from '@components/LoadingSkeleton';
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import CertificateHistoryAccordion from './CertificateHistoryAccordion';
 import CertificateAssignmentDetailsTable from '@containers/certificate/components/table/CertificateAssignmentDetailsTable';
 interface CertificateInformationTabs {

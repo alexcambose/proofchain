@@ -1,4 +1,4 @@
-import LoadingSkeleton from '@components/LoadingSkeleton';
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import { State } from '@store/index';
 import { fetchMaterialInfoCertificates } from '@store/material/actions';
 import { Label1 } from 'baseui/typography';

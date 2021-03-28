@@ -1,13 +1,20 @@
 import { FormControl } from 'baseui/form-control';
 import { Select } from 'baseui/select';
 import { useField } from 'formik';
+import proofchain from 'proofchain';
 import React, { useEffect, useState } from 'react';
 interface IBatchIdsInputProps {}
 const BatchIdsInput: React.FC<IBatchIdsInputProps> = (props) => {
   const [{ value }, meta, { setValue }] = useField({ name: 'batchIds' });
   const [isLoading, setIsLoading] = useState(false);
+  const [options, setOptions] = useState([]);
 
-  useEffect(() => {}, [value]);
+  useEffect(() => {
+    (async () => {
+      const batchIds = await proofchain().batch.allBatchIds();
+      setOptions(batchIds.map((e) => ({ id: e, label: e })));
+    })();
+  }, []);
   const onChange = (v) => {
     setValue(v.map((e) => e.id));
   };
@@ -19,13 +26,13 @@ const BatchIdsInput: React.FC<IBatchIdsInputProps> = (props) => {
       error={meta.touched ? meta.error : ''}
     >
       <Select
-        id="materialsUuid"
+        id="batchIds"
         closeOnSelect={false}
+        options={options}
         value={value.map((v) => ({ id: v, label: v }))}
         multi
         autoFocus
         isLoading={isLoading}
-        creatable={value.length === 0}
         placeholder="Enter batch ids"
         onChange={(params) => onChange(params.value)}
       />
