@@ -12,9 +12,8 @@ import '@types/declarations';
 import { State, wrapper } from '../store';
 import { styletron } from '../styletron';
 import { EntityTypeEnum } from '@enums';
-import { fetchCompanyEntityInfo } from '@store/companyEntity/actions';
 import { ToasterContainer } from 'baseui/toast';
-import LoadingOverlay from '@components/LoadingOverlay';
+import LoadingOverlay from '@components/loading/LoadingOverlay';
 import { initWeb3Instance } from 'web3Instance';
 import authManager, { AuthManager } from '@utils/auth/authManager';
 import { setApplicationLoading } from '@store/application';
@@ -30,6 +29,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
+import { fetchGasPrice } from '@store/application/actions';
 dayjs.extend(relativeTime);
 
 library.add(fab, faHome, faTimes, faLink, faBan, faHistory, faQrcode);
@@ -42,7 +42,6 @@ function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const loggedIn = useSelector((state: State) => state.user.loggedIn);
-  const entityType = useSelector((state: State) => state.user.entityType);
   const isLoading = useSelector((state: State) => state.application.loading);
   useEffect(() => {
     if (loggedIn && router.pathname === '/login') {
@@ -58,7 +57,7 @@ function MyApp({ Component, pageProps }) {
         await initWeb3Instance(authManager.getInfo());
         await dispatch(refreshBalance());
         dispatch(setApplicationLoading(false));
-        dispatch(fetchCompanyEntityInfo());
+        dispatch(fetchGasPrice());
       }
     })();
   }, [loggedIn]);
