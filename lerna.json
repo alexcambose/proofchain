@@ -1,4 +1,4 @@
 {
-  "packages": ["frontend", "truffle", "library"],
+  "packages": ["frontend", "truffle", "library", "client", "presentation"],
   "version": "0.0.0"
 }
