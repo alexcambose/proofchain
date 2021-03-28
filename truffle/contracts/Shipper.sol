@@ -23,7 +23,7 @@ abstract contract Shipper is MaterialReferencer {
         string hashedPassword;
     }
     mapping(uint256 => TransportInfo) public transports;
-    uint256 public transportIdCounter = 0;
+    uint256 transportIdCounter = 0;
     modifier batchesOwner(uint256[] memory _batchIds) {
         for (uint8 i = 0; i < _batchIds.length; i++) {
             (, address batchIdOwner, , ) = getMaterialContract().batch(_batchIds[i]);
@@ -56,6 +56,8 @@ abstract contract Shipper is MaterialReferencer {
         _;
     }
 
+    event Ta(address a, uint256 id);
+
     // The sender calls this
     function initiateTransport(
         address _receiver,
@@ -71,6 +73,9 @@ abstract contract Shipper is MaterialReferencer {
         transports[transportIdCounter].batchIds = _batchIds;
         transports[transportIdCounter].status = TransportStatusEnum.READY_FOR_TRANSIT;
 
+        for (uint256 i = 0; i < _batchIds.length; i++) {
+            getMaterialContract().removeBatchFromAddress(_batchIds[i]);
+        }
         emit TransportInitiated(msg.sender, _receiver, _transportCompany, transportIdCounter);
         transportIdCounter++;
     }

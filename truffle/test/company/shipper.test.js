@@ -38,24 +38,33 @@ contract("Company", (accounts) => {
       transportId = transport.transportId;
     });
     describe("initiateTransport", () => {
-      it("creates a new transport", async () => {
-        const [
-          materialInstance,
-          companyInstance,
-          certificateAuthorityManagerInstance,
-        ] = await getInstance();
+      let initiateTransportEvent, batchId;
+      before(async () => {
+        const [materialInstance, companyInstance] = await getInstance();
         const code = await createRawMaterial();
         const result1 = await materialInstance.methods
           .mint(code, 5)
           .send({ from: account, gas: 400000 });
         uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
-        const batchId = await createBatch(123, uuidsMaterialTokenId1);
+        batchId = await createBatch(123, uuidsMaterialTokenId1);
         const result = await companyInstance.methods
           .initiateTransport(otherAccount, tcAccount, [batchId])
           .send({ from: account, gas: 300000 });
-        const transport = result.events.TransportInitiated.returnValues;
-        expect(Number.isInteger(parseInt(transport.transportId))).equal(true);
+        initiateTransportEvent = result.events.TransportInitiated.returnValues;
       });
+      describe("creates a new transport", () => {
+        it("creates a new transport", async () => {
+          expect(Number.isInteger(parseInt(initiateTransportEvent.transportId))).equal(true);
+        });
+        it("removes the batches from the user", async () => {
+          const [materialInstance] = await getInstance();
+          const hasBatch = await materialInstance.methods
+            .getAddressBatches(account, batchId)
+            .call();
+          expect(hasBatch).equal(false);
+        });
+      });
+
       it("can not initiate if you are not the owner of the batch ids", async () => {
         const [
           materialInstance,
@@ -68,13 +77,11 @@ contract("Company", (accounts) => {
           .send({ from: account, gas: 400000 });
         uuidsMaterialTokenId1 = result1.events.MaterialTransfer.map((e) => e.returnValues.uuid);
         const batchId = await createBatch(123, uuidsMaterialTokenId1);
-        try {
-          await companyInstance.methods
+        expectToThrow(
+          companyInstance.methods
             .initiateTransport(otherAccount, tcAccount, [batchId])
-            .send({ from: otherAccount, gas: 300000 });
-        } catch (e) {
-          expect(e).to.be.instanceOf(Error);
-        }
+            .send({ from: otherAccount, gas: 300000 })
+        );
       });
     });
 

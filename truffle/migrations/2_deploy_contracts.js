@@ -3,7 +3,7 @@ const { parse, stringify } = require("envfile");
 const fs = require("fs");
 const CFonts = require("cfonts");
 module.exports = async (deployer) => {
-  await deployer.deploy(Factory);
+  await deployer.deploy(Factory, { gas: 7000000 });
   CFonts.say("Proofchain", {
     font: "tiny",
     align: "center",

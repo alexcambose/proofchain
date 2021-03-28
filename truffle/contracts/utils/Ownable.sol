@@ -22,8 +22,7 @@ abstract contract Ownable {
      */
     constructor(address _masterAddress, address _aggregator_) {
         _aggregator = _aggregator_;
-        address msgSender = _masterAddress;
-        _owner = msgSender;
+        _owner = _masterAddress;
     }
 
     /**

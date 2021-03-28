@@ -321,6 +321,6 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         //     revert("You are not the owner of the specified certificate");
         // }
         // no need to check, since this is always reffering the sender mapping
-        addressBatches[msg.sender][_batchId] = false;
+        addressBatches[tx.origin][_batchId] = false;
     }
 }

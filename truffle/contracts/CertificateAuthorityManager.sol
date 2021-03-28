@@ -22,7 +22,7 @@ contract CertificateAuthorityManager {
     }
     // address => [code => certificate]
     mapping(uint256 => Certificate) public authorityCertificates;
-    uint256 public codeCounter = 0;
+    uint256 codeCounter = 0;
     mapping(address => CertificateAuthority) public certificateAuthorities;
     // minimum stake the certificate authorities need to deposit
     uint256 public minimumStake = 1 ether;
