@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { EntityTypeEnum, SocialLoginTypeEnum } from 'enums';
 import AuthManager from '@utils/auth/authManager';
 import { triggerLogin } from '@utils/auth/torus';
-import { getPrivateKeyFromMnemonic } from '@utils/eth';
+import { getAccountFromMnemonic } from '@utils/eth';
 import web3Instance, { initWeb3Instance } from 'web3Instance';
 import proofchain from 'proofchain';
 export const refreshUserInfo = async (authManager = AuthManager) => {
@@ -58,11 +58,12 @@ export const loginWithMnemonic = createAsyncThunk(
     mnemonic: string;
     derivationPath: string;
   }) => {
-    const privateKey = await getPrivateKeyFromMnemonic(
+    // @ts-ignore
+    const { privateKey, address } = await getAccountFromMnemonic(
       mnemonic,
       derivationPath
     );
-    return { privateKey };
+    return { privateKey, address };
   }
 );
 
@@ -81,9 +82,10 @@ export const refreshBalance = createAsyncThunk(
       // @ts-ignore
       user: { address },
     } = thunkApi.getState();
-      const balanceInWei = await web3Instance().eth.getBalance(address);
-      const balance = web3Instance().utils.fromWei(balanceInWei);
+    console.log(thunkApi.getState());
+    const balanceInWei = await web3Instance().eth.getBalance(address);
+    const balance = web3Instance().utils.fromWei(balanceInWei);
 
-      return { balance };
+    return { balance };
   }
 );

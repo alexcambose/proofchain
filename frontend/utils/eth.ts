@@ -1,8 +1,9 @@
 import * as bip39 from 'bip39';
 // @ts-ignore
 import { hdkey } from 'ethereumjs-wallet';
+import Web3 from 'web3';
 
-export const getPrivateKeyFromMnemonic = async (
+export const getAccountFromMnemonic = async (
   mnemonic,
   derivationPath = "m/44'/60'/0'/0/0"
 ) => {
@@ -12,7 +13,7 @@ export const getPrivateKeyFromMnemonic = async (
   const wallet = hdwallet.derivePath(derivationPath).getWallet();
   //@ts-ignore
   const privateKey = wallet.privKey.toString('hex');
-  return privateKey;
+  return new Web3().eth.accounts.privateKeyToAccount(privateKey);
 };
 
 export const shortenAddress = (

@@ -65,6 +65,7 @@ export const UserSlice = createSlice({
       );
       AuthManager.setInfo({ type: 'mnemonic', wallet: encrypted });
       state.loggedIn = true;
+      state.address = payload.address;
     });
     builder.addCase(refreshLogin.fulfilled, (state, { payload }) => {
       const { address, hasEntity, entityType } = payload;
