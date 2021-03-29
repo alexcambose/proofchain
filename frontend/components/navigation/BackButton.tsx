@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import React from 'react';
-import Button from './Button';
+import Button from '../Button';
 import { ArrowLeft } from 'baseui/icon';
 import { KIND } from 'baseui/button';
 const BackButton = () => {

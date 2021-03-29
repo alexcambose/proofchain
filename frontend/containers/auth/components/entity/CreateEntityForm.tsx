@@ -86,7 +86,6 @@ const CreateEntityForm = withFormik<
             name,
           }
         );
-        console.log(result);
       });
     } else {
       await transactionWrapper(
@@ -98,6 +97,7 @@ const CreateEntityForm = withFormik<
       );
     }
     await props.refreshLogin();
+    // location.reload();
   },
 })(_CreateEntityForm);
 const mapDispatchToProps = (dispatch) => {

@@ -1,4 +1,4 @@
-import BackButton from '@components/BackButton';
+import BackButton from '@components/navigation/BackButton';
 import Button from '@components/Button';
 import Layout from '@containers/Layout';
 import MaterialInfo from '@containers/material/MaterialInfo';

@@ -1,4 +1,4 @@
-import BackButton from '@components/BackButton';
+import BackButton from '@components/navigation/BackButton';
 import BatchInfo from '@containers/batch/BatchInfo';
 import Layout from '@containers/Layout';
 import Head from 'next/head';
