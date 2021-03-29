@@ -23,7 +23,7 @@ type TransportInitiatedEvent = {
 };
 type TransportStatusEvent = {
   transportId: number;
-  statis: TransportStatusEnum;
+  status: TransportStatusEnum;
 };
 class Transport extends Base {
   TransportStatusEnum = TransportStatusEnum;
@@ -94,13 +94,13 @@ class Transport extends Base {
     }>(transaction);
   }
   async getById(transportId: number): Promise<ITransport> {
-    const batch: ITransport = await this.contract.methods
+    const transport: ITransport = await this.contract.methods
       .transports(transportId)
       .call();
-    batch.batchIds = await this.contract.methods
+    transport.batchIds = await this.contract.methods
       .getTransportBatchids(transportId)
       .call();
-    return batch;
+    return transport;
   }
   async all({
     sender,
@@ -126,6 +126,16 @@ class Transport extends Base {
       transports.push(fetchedBatch);
     }
     return transports;
+  }
+
+  async getStatusEvents(transportId: number): Promise<TransportStatusEvent[]> {
+    const events = await this.getPastEvents<TransportStatusEvent>(
+      'TransportStatus',
+      {
+        transportId,
+      }
+    );
+    return events;
   }
 }
 export default Transport;

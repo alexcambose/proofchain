@@ -3,6 +3,24 @@ import Proofchain from '../../src/index';
 import CompanyEntityTypeEnum from '../../src/enums/CompanyEntityTypeEnum';
 import Web3 from 'web3';
 
+const createBatch = async (proofchain: Proofchain) => {
+  const createResult1 = await proofchain.material.create({
+    name: 'product',
+    code: '123',
+    amountIdentifier: 'kg',
+  });
+  const mintResult1 = await proofchain.material.mint({
+    materialTokenId: createResult1.events.MaterialCreate.materialTokenId,
+    amount: 5,
+  });
+  const materialsUuid1 = mintResult1.events.MaterialTransfer.map((e) => e.uuid);
+  const result1 = await proofchain.batch.create({
+    materialsUuid: [materialsUuid1[1]],
+    code: '1',
+  });
+  return result1.events.BatchCreate.batchId;
+};
+
 describe('Company - transport', () => {
   let proofchain: Proofchain;
   let proofchainReceiver: Proofchain;
@@ -191,41 +209,9 @@ describe('Company - transport', () => {
     let otherAccountBatchId: number;
     beforeAll(async () => {
       // create a batch from otherAccount
-      const createResult = await proofchainReceiver.material.create({
-        name: 'product',
-        code: '123',
-        amountIdentifier: 'kg',
-      });
-      const mintResult = await proofchainReceiver.material.mint({
-        materialTokenId: createResult.events.MaterialCreate.materialTokenId,
-        amount: 5,
-      });
-      const materialsUuid = mintResult.events.MaterialTransfer.map(
-        (e) => e.uuid
-      );
-      const result = await proofchainReceiver.batch.create({
-        materialsUuid: [materialsUuid[1]],
-        code: '1',
-      });
-      otherAccountBatchId = result.events.BatchCreate.batchId;
+      otherAccountBatchId = await createBatch(proofchainReceiver);
       //======
-      const createResult1 = await proofchain.material.create({
-        name: 'product',
-        code: '123',
-        amountIdentifier: 'kg',
-      });
-      const mintResult1 = await proofchain.material.mint({
-        materialTokenId: createResult1.events.MaterialCreate.materialTokenId,
-        amount: 5,
-      });
-      const materialsUuid1 = mintResult1.events.MaterialTransfer.map(
-        (e) => e.uuid
-      );
-      const result1 = await proofchain.batch.create({
-        materialsUuid: [materialsUuid1[1]],
-        code: '1',
-      });
-      accountBatchId = result1.events.BatchCreate.batchId;
+      accountBatchId = await createBatch(proofchain);
 
       await proofchain.transport.initiate({
         receiver: otherAccount,
@@ -265,6 +251,37 @@ describe('Company - transport', () => {
       expect(transports.map((e) => e.transportCompany)).toEqual(
         Array(transports.length).fill(tcAccount)
       );
+    });
+    it('returns the batch ids that are in the transport', async () => {
+      const transports = await proofchain.transport.all();
+      for (let transport of transports) {
+        expect(transport.batchIds.length > 0).toBeTruthy();
+      }
+    });
+  });
+  describe('getStatusEvents', () => {
+    it('returns all the TransportStatus events emitted', async () => {
+      const batchId = await createBatch(proofchain);
+      const {
+        events: {
+          TransportInitiated: { transportId },
+        },
+      } = await proofchain.transport.initiate({
+        receiver: otherAccount,
+        transportCompany: tcAccount,
+        batchIds: [batchId],
+      });
+      await proofchainTc.transport.setTransportStatus({
+        transportId,
+        status: 1,
+      });
+      await proofchainTc.transport.setTransportStatus({
+        transportId,
+        status: 2,
+      });
+      const events = await proofchain.transport.getStatusEvents(transportId);
+      expect(events[0].status).toEqual(1);
+      expect(events[1].status).toEqual(2);
     });
   });
 });
