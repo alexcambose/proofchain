@@ -1,4 +1,5 @@
 import Base from './Base';
+import IEmittedEvent from './interface/IEmittedEvent';
 import MinedTransaction from './MinedTransaction';
 enum TransportStatusEnum {
   READY_FOR_TRANSIT,
@@ -20,10 +21,12 @@ type TransportInitiatedEvent = {
   receiver: string;
   transportCompany: string;
   transportId: number;
+  event: IEmittedEvent;
 };
 type TransportStatusEvent = {
   transportId: number;
   status: TransportStatusEnum;
+  event: IEmittedEvent;
 };
 class Transport extends Base {
   TransportStatusEnum = TransportStatusEnum;
@@ -94,6 +97,8 @@ class Transport extends Base {
     }>(transaction);
   }
   async getById(transportId: number): Promise<ITransport> {
+    await this.ensureContract();
+
     const transport: ITransport = await this.contract.methods
       .transports(transportId)
       .call();
@@ -129,6 +134,8 @@ class Transport extends Base {
   }
 
   async getStatusEvents(transportId: number): Promise<TransportStatusEvent[]> {
+    await this.ensureContract();
+
     const events = await this.getPastEvents<TransportStatusEvent>(
       'TransportStatus',
       {

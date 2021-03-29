@@ -280,8 +280,8 @@ describe('Company - transport', () => {
         status: 2,
       });
       const events = await proofchain.transport.getStatusEvents(transportId);
-      expect(events[0].status).toEqual(1);
-      expect(events[1].status).toEqual(2);
+      expect(events[0].status).toEqual(2);
+      expect(events[1].status).toEqual(1);
     });
   });
 });
