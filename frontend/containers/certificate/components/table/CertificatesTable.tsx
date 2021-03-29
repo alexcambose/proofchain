@@ -18,6 +18,8 @@ const CertificatesTable: React.FC<ICertificatesTableProps> = ({
 }) => {
   return (
     <Table
+      withSearch
+      withPagination
       isLoading={isLoading}
       columns={['Code', 'Name', 'Description', 'Create Transaction', 'Action']}
       data={certificates.map((e) => [

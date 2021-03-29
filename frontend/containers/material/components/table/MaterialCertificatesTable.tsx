@@ -24,7 +24,6 @@ interface IMaterialCertificatesTableProps {
 const MaterialCertificatesTable: React.FC<IMaterialCertificatesTableProps> = ({
   certficates,
 }) => {
-  console.log(certficates);
   return (
     <Table
       columns={['Name', 'Certificate Authority', 'Stake', 'Time', 'Action']}

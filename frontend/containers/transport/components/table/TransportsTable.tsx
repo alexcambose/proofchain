@@ -19,6 +19,8 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
 }) => {
   const companyTable = (
     <Table
+      withSearch
+      withPagination
       isLoading={isLoading}
       columns={[
         'Id',
@@ -51,6 +53,8 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
   );
   const transportCompanyTable = (
     <Table
+      withSearch
+      withPagination
       isLoading={isLoading}
       columns={[
         'Id',

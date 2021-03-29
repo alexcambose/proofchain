@@ -9,12 +9,16 @@ import {
   TableProps,
 } from 'baseui/table-semantic';
 import { Display4 } from 'baseui/typography';
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import ItemsPerPageIndicator from './ItemsPerPageIndicator';
 import TableLoadingSkeleton from './TableLoadingSkeleton';
-
+import { Pagination } from 'baseui/pagination';
+import Fuse from 'fuse.js';
+import { styled } from 'baseui';
 interface ITableProps extends TableProps {
   withSearch?: boolean;
   title?: string;
+  withPagination?: boolean;
 }
 const cellOverride = {
   Cell: {
@@ -24,30 +28,62 @@ const cellOverride = {
     }),
   },
 };
+const gridOverride = {
+  Grid: {
+    style: ({ $theme }) => ({
+      paddingLeft: '0 !important',
+      paddingRight: '0 !important',
+    }),
+  },
+};
+const PaginationContainer = styled('div', {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+});
 const Table: React.FC<ITableProps> = ({
   data,
   columns,
-  withSearch = false,
+  withSearch,
+  withPagination = false,
   title,
   ...props
 }) => {
   const [searchValue, setSearchValue] = useState('');
+  const [perPage, setPerPage] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
+  const filteredData = useMemo(() => {
+    return data.filter((arrayOfData) => {
+      if (withSearch && searchValue) {
+        const fuse = new Fuse(
+          arrayOfData.filter((e) => typeof e === 'string'),
+          { includeScore: true, threshold: 0.5 }
+        );
+        return fuse.search(searchValue).length;
+      }
+      return 1;
+    });
+  }, [searchValue, data, perPage, currentPage]);
+  const computedData = useMemo(() => {
+    return filteredData.slice(
+      (currentPage - 1) * perPage,
+      currentPage * perPage
+    );
+  }, [searchValue, filteredData, perPage, currentPage]);
+  useEffect(() => {
+    if (currentPage !== 1) setCurrentPage(1);
+  }, [perPage, searchValue]);
   return (
     <>
       {title && <Display4>{title}</Display4>}
       {withSearch && (
-        <Grid
-          behavior={BEHAVIOR.fluid}
-          overrides={{
-            Grid: {
-              style: ({ $theme }) => ({
-                paddingLeft: '0 !important',
-                paddingRight: '0 !important',
-              }),
-            },
-          }}
-        >
-          <Cell span={[4, 4, 4]} skip={[0, 4, 8]} overrides={cellOverride}>
+        <Grid behavior={BEHAVIOR.fluid} overrides={gridOverride}>
+          <Cell span={[2, 2, 2]} overrides={cellOverride}>
+            {withPagination && (
+              <ItemsPerPageIndicator perPage={perPage} onChange={setPerPage} />
+            )}
+          </Cell>
+          <Cell span={[4, 4, 4]} skip={[0, 2, 6]} overrides={cellOverride}>
             <Input
               value={searchValue}
               overrides={{
@@ -89,7 +125,7 @@ const Table: React.FC<ITableProps> = ({
             }),
           },
         }}
-        data={data}
+        data={computedData}
         {...props}
       >
         {columns.map((e, i) => (
@@ -98,6 +134,29 @@ const Table: React.FC<ITableProps> = ({
           </TableBuilderColumn>
         ))}
       </TableBuilder>
+      {withPagination && (
+        <PaginationContainer>
+          <span>
+            Showing {perPage * (currentPage - 1)} to{' '}
+            {Math.min(perPage * currentPage, filteredData.length)} out of{' '}
+            {filteredData.length} entries
+          </span>
+          <Pagination
+            overrides={{
+              Root: {
+                style: ({ $theme }) => ({
+                  marginTop: $theme.sizing.scale300,
+                }),
+              },
+            }}
+            numPages={Math.ceil(filteredData.length / perPage)}
+            currentPage={currentPage}
+            onPageChange={({ nextPage }) => {
+              setCurrentPage(nextPage);
+            }}
+          />
+        </PaginationContainer>
+      )}
     </>
   );
 };

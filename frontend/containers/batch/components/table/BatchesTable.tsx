@@ -14,6 +14,8 @@ interface IBatchesTableProps {
 const BatchesTable: React.FC<IBatchesTableProps> = ({ isLoading, batches }) => {
   return (
     <Table
+      withSearch
+      withPagination
       isLoading={isLoading}
       columns={[
         'ID',

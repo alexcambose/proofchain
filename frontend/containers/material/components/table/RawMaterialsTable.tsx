@@ -1,9 +1,6 @@
 import Table from '@components/table/Table';
-import TableLoadingSkeleton from '@components/table/TableLoadingSkeleton';
 import TransactionLink from '@components/TransactionLink';
-import { shortenAddress } from '@utils/eth';
 import { StyledLink } from 'baseui/link';
-import config from 'config';
 import { IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
@@ -18,6 +15,8 @@ const RawMaterialsTable: React.FC<IMaterialsTableProps> = ({
 }) => {
   return (
     <Table
+      withPagination
+      withSearch
       isLoading={isLoading}
       columns={['ID', 'Name', 'Code', 'Create Transaction', 'Action']}
       data={materials.map((e) => [
