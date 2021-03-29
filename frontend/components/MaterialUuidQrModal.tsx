@@ -7,6 +7,7 @@ import QrCode from './QrCode';
 
 interface IMaterialUuidQrModalProps {
   materialUuid: number;
+  trigger?: (onClick: () => void) => React.ReactNode;
 }
 const QrButton = styled('span', ({ $theme }) => ({
   cursor: 'pointer',
@@ -14,6 +15,7 @@ const QrButton = styled('span', ({ $theme }) => ({
 }));
 const MaterialUuidQrModal: React.FC<IMaterialUuidQrModalProps> = ({
   materialUuid,
+  trigger,
 }) => {
   const [isOpened, setIsOpened] = useState(false);
   const handleClick = () => {
@@ -22,9 +24,13 @@ const MaterialUuidQrModal: React.FC<IMaterialUuidQrModalProps> = ({
 
   return (
     <>
-      <QrButton>
-        <FontAwesomeIcon onClick={handleClick} icon="qrcode" />
-      </QrButton>
+      {trigger ? (
+        trigger(handleClick)
+      ) : (
+        <QrButton>
+          <FontAwesomeIcon onClick={handleClick} icon="qrcode" />
+        </QrButton>
+      )}
       <Modal
         overrides={{
           Dialog: {},

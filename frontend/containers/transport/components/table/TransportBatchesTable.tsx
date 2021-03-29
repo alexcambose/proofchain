@@ -1,4 +1,5 @@
 import MaterialLink from '@components/MaterialLink';
+import MaterialsUuidTags from '@components/MaterialsUUidTags';
 import Table from '@components/table/Table';
 import { Tag } from 'baseui/tag';
 import { IBatch } from 'interface';
@@ -16,7 +17,7 @@ const TransportBatchesTable: React.FC<ITransportBatchesTableProps> = ({
         e.batchId,
         e.code,
         <MaterialLink>{e.materialTokenId}</MaterialLink>,
-        e.materialsUuid.map((e) => <Tag closeable={false}>{e}</Tag>),
+        <MaterialsUuidTags uuids={e.materialsUuid} />,
       ])}
     />
   );

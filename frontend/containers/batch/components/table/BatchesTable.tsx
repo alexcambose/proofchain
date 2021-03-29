@@ -1,13 +1,12 @@
-import Button from '@components/Button';
+import MaterialLink from '@components/MaterialLink';
+import MaterialsUuidTags from '@components/MaterialsUUidTags';
 import Table from '@components/table/Table';
 import ViewButton from '@components/table/ViewMaterialButton';
-import { Tag } from 'baseui/tag';
 import TransactionLink from '@components/TransactionLink';
 import { StyledLink } from 'baseui/link';
-import { IBatch, IMaterial } from 'interface';
+import { IBatch } from 'interface';
 import Link from 'next/link';
 import React from 'react';
-import MaterialLink from '@components/MaterialLink';
 interface IBatchesTableProps {
   batches: IBatch[];
   isLoading?: boolean;
@@ -28,7 +27,8 @@ const BatchesTable: React.FC<IBatchesTableProps> = ({ isLoading, batches }) => {
         e.batchId,
         e.code,
         <MaterialLink>{e.materialTokenId}</MaterialLink>,
-        e.materialsUuid.map((e) => <Tag closeable={false}>{e}</Tag>),
+        <MaterialsUuidTags uuids={e.materialsUuid} />,
+
         <TransactionLink>
           {e.events.BatchCreate.transactionHash}
         </TransactionLink>,

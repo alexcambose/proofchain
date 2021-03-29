@@ -8,6 +8,7 @@ const initialState: IUser = {
   entityType: null,
   balance: '0',
   loadingBalance: false,
+  companyEntityType: null,
 };
 
 export default initialState;
