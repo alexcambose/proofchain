@@ -2,7 +2,7 @@ import AddressEntityInfo from '@components/AddressEntityInfo';
 import Table from '@components/table/Table';
 import ViewButton from '@components/table/ViewMaterialButton';
 import TransactionLink from '@components/TransactionLink';
-import TransportStatusBadge from '@components/TransportStatusBadge';
+import TransportStatusTag from '@components/TransportStatusTag';
 import { StyledLink } from 'baseui/link';
 import { ITransport } from 'interface';
 import Link from 'next/link';
@@ -36,7 +36,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         <AddressEntityInfo>{e.receiver}</AddressEntityInfo>,
         <AddressEntityInfo>{e.transportCompany}</AddressEntityInfo>,
         e.batchIds,
-        <TransportStatusBadge transportStatus={e.status} />,
+        <TransportStatusTag transportStatus={e.status} />,
         <TransactionLink>
           {e.events.TransportInitiated.transactionHash}
         </TransactionLink>,
@@ -72,7 +72,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         <AddressEntityInfo>{e.receiver}</AddressEntityInfo>,
         <AddressEntityInfo>{e.transportCompany}</AddressEntityInfo>,
         e.batchIds,
-        <TransportStatusBadge transportStatus={e.status} />,
+        <TransportStatusTag transportStatus={e.status} />,
         <TransactionLink>
           {e.events.TransportInitiated.transactionHash}
         </TransactionLink>,

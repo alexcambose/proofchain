@@ -25,14 +25,26 @@ import {
   faLink,
   faBan,
   faQrcode,
+  faBuilding,
   faHistory,
+  faScroll,
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
 import { fetchGasPrice } from '@store/application/actions';
 dayjs.extend(relativeTime);
 
-library.add(fab, faHome, faTimes, faLink, faBan, faHistory, faQrcode);
+library.add(
+  fab,
+  faHome,
+  faTimes,
+  faLink,
+  faBan,
+  faHistory,
+  faQrcode,
+  faBuilding,
+  faScroll
+);
 
 if (isClient()) {
   init();

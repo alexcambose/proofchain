@@ -2,10 +2,10 @@ import { TransportStatusEnum } from '@enums';
 import { KIND, Tag } from 'baseui/tag';
 import React, { useMemo } from 'react';
 
-interface ITransportStatusBadgeProps {
+interface ITransportStatusTagProps {
   transportStatus: TransportStatusEnum;
 }
-const TransportStatusBadge: React.FC<ITransportStatusBadgeProps> = ({
+const TransportStatusTag: React.FC<ITransportStatusTagProps> = ({
   transportStatus,
 }) => {
   // @ts-ignore
@@ -45,4 +45,4 @@ const TransportStatusBadge: React.FC<ITransportStatusBadgeProps> = ({
   );
 };
 
-export default TransportStatusBadge;
+export default TransportStatusTag;

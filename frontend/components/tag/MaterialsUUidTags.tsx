@@ -1,6 +1,6 @@
 import { Tag } from 'baseui/tag';
 import React from 'react';
-import MaterialUuidQrModal from './MaterialUuidQrModal';
+import MaterialUuidQrModal from '../MaterialUuidQrModal';
 
 interface IMaterialsUuidTagsProps {
   uuids: number[];

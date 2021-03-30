@@ -1,8 +1,8 @@
-import { Tag } from 'baseui/tag';
+import { Tag, TagProps } from 'baseui/tag';
 import CompanyEntityTypeEnum from 'proofchain-library/src/enums/CompanyEntityTypeEnum';
 import React from 'react';
 
-interface ICompanyEntityTypeBadgeProps {
+interface ICompanyEntityTypeTagProps extends TagProps {
   entityType: CompanyEntityTypeEnum;
 }
 const badgeConfig = {
@@ -19,10 +19,15 @@ const badgeConfig = {
     children: 'Warehouse',
   },
 };
-const CompanyEntityTypeBadge: React.FC<ICompanyEntityTypeBadgeProps> = ({
+const CompanyEntityTypeTag: React.FC<ICompanyEntityTypeTagProps> = ({
   entityType,
+  ...props
 }) => {
-  return <Tag closeable={false}>{badgeConfig[entityType].children}</Tag>;
+  return (
+    <Tag closeable={false} {...props}>
+      {badgeConfig[entityType].children}
+    </Tag>
+  );
 };
 
-export default CompanyEntityTypeBadge;
+export default CompanyEntityTypeTag;

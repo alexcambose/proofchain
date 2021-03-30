@@ -6,7 +6,7 @@ import { StatefulPopover, TRIGGER_TYPE } from 'baseui/popover';
 import { ICompany } from 'interface';
 import proofchain from 'proofchain';
 import React, { useEffect, useState } from 'react';
-import CompanyEntityTypeBadge from './CompanyEntityTypeBadge';
+import CompanyEntityTypeTag from './tag/CompanyEntityTypeTag';
 import LoadingSkeleton from './loading/LoadingSkeleton';
 
 interface IAddressEntityInfoProps {
@@ -26,7 +26,7 @@ const AddressEntityInfoContent: React.FC<IAddressEntityInfoProps> = ({
   return (
     <Card title={company.name}>
       <StyledBody>
-        <CompanyEntityTypeBadge entityType={company.entityType} />
+        <CompanyEntityTypeTag entityType={company.entityType} />
       </StyledBody>
     </Card>
   );

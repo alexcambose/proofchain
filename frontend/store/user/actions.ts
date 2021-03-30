@@ -19,6 +19,7 @@ export const refreshUserInfo = async (authManager = AuthManager) => {
   } else if (hasCertificateAuthority) {
     name = certificateAuthority.name;
   }
+  console.log(address);
   return {
     address,
     name,
