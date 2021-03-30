@@ -19,8 +19,6 @@ export const refreshUserInfo = async (authManager = AuthManager) => {
   } else if (hasCertificateAuthority) {
     name = certificateAuthority.name;
   }
-  // todo add certificateAutoirity
-  console.log('refresh login', address, hasCompany, hasCertificateAuthority);
   return {
     address,
     name,

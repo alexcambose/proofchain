@@ -1,5 +1,6 @@
 import CreateEntityForm from '@containers/auth/components/entity/CreateEntityForm';
 import InitialSetupSteps from '@containers/auth/components/entity/InitialSetupSteps';
+import Index from '@containers/index/Index';
 import Layout from '@containers/Layout';
 import { logout, setInitialData, setLoggedIn } from '@store/user';
 import { refreshLogin, refreshUserInfo } from '@store/user/actions';
@@ -14,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import web3Instance from 'web3Instance';
 import { State, wrapper } from '../store';
 
-const Index = () => {
+const IndexPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const hasEntity = useSelector((state: State) => state.user.hasEntity);
@@ -40,7 +41,9 @@ const Index = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <Layout>aa</Layout>
+      <Layout>
+        <Index />
+      </Layout>
     </>
   );
 };
@@ -82,4 +85,4 @@ export const authCheck = (expectLoggedIn) =>
   });
 export const getServerSideProps = authCheck(true);
 
-export default Index;
+export default IndexPage;
