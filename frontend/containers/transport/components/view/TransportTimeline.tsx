@@ -16,7 +16,7 @@ interface ITransportTimelineProps {
 const timelineConfig = {
   initiated: (e, handleClick) => ({
     color: '',
-    onViewDetailsClick: () => handleClick(e),
+    onViewDetailsClick: () => handleClick({ event: e, timestamp: e.timestamp }),
     icon: <FontAwesomeIcon icon="plus" />,
     title: 'Transport initiated',
     timestamp: e.timestamp,
@@ -24,83 +24,95 @@ const timelineConfig = {
   }),
   event: (e, handleClick) => {
     const status = e.event.status;
-    console.log(status);
-    return {
+    const selectedObject = {
       [TransportStatusEnum.READY_FOR_TRANSIT]: {
         color: '',
         icon: <FontAwesomeIcon icon="check" />,
-        onViewDetailsClick: () => handleClick(e),
         title: 'Ready for transit',
         timestamp: e.timestamp,
         description: 'Transport is ready to be sent to the receiver',
       },
       [TransportStatusEnum.PENDING_TRANSIT]: {
         color: '',
-        icon: <FontAwesomeIcon icon="check" />,
+        icon: <FontAwesomeIcon icon="truck-loading" />,
         title: 'Pending transit',
-        onViewDetailsClick: () => handleClick(e),
         timestamp: e.timestamp,
         description: 'Transport is waiting to be loaded',
       },
       [TransportStatusEnum.IN_TRANSIT]: {
         color: '',
-        icon: <FontAwesomeIcon icon="check" />,
+        icon: <FontAwesomeIcon icon="truck-moving" />,
         title: 'In transit',
         timestamp: e.timestamp,
-        onViewDetailsClick: () => handleClick(e),
         description: 'Transport is in transit',
+      },
+      [TransportStatusEnum.PENDING_FINALISED]: {
+        color: '',
+        icon: <FontAwesomeIcon icon="parachute-box" />,
+        title: 'Pending finalisation',
+        timestamp: e.timestamp,
+        description: 'Transport is waiting receiver confirmation',
       },
       [TransportStatusEnum.FINALISED]: {
         color: '',
-        icon: <FontAwesomeIcon icon="check" />,
+        icon: <FontAwesomeIcon icon="check-double" />,
         title: 'Finalised',
         timestamp: e.timestamp,
         description: 'Transport arrived at the destination',
-        onViewDetailsClick: () => handleClick(e),
       },
     }[status];
+    return {
+      ...selectedObject,
+      onViewDetailsClick: () =>
+        handleClick({
+          event: e.event.event,
+          timestamp: e.timestamp,
+        }),
+    };
   },
 };
 const TransportTimeline: React.FunctionComponent<ITransportTimelineProps> = ({
   createEvent,
   transportEvents = [],
 }) => {
-  console.log(createEvent, transportEvents);
   const [isModalOpened, setIsModalOpened] = useState(false);
-  const [modalEvent, setModalEvent] = useState<any>({});
+  const [modalEvent, setModalEvent] = useState<{
+    event: any;
+    timestamp: number;
+  }>({ event: {}, timestamp: 0 });
   const handleClick = (e) => {
     setModalEvent(e);
-    console.log(e);
     setIsModalOpened(true);
   };
   return (
     <>
       <Modal
-        overrides={{
-          Dialog: {},
-        }}
         header="Event details"
         opened={isModalOpened}
         onClose={() => setIsModalOpened(false)}
       >
         <VerticalTable
-          withTransactionDetails={modalEvent.transactionHash}
+          withTransactionDetails={modalEvent.event.transactionHash}
           items={{
-            'Event type': <code>{modalEvent.event}</code>,
+            'Event type': <code>{modalEvent.event.event}</code>,
             Created: <TimeIndicator>{modalEvent.timestamp}</TimeIndicator>,
             Transaction: (
-              <TransactionLink>{modalEvent.transactionHash}</TransactionLink>
+              <TransactionLink>
+                {modalEvent.event.transactionHash}
+              </TransactionLink>
             ),
           }}
         />
       </Modal>
       <Timeline
-        timeline={[createEvent, ...transportEvents].map((e) => {
-          if (e.event === 'TransportInitiated') {
-            return timelineConfig.initiated(e, handleClick);
-          }
-          return timelineConfig.event(e, handleClick);
-        })}
+        timeline={[createEvent, ...[...transportEvents].reverse()]
+          .reverse()
+          .map((e) => {
+            if (e.event === 'TransportInitiated') {
+              return timelineConfig.initiated(e, handleClick);
+            }
+            return timelineConfig.event(e, handleClick);
+          })}
       />
     </>
   );

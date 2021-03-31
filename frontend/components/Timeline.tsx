@@ -31,23 +31,24 @@ const TimelineLine = styled('div', ({ $theme, $isHidden }) => ({
   height: $theme.sizing.scale1200,
   width: '2px',
   background: $theme.colors.contentTertiary,
+  opacity: 0.8,
+
   display: $isHidden ? 'none' : 'block',
   marginBottom: $theme.sizing.scale100,
   marginTop: $theme.sizing.scale100,
 }));
 const TimelineDot = styled('div', ({ $theme }) => ({
-  borderRadius: '50%',
-  borderWidth: '1px',
-  borderStyle: 'solid',
-  borderColor: $theme.colors.contentTertiary,
+  ...$theme.borders.border500,
+  opacity: 0.7,
   width: $theme.sizing.scale800,
   height: $theme.sizing.scale800,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  padding: $theme.sizing.scale200,
 }));
 const TimelineContent = styled('div', ({ $theme }) => ({
-  marginLeft: $theme.sizing.scale300,
+  marginLeft: $theme.sizing.scale400,
   flex: 10,
 }));
 const TimelineTitle = styled('div', ({ $theme }) => ({

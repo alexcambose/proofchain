@@ -32,6 +32,11 @@ const TransportStatusTag: React.FC<ITransportStatusTagProps> = ({
           children: 'In transit',
           kind: KIND.purple,
         };
+      case TransportStatusEnum.PENDING_FINALISED:
+        return {
+          children: 'Pending finalised',
+          kind: KIND.accent,
+        };
       case TransportStatusEnum.FINALISED:
         return {
           children: 'Finalised',

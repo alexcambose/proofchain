@@ -77,11 +77,6 @@ const VerticalTable: React.FC<IVerticalTable> = ({
                     </StyledTableBodyCell>
                   </StyledTableBodyRow>
                 ))}
-              {/* <StyledTableBodyRow> */}
-              {/* <StyledTableBodyCell colSpan="2"> */}
-
-              {/* </StyledTableBodyCell> */}
-              {/* </StyledTableBodyRow> */}
             </>
           )}
         </StyledTable>

@@ -68,11 +68,12 @@ export const UserSlice = createSlice({
       state.address = payload.address;
     });
     builder.addCase(refreshLogin.fulfilled, (state, { payload }) => {
-      const { address, hasEntity, entityType } = payload;
+      const { address, hasEntity, entityType, companyEntityType } = payload;
       state.loggedIn = true;
       state.address = address;
       state.hasEntity = hasEntity;
       state.entityType = entityType;
+      state.companyEntityType = companyEntityType;
     });
     builder.addCase(refreshBalance.fulfilled, (state, { payload }) => {
       state.balance = payload.balance;

@@ -22,5 +22,6 @@ export enum TransportStatusEnum {
   READY_FOR_TRANSIT,
   PENDING_TRANSIT,
   IN_TRANSIT,
+  PENDING_FINALISED,
   FINALISED,
 }

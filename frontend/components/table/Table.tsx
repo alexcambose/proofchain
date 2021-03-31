@@ -14,6 +14,7 @@ import ItemsPerPageIndicator from './ItemsPerPageIndicator';
 import TableLoadingSkeleton from './TableLoadingSkeleton';
 import { Pagination } from 'baseui/pagination';
 import Fuse from 'fuse.js';
+import pluralize from 'pluralize';
 import { styled } from 'baseui';
 interface ITableProps extends TableProps {
   withSearch?: boolean;
@@ -137,9 +138,9 @@ const Table: React.FC<ITableProps> = ({
       {withPagination && (
         <PaginationContainer>
           <span>
-            Showing {perPage * (currentPage - 1)} to{' '}
+            Showing {perPage * (currentPage - 1) + 1} to{' '}
             {Math.min(perPage * currentPage, filteredData.length)} out of{' '}
-            {filteredData.length} entries
+            {pluralize('entry', filteredData.length, true)}
           </span>
           <Pagination
             overrides={{
