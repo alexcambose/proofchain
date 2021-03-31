@@ -12,6 +12,11 @@ const TransportStatusTag: React.FC<ITransportStatusTagProps> = ({
   transportStatus = parseInt(transportStatus);
   const config = useMemo<{ kind: any; children: any }>(() => {
     switch (transportStatus) {
+      case TransportStatusEnum.NONE:
+        return {
+          children: 'No status',
+          kind: KIND.neutral,
+        };
       case TransportStatusEnum.READY_FOR_TRANSIT:
         return {
           children: 'Ready for transit',

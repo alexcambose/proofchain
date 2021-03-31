@@ -13,11 +13,14 @@ import TransportBatchesTable from './components/table/TransportBatchesTable';
 import TransportTimeline from './components/view/TransportTimeline';
 import { Card, StyledAction } from 'baseui/card';
 import { Button, SIZE } from 'baseui/button';
+import CreateTransportEventForm from './components/form/CreateTransportEventForm';
+import TransportStatusTag from '@components/tag/TransportStatusTag';
 
 interface ITransportInfoProps {
   transportId: number;
 }
 const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
+  const address = useSelector((state: State) => state.user.address);
   const { transport, batchInfo, createdTimestamp, events } = useSelector(
     (state: State) => state.transport.transportInfo
   );
@@ -40,16 +43,27 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
           },
         }}
       >
-        <TransportTimeline
-          createEvent={{
-            ...transport.events.TransportInitiated,
-            timestamp: createdTimestamp,
-          }}
-          transportEvents={events}
+        <Grid2
+          left={
+            <TransportTimeline
+              createEvent={{
+                ...transport.events.TransportInitiated,
+                timestamp: createdTimestamp,
+              }}
+              transportEvents={events}
+            />
+          }
+          right={
+            address === transport.transportCompany && (
+              <StyledAction>
+                <CreateTransportEventForm
+                  transportStatus={transport.status}
+                  transportId={transport.transportId}
+                />
+              </StyledAction>
+            )
+          }
         />
-        <StyledAction>
-          <Button size={SIZE.compact}>Create event</Button>
-        </StyledAction>
       </Card>
       <Grid2
         left={
@@ -57,6 +71,11 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
             <VerticalTable
               items={{
                 Id: transport.transportId,
+                'Current status': (
+                  <TransportStatusTag
+                    transportStatus={transport.status}
+                  ></TransportStatusTag>
+                ),
                 Created: <TimeIndicator>{createdTimestamp}</TimeIndicator>,
                 'Create Transaction': (
                   <TransactionLink>

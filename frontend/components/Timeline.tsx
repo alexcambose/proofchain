@@ -1,6 +1,9 @@
 import { styled } from 'baseui';
+import { Button, KIND } from 'baseui/button';
+import { StyledLink } from 'baseui/link';
 import * as React from 'react';
 import uuid from 'react-uuid';
+import TimeIndicator from './TimeIndicator';
 
 interface ITimelineProps {
   timeline: {
@@ -8,21 +11,24 @@ interface ITimelineProps {
     icon: React.ReactNode;
     title: string;
     description: string;
+    timestamp?: number;
+    onViewDetailsClick?: () => void;
   }[];
 }
 
 const TimelineContainer = styled('div', ({ $theme }) => ({}));
 const TimelineElement = styled('div', ({ $theme }) => ({
   display: 'flex',
-  // padding: $theme.sizing.scale600,
 }));
 const TimelineGraphics = styled('div', ({ $theme, $isReversed }) => ({
   display: 'flex',
   flexDirection: $isReversed ? 'columm' : 'column-reverse',
   alignItems: $isReversed ? 'flex-start' : 'center',
+  justifyContent: 'center',
+  flex: 1,
 }));
 const TimelineLine = styled('div', ({ $theme, $isHidden }) => ({
-  height: $theme.sizing.scale900,
+  height: $theme.sizing.scale1200,
   width: '2px',
   background: $theme.colors.contentTertiary,
   display: $isHidden ? 'none' : 'block',
@@ -42,14 +48,26 @@ const TimelineDot = styled('div', ({ $theme }) => ({
 }));
 const TimelineContent = styled('div', ({ $theme }) => ({
   marginLeft: $theme.sizing.scale300,
+  flex: 10,
 }));
 const TimelineTitle = styled('div', ({ $theme }) => ({
   ...$theme.typography.LabelMedium,
 }));
+const TimelineSubtitle = styled('div', ({ $theme }) => ({
+  ...$theme.typography.LabelSmall,
+  color: $theme.colors.contentTertiary,
+  fontStyle: 'italic',
+  marginBottom: $theme.sizing.scale100,
+}));
+
 const TimelineDescription = styled('div', ({ $theme }) => ({
   ...$theme.typography.ParagraphSmall,
 }));
-
+const TimelineViewDetailsContainer = styled('div', ({ $theme }) => ({
+  display: 'flex',
+  ...$theme.typography.ParagraphSmall,
+  flex: 1,
+}));
 const Timeline: React.FunctionComponent<ITimelineProps> = ({ timeline }) => {
   return (
     <TimelineContainer>
@@ -61,8 +79,16 @@ const Timeline: React.FunctionComponent<ITimelineProps> = ({ timeline }) => {
           </TimelineGraphics>
           <TimelineContent>
             <TimelineTitle>{item.title}</TimelineTitle>
+            <TimelineSubtitle>
+              <TimeIndicator>{item.timestamp}</TimeIndicator>
+            </TimelineSubtitle>
             <TimelineDescription>{item.description}</TimelineDescription>
           </TimelineContent>
+          <TimelineViewDetailsContainer>
+            <StyledLink href="#" onClick={item.onViewDetailsClick}>
+              Details
+            </StyledLink>
+          </TimelineViewDetailsContainer>
         </TimelineElement>
       ))}
     </TimelineContainer>

@@ -18,6 +18,7 @@ export enum EntityTypeEnum {
   CERTIFICATE_AUTHORITY = '1',
 }
 export enum TransportStatusEnum {
+  NONE,
   READY_FOR_TRANSIT,
   PENDING_TRANSIT,
   IN_TRANSIT,
