@@ -9,6 +9,7 @@ const MaterialsUuidTags: React.FC<IMaterialsUuidTagsProps> = ({ uuids }) => {
   const tags = uuids.map((e) => (
     <MaterialUuidQrModal
       materialUuid={e}
+      key={e}
       trigger={(onClick) => (
         <Tag onClick={onClick} closeable={false}>
           {e}

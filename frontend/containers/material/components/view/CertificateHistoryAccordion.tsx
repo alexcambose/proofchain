@@ -84,6 +84,7 @@ const CertificateHistoryAccordion: React.FC<ICertificateHistoryAccordionProps> =
             }
           >
             <VerticalTable
+              withTransactionDetails={e.event.event.transactionHash}
               items={{
                 'Certificare Instance Id': e.event.certificateInstanceId,
                 'Material Id': (

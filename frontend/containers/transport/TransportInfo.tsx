@@ -69,6 +69,9 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
         left={
           <>
             <VerticalTable
+              withTransactionDetails={
+                transport.events.TransportInitiated.transactionHash
+              }
               items={{
                 Id: transport.transportId,
                 'Current status': (

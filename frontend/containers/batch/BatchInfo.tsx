@@ -31,6 +31,7 @@ const BatchInfo: React.FC<IBatchInfoProps> = ({ batchId }) => {
           <>
             <Display4>{batch.code}</Display4>
             <VerticalTable
+              withTransactionDetails={batch.events.BatchCreate.transactionHash}
               items={{
                 Id: batch.batchId,
                 Code: batch.code,

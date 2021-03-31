@@ -85,7 +85,13 @@ const Timeline: React.FunctionComponent<ITimelineProps> = ({ timeline }) => {
             <TimelineDescription>{item.description}</TimelineDescription>
           </TimelineContent>
           <TimelineViewDetailsContainer>
-            <StyledLink href="#" onClick={item.onViewDetailsClick}>
+            <StyledLink
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                item.onViewDetailsClick && item.onViewDetailsClick();
+              }}
+            >
               Details
             </StyledLink>
           </TimelineViewDetailsContainer>

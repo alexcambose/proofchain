@@ -25,7 +25,7 @@ const CompanyEntityTypeTag: React.FC<ICompanyEntityTypeTagProps> = ({
 }) => {
   return (
     <Tag closeable={false} {...props}>
-      {badgeConfig[entityType].children}
+      {badgeConfig[entityType]?.children}
     </Tag>
   );
 };

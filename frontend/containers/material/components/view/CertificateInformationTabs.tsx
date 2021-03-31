@@ -87,6 +87,7 @@ const CertificateAuthorityDetails: React.FC<IcertificateAuthorityDetailsProps> =
   if (!eventBlock) return <LoadingSkeleton />;
   return (
     <VerticalTable
+      withTransactionDetails={createEvent.event.transactionHash}
       items={{
         Name: certificateAuthority.name,
         Address: certificateAuthority.owner,

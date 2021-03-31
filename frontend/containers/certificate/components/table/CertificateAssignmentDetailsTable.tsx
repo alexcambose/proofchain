@@ -30,6 +30,7 @@ const CertificateAssignmentDetailsTable: React.FC<ICertificateAssignmentDetailsT
   if (!eventBlock) return <LoadingSkeleton />;
   return (
     <VerticalTable
+      withTransactionDetails={assignEvent.event.transactionHash}
       items={{
         'Material Id': (
           <StyledLink
