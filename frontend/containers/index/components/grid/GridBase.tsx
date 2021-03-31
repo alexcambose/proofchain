@@ -27,11 +27,12 @@ const GridBase: React.FC<IGridBaseProps> = ({ title, children }) => {
         Root: {
           style: ({ $theme }) => ({
             height: '100%',
-            transition: $theme.animation.timing300,
+            transition: $theme.animation.timing200,
 
             [':active']: {
               boxShadow: $theme.lighting.shadow700,
-              transform: 'scale(1.01)',
+              opacity: '0.95',
+              // transform: 'scale(1.01)',
             },
           }),
         },

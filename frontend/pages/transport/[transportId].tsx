@@ -15,7 +15,7 @@ const ViewTransport = () => {
         <title>Transport</title>
       </Head>
 
-      <Layout>
+      <Layout title="Transport information">
         <BackButton />
         <TransportInfo transportId={parseInt(transportId as string)} />
       </Layout>

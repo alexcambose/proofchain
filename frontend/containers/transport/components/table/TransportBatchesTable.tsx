@@ -1,7 +1,6 @@
 import MaterialLink from '@components/MaterialLink';
-import MaterialsUuidTags from '@components/MaterialsUUidTags';
+import MaterialsUuidTags from '@components/tag/MaterialsUUidTags';
 import Table from '@components/table/Table';
-import { Tag } from 'baseui/tag';
 import { IBatch } from 'interface';
 import React from 'react';
 interface ITransportBatchesTableProps {

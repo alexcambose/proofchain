@@ -1,5 +1,5 @@
 import MaterialLink from '@components/MaterialLink';
-import MaterialsUuidTags from '@components/MaterialsUUidTags';
+import MaterialsUuidTags from '@components/tag/MaterialsUUidTags';
 import Table from '@components/table/Table';
 import ViewButton from '@components/table/ViewMaterialButton';
 import TransactionLink from '@components/TransactionLink';

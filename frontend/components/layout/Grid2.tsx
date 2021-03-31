@@ -27,7 +27,7 @@ const Grid2: React.FC<IGrid2Props> = ({ left, right }) => {
       <Cell overrides={cellOverrideLeft} span={[2, 4, 6]}>
         {left}
       </Cell>
-      <Cell overrides={cellOverrideLeft} span={[2, 4, 6]}>
+      <Cell overrides={cellOverrideRight} span={[2, 4, 6]}>
         {right}
       </Cell>
     </NoPaddingGrid>

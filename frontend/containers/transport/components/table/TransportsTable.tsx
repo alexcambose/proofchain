@@ -2,7 +2,7 @@ import AddressEntityInfo from '@components/AddressEntityInfo';
 import Table from '@components/table/Table';
 import ViewButton from '@components/table/ViewMaterialButton';
 import TransactionLink from '@components/TransactionLink';
-import TransportStatusTag from '@components/TransportStatusTag';
+import TransportStatusTag from '@components/tag/TransportStatusTag';
 import { StyledLink } from 'baseui/link';
 import { ITransport } from 'interface';
 import Link from 'next/link';
@@ -76,7 +76,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         <TransactionLink>
           {e.events.TransportInitiated.transactionHash}
         </TransactionLink>,
-        // <ViewButton id={e.materialTokenId} baseUrl="/transport" />,
+        <ViewButton id={e.transportId} baseUrl="/transport" />,
       ])}
       emptyMessage={
         <Link href="/transport/create">

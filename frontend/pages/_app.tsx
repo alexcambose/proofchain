@@ -28,6 +28,10 @@ import {
   faBuilding,
   faHistory,
   faScroll,
+  faPlus,
+  faCheck,
+  faTruckLoading,
+  faTruckMoving,
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
@@ -43,7 +47,11 @@ library.add(
   faHistory,
   faQrcode,
   faBuilding,
-  faScroll
+  faScroll,
+  faPlus,
+  faCheck,
+  faTruckLoading,
+  faTruckMoving
 );
 
 if (isClient()) {

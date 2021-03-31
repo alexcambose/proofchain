@@ -101,12 +101,6 @@ export const fetchTransportInfo = createAsyncThunk(
         })
       )
     );
-    console.log({
-      batchInfo,
-      createdTimestamp,
-      events,
-      transport,
-    });
     return {
       transport,
       batchInfo,

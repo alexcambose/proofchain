@@ -7,9 +7,11 @@ export interface ITransportStore {
     transport: ITransport;
     createdTimestamp: number;
     batchInfo: IBatch[];
-    events: {
-      transportEvent: Transport;
-      timestamp;
-    };
+    events: [
+      {
+        transportEvent: Transport;
+        timestamp;
+      }
+    ];
   };
 }

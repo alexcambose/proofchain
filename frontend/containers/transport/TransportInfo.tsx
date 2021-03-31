@@ -10,12 +10,15 @@ import { Display4, Label1 } from 'baseui/typography';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TransportBatchesTable from './components/table/TransportBatchesTable';
+import TransportTimeline from './components/view/TransportTimeline';
+import { Card, StyledAction } from 'baseui/card';
+import { Button, SIZE } from 'baseui/button';
 
 interface ITransportInfoProps {
   transportId: number;
 }
 const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
-  const { transport, batchInfo, createdTimestamp } = useSelector(
+  const { transport, batchInfo, createdTimestamp, events } = useSelector(
     (state: State) => state.transport.transportInfo
   );
   const dispatch = useDispatch();
@@ -27,6 +30,27 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
   }
   return (
     <>
+      <Card
+        title="Events"
+        overrides={{
+          Root: {
+            style: ({ $theme }) => ({
+              marginBottom: $theme.sizing.scale300,
+            }),
+          },
+        }}
+      >
+        <TransportTimeline
+          createEvent={{
+            ...transport.events.TransportInitiated,
+            timestamp: createdTimestamp,
+          }}
+          transportEvents={events}
+        />
+        <StyledAction>
+          <Button size={SIZE.compact}>Create event</Button>
+        </StyledAction>
+      </Card>
       <Grid2
         left={
           <>
