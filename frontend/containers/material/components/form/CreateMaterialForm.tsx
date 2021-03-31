@@ -265,8 +265,10 @@ const CreateMaterialForm = withFormik<CreateMaterialFormProps, FormValues>({
     }),
   handleSubmit: async (values, { props }) => {
     const { createMaterial, onSuccess } = props;
-    await createMaterial(values);
-    onSuccess && onSuccess();
+    const result = await createMaterial(values);
+    if (result) {
+      onSuccess && onSuccess();
+    }
   },
 })(_CreateMaterialForm);
 const mapDispatchToProps = (dispatch) => {

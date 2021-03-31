@@ -19,6 +19,7 @@ interface FormValues {
   receiver: string;
   transportCompany: string;
   batchIds: number[];
+  password?: string;
 }
 const _CreateTransportForm: React.FC<
   CreateTransportFormProps & FormikProps<FormValues>
@@ -41,7 +42,13 @@ const _CreateTransportForm: React.FC<
         label="Transport company"
         caption="Transport identification company"
       />
-
+      <Field
+        name="password"
+        type="text"
+        placeholder="Password"
+        label="Transport password"
+        caption="(optional) Require the receiver to enter this password in order to finalize the transport and recive the batches"
+      />
       <Button isLoading={isSubmitting} disabled={isSubmitting} type="submit">
         Create Transport
       </Button>
@@ -69,12 +76,13 @@ const CreateTransportForm = withFormik<CreateTransportFormProps, FormValues>({
     }),
   handleSubmit: async (values, { props }) => {
     const { createTransport, onSuccess } = props;
-    const { receiver, transportCompany, batchIds } = values;
+    const { receiver, transportCompany, batchIds, password } = values;
     // console.log(values);
     await createTransport({
       receiver: receiver.trim(),
       transportCompany: transportCompany.trim(),
       batchIds,
+      password,
     });
     onSuccess && onSuccess();
   },

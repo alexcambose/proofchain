@@ -15,6 +15,7 @@ import { Card, StyledAction } from 'baseui/card';
 import { Button, SIZE } from 'baseui/button';
 import CreateTransportEventForm from './components/form/CreateTransportEventForm';
 import TransportStatusTag from '@components/tag/TransportStatusTag';
+import FinaliseTransportForm from './components/form/FinaliseTransportForm';
 
 interface ITransportInfoProps {
   transportId: number;
@@ -54,6 +55,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
             />
           }
           right={
+            <>{
             address === transport.transportCompany && (
               <StyledAction>
                 <CreateTransportEventForm
@@ -61,7 +63,8 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
                   transportId={transport.transportId}
                 />
               </StyledAction>
-            )
+            )}
+            {address === transport.receiver && <FinaliseTransportForm transport={transport}/>}</>
           }
         />
       </Card>
