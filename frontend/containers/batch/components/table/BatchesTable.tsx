@@ -34,7 +34,7 @@ const BatchesTable: React.FC<IBatchesTableProps> = ({ isLoading, batches }) => {
         <TransactionLink>
           {e.events.BatchCreate.transactionHash}
         </TransactionLink>,
-        <ViewButton id={e.materialTokenId} baseUrl="/batch" />,
+        <ViewButton id={e.batchId} baseUrl="/batch" />,
       ])}
       emptyMessage={
         <Link href="/batch/create">

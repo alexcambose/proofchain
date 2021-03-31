@@ -32,6 +32,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
   if (!transport) {
     return <Skeleton rows={10} height="200px" width="100%" animation />;
   }
+
   return (
     <>
       <Card
@@ -55,16 +56,19 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
             />
           }
           right={
-            <>{
-            address === transport.transportCompany && (
-              <StyledAction>
-                <CreateTransportEventForm
-                  transportStatus={transport.status}
-                  transportId={transport.transportId}
-                />
-              </StyledAction>
-            )}
-            {address === transport.receiver && <FinaliseTransportForm transport={transport}/>}</>
+            <>
+              {address === transport.transportCompany && (
+                <StyledAction>
+                  <CreateTransportEventForm
+                    transportStatus={transport.status}
+                    transportId={transport.transportId}
+                  />
+                </StyledAction>
+              )}
+              {address === transport.receiver && (
+                <FinaliseTransportForm transport={transport} />
+              )}
+            </>
           }
         />
       </Card>
@@ -82,6 +86,9 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
                     transportStatus={transport.status}
                   ></TransportStatusTag>
                 ),
+                'Password Protected': transport.hashedPassword.length
+                  ? 'Yes'
+                  : 'No',
                 Created: <TimeIndicator>{createdTimestamp}</TimeIndicator>,
                 'Create Transaction': (
                   <TransactionLink>

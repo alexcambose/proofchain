@@ -77,7 +77,6 @@ const CreateTransportForm = withFormik<CreateTransportFormProps, FormValues>({
   handleSubmit: async (values, { props }) => {
     const { createTransport, onSuccess } = props;
     const { receiver, transportCompany, batchIds, password } = values;
-    // console.log(values);
     await createTransport({
       receiver: receiver.trim(),
       transportCompany: transportCompany.trim(),

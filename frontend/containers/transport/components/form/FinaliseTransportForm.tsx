@@ -10,6 +10,7 @@ import keccak256 from 'keccak256';
 import * as Yup from 'yup';
 import proofchain from 'proofchain';
 import transactionWrapper from '@utils/transactionWrapper';
+import { TransportStatusEnum } from '@enums';
 interface FinaliseTransportFormProps
   extends ReturnType<typeof mapDispatchToProps> {
   transport: ITransport;
@@ -20,6 +21,9 @@ interface FinaliseTransportFormValues {
 const _FinaliseTransportForm: React.FC<
   FinaliseTransportFormProps & FormikProps<FinaliseTransportFormValues>
 > = ({ transport }) => {
+  console.log(transport, TransportStatusEnum.PENDING_FINALISED);
+    return <>This transport needs to be in the "Pending Finalised" status.</>;
+  }
   return (
     <Form>
       {transport.hashedPassword && (
@@ -55,7 +59,7 @@ const FinaliseTransportForm = withFormik<
       transport.hashedPassword &&
       keccak256(values.password).toString('hex') !== transport.hashedPassword
     ) {
-      errors.hashedPassword = 'Incorrect Password';
+      errors.password = 'Incorrect Password';
     }
 
     return errors;
@@ -72,7 +76,6 @@ const FinaliseTransportForm = withFormik<
         transportId: props.transport.transportId,
       });
     }
-    console.log(values);
   },
 })(_FinaliseTransportForm);
 

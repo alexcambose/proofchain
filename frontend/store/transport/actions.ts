@@ -48,16 +48,19 @@ export const initiateTransport = createAsyncThunk(
     receiver,
     transportCompany,
     batchIds,
+    password,
   }: {
     receiver: string;
     transportCompany: string;
     batchIds: number[];
+    password?: string;
   }) => {
     const result = await transactionWrapper(() =>
       proofchain().transport.initiate({
         receiver,
         transportCompany,
         batchIds,
+        password,
       })
     );
 

@@ -15,7 +15,7 @@ export const fetchBatches = createAsyncThunk(
           events: {
             BatchCreate: (
               await proofchain().batch.getRawPastEvents('BatchCreate', {
-                company: proofchain().batch.fromAddress,
+                batchId: e.batchId,
               })
             )[0],
           },
@@ -55,7 +55,6 @@ export const fetchBatchInfo = createAsyncThunk(
     batch.events = { BatchCreate: null };
     batch.events.BatchCreate = (
       await proofchain().batch.getRawPastEvents('BatchCreate', {
-        company: proofchain().batch.fromAddress,
         batchId: batch.batchId,
       })
     )[0];

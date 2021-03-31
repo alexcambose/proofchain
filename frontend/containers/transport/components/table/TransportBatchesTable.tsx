@@ -11,7 +11,7 @@ const TransportBatchesTable: React.FC<ITransportBatchesTableProps> = ({
 }) => {
   return (
     <Table
-      columns={['ID', 'Code', 'Material Id', 'Material Uuids']}
+      columns={['Batch Id', 'Batch Code', 'Material Id', 'Material Uuids']}
       data={transportbatches.map((e) => [
         e.batchId,
         e.code,
