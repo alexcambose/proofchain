@@ -1,6 +1,7 @@
 import Base from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import MinedTransaction from './MinedTransaction';
+import keccak256 from 'keccak256';
 enum TransportStatusEnum {
   NONE,
   READY_FOR_TRANSIT,
@@ -36,20 +37,25 @@ class Transport extends Base {
     receiver,
     transportCompany,
     batchIds,
-    hashedPassword,
+    password,
   }: {
     receiver: string;
     batchIds: number[];
     transportCompany: string;
-    hashedPassword?: string;
+    password?: string;
   }): Promise<
     MinedTransaction<{ TransportInitiated: TransportInitiatedEvent }>
   > {
     await this.ensureContract();
     let transaction;
-    if (hashedPassword) {
+    if (password) {
       transaction = await this.contract.methods
-        .initiateTransport(receiver, transportCompany, batchIds, hashedPassword)
+        .initiateTransport(
+          receiver,
+          transportCompany,
+          batchIds,
+          keccak256(password).toString('hex')
+        )
         .send({ from: this.fromAddress, gas: 300000 });
     } else {
       transaction = await this.contract.methods

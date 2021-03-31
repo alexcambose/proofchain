@@ -280,7 +280,7 @@ class Material extends Base implements IEntity {
       }
     );
     // @ts-ignore
-    material.mintEvent = events.find((e) => e.uuid === material.uuid);
+    material.mintEvent = events.find((e) => e.uuid == material.uuid);
     return material;
   }
   async assignCertificate({
