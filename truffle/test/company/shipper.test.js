@@ -128,16 +128,17 @@ contract("Company", (accounts) => {
       });
     });
     describe("finaliseTransport", () => {
+      let finaliseResult;
       before(async () => {
         const [, companyInstance] = await getInstance();
-        await companyInstance.methods
+        finaliseResult = await companyInstance.methods
           .finaliseTransport(transportId)
           .send({ from: otherAccount, gas: 300000 });
       });
       it("sets a transport as finalised", async () => {
         const [, companyInstance] = await getInstance();
         const value = await companyInstance.methods.transports(transportId).call();
-        expect(value.status).equal("3");
+        expect(value.status).equal("5");
       });
       it("changes the owner of the batches", async () => {
         const [
@@ -167,6 +168,9 @@ contract("Company", (accounts) => {
         expect(newOwner).equal(otherAccount);
         expect(accountHasBatchIdBefore).equal(false);
         expect(accountHasBatchIdAfter).equal(true);
+      });
+      it("emits BatchTransfer events", () => {
+        expect(typeof finaliseResult.events["0"]).equal("object");
       });
       it("only works for the receiver", async () => {
         const [
@@ -205,7 +209,7 @@ contract("Company", (accounts) => {
           .finaliseTransport(transportId, web3.utils.keccak256("password"))
           .send({ from: otherAccount, gas: 300000 });
         value = await companyInstance.methods.transports(transportId).call();
-        expect(value.status).equal("3");
+        expect(value.status).equal("5");
       });
     });
   });

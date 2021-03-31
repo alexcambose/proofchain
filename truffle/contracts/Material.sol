@@ -313,6 +313,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             addressBatches[batch[_batchIds[i]].owner][_batchIds[i]] = false;
             addressBatches[_newOwner][_batchIds[i]] = true;
             batch[_batchIds[i]].owner = _newOwner;
+            emit BatchTransfer(batch[_batchIds[i]].owner, _newOwner, _batchIds[i], 0);
         }
     }
 

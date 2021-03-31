@@ -68,7 +68,7 @@ contract MaterialBase {
         // mapping(uint256 => uint256[]) batchMaterialsUuid;
     }
     // uuid generator
-    uint256 materialUuidGenerator = 0;
+    uint256 materialUuidGenerator = 1;
     // uuid => MaterialInfo
     mapping(uint256 => MaterialInfo) public uuidMaterialInfo;
     struct BatchInfo {

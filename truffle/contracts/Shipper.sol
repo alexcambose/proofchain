@@ -10,7 +10,14 @@ abstract contract Shipper is MaterialReferencer {
         uint256 transportId
     );
     event TransportStatus(uint256 indexed transportId, TransportStatusEnum indexed status);
-    enum TransportStatusEnum {READY_FOR_TRANSIT, PENDING_TRANSIT, IN_TRANSIT, FINALISED}
+    enum TransportStatusEnum {
+        NONE,
+        READY_FOR_TRANSIT,
+        PENDING_TRANSIT,
+        IN_TRANSIT,
+        PENDING_FINALISED,
+        FINALISED
+    }
     struct TransportInfo {
         uint256 transportId;
         // sender company
@@ -48,10 +55,10 @@ abstract contract Shipper is MaterialReferencer {
         );
         _;
     }
-    modifier onlyNotFinalizedTransport(uint256 _transportId) {
+    modifier onlyNotfinalisedTransport(uint256 _transportId) {
         require(
             transports[_transportId].status != TransportStatusEnum.FINALISED,
-            "This transport is finalized"
+            "This transport is finalised"
         );
         _;
     }
@@ -70,7 +77,7 @@ abstract contract Shipper is MaterialReferencer {
         transports[transportIdCounter].receiver = _receiver;
         transports[transportIdCounter].transportCompany = _transportCompany;
         transports[transportIdCounter].batchIds = _batchIds;
-        transports[transportIdCounter].status = TransportStatusEnum.READY_FOR_TRANSIT;
+        transports[transportIdCounter].status = TransportStatusEnum.NONE;
 
         for (uint256 i = 0; i < _batchIds.length; i++) {
             getMaterialContract().removeBatchFromAddress(_batchIds[i]);
@@ -92,7 +99,7 @@ abstract contract Shipper is MaterialReferencer {
     function setTransportStatus(uint256 _transportId, TransportStatusEnum _status)
         public
         onlyTransportCompany(_transportId)
-        onlyNotFinalizedTransport(_transportId)
+        onlyNotfinalisedTransport(_transportId)
     {
         require(
             _status != TransportStatusEnum.FINALISED,
