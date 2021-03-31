@@ -2,9 +2,11 @@ import Base from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import MinedTransaction from './MinedTransaction';
 enum TransportStatusEnum {
+  NONE,
   READY_FOR_TRANSIT,
   PENDING_TRANSIT,
   IN_TRANSIT,
+  PENDING_FINALISED,
   FINALISED,
 }
 interface ITransport {
@@ -75,17 +77,17 @@ class Transport extends Base {
   }
   async finaliseTransport({
     transportId,
-    hashedPassword,
+    password,
   }: {
     transportId: number;
-    hashedPassword?: string;
+    password?: string;
   }): Promise<MinedTransaction<{ TransportStatus: TransportStatusEvent }>> {
     await this.ensureContract();
 
     let transaction;
-    if (hashedPassword) {
+    if (password) {
       transaction = await this.contract.methods
-        .finaliseTransport(transportId, hashedPassword)
+        .finaliseTransport(transportId, password)
         .send({ from: this.fromAddress, gas: 300000 });
     } else {
       transaction = await this.contract.methods

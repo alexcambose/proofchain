@@ -12,6 +12,12 @@ type BatchCreateEvent = {
   company: string; // address
   batchId: number;
 };
+type BatchTransferEvent = {
+  from: string;
+  to: string;
+  batchId: number;
+  uuid: number;
+};
 type CreateTransactionEvents = {
   BatchCreate: BatchCreateEvent;
 };
@@ -60,9 +66,13 @@ class Batch extends Base {
       'BatchCreate',
       { company: this.fromAddress }
     );
+    const transferEvents = await this.getPastEvents<BatchTransferEvent>(
+      'BatchTransfer',
+      { to: this.fromAddress, uuid: 0 }
+    );
     const ids = (
       await Promise.all(
-        createEvents
+        [...createEvents, ...transferEvents]
           .map((e) => e.batchId)
           .map(async (e) => {
             if (onlyExistingBatches) {

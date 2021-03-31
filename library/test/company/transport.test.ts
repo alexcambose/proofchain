@@ -158,7 +158,8 @@ describe('Company - transport', () => {
     });
   });
   describe('finaliseTransport', () => {
-    it('sets the status of a transport as finalised', async () => {
+    let batchIdTransportId: number;
+    beforeAll(async () => {
       const {
         events: {
           TransportInitiated: { transportId },
@@ -168,9 +169,18 @@ describe('Company - transport', () => {
         transportCompany: tcAccount,
         batchIds: [batchId],
       });
+      batchIdTransportId = transportId;
       await proofchainReceiver.transport.finaliseTransport({ transportId });
-      const fetchedTransport = await proofchain.transport.getById(transportId);
-      expect(fetchedTransport.status).toEqual('3');
+    });
+    it('sets the status of a transport as finalised', async () => {
+      const fetchedTransport = await proofchain.transport.getById(
+        batchIdTransportId
+      );
+      expect(fetchedTransport.status).toEqual('5');
+    });
+    it('changes the owner of the batches', async () => {
+      const batchIds = await proofchainReceiver.batch.allBatchIds();
+      expect(batchIds.indexOf(batchId)).not.toEqual(-1);
     });
     it('only the receiver can finalise transport', async () => {
       const {
@@ -280,8 +290,8 @@ describe('Company - transport', () => {
         status: 2,
       });
       const events = await proofchain.transport.getStatusEvents(transportId);
-      expect(events[0].status).toEqual(2);
-      expect(events[1].status).toEqual(1);
+      expect(events[0].status).toEqual('2');
+      expect(events[1].status).toEqual('1');
     });
   });
 });
