@@ -1,18 +1,19 @@
 import { isClient } from '@utils/next';
 import config from 'config';
 import Proofchain from 'proofchain-library';
-let proofchain;
-export const initProofchain = (web3, fromAddress) => {
+let _proofchain;
+export const initProofchain = (web3, fromAddress = null) => {
   console.log('init');
-  proofchain = Proofchain.web3Init({
+  _proofchain = Proofchain.web3Init({
     web3,
     fromAddress: fromAddress,
     factoryContractAddress: config.ethProvider.default.factoryContractAddress,
   });
   if (isClient()) {
     // @ts-ignore
-    window.proofchain = proofchain;
+    window._proofchain = _proofchain;
   }
 };
+const proofchain = (): Proofchain => _proofchain;
 
-export default (): Proofchain => proofchain;
+export default proofchain;

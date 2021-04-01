@@ -13,6 +13,7 @@ import { IBatchStore } from './batch/interface';
 import { ITransportStore } from './transport/interface';
 import { ICertificateStore } from './certificate/interface';
 import CertificateSlice from './certificate';
+import ClientSlice from './client';
 
 export interface State {
   user: IUser;
@@ -34,6 +35,7 @@ const makeStore: MakeStore<State> = (context: Context) =>
       batch: BatchSlice,
       transport: TransportSlice,
       certificate: CertificateSlice,
+      client: ClientSlice,
     },
   });
 

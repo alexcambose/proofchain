@@ -1,10 +1,11 @@
-import { BEHAVIOR, Cell, Grid, GridProps } from 'baseui/layout-grid';
+import { Cell, GridProps } from 'baseui/layout-grid';
 import React from 'react';
 import NoPaddingGrid from './NoPaddingGrid';
 
 interface IGrid2Props {
   left: React.ReactNode;
   right: React.ReactNode;
+  gridProps?: any;
 }
 
 const cellOverrideLeft = {
@@ -21,9 +22,9 @@ const cellOverrideRight = {
     }),
   },
 };
-const Grid2: React.FC<IGrid2Props> = ({ left, right }) => {
+const Grid2: React.FC<IGrid2Props> = ({ left, right, gridProps }) => {
   return (
-    <NoPaddingGrid>
+    <NoPaddingGrid {...gridProps}>
       <Cell overrides={cellOverrideLeft} span={[2, 4, 6]}>
         {left}
       </Cell>

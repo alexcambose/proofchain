@@ -3,43 +3,44 @@ import config from 'config';
 import proofchain, { initProofchain } from 'proofchain';
 import Web3 from 'web3';
 
-let web3Instance;
+let _web3Instance;
 
 const initWeb3FromWallet = (wallet, password = 'password'): string => {
-  web3Instance = new Web3(
+  _web3Instance = new Web3(
     new Web3.providers.HttpProvider(config.ethProvider.default.http)
   );
 
-  const decrytedWallet = web3Instance.eth.accounts.decrypt(wallet, password);
-  web3Instance.eth.accounts.wallet.add(decrytedWallet);
-  return web3Instance.eth.accounts.wallet[0].address;
+  const decrytedWallet = _web3Instance.eth.accounts.decrypt(wallet, password);
+  _web3Instance.eth.accounts.wallet.add(decrytedWallet);
+  return _web3Instance.eth.accounts.wallet[0].address;
 };
 
 const initWeb3FromMetamask = async (): Promise<string> => {
   const ethereum = window.ethereum;
   // @ts-ignore
-  web3Instance = new Web3(ethereum);
+  _web3Instance = new Web3(ethereum);
   await ethereum.send('eth_requestAccounts');
-  return web3Instance.givenProvider.selectedAddress;
+  return _web3Instance.givenProvider.selectedAddress;
 };
 
 export const initWeb3Instance = async (loginObject): Promise<string> => {
   const { type, wallet } = loginObject;
   if (isClient()) {
     // @ts-ignore
-    window.web3 = () => web3Instance;
+    window.web3 = () => _web3Instance;
     // @ts-ignore
     window.Web3 = Web3;
   }
   if (type === 'metamask') {
     console.log('Init with metamask');
     const address = await initWeb3FromMetamask();
-    initProofchain(web3Instance, address);
+    initProofchain(_web3Instance, address);
     return address;
   }
   console.log('Init with wallet');
   const address = await initWeb3FromWallet(wallet);
-  initProofchain(web3Instance, address);
+  initProofchain(_web3Instance, address);
   return address;
 };
-export default () => web3Instance;
+const web3Instance = () => _web3Instance;
+export default web3Instance;

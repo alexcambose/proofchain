@@ -1,4 +1,5 @@
 import '@assets/styles/style.css';
+import '@assets/styles/react-grid.css';
 import 'normalize.css';
 import { refreshBalance, refreshLogin } from '@store/user/actions';
 import { init } from '@utils/auth/torus';
@@ -40,6 +41,7 @@ import {
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
 import { fetchGasPrice } from '@store/application/actions';
+import { initClientWeb3Instance } from 'clientWeb3Instance';
 dayjs.extend(relativeTime);
 
 library.add(
@@ -89,6 +91,12 @@ function MyApp({ Component, pageProps }) {
           dispatch(setApplicationLoading(false));
           dispatch(fetchGasPrice());
         }
+      })();
+    } else {
+      (async () => {
+        dispatch(setApplicationLoading(true));
+        await initClientWeb3Instance();
+        dispatch(setApplicationLoading(false));
       })();
     }
   }, [loggedIn]);

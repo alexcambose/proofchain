@@ -1,34 +1,45 @@
 import * as React from 'react';
 import QrScanner from 'qr-scanner';
-import { Drawer, SIZE, ANCHOR } from 'baseui/drawer';
+import { Drawer, SIZE as DRAWER_SIZE, ANCHOR } from 'baseui/drawer';
 import QrScannerWorkerPath from '!!file-loader!node_modules/qr-scanner/qr-scanner-worker.min.js';
 import { useEffect, useRef, useState } from 'react';
 import QrCodeCamera from './QrCodeCamera';
-import { Button } from 'baseui/button';
+import { Button, SIZE } from 'baseui/button';
 import { H2 } from 'baseui/typography';
 import { styled, useStyletron } from 'baseui';
 QrScanner.WORKER_PATH = QrScannerWorkerPath;
 
-interface IScanProps {
-  onScanSuccessful: (code: string) => void;
-}
+interface IScanProps {}
 const ScanContainer = styled('div', ({ $theme }) => ({
   display: 'flex',
   marginTop: $theme.sizing.scale600,
   justifyContent: 'center',
   paddingTop: $theme.sizing.scale600,
 }));
-const Scan: React.FC<IScanProps> = ({ onScanSuccessful }) => {
+const ButtonContainer = styled('div', ({ $theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: '30vh',
+}));
+const Scan: React.FC<IScanProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [css] = useStyletron();
+  const onScanSuccessful = async (code) => {
+    console.log(code);
+  };
   return (
     <>
-      <Button onClick={() => setIsOpen(true)}>Scan QR Code</Button>
+      <ButtonContainer>
+        <Button size={SIZE.large} onClick={() => setIsOpen(true)}>
+          Scan QR Code
+        </Button>
+      </ButtonContainer>
       <Drawer
         isOpen={isOpen}
         autoFocus
         onClose={() => setIsOpen(false)}
-        size={SIZE.full}
+        size={DRAWER_SIZE.full}
         anchor={ANCHOR.bottom}
         showBackdrop={false}
         overrides={{
