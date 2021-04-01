@@ -13,6 +13,7 @@ import { Block } from 'baseui/block';
 import { Display4 } from 'baseui/typography';
 import uuid from 'react-uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Footer from '@components/navigation/Footer';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -77,12 +78,13 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
     return (
       <>
         <GuestNav />
-        {children}
+        <div>{children}</div>
+        <Footer />
       </>
     );
   }
   return (
-    <>
+    <div style={{ height: '100%' }}>
       <EntityNav />
       <Grid
         behavior={BEHAVIOR.fluid}
@@ -91,6 +93,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
             style: ({ $theme }) => ({
               paddingRight: '0 !important',
               paddingLeft: '0 !important',
+              height: '100%',
             }),
           },
         }}
@@ -109,13 +112,21 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         </Cell>
         <Cell span={10}>
           <BreadcrumbNavigation />
-          <Block marginTop="scale400">
+          <Block
+            marginTop="scale400"
+            $style={{
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
             {title && <Display4>{title}</Display4>}
             {children}
+            <Footer />
           </Block>
         </Cell>
       </Grid>
-    </>
+    </div>
   );
 };
 

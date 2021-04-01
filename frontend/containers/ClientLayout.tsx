@@ -3,6 +3,7 @@ import { AppNavBar, setItemActive } from 'baseui/app-nav-bar';
 import { ChevronDown, Delete, Overflow, Upload } from 'baseui/icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
+import Footer from '@components/navigation/Footer';
 interface IClientLayoutProps {
   children: React.ReactNode;
 }
@@ -25,6 +26,15 @@ const ClientLayout: React.FunctionComponent<IClientLayoutProps> = ({
   return (
     <>
       <AppNavBar
+        // @ts-ignore
+        overrides={{
+          Root: {
+            style: ({ $theme }) => ({
+              boxShadow: $theme.lighting.shadow400,
+              marginBottom: $theme.sizing.scale100,
+            }),
+          },
+        }}
         title={
           <span onClick={onTitleClick} style={{ cursor: 'pointer' }}>
             Proofchain
@@ -41,7 +51,8 @@ const ClientLayout: React.FunctionComponent<IClientLayoutProps> = ({
           );
         }}
       />
-      {children}
+      <div>{children}</div>
+      <Footer />
     </>
   );
 };
