@@ -70,22 +70,25 @@ function MyApp({ Component, pageProps }) {
   const loggedIn = useSelector((state: State) => state.user.loggedIn);
   const isLoading = useSelector((state: State) => state.application.loading);
   useEffect(() => {
-    if (loggedIn && router.pathname === '/login') {
-      router.push('/');
-    }
-    if (!loggedIn && router.pathname !== '/login') {
-      router.push('/login');
-    }
-    (async () => {
-      console.log(loggedIn);
-      if (loggedIn) {
-        dispatch(setApplicationLoading(true));
-        await initWeb3Instance(authManager.getInfo());
-        await dispatch(refreshBalance());
-        dispatch(setApplicationLoading(false));
-        dispatch(fetchGasPrice());
+    const { pathname } = router;
+    if (pathname !== '/client') {
+      if (loggedIn && pathname === '/login') {
+        router.push('/');
       }
-    })();
+      if (!loggedIn && pathname !== '/login') {
+        router.push('/login');
+      }
+      (async () => {
+        console.log(loggedIn);
+        if (loggedIn) {
+          dispatch(setApplicationLoading(true));
+          await initWeb3Instance(authManager.getInfo());
+          await dispatch(refreshBalance());
+          dispatch(setApplicationLoading(false));
+          dispatch(fetchGasPrice());
+        }
+      })();
+    }
   }, [loggedIn]);
   return (
     <StyletronProvider value={styletron}>
