@@ -269,6 +269,8 @@ class Material extends Base implements IEntity {
   }
   async getMaterialByUuid(materialUuid: number): Promise<IMaterialInfo> {
     await this.ensureContract();
+    console.log(this.contract);
+
     const material: IMaterialInfo = await this.contract.methods
       .uuidMaterialInfo(materialUuid)
       .call();

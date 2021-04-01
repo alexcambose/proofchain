@@ -10,6 +10,7 @@ import Material from './Material';
 import CertificateAuthority from './CertificateAuthority';
 import Batch from './Batch';
 import Transport from './Transport';
+import { EMPTY_ADDRESS } from './utils/eth';
 
 interface IProofchainConfig {
   factoryContractAddress: string;
@@ -20,7 +21,7 @@ interface IProofchainConfig {
 class Proofchain {
   private factoryContract;
   private web3: Web3;
-  private fromAddress: string;
+  private fromAddress?: string;
   public material: Material;
   public company: Company;
   public batch: Batch;
@@ -33,7 +34,7 @@ class Proofchain {
   }: {
     web3: Web3;
     factoryContractAddress: string;
-    fromAddress: string;
+    fromAddress?: string;
   }) {
     this.web3 = web3;
     this.factoryContract = new web3.eth.Contract(
@@ -44,35 +45,35 @@ class Proofchain {
     this.fromAddress = fromAddress;
     this.company = new Company(
       this.web3,
-      this.fromAddress,
+      this.fromAddress || EMPTY_ADDRESS,
       this.factoryContract,
       'companyContract',
       CompanyAbi
     );
     this.material = new Material(
       this.web3,
-      this.fromAddress,
+      this.fromAddress || EMPTY_ADDRESS,
       this.factoryContract,
       'materialContract',
       MaterialAbi
     );
     this.certificateAuthority = new CertificateAuthority(
       this.web3,
-      this.fromAddress,
+      this.fromAddress || EMPTY_ADDRESS,
       this.factoryContract,
       'certificateAuthorityManagerContract',
       CertificateAuthorityManagerAbi
     );
     this.batch = new Batch(
       this.web3,
-      this.fromAddress,
+      this.fromAddress || EMPTY_ADDRESS,
       this.factoryContract,
       'materialContract',
       MaterialAbi
     );
     this.transport = new Transport(
       this.web3,
-      this.fromAddress,
+      this.fromAddress || EMPTY_ADDRESS,
       this.factoryContract,
       'companyContract',
       CompanyAbi
@@ -100,7 +101,7 @@ class Proofchain {
     fromAddress,
   }: IProofchainConfig & {
     web3Provider: any;
-    fromAddress: string;
+    fromAddress?: string;
   }): Proofchain {
     const web3 = new Web3(web3Provider);
     return this.web3Init({ web3, factoryContractAddress, fromAddress });
@@ -111,7 +112,7 @@ class Proofchain {
     fromAddress,
   }: IProofchainConfig & {
     web3: any;
-    fromAddress: string;
+    fromAddress?: string;
   }): Proofchain {
     return new Proofchain({
       web3,

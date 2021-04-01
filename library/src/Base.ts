@@ -2,6 +2,7 @@ import { Aggregator } from './abi';
 import Web3 from 'web3';
 import { parseEvent } from './utils/eventsParser';
 import IEmittedEvent from './interface/IEmittedEvent';
+import { EMPTY_ADDRESS } from './utils/eth';
 
 type BaseContracts =
   | 'companyContract'
@@ -12,11 +13,15 @@ abstract class Base {
   contract: any = null;
   constructor(
     protected web3: Web3,
-    public fromAddress: string,
+    private _fromAddress: string,
     protected factoryContract: any,
     protected contractName: BaseContracts,
     protected contractAbi: any[]
   ) {}
+  get fromAddress() {
+    if (this._fromAddress !== EMPTY_ADDRESS) return this._fromAddress;
+    throw new Error(`fromAddress parameter not specified`);
+  }
   async getContractAddress() {
     const aggregatorContractAddress = await this.factoryContract.methods
       .aggregator()
