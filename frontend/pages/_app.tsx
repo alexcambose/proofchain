@@ -19,7 +19,7 @@ import { initWeb3Instance } from 'web3Instance';
 import authManager, { AuthManager } from '@utils/auth/authManager';
 import { setApplicationLoading } from '@store/application';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fab, faEthereum } from '@fortawesome/free-brands-svg-icons';
 import {
   faHome,
   faTimes,
@@ -61,7 +61,8 @@ library.add(
   faParachuteBox,
   faCheckDouble,
   faTh,
-  faLightbulb
+  faLightbulb,
+  faEthereum
 );
 
 if (isClient()) {

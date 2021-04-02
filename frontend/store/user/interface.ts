@@ -11,6 +11,7 @@ export interface IUserData {
   entityType: EntityTypeEnum;
   balance?: string;
   loadingBalance?: boolean;
+  lastBalanceRefresh?: number;
 }
 export interface IUser extends IUserData {
   loggedIn?: boolean;

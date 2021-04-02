@@ -1,10 +1,13 @@
 import React from 'react';
 import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
-import CompanyOverview, {
-  gridConfig as companyOverviewGridConfig,
-} from './components/grid/CompanyOverview';
+import BalanceCard, {
+  gridConfig as BalanceCardConfig,
+} from './components/grid/BalanceCard';
+import CompanyOverviewCard, {
+  gridConfig as CompanyOverviewCardGridConfig,
+} from './components/grid/CompanyOverviewCard';
 const layouts = {
-  lg: [companyOverviewGridConfig],
+  lg: [CompanyOverviewCardGridConfig, BalanceCardConfig],
 };
 const Index = () => {
   return (
@@ -18,8 +21,11 @@ const Index = () => {
         items={20}
         rowHeight={30}
       >
-        <div key={companyOverviewGridConfig.i}>
-          <CompanyOverview />
+        <div key={CompanyOverviewCardGridConfig.i}>
+          <CompanyOverviewCard />
+        </div>
+        <div key={BalanceCardConfig.i}>
+          <BalanceCard />
         </div>
       </ResponsiveGridLayout>
     </>

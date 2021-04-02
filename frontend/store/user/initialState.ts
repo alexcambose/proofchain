@@ -9,6 +9,7 @@ const initialState: IUser = {
   balance: '0',
   loadingBalance: false,
   companyEntityType: null,
+  lastBalanceRefresh: 0,
 };
 
 export default initialState;

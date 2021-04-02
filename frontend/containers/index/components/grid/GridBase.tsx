@@ -1,29 +1,73 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'baseui';
-import { Card, StyledAction, StyledBody } from 'baseui/card';
+import { Card, StyledAction } from 'baseui/card';
 import React from 'react';
 
 interface IGridBaseProps {
   children: React.ReactNode;
   title?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 const Header = styled('div', ({ $theme }) => ({
-  marginLeft: '-' + $theme.sizing.scale600,
-  marginRight: '-' + $theme.sizing.scale600,
-  marginTop: '-' + $theme.sizing.scale600,
+  marginLeft: `-1px`,
+  marginRight: `-1px`,
+  marginTop: `-1px`,
   paddingLeft: $theme.sizing.scale600,
   paddingTop: $theme.sizing.scale300,
   paddingBottom: $theme.sizing.scale300,
-  marginBottom: $theme.sizing.scale300,
-  background: $theme.colors.accent50,
-  ...$theme.typography.LabelLarge,
+  background: $theme.colors.accent,
+  display: 'flex',
+  justifyContent: 'space-between',
+  color: $theme.colors.primaryB,
+  ...$theme.typography.LabelMedium,
 }));
-const GridBase: React.FC<IGridBaseProps> = ({ title, children }) => {
+const Title = styled('div', ({ $theme }) => ({}));
+const TitleIcon = styled('span', ({ $theme }) => ({
+  color: $theme.colors.primaryB,
+  cursor: 'move',
+  opacity: 0.5,
+  marginRight: $theme.sizing.scale300,
+}));
+const IconContainer = styled('div', ({ $theme }) => ({
+  // background: $theme.colors.backgroundTertiary,
+  height: '100%',
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  ...$theme.typography.DisplayMedium,
+}));
+const HeaderActions = styled('div', ({ $theme }) => ({}));
+const BodyContents = styled('div', ({ $theme }) => ({
+  flex: 2,
+  padding: '2%',
+  display: 'flex',
+  alignItems: 'flex-start',
+  justifyContent: 'center',
+  flexDirection: 'column',
+}));
+const StyledBody = styled('div', ({ $theme }) => ({
+  display: 'flex',
+  height: '100%',
+}));
+const GridBase: React.FC<IGridBaseProps> = ({ title, children, icon }) => {
   return (
     <Card
       overrides={{
         Title: {
-          component: ({ children }) => <Header>{children}</Header>,
+          component: ({ children }) => (
+            <Header>
+              <Title>
+                <TitleIcon>
+                  <FontAwesomeIcon icon="th" />
+                </TitleIcon>
+                {children}
+              </Title>
+              <HeaderActions></HeaderActions>
+            </Header>
+          ),
         },
+
         Root: {
           style: ({ $theme }) => ({
             height: '100%',
@@ -36,10 +80,27 @@ const GridBase: React.FC<IGridBaseProps> = ({ title, children }) => {
             },
           }),
         },
+        Contents: {
+          style: ({ $theme }) => ({
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            margin: 0,
+          }),
+        },
+        Body: {
+          style: ({ $theme }) => ({
+            height: '100%',
+            margin: 0,
+          }),
+        },
       }}
       title={title}
     >
-      <StyledBody>{children}</StyledBody>
+      <StyledBody>
+        {icon && <IconContainer>{icon}</IconContainer>}
+        <BodyContents>{children}</BodyContents>
+      </StyledBody>
     </Card>
   );
 };

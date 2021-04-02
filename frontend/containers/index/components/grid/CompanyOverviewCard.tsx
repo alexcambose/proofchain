@@ -1,4 +1,3 @@
-import CenteredContainer from '@components/layout/CenteredContainer';
 import CompanyEntityTypeTag from '@components/tag/CompanyEntityTypeTag';
 import { CompanyEntityTypeEnum, EntityTypeEnum } from '@enums';
 import { State } from '@store/index';
@@ -11,9 +10,9 @@ import GridBase from './GridBase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 
-interface ICompanyOverviewProps {}
+interface ICompanyOverviewCardProps {}
 export const gridConfig = {
-  i: 'companyOverview',
+  i: 'CompanyOverviewCard',
   x: 0,
   y: 0,
   w: 4,
@@ -24,6 +23,8 @@ export const gridConfig = {
 const CompanyHeader = styled('div', ({ $theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  flex: 1,
+  width: '100%',
 }));
 const CompanyHeaderIcon = styled('div', ({ $theme }) => ({
   marginRight: $theme.sizing.scale300,
@@ -35,8 +36,18 @@ const CompanyHeaderDetails = styled('div', ({ $theme }) => ({
 }));
 const AddressContainer = styled('div', ({ $theme }) => ({
   padding: $theme.sizing.scale400,
-  alignText: 'center',
+  textAlign: 'center',
   background: $theme.colors.mono200,
+  width: '100%',
+  ...$theme.typography.LabelSmall,
+}));
+const CenteredContainer = styled('div', ({ $theme }) => ({
+  flex: 1,
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
 }));
 const headerLabel = (user: IUser) => {
   if (user.entityType === EntityTypeEnum.CERTIFICATE_AUTHORITY) {
@@ -45,7 +56,7 @@ const headerLabel = (user: IUser) => {
     return 'Company';
   }
 };
-const CompanyOverview: React.FunctionComponent<ICompanyOverviewProps> = (
+const CompanyOverviewCard: React.FunctionComponent<ICompanyOverviewCardProps> = (
   props
 ) => {
   const [css, theme] = useStyletron();
@@ -76,9 +87,7 @@ const CompanyOverview: React.FunctionComponent<ICompanyOverviewProps> = (
       </CompanyHeader>
 
       <CenteredContainer>
-        <AddressContainer>
-          <Label3>{user.address}</Label3>
-        </AddressContainer>
+        <AddressContainer>{user.address}</AddressContainer>
 
         <CompanyEntityTypeTag entityType={user.companyEntityType} />
       </CenteredContainer>
@@ -86,4 +95,4 @@ const CompanyOverview: React.FunctionComponent<ICompanyOverviewProps> = (
   );
 };
 
-export default CompanyOverview;
+export default CompanyOverviewCard;

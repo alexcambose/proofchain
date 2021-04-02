@@ -5,6 +5,7 @@ import { triggerLogin } from '@utils/auth/torus';
 import { getAccountFromMnemonic } from '@utils/eth';
 import web3Instance, { initWeb3Instance } from 'web3Instance';
 import proofchain from 'proofchain';
+import dayjs from 'dayjs';
 export const refreshUserInfo = async (authManager = AuthManager) => {
   const address = await initWeb3Instance(authManager.getInfo());
   const hasCompany = await proofchain().company.hasCompany();
@@ -85,6 +86,6 @@ export const refreshBalance = createAsyncThunk(
     const balanceInWei = await web3Instance().eth.getBalance(address);
     const balance = web3Instance().utils.fromWei(balanceInWei);
 
-    return { balance };
+    return { balance, lastRefresh: dayjs().unix() };
   }
 );

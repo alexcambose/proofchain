@@ -77,6 +77,7 @@ export const UserSlice = createSlice({
     });
     builder.addCase(refreshBalance.fulfilled, (state, { payload }) => {
       state.balance = payload.balance;
+      state.lastBalanceRefresh = payload.lastRefresh;
       state.loadingBalance = false;
     });
     builder.addCase(refreshBalance.pending, (state, { payload }) => {

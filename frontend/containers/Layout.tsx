@@ -79,7 +79,6 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
       <>
         <GuestNav />
         <div>{children}</div>
-        <Footer />
       </>
     );
   }
@@ -93,7 +92,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
             style: ({ $theme }) => ({
               paddingRight: '0 !important',
               paddingLeft: '0 !important',
-              height: '100%',
+              // height: '100%',
             }),
           },
         }}
@@ -112,17 +111,9 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         </Cell>
         <Cell span={10}>
           <BreadcrumbNavigation />
-          <Block
-            marginTop="scale400"
-            $style={{
-              height: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-            }}
-          >
+          <Block marginTop="scale400" $style={{}}>
             {title && <Display4>{title}</Display4>}
             {children}
-            <Footer />
           </Block>
         </Cell>
       </Grid>
