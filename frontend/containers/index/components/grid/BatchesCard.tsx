@@ -6,37 +6,37 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import GridBase from './GridBase';
 
-interface IMaterialCardProps {}
+interface IBatchCardProps {}
 export const gridConfig = {
-  i: 'Material Card',
-  x: 2,
+  i: 'Batch Card',
+  x: 4,
   y: 0,
   w: 2,
   h: 4,
   minW: 2,
   minH: 4,
 };
-const MaterialCard: React.FunctionComponent<IMaterialCardProps> = (props) => {
-  const [materials, setMaterials] = useState([]);
+const BatchCard: React.FunctionComponent<IBatchCardProps> = (props) => {
+  const [batches, setBatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      setMaterials(await proofchain().material.all({ onlyMaterials: true }));
+      setBatches(await proofchain().batch.all());
       setIsLoading(false);
     })();
   }, []);
   return (
     <GridBase
-      title="Materials"
-      icon={<FontAwesomeIcon icon="dot-circle" />}
+      title="Batches"
+      icon={<FontAwesomeIcon icon="boxes" />}
       isLoading={isLoading}
     >
       <CenteredContainer>
-        {pluralize('material', materials.length, true)}
+        {pluralize('batch', batches.length, true)}
       </CenteredContainer>
     </GridBase>
   );
 };
 
-export default MaterialCard;
+export default BatchCard;

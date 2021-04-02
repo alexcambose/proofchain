@@ -1,21 +1,17 @@
 import CenteredContainer from '@components/layout/CenteredContainer';
-import CompanyEntityTypeTag from '@components/tag/CompanyEntityTypeTag';
-import { CompanyEntityTypeEnum, EntityTypeEnum } from '@enums';
+import TimeIndicator from '@components/TimeIndicator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { State } from '@store/index';
-import { IUser } from '@store/user/interface';
-import { styled, useStyletron } from 'baseui';
-import { Display4, Label3, Paragraph4 } from 'baseui/typography';
+import { styled } from 'baseui';
+import { Paragraph4 } from 'baseui/typography';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import GridBase from './GridBase';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import LoadingSkeleton from '@components/loading/LoadingSkeleton';
-import TimeIndicator from '@components/TimeIndicator';
 
 interface IBalanceCardProps {}
 export const gridConfig = {
   i: 'Balance Card',
-  x: 4,
+  x: 6,
   y: 0,
   w: 2,
   h: 4,

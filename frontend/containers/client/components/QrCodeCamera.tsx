@@ -19,7 +19,6 @@ const Video = styled('video', ({ $theme }) => ({
   height: 'auto',
 }));
 const QrCodeCamera: React.FC<IQrCodeCameraProps> = ({ onScanSuccessful }) => {
-  const [css] = useStyletron();
   const videoElem = useRef(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [hasFlash, setHasFlash] = useState(false);

@@ -9,7 +9,7 @@ import GridBase from './GridBase';
 interface IRawMaterialCardProps {}
 export const gridConfig = {
   i: 'Raw Material Card',
-  x: 8,
+  x: 0,
   y: 0,
   w: 2,
   h: 4,

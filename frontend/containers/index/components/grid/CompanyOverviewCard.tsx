@@ -14,7 +14,7 @@ interface ICompanyOverviewCardProps {}
 export const gridConfig = {
   i: 'CompanyOverviewCard',
   x: 0,
-  y: 0,
+  y: 2,
   w: 4,
   h: 6,
   minW: 4,

@@ -1,5 +1,8 @@
 import React from 'react';
 import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
+import BatchesCard, {
+  gridConfig as BatchesCardConfig,
+} from './components/grid/BatchesCard';
 import RawMaterialsCard, {
   gridConfig as RawMaterialsCardConfig,
 } from './components/grid/RawMaterialsCard';
@@ -18,6 +21,7 @@ const layouts = {
     BalanceCardConfig,
     MaterialsCardConfig,
     RawMaterialsCardConfig,
+    BatchesCardConfig,
   ],
 };
 const Index = () => {
@@ -43,6 +47,9 @@ const Index = () => {
         </div>
         <div key={RawMaterialsCardConfig.i}>
           <RawMaterialsCard />
+        </div>
+        <div key={BatchesCardConfig.i}>
+          <BatchesCard />
         </div>
       </ResponsiveGridLayout>
     </>
