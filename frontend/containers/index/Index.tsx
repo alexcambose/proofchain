@@ -1,5 +1,8 @@
 import React from 'react';
 import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
+import RawMaterialsCard, {
+  gridConfig as RawMaterialsCardConfig,
+} from './components/grid/RawMaterialsCard';
 import MaterialsCard, {
   gridConfig as MaterialsCardConfig,
 } from './components/grid/MaterialsCard';
@@ -10,7 +13,12 @@ import CompanyOverviewCard, {
   gridConfig as CompanyOverviewCardGridConfig,
 } from './components/grid/CompanyOverviewCard';
 const layouts = {
-  lg: [CompanyOverviewCardGridConfig, BalanceCardConfig, MaterialsCardConfig],
+  lg: [
+    CompanyOverviewCardGridConfig,
+    BalanceCardConfig,
+    MaterialsCardConfig,
+    RawMaterialsCardConfig,
+  ],
 };
 const Index = () => {
   return (
@@ -32,6 +40,9 @@ const Index = () => {
         </div>
         <div key={MaterialsCardConfig.i}>
           <MaterialsCard />
+        </div>
+        <div key={RawMaterialsCardConfig.i}>
+          <RawMaterialsCard />
         </div>
       </ResponsiveGridLayout>
     </>

@@ -6,37 +6,41 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import GridBase from './GridBase';
 
-interface IMaterialCardProps {}
+interface IRawMaterialCardProps {}
 export const gridConfig = {
-  i: 'Material Card',
-  x: 4,
+  i: 'Raw Material Card',
+  x: 8,
   y: 0,
   w: 2,
   h: 4,
   minW: 2,
   minH: 4,
 };
-const MaterialCard: React.FunctionComponent<IMaterialCardProps> = (props) => {
-  const [materials, setMaterials] = useState([]);
+const RawMaterialCard: React.FunctionComponent<IRawMaterialCardProps> = (
+  props
+) => {
+  const [rawmaterials, setRawMaterials] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      setMaterials(await proofchain().material.all({ onlyMaterials: true }));
+      setRawMaterials(
+        await proofchain().material.all({ onlyRawMaterials: true })
+      );
       setIsLoading(false);
     })();
   }, []);
   return (
     <GridBase
-      title="Materials"
-      icon={<FontAwesomeIcon icon="dot-circle" />}
+      title="Raw Materials"
+      icon={<FontAwesomeIcon icon="draw-polygon" />}
       isLoading={isLoading}
     >
       <CenteredContainer>
-        {pluralize('material', materials.length, true)}
+        {pluralize('raw material', rawmaterials.length, true)}
       </CenteredContainer>
     </GridBase>
   );
 };
 
-export default MaterialCard;
+export default RawMaterialCard;
