@@ -7,6 +7,7 @@ interface IGridBaseProps {
   children: React.ReactNode;
   title?: React.ReactNode;
   icon?: React.ReactNode;
+  isLoading?: boolean;
 }
 const Header = styled('div', ({ $theme }) => ({
   marginLeft: `-1px`,
@@ -50,7 +51,12 @@ const StyledBody = styled('div', ({ $theme }) => ({
   display: 'flex',
   height: '100%',
 }));
-const GridBase: React.FC<IGridBaseProps> = ({ title, children, icon }) => {
+const GridBase: React.FC<IGridBaseProps> = ({
+  title,
+  children,
+  icon,
+  isLoading,
+}) => {
   return (
     <Card
       overrides={{
@@ -97,10 +103,12 @@ const GridBase: React.FC<IGridBaseProps> = ({ title, children, icon }) => {
       }}
       title={title}
     >
-      <StyledBody>
-        {icon && <IconContainer>{icon}</IconContainer>}
-        <BodyContents>{children}</BodyContents>
-      </StyledBody>
+      {isLoading ? null : (
+        <StyledBody>
+          {icon && <IconContainer>{icon}</IconContainer>}
+          <BodyContents>{children}</BodyContents>
+        </StyledBody>
+      )}
     </Card>
   );
 };

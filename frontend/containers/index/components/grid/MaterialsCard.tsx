@@ -11,10 +11,13 @@ import GridBase from './GridBase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import TimeIndicator from '@components/TimeIndicator';
+import { useEffect, useState } from 'react';
+import proofchain from 'proofchain';
+import pluralize from 'pluralize';
 
-interface IBalanceCardProps {}
+interface IMaterialCardProps {}
 export const gridConfig = {
-  i: 'Balance Card',
+  i: 'Material Card',
   x: 4,
   y: 0,
   w: 2,
@@ -22,27 +25,27 @@ export const gridConfig = {
   minW: 2,
   minH: 4,
 };
-const LastRefresh = styled(Paragraph4, ({ $theme }) => ({
-  marginTop: $theme.sizing.scale100,
-  color: $theme.colors.contentTertiary,
-  ...$theme.typography.ParagraphXSmall,
-  fontSize: '10px',
-}));
-const BalanceCard: React.FunctionComponent<IBalanceCardProps> = (props) => {
-  const user = useSelector((state: State) => state.user);
+const MaterialCard: React.FunctionComponent<IMaterialCardProps> = (props) => {
+  const [materials, setMaterials] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      setMaterials(await proofchain().material.all({ onlyMaterials: true }));
+      setIsLoading(false);
+    })();
+  }, []);
   return (
     <GridBase
-      title="Balance"
-      icon={<FontAwesomeIcon icon={['fab', 'ethereum']} />}
+      title="Materials"
+      icon={<FontAwesomeIcon icon="dot-circle" />}
+      isLoading={isLoading}
     >
       <CenteredContainer>
-        {user.balance} ETH
-        <LastRefresh>
-          Updated <TimeIndicator>{user.lastBalanceRefresh}</TimeIndicator>
-        </LastRefresh>
+        {pluralize('material', materials.length, true)}
       </CenteredContainer>
     </GridBase>
   );
 };
 
-export default BalanceCard;
+export default MaterialCard;
