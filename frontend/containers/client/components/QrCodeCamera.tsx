@@ -1,11 +1,12 @@
-import * as React from 'react';
-import QrScanner from 'qr-scanner';
+// @ts-ignore
 import QrScannerWorkerPath from '!!file-loader!node_modules/qr-scanner/qr-scanner-worker.min.js';
-import { useEffect, useRef, useState } from 'react';
-import { ButtonGroup, SIZE } from 'baseui/button-group';
-import { styled, useStyletron } from 'baseui';
-import { Button } from 'baseui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { styled } from 'baseui';
+import { Button } from 'baseui/button';
+import { ButtonGroup, SIZE } from 'baseui/button-group';
+import QrScanner from 'qr-scanner';
+import * as React from 'react';
+import { useEffect, useRef, useState } from 'react';
 QrScanner.WORKER_PATH = QrScannerWorkerPath;
 
 interface IQrCodeCameraProps {

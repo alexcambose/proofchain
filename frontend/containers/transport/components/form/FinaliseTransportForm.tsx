@@ -21,7 +21,7 @@ interface FinaliseTransportFormValues {
 const _FinaliseTransportForm: React.FC<
   FinaliseTransportFormProps & FormikProps<FinaliseTransportFormValues>
 > = ({ transport }) => {
-  console.log(transport, TransportStatusEnum.PENDING_FINALISED);
+  if (transport.status != TransportStatusEnum.PENDING_FINALISED) {
     return <>This transport needs to be in the "Pending Finalised" status.</>;
   }
   return (

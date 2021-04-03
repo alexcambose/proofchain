@@ -107,10 +107,9 @@ export const fetchCertificateInfo = createAsyncThunk(
           material,
           certificateInstance,
           assignEvent,
-          // @ts-ignore
-          assignTime: (
-            await web3Instance().eth.getBlock(assignEvent.blockNumber)
-          ).timestamp,
+          assignTime: // @ts-ignore
+          (await web3Instance().eth.getBlock(assignEvent.blockNumber))
+            .timestamp,
         });
       }
       return { certificate, additionalInfo };

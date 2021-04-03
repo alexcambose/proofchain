@@ -7,10 +7,12 @@ const initialState: ITransportStore = {
     transport: null,
     createdTimestamp: null,
     batchInfo: [],
-    events: {
-      transportEvent: null,
-      timestamp: 0,
-    },
+    events: [
+      {
+        transportEvent: null,
+        timestamp: 0,
+      },
+    ],
   },
 };
 

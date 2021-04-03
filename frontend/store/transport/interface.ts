@@ -9,7 +9,7 @@ export interface ITransportStore {
     batchInfo: IBatch[];
     events: [
       {
-        transportEvent: Transport;
+        transportEvent?: Transport;
         timestamp;
       }
     ];

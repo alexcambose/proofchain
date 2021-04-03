@@ -18,7 +18,7 @@ import { useStyletron } from 'baseui';
 import { startCase } from 'lodash';
 
 interface IVerticalTable {
-  withTransactionDetails: string;
+  withTransactionDetails?: string;
   items: {
     [title: string]: any;
   };
@@ -81,35 +81,37 @@ const VerticalTable: React.FC<IVerticalTable> = ({
           )}
         </StyledTable>
       </StyledRoot>
-      <div
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          display: 'flex',
-        }}
-      >
-        <Button
-          onClick={onTransactionDetailsClick}
-          kind={KIND.minimal}
-          size={SIZE.mini}
+      {withTransactionDetails && (
+        <div
+          style={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+          }}
         >
-          {isLoading ? (
-            <Spinner $size={SPINNER_SIZE.small} />
-          ) : (
-            <>
-              {isExpanded ? (
-                <>
-                  Hide transaction details <ChevronUp />
-                </>
-              ) : (
-                <>
-                  View transaction details <ChevronDown />
-                </>
-              )}
-            </>
-          )}
-        </Button>
-      </div>
+          <Button
+            onClick={onTransactionDetailsClick}
+            kind={KIND.minimal}
+            size={SIZE.mini}
+          >
+            {isLoading ? (
+              <Spinner $size={SPINNER_SIZE.small} />
+            ) : (
+              <>
+                {isExpanded ? (
+                  <>
+                    Hide transaction details <ChevronUp />
+                  </>
+                ) : (
+                  <>
+                    View transaction details <ChevronDown />
+                  </>
+                )}
+              </>
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

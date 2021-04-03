@@ -11,7 +11,7 @@ const ProductInfoHistory: React.FunctionComponent<IProductInfoHistoryProps> = ({
   const materialInstance = useSelector(
     (state: State) => state.client.information.materialInstance
   );
-  return <>{JSON.stringify(materialInstance)}</>;
+  return <>aa</>;
 };
 
 export default ProductInfoHistory;

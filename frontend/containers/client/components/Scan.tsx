@@ -1,6 +1,7 @@
 import * as React from 'react';
 import QrScanner from 'qr-scanner';
 import { Drawer, SIZE as DRAWER_SIZE, ANCHOR } from 'baseui/drawer';
+// @ts-ignore
 import QrScannerWorkerPath from '!!file-loader!node_modules/qr-scanner/qr-scanner-worker.min.js';
 import { useEffect, useRef, useState } from 'react';
 import QrCodeCamera from './QrCodeCamera';
