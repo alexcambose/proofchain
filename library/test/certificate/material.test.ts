@@ -44,6 +44,7 @@ describe('certificate', () => {
       {
         name: 'name',
         description: 'description',
+        type: 2,
       }
     );
     certificateCode1 =
@@ -53,6 +54,7 @@ describe('certificate', () => {
       {
         name: 'name',
         description: 'description',
+        type: 2,
       }
     );
     certificateCode2 =
@@ -61,6 +63,7 @@ describe('certificate', () => {
       {
         name: 'name',
         description: 'description',
+        type: 2,
       }
     );
     certificateCode3 =

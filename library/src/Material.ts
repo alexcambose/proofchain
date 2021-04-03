@@ -267,9 +267,11 @@ class Material extends Base implements IEntity {
       .call();
     return materialsUuid;
   }
-  async getMaterialByUuid(materialUuid: number): Promise<IMaterialInfo> {
+  async getMaterialByUuid(
+    materialUuid: number,
+    full: boolean = false
+  ): Promise<IMaterialInfo> {
     await this.ensureContract();
-    console.log(this.contract);
 
     const material: IMaterialInfo = await this.contract.methods
       .uuidMaterialInfo(materialUuid)
@@ -281,6 +283,14 @@ class Material extends Base implements IEntity {
         materialTokenId: material.materialTokenId,
       }
     );
+    if (full) {
+      material.fromBatchId = await this.contract.methods
+        .getMaterialInfoFromBatchId(materialUuid)
+        .call();
+      material.batchMaterialsUuid = await this.contract.methods
+        .getMaterialInfoBatchMaterialsUuid(materialUuid)
+        .call();
+    }
     // @ts-ignore
     material.mintEvent = events.find((e) => e.uuid == material.uuid);
     return material;

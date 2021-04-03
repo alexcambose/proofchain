@@ -141,21 +141,32 @@ describe('material', () => {
   });
 
   describe('getMaterialByUuid', () => {
-    it('returns the material by uuid', async () => {
+    let materialTokenId: number;
+    let uuid: number;
+    beforeAll(async () => {
       const product = await proofchain.material.create({
         name: 'product',
         code: '123',
         amountIdentifier: 'kg',
       });
-      const { materialTokenId } = product.events.MaterialCreate;
+      materialTokenId = product.events.MaterialCreate.materialTokenId;
       const result = await proofchain.material.mint({
         materialTokenId,
         amount: 2,
       });
-      const fetchedMaterial = await proofchain.material.getMaterialByUuid(
-        result.events.MaterialTransfer[0].uuid
-      );
+      uuid = result.events.MaterialTransfer[0].uuid;
+    });
+    it('returns the material by uuid', async () => {
+      const fetchedMaterial = await proofchain.material.getMaterialByUuid(uuid);
       expect(fetchedMaterial.materialTokenId).toEqual(materialTokenId);
+    });
+    it('returns the batch inputs', async () => {
+      const fetchedMaterial = await proofchain.material.getMaterialByUuid(
+        uuid,
+        true
+      );
+      expect(Array.isArray(fetchedMaterial.batchMaterialsUuid)).toBeTruthy();
+      expect(Array.isArray(fetchedMaterial.fromBatchId)).toBeTruthy();
     });
   });
   describe('getOwnedMaterialsUuid', () => {

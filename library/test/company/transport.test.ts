@@ -113,7 +113,7 @@ describe('Company - transport', () => {
           receiver: otherAccount,
           transportCompany: tcAccount,
           batchIds: [batchId],
-          hashedPassword: '123',
+          password: '123',
         });
         const fetchedTransport = await proofchain.transport.getById(
           transportId

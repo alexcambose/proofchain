@@ -1,10 +1,19 @@
 import Base from './Base';
 import MinedTransaction from './MinedTransaction';
 import { EMPTY_ADDRESS } from './utils/eth';
+enum CertificateTypeEnum {
+  ENVIRONMENTAL_IMPACT,
+  SAFETY_AND_QUALITY,
+  HEALTH_AND_NUTRITION,
+  SOCIAL_IMPACT,
+  ANIMAL_WELFARE,
+  OTHER,
+}
 export interface ICertificate {
   name: string;
   code: number;
   description: string;
+  ctype: CertificateTypeEnum;
   certificateAuthority: string;
 }
 interface ICertificateAuthority {
@@ -41,9 +50,11 @@ class CertificateAuthority extends Base {
   async createCertificate({
     name,
     description,
+    type,
   }: {
     name: string;
     description: string;
+    type: CertificateTypeEnum;
   }): Promise<
     MinedTransaction<{
       CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
@@ -51,8 +62,8 @@ class CertificateAuthority extends Base {
   > {
     await this.ensureContract();
     const transaction = await this.contract.methods
-      .createCertificate(name, description || '')
-      .send({ from: this.fromAddress, gas: 400000 });
+      .createCertificate(name, description || '', type)
+      .send({ from: this.fromAddress, gas: 500000 });
     return new MinedTransaction<{
       CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
     }>(transaction);

@@ -82,6 +82,7 @@ describe('Certificates', () => {
         {
           name: 'name',
           description: 'description',
+          type: 2,
         }
       );
       const code =
@@ -93,6 +94,7 @@ describe('Certificates', () => {
         proofchain.certificateAuthority.createCertificate({
           name: 'name',
           description: 'description',
+          type: 2,
         })
       ).rejects.toThrow();
     });
@@ -103,6 +105,7 @@ describe('Certificates', () => {
         {
           name: 'name',
           description: 'description',
+          type: 2,
         }
       );
       const code =

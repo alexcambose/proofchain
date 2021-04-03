@@ -47,6 +47,7 @@ describe('material', () => {
           {
             name: 'certificate',
             description: 'description',
+            type: 2,
           }
         );
         const certificateCode =
@@ -74,6 +75,7 @@ describe('material', () => {
           {
             name: 'certificate',
             description: 'description',
+            type: 3,
           }
         );
         const certificateCode =
@@ -100,6 +102,7 @@ describe('material', () => {
           {
             name: 'certificate',
             description: 'description',
+            type: 1,
           }
         );
         const certificateCode =
@@ -131,6 +134,7 @@ describe('material', () => {
           {
             name: 'certificate',
             description: 'description',
+            type: 1,
           }
         );
         const certificateCode =
@@ -158,6 +162,7 @@ describe('material', () => {
         {
           name: 'certificate',
           description: 'description',
+          type: 2,
         }
       );
       const certificateCode =
