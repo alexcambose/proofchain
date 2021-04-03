@@ -17,14 +17,16 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
   props
 ) => {
   const router = useRouter();
-  const [value, setValue] = useState();
+  const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [materialFound, setMaterialFound] = useState<
     { uuid: string } & IMaterial
   >(null);
   const searchProduct = throttle(async (uuid) => {
     setLoading(true);
-    if (uuid) {
+    setError('');
+    if (uuid && uuid !== '0') {
       const materialInstance = await proofchain().material.getMaterialByUuid(
         uuid
       );
@@ -33,6 +35,8 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
         materialInstance.materialTokenId
       );
       setMaterialFound({ ...materialFromInstance, uuid });
+    } else {
+      setError('Nothing found');
     }
     setLoading(false);
   }, 1000);
@@ -44,6 +48,7 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
       <FormControl
         label="Product code"
         caption="Enter the product code to view details"
+        error={error}
         htmlFor="code"
       >
         <Input

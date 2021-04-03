@@ -1,6 +1,6 @@
-import { IClient } from './interface';
+import { IClientStore } from './interface';
 
-const initialState: IClient = {
+const initialState: IClientStore = {
   materialUuid: '',
   information: {
     company: null,

@@ -41,6 +41,7 @@ import {
   faDrawPolygon,
   faBoxes,
   faTruck,
+  faDownload,
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
@@ -70,7 +71,8 @@ library.add(
   faEthereum,
   faDotCircle,
   faDrawPolygon,
-  faBoxes
+  faBoxes,
+  faDownload
 );
 
 if (isClient()) {

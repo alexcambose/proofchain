@@ -14,6 +14,7 @@ import { ITransportStore } from './transport/interface';
 import { ICertificateStore } from './certificate/interface';
 import CertificateSlice from './certificate';
 import ClientSlice from './client';
+import { IClientStore } from './client/interface';
 
 export interface State {
   user: IUser;
@@ -22,6 +23,7 @@ export interface State {
   application: IApplication;
   transport: ITransportStore;
   certificate: ICertificateStore;
+  client: IClientStore;
 }
 
 // create a makeStore function
