@@ -1,4 +1,8 @@
-import { CompanyEntityTypeEnum, TransportStatusEnum } from '@enums';
+import {
+  CertificateTypeEnum,
+  CompanyEntityTypeEnum,
+  TransportStatusEnum,
+} from '@enums';
 import { number, string } from 'yup/lib/locale';
 export interface ICompany {
   entityType: CompanyEntityTypeEnum;
@@ -62,6 +66,7 @@ export interface ICertificate {
   code: number;
   description: string;
   certificateAuthority: string;
+  ctype: CertificateTypeEnum;
   events?: {
     CertificateAuthorityCertificateCreated: any;
   };

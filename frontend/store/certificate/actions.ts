@@ -1,3 +1,4 @@
+import { CertificateTypeEnum } from '@enums';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import transactionWrapper from '@utils/transactionWrapper';
 import proofchain from 'proofchain';
@@ -32,12 +33,21 @@ export const fetchCertificates = createAsyncThunk(
 );
 export const createCertificate = createAsyncThunk(
   'certificate/createCertificate',
-  async ({ name, description }: { name: string; description: string }) => {
+  async ({
+    name,
+    description,
+    type,
+  }: {
+    name: string;
+    description: string;
+    type: CertificateTypeEnum;
+  }) => {
     console.log(name, description);
     const result = await transactionWrapper(() =>
       proofchain().certificateAuthority.createCertificate({
         name,
         description,
+        type,
       })
     );
 
@@ -97,9 +107,10 @@ export const fetchCertificateInfo = createAsyncThunk(
           material,
           certificateInstance,
           assignEvent,
-          assignTime: // @ts-ignore
-          (await web3Instance().eth.getBlock(assignEvent.blockNumber))
-            .timestamp,
+          // @ts-ignore
+          assignTime: (
+            await web3Instance().eth.getBlock(assignEvent.blockNumber)
+          ).timestamp,
         });
       }
       return { certificate, additionalInfo };

@@ -2,6 +2,8 @@ import Button from '@components/Button';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
 import MaterialsUuidInput from '@components/form/formik/MaterialsUuidInput';
+import { certificateTypeOptions } from '@components/tag/CertificareTypeTag';
+import { CertificateTypeEnum } from '@enums';
 import { createCertificate } from '@store/certificate/actions';
 import validation from '@utils/validation';
 import { FormikProps, withFormik } from 'formik';
@@ -16,12 +18,13 @@ interface CreateCertificateFormProps
 interface FormValues {
   materialsUuid: any;
   code: string;
+  type: CertificateTypeEnum;
 }
+
 const _CreateCertificateForm: React.FC<
   CreateCertificateFormProps & FormikProps<FormValues>
 > = (props) => {
   const { isSubmitting, values } = props;
-
   return (
     <Form>
       <Field
@@ -38,6 +41,17 @@ const _CreateCertificateForm: React.FC<
         label="Certificate description"
         caption="(Optional) A useful description for the certificate"
       />
+      <Field
+        label="Certificate Type"
+        name="type"
+        type="select"
+        options={certificateTypeOptions}
+        valueKey="id"
+        labelKey="label"
+        clearable={false}
+        searchable={false}
+        value={values.type}
+      />
       <Button isLoading={isSubmitting} disabled={isSubmitting} type="submit">
         Create Certificate
       </Button>
@@ -53,6 +67,7 @@ const CreateCertificateForm = withFormik<
     return {
       materialsUuid: [],
       code: '',
+      type: certificateTypeOptions[0].id,
     };
   },
 

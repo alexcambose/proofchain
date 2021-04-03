@@ -8,6 +8,7 @@ import { IBatch, ICertificate, IMaterial } from 'interface';
 import Link from 'next/link';
 import React from 'react';
 import MaterialLink from '@components/MaterialLink';
+import CertificateTypeTag from '@components/tag/CertificareTypeTag';
 interface ICertificatesTableProps {
   certificates: ICertificate[];
   isLoading?: boolean;
@@ -21,11 +22,19 @@ const CertificatesTable: React.FC<ICertificatesTableProps> = ({
       withSearch
       withPagination
       isLoading={isLoading}
-      columns={['Code', 'Name', 'Description', 'Create Transaction', 'Action']}
+      columns={[
+        'Code',
+        'Name',
+        'Description',
+        'Type',
+        'Create Transaction',
+        'Action',
+      ]}
       data={certificates.map((e) => [
         e.code,
         e.name,
         e.description,
+        <CertificateTypeTag type={e.ctype} />,
         <TransactionLink>
           {e.events.CertificateAuthorityCertificateCreated.transactionHash}
         </TransactionLink>,

@@ -15,7 +15,6 @@ export const ClientSlice = createSlice({
       state.information.company = payload.company;
     });
     builder.addCase(fetchMaterialInfo.fulfilled, (state, { payload }) => {
-      console.log(payload);
       state.information.materialInstance = payload.materialInstance;
       state.information.material = payload.material;
     });

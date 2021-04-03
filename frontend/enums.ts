@@ -25,3 +25,11 @@ export enum TransportStatusEnum {
   PENDING_FINALISED,
   FINALISED,
 }
+export enum CertificateTypeEnum {
+  ENVIRONMENTAL_IMPACT,
+  SAFETY_AND_QUALITY,
+  HEALTH_AND_NUTRITION,
+  SOCIAL_IMPACT,
+  ANIMAL_WELFARE,
+  OTHER,
+}

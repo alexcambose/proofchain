@@ -1,6 +1,19 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import proofchain from 'proofchain';
 
+const fetchMaterialHistory = async (material) => {
+  console.log(material);
+  // MaterialTransfer mint
+  const mintEvent = material.mintEvent;
+  console.log(
+    mintEvent
+    // await proofchain()
+    //   .material.contract.getMaterialInfoFromBatchId(material.uuid)
+    //   .call()
+  );
+  //
+};
+
 export const fetchCompanyInfo = createAsyncThunk(
   'client/fetchCompanyInfo',
   async (_, { getState }) => {
@@ -15,9 +28,13 @@ export const fetchMaterialInfo = createAsyncThunk(
   'client/fetchMaterialInfo',
   async ({ uuid }: { uuid: number }) => {
     const materialInstance = await proofchain().material.getMaterialByUuid(
-      uuid
+      uuid,
+      true
     );
-    const material = await proofchain().material.getById(uuid);
+    const material = await proofchain().material.getById(
+      materialInstance.materialTokenId
+    );
+    await fetchMaterialHistory(materialInstance);
     return { material, materialInstance };
   }
 );
