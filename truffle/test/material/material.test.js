@@ -29,7 +29,6 @@ contract("Material", (accounts) => {
     it("mints a new raw material", async () => {
       const [materialInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
-      console.log(materialTokenId);
       await materialInstance.methods.mint(materialTokenId, 2).send({ from: account, gas: 300000 });
       const balance = await materialInstance.methods.getBalance(materialTokenId, account).call();
       expect(balance).equal("2");

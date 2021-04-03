@@ -77,7 +77,7 @@ const createCertificate = (account) => async (name = "Company donates to charity
     certificateAuthorityManagerInstance,
   ] = await getInstance();
   const result = await certificateAuthorityManagerInstance.methods
-    .createCertificate(name, code)
+    .createCertificate(name, code, 2)
     .send({ from: account, gas: 300000 });
   return result.events.CertificateAuthorityCertificateCreated.returnValues.code;
 };

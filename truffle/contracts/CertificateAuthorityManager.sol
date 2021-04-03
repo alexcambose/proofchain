@@ -8,10 +8,19 @@ import "./utils/Ownable.sol";
 contract CertificateAuthorityManager {
     event CertificateAuthorityCreated(address indexed owner);
     event CertificateAuthorityCertificateCreated(address indexed owner, uint256 indexed code);
+    enum CertificateType {
+        ENVIRONMENTAL_IMPACT,
+        SAFETY_AND_QUALITY,
+        HEALTH_AND_NUTRITION,
+        SOCIAL_IMPACT,
+        ANIMAL_WELFARE,
+        OTHER
+    }
     struct Certificate {
         string name;
         uint256 code;
         string description;
+        CertificateType ctype;
         // unique certificate code, used to assign a specific certificate code to a material/company
         address certificateAuthority;
     }
@@ -58,14 +67,16 @@ contract CertificateAuthorityManager {
         emit CertificateAuthorityCreated(msg.sender);
     }
 
-    function createCertificate(string memory _name, string memory _description)
-        public
-        onlyCertificateAuthority
-    {
+    function createCertificate(
+        string memory _name,
+        string memory _description,
+        CertificateType _ctype
+    ) public onlyCertificateAuthority {
         authorityCertificates[codeCounter].name = _name;
         authorityCertificates[codeCounter].description = _description;
         authorityCertificates[codeCounter].certificateAuthority = msg.sender;
         authorityCertificates[codeCounter].code = codeCounter;
+        authorityCertificates[codeCounter].ctype = _ctype;
         emit CertificateAuthorityCertificateCreated(msg.sender, codeCounter);
         codeCounter++;
     }

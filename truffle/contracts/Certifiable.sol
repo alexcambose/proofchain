@@ -5,7 +5,7 @@ import "./utils/CertificateAuthorityManagerReferencer.sol";
 abstract contract Certifiable is CertificateAuthorityManagerReferencer {
     function assignCertificate(uint256 _certificateCode) public payable {
         CertificateAuthorityManager cam = getCertificateAuthorityManagerContract();
-        (, , , address certificateAuthority) = cam.authorityCertificates(_certificateCode);
+        (, , , , address certificateAuthority) = cam.authorityCertificates(_certificateCode);
 
         require(
             certificateAuthority == msg.sender,
@@ -19,7 +19,7 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
 
     function cancelCertificate(uint256 _certificateCode) public {
         CertificateAuthorityManager cam = getCertificateAuthorityManagerContract();
-        (, , , address certificateAuthority) = cam.authorityCertificates(_certificateCode);
+        (, , , , address certificateAuthority) = cam.authorityCertificates(_certificateCode);
 
         require(
             certificateAuthority == msg.sender,

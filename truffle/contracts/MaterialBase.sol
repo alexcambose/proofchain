@@ -9,7 +9,11 @@ contract MaterialBase {
         uint256 indexed materialTokenId,
         uint256 uuid
     );
-    event BatchCreate(address indexed company, uint256 indexed batchId);
+    event BatchCreate(
+        address indexed company,
+        uint256 indexed batchId,
+        uint256 indexed materialTokenId
+    );
 
     event BatchTransfer(
         address indexed from,
@@ -63,9 +67,6 @@ contract MaterialBase {
         uint256 uuid;
         uint256[] fromBatchId;
         uint256[][] batchMaterialsUuid;
-        // uint batchMaterials
-        // batchId => materials uuids[]
-        // mapping(uint256 => uint256[]) batchMaterialsUuid;
     }
     // uuid generator
     uint256 materialUuidGenerator = 1;
@@ -164,5 +165,21 @@ contract MaterialBase {
 
     function getAddressBatches(address _address, uint256 _batchId) public view returns (bool) {
         return addressBatches[_address][_batchId];
+    }
+
+    function getMaterialInfoFromBatchId(uint256 _materialUuid)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return uuidMaterialInfo[_materialUuid].fromBatchId;
+    }
+
+    function getMaterialInfoBatchMaterialsUuid(uint256 _materialUuid)
+        public
+        view
+        returns (uint256[][] memory)
+    {
+        return uuidMaterialInfo[_materialUuid].batchMaterialsUuid;
     }
 }

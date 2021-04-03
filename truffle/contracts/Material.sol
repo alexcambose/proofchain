@@ -181,9 +181,11 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             });
         batch[batchId] = batchInfo;
         addressBatches[msg.sender][batchId] = true;
-        emit BatchCreate(msg.sender, batchId);
+        emit BatchCreate(msg.sender, batchId, materialTokenId);
         batchId++;
     }
+
+    function destroyBatch(uint256 _batchId) public {}
 
     function burnBatchTokens(uint256 _batchId, uint256[] memory _uuids) public {
         require(_uuids.length > 0, "Amount needs to be bigger than 0");

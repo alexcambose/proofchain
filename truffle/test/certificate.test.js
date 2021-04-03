@@ -18,7 +18,7 @@ contract("Certificate", (accounts) => {
     it("creates a new certificate", async () => {
       const [, , certificateAuthorityManagerInstance] = await getInstance();
       const result = await certificateAuthorityManagerInstance.methods
-        .createCertificate("Company donates to charity", 123)
+        .createCertificate("Company donates to charity", 123, 2)
         .send({ from: account, gas: 300000 });
       const { code } = result.events.CertificateAuthorityCertificateCreated.returnValues;
 
