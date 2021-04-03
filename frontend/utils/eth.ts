@@ -23,3 +23,4 @@ export const shortenAddress = (
   address.substring(0, offset) +
   '...' +
   address.substring(address.length - offset, address.length - 1);
+export const EMPTY_ADDRESS = '0x0000000000000000000000000000000000000000';

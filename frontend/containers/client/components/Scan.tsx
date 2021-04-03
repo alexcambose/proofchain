@@ -26,7 +26,9 @@ const Scan: React.FC<IScanProps> = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [css] = useStyletron();
   const onScanSuccessful = async (code) => {
-    console.log(code);
+    const ok = confirm('Scan successful. Product code: ' + code);
+    if (ok) {
+    }
   };
   return (
     <>

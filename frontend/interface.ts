@@ -26,6 +26,8 @@ export interface IMaterial {
   amountIdentifier: string;
   recipeMaterialTokenId?: number[];
   recipeMaterialAmount?: number[];
+  creator: string;
+
   events?: {
     MaterialCreate: any;
   };

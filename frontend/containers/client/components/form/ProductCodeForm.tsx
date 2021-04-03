@@ -8,27 +8,31 @@ import { useEffect, useState } from 'react';
 import { Card, StyledAction, StyledBody } from 'baseui/card';
 import Button from '@components/Button';
 import { IMaterial } from 'interface';
+import { EMPTY_ADDRESS } from 'proofchain-library/src/utils/eth';
+import { useRouter } from 'next/router';
 
 interface IProductCodeFormProps {}
 
 const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
   props
 ) => {
+  const router = useRouter();
   const [value, setValue] = useState();
   const [loading, setLoading] = useState(false);
-  const [materialFound, setMaterialFound] = useState<IMaterial>(null);
+  const [materialFound, setMaterialFound] = useState<
+    { uuid: string } & IMaterial
+  >(null);
   const searchProduct = throttle(async (uuid) => {
     setLoading(true);
     if (uuid) {
-      const { materialTokenId } = await proofchain().material.getMaterialByUuid(
+      const materialInstance = await proofchain().material.getMaterialByUuid(
         uuid
       );
-      const material = await proofchain().material.getById(materialTokenId);
-      // @ts-ignore
-      if (material.uuid != '0') {
-        setMaterialFound(material);
-      }
-      console.log(material);
+
+      const materialFromInstance = await proofchain().material.getById(
+        materialInstance.materialTokenId
+      );
+      setMaterialFound({ ...materialFromInstance, uuid });
     }
     setLoading(false);
   }, 1000);
@@ -47,7 +51,9 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
           value={value}
           size={INPUT_SIZE.large}
           autoFocus
-          type="text"
+          type="number"
+          min={0}
+          step={1}
           endEnhancer={() => loading && <Spinner $size={SIZE.small} />}
           onChange={(e) =>
             // @ts-ignore
@@ -61,7 +67,13 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
         <Card title={materialFound.name}>
           {/* <StyledBody>{materialFound.name}</StyledBody> */}
           <StyledAction>
-            <Button href={'/client/' + value}>View</Button>
+            <Button
+              onClick={() => {
+                router.push('/client/' + materialFound.uuid);
+              }}
+            >
+              View
+            </Button>
           </StyledAction>
         </Card>
       )}

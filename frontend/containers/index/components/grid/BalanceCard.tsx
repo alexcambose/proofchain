@@ -11,7 +11,7 @@ import GridBase from './GridBase';
 interface IBalanceCardProps {}
 export const gridConfig = {
   i: 'Balance Card',
-  x: 6,
+  x: 8,
   y: 0,
   w: 2,
   h: 4,

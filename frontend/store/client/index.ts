@@ -1,12 +1,11 @@
-import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { refreshLogin } from '@store/user/actions';
-import AuthManager from '@utils/auth/authManager';
-import { HYDRATE } from 'next-redux-wrapper';
-import Web3 from 'web3';
-import { initWeb3Instance } from '../../web3Instance';
-import { fetchGasPrice } from './actions';
+import {
+  fetchCompanyInfo,
+  fetchMaterialInfo,
+  fetchMaterialInstanceInfo,
+} from './actions';
 import initialState from './initialState';
-const hydrate = createAction(HYDRATE);
 
 export const ClientSlice = createSlice({
   name: 'appication',
@@ -16,9 +15,19 @@ export const ClientSlice = createSlice({
     builder.addCase(refreshLogin.fulfilled, (state, { payload }) => {
       state.loading = false;
     });
-    builder.addCase(fetchGasPrice.fulfilled, (state, { payload }) => {
-      state.gasPrice = payload.gasPrice;
+    builder.addCase(fetchCompanyInfo.fulfilled, (state, { payload }) => {
+      state.information.company = payload.company;
     });
+    builder.addCase(fetchMaterialInfo.fulfilled, (state, { payload }) => {
+      state.information.materialInfo = payload.materialInfo;
+    });
+    builder.addCase(
+      fetchMaterialInstanceInfo.fulfilled,
+      (state, { payload }) => {
+        console.log(payload);
+        state.information.materialInstance = payload.materialInstance;
+      }
+    );
   },
 });
 

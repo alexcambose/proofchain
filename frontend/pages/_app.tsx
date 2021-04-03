@@ -40,6 +40,7 @@ import {
   faDotCircle,
   faDrawPolygon,
   faBoxes,
+  faTruck,
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
@@ -59,6 +60,7 @@ library.add(
   faScroll,
   faPlus,
   faCheck,
+  faTruck,
   faTruckLoading,
   faTruckMoving,
   faParachuteBox,
@@ -82,7 +84,7 @@ function MyApp({ Component, pageProps }) {
   const isLoading = useSelector((state: State) => state.application.loading);
   useEffect(() => {
     const { pathname } = router;
-    if (pathname !== '/client') {
+    if (!pathname.startsWith('/client')) {
       if (loggedIn && pathname === '/login') {
         router.push('/');
       }
