@@ -65,5 +65,9 @@ module.exports = async (
   const mintResult = await materialInstance.methods
     .mint(materialTokenId, materialsObject[0].batchesId, materialsObject[0].batchMaterialsUuid)
     .send({ from: materialsObject[0].account, gas: 1000000 });
+  uuidsMaterialTokenId = mintResult.events.MaterialTransfer.uuid;
+  materialsObject[0].uuids = [uuidsMaterialTokenId];
+  materialsObject[0].materialTokenId = materialTokenId;
   console.log(`Minted 1 ${materialsObject[0].name}!`);
+  return materialsObject;
 };

@@ -8,6 +8,8 @@ const createCompanies = require("./createCompanies");
 const createRawMaterials = require("./createRawMaterials");
 const createBatches = require("./createBatches");
 const createMaterials = require("./createMaterials");
+const createCertificates = require("./createCertificates");
+const createTransports = require("./createTransports");
 module.exports = async function (callback) {
   try {
     const [
@@ -41,9 +43,14 @@ module.exports = async function (callback) {
     const rawMaterialsObject = await createRawMaterials(instances, accounts);
     console.log("Creating batches...");
     const materialBatches = await createBatches(rawMaterialsObject, instances, accounts);
+    console.log("Creating transports...");
+
+    const materialTransports = await createTransports(rawMaterialsObject, instances, accounts);
 
     console.log("Creating materials...");
     const materialsObject = await createMaterials(rawMaterialsObject, instances, accounts);
+    console.log("Creating certificates...");
+    await createCertificates(materialsObject, rawMaterialsObject, instances, accounts);
   } catch (e) {
     console.log(e);
   }

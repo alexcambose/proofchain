@@ -39,7 +39,7 @@ module.exports = async (
     rawMaterialsObject[i].batchIds.push(result.events.BatchCreate.returnValues.batchId);
     result = await materialInstance.methods
       .createBatch("LOT_N_" + faker.random.number(10000000), [uuids[7], uuids[8], uuids[9]])
-      .send({ from: account, gas: 400000 });
+      .send({ from: rawMaterialsObject[i].account, gas: 400000 });
     rawMaterialsObject[i].batchIds.push(result.events.BatchCreate.returnValues.batchId);
   }
 };
