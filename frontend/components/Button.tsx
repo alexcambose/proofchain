@@ -8,8 +8,14 @@ export enum ButtonColorStyle {
 }
 export interface ButtonProps extends BaseUiButtonProps {
   colorStyle?: ButtonColorStyle;
+  fullWidth?: boolean;
 }
-const Button: React.FC<ButtonProps> = ({ children, colorStyle, ...props }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  colorStyle,
+  fullWidth = true,
+  ...props
+}) => {
   let colorOverrides = useMemo(() => {
     if (colorStyle === ButtonColorStyle.DANGER) {
       return ($theme) => ({
@@ -28,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({ children, colorStyle, ...props }) => {
       overrides={{
         BaseButton: {
           style: ({ $theme }) => ({
-            width: '100%',
+            ...(fullWidth ? { width: '100%' } : {}),
             marginTop: $theme.sizing.scale200,
             marginBottom: $theme.sizing.scale200,
             marginRight: $theme.sizing.scale400,

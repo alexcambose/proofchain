@@ -20,7 +20,7 @@ export interface ITransport {
   hashedPassword: string;
 
   events?: {
-    TransportInitiated: any;
+    TransportCreated: any;
   };
 }
 export interface IMaterial {

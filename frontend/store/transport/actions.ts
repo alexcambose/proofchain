@@ -9,8 +9,8 @@ const getTransports = async (props = {}) => {
     transports.map(async (e) => ({
       ...e,
       events: {
-        TransportInitiated: (
-          await proofchain().company.getRawPastEvents('TransportInitiated', {
+        TransportCreated: (
+          await proofchain().company.getRawPastEvents('TransportCreated', {
             transportCompany: e.transportCompany,
             sender: e.sender,
             receiver: e.receiver,
@@ -42,8 +42,8 @@ export const fetchYourTransports = createAsyncThunk(
     return { transports };
   }
 );
-export const initiateTransport = createAsyncThunk(
-  'transport/initiateTransport',
+export const createTransport = createAsyncThunk(
+  'transport/createTransport',
   async ({
     receiver,
     transportCompany,
@@ -75,8 +75,8 @@ export const fetchTransportInfo = createAsyncThunk(
       transportId
     )) as ITransport;
     transport.events = {
-      TransportInitiated: (
-        await proofchain().company.getRawPastEvents('TransportInitiated', {
+      TransportCreated: (
+        await proofchain().company.getRawPastEvents('TransportCreated', {
           transportCompany: transport.transportCompany,
           sender: transport.sender,
           receiver: transport.receiver,
@@ -90,7 +90,7 @@ export const fetchTransportInfo = createAsyncThunk(
     );
     const createdTimestamp = (
       await web3Instance().eth.getBlock(
-        transport.events.TransportInitiated.blockNumber
+        transport.events.TransportCreated.blockNumber
       )
     ).timestamp;
 

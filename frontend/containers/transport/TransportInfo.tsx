@@ -49,7 +49,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
           left={
             <TransportTimeline
               createEvent={{
-                ...transport.events.TransportInitiated,
+                ...transport.events.TransportCreated,
                 timestamp: createdTimestamp,
               }}
               transportEvents={events}
@@ -77,7 +77,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
           <>
             <VerticalTable
               withTransactionDetails={
-                transport.events.TransportInitiated.transactionHash
+                transport.events.TransportCreated.transactionHash
               }
               items={{
                 Id: transport.transportId,
@@ -92,7 +92,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
                 Created: <TimeIndicator>{createdTimestamp}</TimeIndicator>,
                 'Create Transaction': (
                   <TransactionLink>
-                    {transport.events.TransportInitiated.transactionHash}
+                    {transport.events.TransportCreated.transactionHash}
                   </TransactionLink>
                 ),
               }}

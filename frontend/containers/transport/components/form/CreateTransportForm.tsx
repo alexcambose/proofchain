@@ -2,7 +2,7 @@ import Button from '@components/Button';
 import BatchIdsInput from '@components/form/formik/BatchIdsInput';
 import Field from '@components/form/formik/Field';
 import Form from '@components/form/formik/Form';
-import { initiateTransport } from '@store/transport/actions';
+import { createTransport } from '@store/transport/actions';
 import { isDevelopment } from '@utils/next';
 import validation from '@utils/validation';
 import { FormikProps, withFormik } from 'formik';
@@ -88,7 +88,7 @@ const CreateTransportForm = withFormik<CreateTransportFormProps, FormValues>({
 })(_CreateTransportForm);
 const mapDispatchToProps = (dispatch) => {
   return {
-    createTransport: (data) => dispatch(initiateTransport(data)),
+    createTransport: (data) => dispatch(createTransport(data)),
   };
 };
 export default connect(null, mapDispatchToProps)(CreateTransportForm);

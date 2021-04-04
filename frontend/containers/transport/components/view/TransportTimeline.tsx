@@ -108,7 +108,7 @@ const TransportTimeline: React.FunctionComponent<ITransportTimelineProps> = ({
         timeline={[createEvent, ...[...transportEvents].reverse()]
           .reverse()
           .map((e) => {
-            if (e.event === 'TransportInitiated') {
+            if (e.event === 'TransportCreated') {
               return timelineConfig.initiated(e, handleClick);
             }
             return timelineConfig.event(e, handleClick);

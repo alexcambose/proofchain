@@ -38,7 +38,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         e.batchIds,
         <TransportStatusTag transportStatus={e.status} />,
         <TransactionLink>
-          {e.events.TransportInitiated.transactionHash}
+          {e.events.TransportCreated.transactionHash}
         </TransactionLink>,
         <ViewButton id={e.transportId} baseUrl="/transport" />,
       ])}
@@ -74,7 +74,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         e.batchIds,
         <TransportStatusTag transportStatus={e.status} />,
         <TransactionLink>
-          {e.events.TransportInitiated.transactionHash}
+          {e.events.TransportCreated.transactionHash}
         </TransactionLink>,
         <ViewButton id={e.transportId} baseUrl="/transport" />,
       ])}
