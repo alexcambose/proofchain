@@ -105,5 +105,15 @@ class Batch extends Base {
       .removeBatchFromAddress(batchId)
       .send({ from: this.fromAddress, gas: 300000 });
   }
+  async destroyBatch(
+    batchId: number
+  ): Promise<MinedTransaction<BatchTransferEvent>> {
+    await this.ensureContract();
+    const transaction = await this.contract.methods
+      .destroyBatch(batchId)
+      .send({ from: this.fromAddress, gas: 300000 });
+
+    return new MinedTransaction<BatchTransferEvent>(transaction);
+  }
 }
 export default Batch;

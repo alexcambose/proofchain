@@ -93,4 +93,43 @@ describe('batch', () => {
       expect(oldBatches.length - newBatches.length).toEqual(1);
     });
   });
+  describe('destroyBatch', () => {
+    let materialTokenId: number, batchId: number;
+    beforeEach(async () => {
+      const materialCreateResult = await proofchain.material.create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      });
+      materialTokenId =
+        materialCreateResult.events.MaterialCreate.materialTokenId;
+
+      const mintResult = await proofchain.material.mint({
+        materialTokenId: materialTokenId,
+        amount: 5,
+      });
+      materialsUuid = mintResult.events.MaterialTransfer.map((e) => e.uuid);
+      const result = await proofchain.batch.create({
+        materialsUuid: materialsUuid,
+        code: '1',
+      });
+      batchId = result.events.BatchCreate.batchId;
+    });
+    it('removes the batch from all batches return values', async () => {
+      const oldFetchedBatches = await proofchain.batch.all();
+      await proofchain.batch.destroyBatch(batchId);
+      const newFetchedBatches = await proofchain.batch.all();
+      expect(oldFetchedBatches.length - newFetchedBatches.length).toEqual(1);
+    });
+    it('adds to the balance of materials', async () => {
+      const oldFetchedBalance = await proofchain.material.getBalance(
+        materialTokenId
+      );
+      await proofchain.batch.destroyBatch(batchId);
+      const newFetchedBalance = await proofchain.material.getBalance(
+        materialTokenId
+      );
+      expect(newFetchedBalance - oldFetchedBalance).toEqual(5);
+    });
+  });
 });

@@ -19,7 +19,7 @@ interface ITransport {
   status: TransportStatusEnum;
   hashedPassword: string;
 }
-type TransportInitiatedEvent = {
+type TransportCreatedEvent = {
   sender: string;
   receiver: string;
   transportCompany: string;
@@ -43,14 +43,12 @@ class Transport extends Base {
     batchIds: number[];
     transportCompany: string;
     password?: string;
-  }): Promise<
-    MinedTransaction<{ TransportInitiated: TransportInitiatedEvent }>
-  > {
+  }): Promise<MinedTransaction<{ TransportCreated: TransportCreatedEvent }>> {
     await this.ensureContract();
     let transaction;
     if (password) {
       transaction = await this.contract.methods
-        .initiateTransport(
+        .createTransport(
           receiver,
           transportCompany,
           batchIds,
@@ -59,11 +57,11 @@ class Transport extends Base {
         .send({ from: this.fromAddress, gas: 300000 });
     } else {
       transaction = await this.contract.methods
-        .initiateTransport(receiver, transportCompany, batchIds)
+        .createTransport(receiver, transportCompany, batchIds)
         .send({ from: this.fromAddress, gas: 300000 });
     }
     return new MinedTransaction<{
-      TransportInitiated: TransportInitiatedEvent;
+      TransportCreated: TransportCreatedEvent;
     }>(transaction);
   }
   async setTransportStatus({
@@ -125,8 +123,8 @@ class Transport extends Base {
     transportCompany?: string;
   } = {}) {
     await this.ensureContract();
-    const createEvents = await this.getPastEvents<TransportInitiatedEvent>(
-      'TransportInitiated',
+    const createEvents = await this.getPastEvents<TransportCreatedEvent>(
+      'TransportCreated',
       {
         sender,
         receiver,

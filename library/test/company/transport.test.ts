@@ -84,12 +84,12 @@ describe('Company - transport', () => {
     batchId2 = result2.events.BatchCreate.batchId;
   });
 
-  describe('initiateTransport', () => {
+  describe('createTransport', () => {
     describe('without password', () => {
       it('creates a new transport', async () => {
         const {
           events: {
-            TransportInitiated: { transportId },
+            TransportCreated: { transportId },
           },
         } = await proofchain.transport.initiate({
           receiver: otherAccount,
@@ -107,7 +107,7 @@ describe('Company - transport', () => {
       it('creates a new transport', async () => {
         const {
           events: {
-            TransportInitiated: { transportId },
+            TransportCreated: { transportId },
           },
         } = await proofchain.transport.initiate({
           receiver: otherAccount,
@@ -128,7 +128,7 @@ describe('Company - transport', () => {
     it('sets the status of a trasport', async () => {
       const {
         events: {
-          TransportInitiated: { transportId },
+          TransportCreated: { transportId },
         },
       } = await proofchain.transport.initiate({
         receiver: otherAccount,
@@ -145,7 +145,7 @@ describe('Company - transport', () => {
     it('thows error if the caller is not the transport company', async () => {
       const {
         events: {
-          TransportInitiated: { transportId },
+          TransportCreated: { transportId },
         },
       } = await proofchain.transport.initiate({
         receiver: otherAccount,
@@ -162,7 +162,7 @@ describe('Company - transport', () => {
     beforeAll(async () => {
       const {
         events: {
-          TransportInitiated: { transportId },
+          TransportCreated: { transportId },
         },
       } = await proofchain.transport.initiate({
         receiver: otherAccount,
@@ -185,7 +185,7 @@ describe('Company - transport', () => {
     it('only the receiver can finalise transport', async () => {
       const {
         events: {
-          TransportInitiated: { transportId },
+          TransportCreated: { transportId },
         },
       } = await proofchain.transport.initiate({
         receiver: otherAccount,
@@ -202,7 +202,7 @@ describe('Company - transport', () => {
     it('gets a transport by id', async () => {
       const {
         events: {
-          TransportInitiated: { transportId },
+          TransportCreated: { transportId },
         },
       } = await proofchain.transport.initiate({
         receiver: otherAccount,
@@ -274,7 +274,7 @@ describe('Company - transport', () => {
       const batchId = await createBatch(proofchain);
       const {
         events: {
-          TransportInitiated: { transportId },
+          TransportCreated: { transportId },
         },
       } = await proofchain.transport.initiate({
         receiver: otherAccount,
