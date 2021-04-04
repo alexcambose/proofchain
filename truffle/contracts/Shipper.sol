@@ -3,7 +3,7 @@ pragma solidity >0.7.0 <0.9.0;
 import "./utils/MaterialReferencer.sol";
 
 abstract contract Shipper is MaterialReferencer {
-    event TransportInitiated(
+    event TransportCreated(
         address indexed sender,
         address indexed receiver,
         address indexed transportCompany,
@@ -64,7 +64,7 @@ abstract contract Shipper is MaterialReferencer {
     }
 
     // The sender calls this
-    function initiateTransport(
+    function createTransport(
         address _receiver,
         address _transportCompany,
         uint256[] memory _batchIds
@@ -82,17 +82,17 @@ abstract contract Shipper is MaterialReferencer {
         for (uint256 i = 0; i < _batchIds.length; i++) {
             getMaterialContract().removeBatchFromAddress(_batchIds[i]);
         }
-        emit TransportInitiated(msg.sender, _receiver, _transportCompany, transportIdCounter);
+        emit TransportCreated(msg.sender, _receiver, _transportCompany, transportIdCounter);
         transportIdCounter++;
     }
 
-    function initiateTransport(
+    function createTransport(
         address _receiver,
         address _transportCompany,
         uint256[] memory _batchIds,
         string memory _hashedPassword
     ) public batchesOwner(_batchIds) {
-        initiateTransport(_receiver, _transportCompany, _batchIds);
+        createTransport(_receiver, _transportCompany, _batchIds);
         transports[transportIdCounter - 1].hashedPassword = _hashedPassword;
     }
 

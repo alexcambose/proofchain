@@ -63,7 +63,6 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             materialToken[_tokenID].recipeMaterialTokenId.length == 0,
             "You need to specify the required products"
         );
-
         address companyAddress = materialToken[_tokenID].creator;
         for (uint256 i = 0; i < _amount; i++) {
             MaterialInfo memory mi;
@@ -115,6 +114,8 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
             // for each batch
             for (uint8 j = 0; j < _batchesId.length; j++) {
+                // require that the provided batch is owned by the sender
+                require(batch[_batchesId[j]].owner == msg.sender, "You do not own all batches");
                 // find the batch with the correct recipe item
                 if (
                     // same materialTokenIds
@@ -185,7 +186,16 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         batchId++;
     }
 
-    function destroyBatch(uint256 _batchId) public {}
+    function destroyBatch(uint256 _batchId) public {
+        require(batch[_batchId].owner == msg.sender, "You are not the owner of this batch");
+        emit BatchTransfer(msg.sender, address(0), _batchId, 0);
+        addressBatches[msg.sender][_batchId] = false;
+        for (uint256 i = 0; i < batch[_batchId].materialsUuid.length; i++) {
+            // ensure these are my materials
+            uint256 uuid = batch[_batchId].materialsUuid[i];
+            balance[uuidMaterialInfo[uuid].materialTokenId][msg.sender].push(uuid);
+        }
+    }
 
     function burnBatchTokens(uint256 _batchId, uint256[] memory _uuids) public {
         require(_uuids.length > 0, "Amount needs to be bigger than 0");

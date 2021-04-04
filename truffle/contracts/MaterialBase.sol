@@ -80,6 +80,7 @@ contract MaterialBase {
         uint256[] materialsUuid;
     }
     // Mapping tokenid => to materials owned by an address (materials who are not in a batch)
+    // tokenId => address[] => uuids[]
     mapping(uint256 => mapping(address => uint256[])) balance;
     // all tokens, (materialTokenId => MaterialTokenInfo)
     // materialTokenId uniquely identifies a product

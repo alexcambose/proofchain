@@ -124,4 +124,25 @@ contract("Material", (accounts) => {
       );
     });
   });
+  describe("destroyBatch", () => {
+    let batchId, materialTokenId;
+
+    before(async () => {
+      const [materialInstance, companyInstance] = await getInstance();
+      materialTokenId = await createRawMaterial();
+      const mintResult = await materialInstance.methods
+        .mint(materialTokenId, 5)
+        .send({ from: account, gas: 400000 });
+      const uuids = mintResult.events.MaterialTransfer.map((e) => e.returnValues.uuid);
+      batchId = await createBatch(123, uuids);
+    });
+    it("adds the batch materials to balance", async () => {
+      const [materialInstance, companyInstance] = await getInstance();
+
+      const oldBalance = await materialInstance.methods.getBalance(materialTokenId, account).call();
+      await materialInstance.methods.destroyBatch(batchId).send({ from: account, gas: 400000 });
+      const newBalance = await materialInstance.methods.getBalance(materialTokenId, account).call();
+      expect(newBalance - oldBalance).equal(5);
+    });
+  });
 });
