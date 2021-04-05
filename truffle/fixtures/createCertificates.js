@@ -26,7 +26,6 @@ module.exports = async (
       .send({ from: certificateAuthority, gas: 800000 });
     const code = result.events.CertificateAuthorityCertificateCreated.returnValues.code;
 
-    console.log(rawMaterialsObject);
     for (let j = 0; j < rawMaterialsObject.length; j++) {
       console.log(
         `Assigned certificate ${code} to ${rawMaterialsObject[j].name} (${rawMaterialsObject[j].materialTokenId})`
@@ -35,7 +34,6 @@ module.exports = async (
         .assignCertificate(code, rawMaterialsObject[j].materialTokenId)
         .send({ from: certificateAuthority, gas: 800000, value: Web3.utils.toWei("2", "ether") });
     }
-    console.log(materialsObject);
     for (let j = 0; j < materialsObject.length; j++) {
       console.log(
         `Assigned certificate ${code} to ${materialsObject[j].name} (${materialsObject[j].materialTokenId})`

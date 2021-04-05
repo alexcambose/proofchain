@@ -182,7 +182,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             });
         batch[batchId] = batchInfo;
         addressBatches[msg.sender][batchId] = true;
-        emit BatchCreate(msg.sender, batchId, materialTokenId);
+        emit BatchCreate(msg.sender, batchId, materialTokenId, _uuids);
         batchId++;
     }
 

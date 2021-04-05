@@ -12,7 +12,8 @@ contract MaterialBase {
     event BatchCreate(
         address indexed company,
         uint256 indexed batchId,
-        uint256 indexed materialTokenId
+        uint256 indexed materialTokenId,
+        uint[] uuids
     );
 
     event BatchTransfer(
