@@ -1,0 +1,13 @@
+.react-flow__edge-textbg {
+  /* tbd */
+}
+.react-flow__node {
+  width: 100px !important;
+}
+.react-flow__edge-text {
+  font-size: 9px !important;
+}
+.react-flow__edge-textbg {
+  height: 8px im !important;
+  transform: translateY(6px) im !important;
+}

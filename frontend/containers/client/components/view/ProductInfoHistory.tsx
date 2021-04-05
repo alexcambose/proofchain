@@ -108,9 +108,17 @@ const generateHistory = async (materialUuid) => {
 };
 const batchHistory = async (batchId, materialsUuid) => {
   const batchInstance = await proofchain().batch.getById(batchId);
+  const createEvent = await proofchain().batch.getPastEvents(
+    'BatchCreate',
+    {
+      batchId: batchInstance.batchId,
+    },
+    true
+  );
   return {
     type: 'BATCH',
     batchInstance,
+    createEvent: createEvent[0],
     children: await Promise.all(
       materialsUuid.map(async (e) => generateHistory(e))
     ),

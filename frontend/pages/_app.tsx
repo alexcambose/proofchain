@@ -1,5 +1,6 @@
 import '@assets/styles/style.css';
 import '@assets/styles/react-grid.css';
+import '@assets/styles/react-flow.css';
 import 'normalize.css';
 import { refreshBalance, refreshLogin } from '@store/user/actions';
 import { init } from '@utils/auth/torus';
@@ -43,6 +44,7 @@ import {
   faTruck,
   faDownload,
   faTrash,
+  faBox,
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
@@ -74,7 +76,8 @@ library.add(
   faDrawPolygon,
   faBoxes,
   faDownload,
-  faTrash
+  faTrash,
+  faBox
 );
 
 if (isClient()) {
