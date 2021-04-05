@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProductHistoryVisualization from './ProductHistoryVisualisation';
 import proofchain from 'proofchain';
 import { EMPTY_ADDRESS } from '@utils/eth';
-
 interface IProductInfoHistoryProps {
   uuid: number;
 }
@@ -82,7 +81,11 @@ const fetchMaterialHistory = async (materialUuid, history = []) => {
   console.log(history);
   //
 };
-const generateHistory = async (materialUuid) => {
+const generateHistory = async (
+  materialUuid,
+  setHistory,
+  insideRecursion = false
+) => {
   const materialInstance = await proofchain().material.getMaterialByUuid(
     materialUuid,
     true
@@ -91,39 +94,56 @@ const generateHistory = async (materialUuid) => {
   const material = await proofchain().material.getById(
     materialInstance.materialTokenId
   );
-  const children = [];
-  for (let i = 0; i < materialInstance.fromBatchId.length; i++) {
-    children[i] = await batchHistory(
-      materialInstance.fromBatchId[i],
-      materialInstance.batchMaterialsUuid[i]
-    );
-  }
-  return {
+  // main history object, to be modified afterwards
+  const history = {
     materialInstance: materialInstance,
     material,
     mintEvent: materialInstance.mintEvent,
     type: 'MATERIAL',
-    children,
+    children: [],
   };
+  //
+  for (let i = 0; i < materialInstance.fromBatchId.length; i++) {
+    const batchId = materialInstance.fromBatchId[i];
+    const materialsUuid = materialInstance.batchMaterialsUuid[i];
+    // get events
+    const batchInstance = await proofchain().batch.getById(batchId);
+    const createEvent = await proofchain().batch.getPastEvents(
+      'BatchCreate',
+      {
+        batchId: batchInstance.batchId,
+      },
+      true
+    );
+    const child = {
+      type: 'BATCH',
+      batchInstance,
+      createEvent: createEvent[0],
+      children: [], //PARTIAL LOAD
+    };
+    history.children[i] = child;
+  }
+  if (!insideRecursion) setHistory({ ...history });
+  for (let i = 0; i < materialInstance.fromBatchId.length; i++) {
+    const materialsUuid = materialInstance.batchMaterialsUuid[i];
+    // history.children[i].children = await Promise.all(
+    //   materialsUuid.map(async (e) => generateHistory(e, setHistory, true))
+    // );
+    for (let j = 0; j < materialsUuid.length; j++) {
+      history.children[i].children[j] = await generateHistory(
+        materialsUuid[j],
+        setHistory,
+        true
+      );
+      if (!insideRecursion) setHistory({ ...history });
+    }
+    // history.children[i].children = await Promise.all(
+    //   materialsUuid.map(async (e) => generateHistory(e, setHistory, true))
+    // );
+  }
+  return history;
 };
-const batchHistory = async (batchId, materialsUuid) => {
-  const batchInstance = await proofchain().batch.getById(batchId);
-  const createEvent = await proofchain().batch.getPastEvents(
-    'BatchCreate',
-    {
-      batchId: batchInstance.batchId,
-    },
-    true
-  );
-  return {
-    type: 'BATCH',
-    batchInstance,
-    createEvent: createEvent[0],
-    children: await Promise.all(
-      materialsUuid.map(async (e) => generateHistory(e))
-    ),
-  };
-};
+const batchHistory = async (batchId, materialsUuid) => {};
 
 const ProductInfoHistory: React.FunctionComponent<IProductInfoHistoryProps> = ({
   uuid,
@@ -136,7 +156,7 @@ const ProductInfoHistory: React.FunctionComponent<IProductInfoHistoryProps> = ({
   );
   useEffect(() => {
     (async () => {
-      const h = await generateHistory(uuid);
+      const h = await generateHistory(uuid, setHistory);
       setHistory(h);
     })();
   }, []);

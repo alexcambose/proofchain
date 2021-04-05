@@ -1,9 +1,11 @@
+import { Easing, Tween, autoPlay } from 'es6-tween';
+
 import TransactionLink from '@components/TransactionLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'baseui';
 import dagre from 'dagre';
 import * as React from 'react';
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import ReactFlow, { Controls, isNode, MiniMap } from 'react-flow-renderer';
 interface IProductHistoryVisualizationProps {
   history: any[];
@@ -67,9 +69,9 @@ const position = { x: 0, y: 0 };
 const generateElements = (elements, history, parentNode = null) => {
   let newElement: any = {};
   let edgeElement: any = {};
-  if (history.type === 'MATERIAL') {
+  if (history?.type === 'MATERIAL') {
     newElement = {
-      id: Math.floor(Math.random() * 10000).toString(),
+      id: history.materialInstance.uuid,
       historyElement: history,
       type: 'default',
       data: {
@@ -86,9 +88,9 @@ const generateElements = (elements, history, parentNode = null) => {
       },
       position,
     };
-  } else if (history.type === 'BATCH') {
+  } else if (history?.type === 'BATCH') {
     newElement = {
-      id: Math.floor(Math.random() * 10000).toString(),
+      id: history.createEvent.event.transactionHash,
       historyElement: history,
       type: 'default',
 
@@ -114,7 +116,7 @@ const generateElements = (elements, history, parentNode = null) => {
     newElement.style.background = '#7d12ff';
     newElement.style.color = '#fff';
   }
-  if (history.children.length) {
+  if (history?.children?.length) {
     for (let historyItem of history.children) {
       generateElements(elements, historyItem, newElement);
     }
@@ -125,7 +127,7 @@ const generateElements = (elements, history, parentNode = null) => {
   if (parentNode && parentNode.id && newElement.id) {
     //add edge
     edgeElement = {
-      id: Math.floor(Math.random() * 10000).toString(),
+      id: 'e' + parentNode.id + newElement.id,
       source: parentNode.id,
       target: newElement.id,
       style: {
@@ -158,15 +160,35 @@ const generateElements = (elements, history, parentNode = null) => {
 const ProductHistoryVisualization: React.FunctionComponent<IProductHistoryVisualizationProps> = ({
   history,
 }) => {
+  const [rfInstance, setRfInstance] = useState(null);
+  const handleTransform = useCallback(
+    (transform) => () => {
+      const {
+        position: [x, y],
+        zoom,
+      } = rfInstance.toObject();
+
+      new Tween({ x: x, y: y, zoom })
+        .to(transform, 300)
+        .easing(Easing.Quadratic.Out)
+        .on('update', ({ x, y, zoom }) =>
+          rfInstance.setTransform({ x, y, zoom })
+        )
+        .start();
+    },
+    [rfInstance]
+  );
   const elements = useMemo(() => {
     let data = [];
     generateElements(data, history);
     console.log(history, data);
+    handleTransform({ x: 0, y: 0, zoom: 1 });
     return data;
   }, [history]);
   const onElementClick = (...props) => {
     console.log(props);
   };
+
   return (
     <div style={{ height: '50vh', minHeight: 400 }}>
       <ReactFlow
