@@ -108,10 +108,16 @@ class Transport extends Base {
     const transport: ITransport = await this.contract.methods
       .transports(transportId)
       .call();
-    transport.batchIds = await this.contract.methods
+    transport.batchIds = await this.getBatchIds(transportId);
+    return transport;
+  }
+  async getBatchIds(transportId: number): Promise<number[]> {
+    await this.ensureContract();
+
+    const batchIds = await this.contract.methods
       .getTransportBatchids(transportId)
       .call();
-    return transport;
+    return batchIds;
   }
   async all({
     sender,

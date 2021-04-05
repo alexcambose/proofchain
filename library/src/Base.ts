@@ -58,9 +58,22 @@ abstract class Base {
     });
     return events;
   }
-  async getPastEvents<T>(eventName: string, filter: object = {}): Promise<T[]> {
+  async getPastEvents<T>(
+    eventName: string,
+    filter: object = {},
+    includeBlockData: boolean = false
+  ): Promise<T[]> {
     const events = await this.getRawPastEvents(eventName, filter);
-    return events.map(parseEvent).reverse();
+    let parsedEvents = events.map(parseEvent).reverse();
+    if (includeBlockData) {
+      parsedEvents = await Promise.all(
+        parsedEvents.map(async (e) => ({
+          ...e,
+          block: await this.web3.eth.getBlock(e.event.event.blockNumber),
+        }))
+      );
+    }
+    return parsedEvents;
   }
 }
 

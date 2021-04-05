@@ -11,6 +11,7 @@ interface IBatch {
 type BatchCreateEvent = {
   company: string; // address
   batchId: number;
+  uuids: number[];
 };
 type BatchTransferEvent = {
   from: string;
