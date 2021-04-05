@@ -32,7 +32,7 @@ const ClientProductInfo: React.FunctionComponent<IClientProductInfoProps> = ({
       <Label1>{material.code}</Label1>
       <StatefulTabs fill={FILL.fixed}>
         <Tab title="Information">
-          <ProductInfoHistory />
+          <ProductInfoHistory uuid={uuid} />
         </Tab>
         <Tab title="Company">
           <ProductInfoCompany />

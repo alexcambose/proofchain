@@ -35,7 +35,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         e.transportId,
         <AddressEntityInfo>{e.receiver}</AddressEntityInfo>,
         <AddressEntityInfo>{e.transportCompany}</AddressEntityInfo>,
-        e.batchIds,
+        e.batchIds.join(', '),
         <TransportStatusTag transportStatus={e.status} />,
         <TransactionLink>
           {e.events.TransportCreated.transactionHash}
