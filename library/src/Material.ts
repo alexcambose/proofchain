@@ -281,7 +281,8 @@ class Material extends Base implements IEntity {
       {
         from: EMPTY_ADDRESS,
         materialTokenId: material.materialTokenId,
-      }
+      },
+      full
     );
     if (full) {
       material.fromBatchId = await this.contract.methods

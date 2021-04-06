@@ -18,6 +18,7 @@ type BatchTransferEvent = {
   to: string;
   batchId: number;
   uuid: number;
+  transportId: number;
 };
 type CreateTransactionEvents = {
   BatchCreate: BatchCreateEvent;
