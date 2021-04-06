@@ -45,6 +45,7 @@ import {
   faDownload,
   faTrash,
   faBox,
+  faIndustry,
 } from '@fortawesome/free-solid-svg-icons';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
@@ -77,7 +78,8 @@ library.add(
   faBoxes,
   faDownload,
   faTrash,
-  faBox
+  faBox,
+  faIndustry
 );
 
 if (isClient()) {

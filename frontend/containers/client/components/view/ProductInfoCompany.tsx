@@ -1,12 +1,12 @@
-import { State } from '@store/index';
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
+import VerticalTable from '@components/table/VerticalTable';
+import CompanyEntityTypeTag from '@components/tag/CompanyEntityTypeTag';
 import { fetchCompanyInfo } from '@store/client/actions';
+import { State } from '@store/index';
+import { H3 } from 'baseui/typography';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { H1, H2, H3 } from 'baseui/typography';
-import CompanyEntityTypeTag from '@components/tag/CompanyEntityTypeTag';
-import LoadingSkeleton from '@components/loading/LoadingSkeleton';
-import VerticalTable from '@components/table/VerticalTable';
 
 interface IProductInfoCompanyProps {}
 
