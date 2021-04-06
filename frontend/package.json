@@ -23,7 +23,6 @@
     "dagre": "^0.8.5",
     "dayjs": "^1.10.4",
     "dotenv": "^8.2.0",
-    "es6-tween": "^5.5.11",
     "ethereumjs-wallet": "^1.0.1",
     "formik": "^2.2.6",
     "fuse.js": "^6.4.6",

@@ -1,11 +1,13 @@
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import { State } from '@store/index';
-import { fetchCompanyInfo } from '@store/client/actions';
+import { EMPTY_ADDRESS } from '@utils/eth';
+import { Block } from 'baseui/block';
+import proofchain from 'proofchain';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductHistoryVisualization from './ProductHistoryVisualisation';
-import proofchain from 'proofchain';
-import { EMPTY_ADDRESS } from '@utils/eth';
+import ProductInfoModal from './ProductInfoModal';
 interface IProductInfoHistoryProps {
   uuid: number;
 }
@@ -83,6 +85,7 @@ const fetchMaterialHistory = async (materialUuid, history = []) => {
 };
 const generateHistory = async (
   materialUuid,
+  onClick,
   setHistory,
   insideRecursion = false
 ) => {
@@ -96,13 +99,14 @@ const generateHistory = async (
   );
   // main history object, to be modified afterwards
   const history = {
-    materialInstance: materialInstance,
+    materialInstance,
     material,
     mintEvent: materialInstance.mintEvent,
     type: 'MATERIAL',
+    onClick,
     children: [],
   };
-  //
+  // get batch information
   for (let i = 0; i < materialInstance.fromBatchId.length; i++) {
     const batchId = materialInstance.fromBatchId[i];
     const materialsUuid = materialInstance.batchMaterialsUuid[i];
@@ -118,8 +122,10 @@ const generateHistory = async (
     const child = {
       type: 'BATCH',
       batchInstance,
+      material,
       createEvent: createEvent[0],
       children: [], //PARTIAL LOAD
+      onClick,
     };
     history.children[i] = child;
   }
@@ -132,38 +138,47 @@ const generateHistory = async (
     for (let j = 0; j < materialsUuid.length; j++) {
       history.children[i].children[j] = await generateHistory(
         materialsUuid[j],
+        onClick,
         setHistory,
         true
       );
       if (!insideRecursion) setHistory({ ...history });
     }
-    // history.children[i].children = await Promise.all(
-    //   materialsUuid.map(async (e) => generateHistory(e, setHistory, true))
-    // );
   }
   return history;
 };
-const batchHistory = async (batchId, materialsUuid) => {};
 
 const ProductInfoHistory: React.FunctionComponent<IProductInfoHistoryProps> = ({
   uuid,
 }) => {
   const [history, setHistory] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedHistoryItem, setSelectedHistoryItem] = useState(null);
   const dispatch = useDispatch();
   const materialInstance = useSelector(
     (state: State) => state.client.information.materialInstance
   );
+  const onClick = (item) => {
+    console.log(item);
+    setSelectedHistoryItem(item);
+  };
   useEffect(() => {
     (async () => {
-      const h = await generateHistory(uuid, setHistory);
+      setIsLoading(true);
+      const h = await generateHistory(uuid, onClick, setHistory);
       setHistory(h);
+      setIsLoading(false);
     })();
   }, []);
-  if (!history) return null;
+
+  if (!history) return <LoadingSkeleton />;
   return (
     <>
-      <ProductHistoryVisualization history={history} />
+      <ProductInfoModal
+        onClose={() => setSelectedHistoryItem(null)}
+        historyItem={selectedHistoryItem}
+      />
+      <ProductHistoryVisualization isLoading={isLoading} history={history} />
     </>
   );
 };

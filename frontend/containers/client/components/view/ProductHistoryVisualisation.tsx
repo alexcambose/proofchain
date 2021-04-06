@@ -1,5 +1,3 @@
-import { Easing, Tween, autoPlay } from 'es6-tween';
-
 import TransactionLink from '@components/TransactionLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'baseui';
@@ -9,6 +7,7 @@ import { useCallback, useMemo, useState } from 'react';
 import ReactFlow, { Controls, isNode, MiniMap } from 'react-flow-renderer';
 interface IProductHistoryVisualizationProps {
   history: any[];
+  isLoading?: boolean;
 }
 const SmallLabel = styled('div', ({ $theme }) => ({
   ...$theme.typography.ParagraphXSmall,
@@ -72,9 +71,11 @@ const generateElements = (elements, history, parentNode = null) => {
   if (history?.type === 'MATERIAL') {
     newElement = {
       id: history.materialInstance.uuid,
-      historyElement: history,
       type: 'default',
+
       data: {
+        historyElement: history,
+        onClick: history.onClick,
         label: (
           <>
             <MediumLabel>{history.material.name}</MediumLabel>
@@ -91,14 +92,15 @@ const generateElements = (elements, history, parentNode = null) => {
   } else if (history?.type === 'BATCH') {
     newElement = {
       id: history.createEvent.event.transactionHash,
-      historyElement: history,
       type: 'default',
-
       style: {
         background: '#f5b235',
         border: '1px solid #ba9654',
       },
       data: {
+        historyElement: history,
+        onClick: history.onClick,
+
         label: (
           <>
             <FontAwesomeIcon icon="box" />
@@ -135,19 +137,19 @@ const generateElements = (elements, history, parentNode = null) => {
       },
       animated: false,
     };
-    if (parentNode.historyElement.type === 'MATERIAL') {
+    if (parentNode.data.historyElement.type === 'MATERIAL') {
       edgeElement.label = (
         <>
           <TransactionLink noLink maxLength={5}>
-            {parentNode.historyElement.mintEvent.event.transactionHash}
+            {parentNode.data.historyElement.mintEvent.event.transactionHash}
           </TransactionLink>
         </>
       );
-    } else if (parentNode.historyElement.type === 'BATCH') {
+    } else if (parentNode.data.historyElement.type === 'BATCH') {
       edgeElement.label = (
         <>
           <TransactionLink noLink maxLength={5}>
-            {parentNode.historyElement.createEvent.event.transactionHash}
+            {parentNode.data.historyElement.createEvent.event.transactionHash}
           </TransactionLink>
         </>
       );
@@ -159,34 +161,23 @@ const generateElements = (elements, history, parentNode = null) => {
 };
 const ProductHistoryVisualization: React.FunctionComponent<IProductHistoryVisualizationProps> = ({
   history,
+  isLoading,
 }) => {
   const [rfInstance, setRfInstance] = useState(null);
-  const handleTransform = useCallback(
-    (transform) => () => {
-      const {
-        position: [x, y],
-        zoom,
-      } = rfInstance.toObject();
+  const onLoad = useCallback((instance) => {
+    setRfInstance(instance);
+  }, []);
 
-      new Tween({ x: x, y: y, zoom })
-        .to(transform, 300)
-        .easing(Easing.Quadratic.Out)
-        .on('update', ({ x, y, zoom }) =>
-          rfInstance.setTransform({ x, y, zoom })
-        )
-        .start();
-    },
-    [rfInstance]
-  );
   const elements = useMemo(() => {
     let data = [];
     generateElements(data, history);
-    console.log(history, data);
-    handleTransform({ x: 0, y: 0, zoom: 1 });
+    rfInstance &&
+      rfInstance.fitView({ padding: 0.2, includeHiddenNodes: true });
+
     return data;
-  }, [history]);
-  const onElementClick = (...props) => {
-    console.log(props);
+  }, [history, rfInstance]);
+  const onElementClick = (e, element) => {
+    element?.data?.onClick && element.data.onClick(element.data.historyElement);
   };
 
   return (
@@ -194,20 +185,25 @@ const ProductHistoryVisualization: React.FunctionComponent<IProductHistoryVisual
       <ReactFlow
         onElementClick={onElementClick}
         nodesConnectable={false}
+        onLoad={onLoad}
         elements={getLayoutedElements(elements)}
       >
-        <MiniMap
-          style={{ opacity: 0.8, width: 150, height: 100 }}
-          //@ts-ignore
-          nodeStrokeColor={(n) => {
-            return n.style.background;
-          }}
-          //@ts-ignore
-          nodeColor={(n) => {
-            return n.style.background;
-          }}
-        />
-        <Controls />
+        {!isLoading && (
+          <>
+            <MiniMap
+              style={{ opacity: 0.8, width: 150, height: 100 }}
+              //@ts-ignore
+              nodeStrokeColor={(n) => {
+                return n.style.background;
+              }}
+              //@ts-ignore
+              nodeColor={(n) => {
+                return n.style.background;
+              }}
+            />
+            <Controls />
+          </>
+        )}
       </ReactFlow>
     </div>
   );
