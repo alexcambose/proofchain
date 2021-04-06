@@ -13,7 +13,7 @@ install:
   - cd ../truffle
   - npm install
 script:
-  - ./node_modules/.bin/ganache-cli &
+  - ./node_modules/.bin/ganache-cli --gasLimit 0x7A1200 &
   - sleep 5
   - ./node_modules/.bin/truffle test
   - cd ../library
