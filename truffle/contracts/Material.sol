@@ -188,7 +188,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
 
     function destroyBatch(uint256 _batchId) public {
         require(batch[_batchId].owner == msg.sender, "You are not the owner of this batch");
-        emit BatchTransfer(msg.sender, address(0), _batchId, 0);
+        emit BatchTransfer(msg.sender, address(0), _batchId, 0, 0);
         addressBatches[msg.sender][_batchId] = false;
         for (uint256 i = 0; i < batch[_batchId].materialsUuid.length; i++) {
             // ensure these are my materials
@@ -218,7 +218,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                     batch[_batchId].materialsUuid.length - 1
                 ];
                 batch[_batchId].materialsUuid.pop();
-                emit BatchTransfer(msg.sender, address(0), batchId, _uuid);
+                emit BatchTransfer(msg.sender, address(0), batchId, _uuid, 0);
                 burned = true;
             }
         }
@@ -317,15 +317,16 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         );
     }
 
-    function changeBatchOwnershipBatch(uint256[] memory _batchIds, address _newOwner)
-        public
-        fromCompanyContract
-    {
+    function changeBatchOwnershipBatch(
+        uint256[] memory _batchIds,
+        address _newOwner,
+        uint256 _transportId
+    ) public fromCompanyContract {
         for (uint8 i = 0; i < _batchIds.length; i++) {
+            emit BatchTransfer(batch[_batchIds[i]].owner, _newOwner, _batchIds[i], 0, _transportId);
             addressBatches[batch[_batchIds[i]].owner][_batchIds[i]] = false;
             addressBatches[_newOwner][_batchIds[i]] = true;
             batch[_batchIds[i]].owner = _newOwner;
-            emit BatchTransfer(batch[_batchIds[i]].owner, _newOwner, _batchIds[i], 0);
         }
     }
 

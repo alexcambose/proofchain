@@ -13,14 +13,15 @@ contract MaterialBase {
         address indexed company,
         uint256 indexed batchId,
         uint256 indexed materialTokenId,
-        uint[] uuids
+        uint256[] uuids
     );
 
     event BatchTransfer(
         address indexed from,
         address indexed to,
         uint256 indexed batchId,
-        uint256 uuid // uuid is only specified on burn
+        uint256 uuid, // uuid is only specified on burn
+        uint256 transportId
     );
     event AssignedCertificate(
         address indexed certificateAuthority,

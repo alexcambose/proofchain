@@ -118,7 +118,8 @@ abstract contract Shipper is MaterialReferencer {
         transports[_transportId].status = TransportStatusEnum.FINALISED;
         getMaterialContract().changeBatchOwnershipBatch(
             transports[_transportId].batchIds,
-            transports[_transportId].receiver
+            transports[_transportId].receiver,
+            _transportId
         );
         emit TransportStatus(_transportId, TransportStatusEnum.FINALISED);
     }
@@ -136,7 +137,8 @@ abstract contract Shipper is MaterialReferencer {
 
         getMaterialContract().changeBatchOwnershipBatch(
             transports[_transportId].batchIds,
-            transports[_transportId].receiver
+            transports[_transportId].receiver,
+            _transportId
         );
         emit TransportStatus(_transportId, TransportStatusEnum.FINALISED);
     }
