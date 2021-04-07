@@ -1,6 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 import React from 'react';
-import { GlobalStyle, theme } from '../theme';
+import { GlobalStyle, theme } from '../styles/theme';
 
 const App: React.FC<any> = ({ Component, pageProps }) => {
   return (
