@@ -33,6 +33,7 @@ export const theme = {
   colors: {
     primary: '#587E91',
     accent: '#F1A208',
+    accentDarker: '#d69006',
     white: '#fff',
     gray: {
       50: '#F6F6F6',

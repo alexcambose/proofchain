@@ -23,7 +23,11 @@ export const NavbarList = styled.ul`
   justify-content: flex-end;
   flex: 2;
 `;
-export const NavbarListItem = styled.li``;
+export const NavbarListItem = styled.li`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 export const NavbarListItemLink = styled.a`
   text-decoration: none;
   display: inline-block;

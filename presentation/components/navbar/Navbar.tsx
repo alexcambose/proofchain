@@ -1,4 +1,6 @@
+import ProofchainLogoFullLight from '@assets/svg/proofchain-logo-full-light.svg';
 import * as React from 'react';
+import Button from '@components/button/Button';
 import {
   NavbarContent,
   NavbarList,
@@ -7,8 +9,6 @@ import {
   NavbarLogo,
   NavbarNav,
 } from './Navbar.styled';
-import ProofchainLogoFullLight from '@assets/svg/proofchain-logo-full-light.svg';
-import Container from '../layout/Container';
 interface INavbarProps {}
 
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
@@ -40,6 +40,9 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
           </NavbarListItem>
           <NavbarListItem>
             <NavbarListItemLink href="#contact">Contact</NavbarListItemLink>
+          </NavbarListItem>
+          <NavbarListItem>
+            <Button>View Demo</Button>
           </NavbarListItem>
         </NavbarList>
       </NavbarContent>
