@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import Container from '../layout/Container';
 
 export const NavbarNav = styled.nav`
@@ -8,6 +8,14 @@ export const NavbarNav = styled.nav`
   right: 0;
   height: ${({ theme }) => theme.sizing.scale2400};
   z-index: 2;
+  transition: ${({ theme }) => theme.animation.standard};
+  ${({ theme, collapsed }) =>
+    collapsed &&
+    css`
+      height: ${theme.sizing.scale1600};
+      background-color:rgba(0,0,0,.5);
+      backdrop-filter: saturate(180%) blur(20px);
+    }`}
 `;
 export const NavbarContent = styled(Container)`
   display: flex;

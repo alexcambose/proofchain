@@ -21,6 +21,14 @@
       "@utils/*": ["utils/*"]
     }
   },
-  "include": ["next-env.d.ts", "declarations.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "pages/index.tsx",
+    "pages/_error.js",
+    "pages/_document.js"
+  ],
+  "typeRoots": ["../../node_modules/@types", "./@types"],
+  "exclude": []
 }

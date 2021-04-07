@@ -14,18 +14,21 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Poppins';
     font-weight: normal;
     font-style: normal;
-   
+    letter-spacing: 1px;
+    color: #fff;
   }
   ${normalizeCss}
 `;
 const sizes = {
   xs: '320px',
   sm: '768px',
+  md: '992px',
   lg: '1200px',
 };
 const media = {
   xs: (styles) => `@media only screen and (max-width: ${sizes.xs}){${styles}}`,
   sm: (styles) => `@media only screen and (max-width: ${sizes.sm}){${styles}}`,
+  md: (styles) => `@media only screen and (max-width: ${sizes.md}){${styles}}`,
   lg: (styles) => `@media only screen and (max-width: ${sizes.lg}){${styles}}`,
 };
 
@@ -38,6 +41,12 @@ export const theme = {
     gray: {
       50: '#F6F6F6',
     },
+  },
+  font: {
+    small: '.8rem',
+    normal: '1rem',
+    large: '2rem',
+    xlarge: '3.8rem',
   },
   sizing: {
     scale0: '2px',
@@ -65,4 +74,7 @@ export const theme = {
   },
   media,
   sizes,
+  animation: {
+    standard: '.3s ease',
+  },
 };

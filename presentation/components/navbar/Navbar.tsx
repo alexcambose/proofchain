@@ -9,11 +9,26 @@ import {
   NavbarLogo,
   NavbarNav,
 } from './Navbar.styled';
+import { useEffect, useState } from 'react';
 interface INavbarProps {}
 
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const scrollHandler = () => {
+    if (scrollY > 50) {
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(false);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('scroll', scrollHandler);
+    return () => {
+      document.removeEventListener('scroll', scrollHandler);
+    };
+  }, []);
   return (
-    <NavbarNav>
+    <NavbarNav collapsed={isCollapsed}>
       <NavbarContent>
         <NavbarLogo>
           <ProofchainLogoFullLight />

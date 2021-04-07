@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export default styled.button`
+const Button = styled.button`
   border: none;
   padding: ${({ theme }) =>
     theme.sizing.scale500 + ' ' + theme.sizing.scale800};
@@ -11,3 +11,4 @@ export default styled.button`
     background-color: ${({ theme }) => theme.colors.accentDarker};
   }
 `;
+export default Button;
