@@ -1,13 +1,14 @@
 import styled from 'styled-components';
 const BackgroundTextContainer = styled.div`
-  opacity: 0.009;
+  opacity: 0.02;
   font-size: 18vw;
   font-weight: 800;
-  top: 50vh;
+  top: 54vh;
   left: -100px;
   text-transform: uppercase;
   position: absolute;
   user-select: none;
+  z-index: -1;
 `;
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
