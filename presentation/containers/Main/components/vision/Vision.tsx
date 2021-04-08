@@ -12,6 +12,8 @@ import CompanyIconSvg from '@assets/svg/company.svg';
 import HandsIconSvg from '@assets/svg/hands.svg';
 import ProductIconSvg from '@assets/svg/product.svg';
 import uuid from 'react-uuid';
+import PersuasiveText from '@components/persuasiveText/PersuasiveText';
+import VisionGame from './VisionGame';
 interface IVisionProps {}
 
 const cards = [
@@ -53,6 +55,14 @@ const Vision: React.FunctionComponent<IVisionProps> = (props) => {
             />
           ))}
         </VisionCardsContainer>
+        <PersuasiveText
+          content={[
+            { text: 'Being honest', isHighlighted: true },
+            { text: ' even about problems ' },
+            { text: 'increases trust.', isHighlighted: true },
+          ]}
+        ></PersuasiveText>
+        <VisionGame />
         <br />
         <br />
         <br />
@@ -90,28 +100,6 @@ const Vision: React.FunctionComponent<IVisionProps> = (props) => {
         <br />
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, libero in!
-        Amet fuga corrupti in blanditiis laudantium repudiandae consequatur
-        voluptate nulla repellat quod id, quam omnis ad necessitatibus.
-        Consectetur, error?
       </Container>
     </VisionContainer>
   );

@@ -2,6 +2,7 @@ import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
 import normalizeCss from 'normalize.css';
 import fonts from './fonts';
+import misc from './misc';
 export const GlobalStyle = createGlobalStyle`
   ${fonts}
   :root {
@@ -17,15 +18,7 @@ export const GlobalStyle = createGlobalStyle`
     letter-spacing: 1px;
     color: #fff;
   }
-  ::-moz-selection {
-    color: white;
-    background: #F1A208;
-  }
-
-  ::selection {
-    color: white;
-    background: #F1A208;
-  }
+ ${misc}
   ${normalizeCss}
 `;
 const sizes = {
@@ -87,6 +80,7 @@ export const theme = {
   sizes,
   animation: {
     standard: '.3s ease',
+    fast: '.2s ease',
   },
   typography: {
     title: {

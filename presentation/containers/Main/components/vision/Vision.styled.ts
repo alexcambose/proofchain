@@ -21,4 +21,5 @@ export const VisionHeader = styled.h1`
 `;
 export const VisionCardsContainer = styled.div`
   display: flex;
+  margin-bottom: 20vh;
 `;
