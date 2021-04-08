@@ -17,6 +17,15 @@ export const GlobalStyle = createGlobalStyle`
     letter-spacing: 1px;
     color: #fff;
   }
+  ::-moz-selection {
+    color: white;
+    background: #F1A208;
+  }
+
+  ::selection {
+    color: white;
+    background: #F1A208;
+  }
   ${normalizeCss}
 `;
 const sizes = {
@@ -37,6 +46,7 @@ export const theme = {
     primary: '#587E91',
     accent: '#F1A208',
     accentDarker: '#d69006',
+    background: '#0A1924',
     white: '#fff',
     gray: {
       50: '#F6F6F6',
@@ -76,5 +86,14 @@ export const theme = {
   sizes,
   animation: {
     standard: '.3s ease',
+  },
+  typography: {
+    title: {
+      fontSize: '3em',
+      marginBottom: '2rem',
+      fontWeight: 800,
+      textAlign: 'center',
+      marginTop: 0,
+    },
   },
 };

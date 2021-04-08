@@ -15,7 +15,7 @@ import {
 } from './Header.styled';
 import Link from '@components/link/Link';
 import Mouse from '@assets/svg/mouse.svg';
-import { isDevelopment } from '../../../../utils/next';
+import { isDevelopment } from '@utils/next';
 interface IHeaderProps {}
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {

@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const HeaderContainer = styled.div`
   height: 100vh;
-  position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -12,10 +11,10 @@ export const HeaderContainer = styled.div`
 export const HeaderOverlay = styled.div`
   position: absolute;
   top: 0;
-  bottom: 0;
+  height: 140vh;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.7);
   z-index: -1;
 `;
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Navbar from '@components/navbar/Navbar';
 import Header from './components/header/Header';
+import Vision from './components/vision/Vision';
 
 interface IMainIndexProps {}
 
@@ -9,21 +10,7 @@ const MainIndex: React.FunctionComponent<IMainIndexProps> = (props) => {
     <>
       <Navbar />
       <Header />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      Lorem ipsum dolor, sit amet consectetur adipisicing elit. At, libero in!
-      Amet fuga corrupti in blanditiis laudantium repudiandae consequatur
-      voluptate nulla repellat quod id, quam omnis ad necessitatibus.
-      Consectetur, error?
+      <Vision />
     </>
   );
 };
