@@ -20,7 +20,7 @@ const DigitalIdentityGame: React.FunctionComponent<IDigitalIdentityGameProps> = 
     <DigitalIdentityContainer>
       <BeforeAfterReact
         secondImgSrc="/abstract-product.svg"
-        firstImgSrc="/carbon.png"
+        firstImgSrc="/transaction-code.png"
         seperatorImg="/left-and-right-caret.svg"
         cursor="pointer"
         containerClass="before-after-container"
