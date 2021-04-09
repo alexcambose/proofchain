@@ -3,6 +3,8 @@ import Container from '../layout/Container';
 
 export const NavbarNav = styled.nav`
   position: fixed;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+
   top: 0;
   left: 0;
   right: 0;
@@ -13,8 +15,10 @@ export const NavbarNav = styled.nav`
     collapsed &&
     css`
       height: ${theme.sizing.scale1600};
-      background-color:rgba(0,0,0,.5);
+      background-color:rgba(0,0,0,.4);
       backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
     }`}
 `;
 export const NavbarContent = styled(Container)`
@@ -48,6 +52,7 @@ export const NavbarListItemLink = styled.a`
   }
 `;
 export const NavbarLogo = styled.span`
+  cursor: pointer;
   flex: 1;
   & > svg {
     font-size: 18rem;

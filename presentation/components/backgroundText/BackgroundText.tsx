@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 const BackgroundTextContainer = styled.div`
   opacity: 0.02;
-  font-size: 18vw;
+
   font-weight: 800;
   top: 54vh;
   left: -100px;
@@ -9,16 +9,19 @@ const BackgroundTextContainer = styled.div`
   position: absolute;
   user-select: none;
   z-index: -1;
+  ${({ smaller }) => (smaller ? `font-size: 10vw;` : `font-size: 18vw;`)}
 `;
 import * as React from 'react';
 import { useEffect, useRef } from 'react';
 
 interface IBackgroundTextProps {
   children: React.ReactNode;
+  smalller?: boolean;
 }
 
 const BackgroundText: React.FunctionComponent<IBackgroundTextProps> = ({
   children,
+  smaller,
 }) => {
   const textRef = useRef();
   const onScroll = () => {
@@ -37,7 +40,9 @@ const BackgroundText: React.FunctionComponent<IBackgroundTextProps> = ({
     };
   }, []);
   return (
-    <BackgroundTextContainer ref={textRef}>{children}</BackgroundTextContainer>
+    <BackgroundTextContainer smaller={smaller} ref={textRef}>
+      {children}
+    </BackgroundTextContainer>
   );
 };
 

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-export default styled.div`
+const ContainerSmall = styled.div`
   width: ${({ theme }) => theme.sizes.md};
   margin: 0 auto;
   ${({ theme }) =>
@@ -7,3 +7,4 @@ export default styled.div`
       max-width: 100%;
     `)}
 `;
+export default ContainerSmall;

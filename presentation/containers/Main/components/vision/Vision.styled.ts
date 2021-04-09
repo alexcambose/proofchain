@@ -3,16 +3,16 @@ export const VisionTopSpacer = styled.div`
   padding-top: calc(100vh - 40vh);
 `;
 export const VisionContainer = styled.div`
-  position: absolute;
-  top: 80vh;
+  position: relative;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 0;
-
+  padding-bottom: ${({ theme }) => theme.sizing.scale1200};
   background: linear-gradient(
     180deg,
     transparent 0%,
-    ${({ theme }) => theme.colors.background} 40vh
+    ${({ theme }) => theme.colors.background} 30vh
   );
 `;
 export const VisionHeader = styled.h1`

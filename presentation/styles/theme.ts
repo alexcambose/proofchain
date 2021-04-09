@@ -40,6 +40,7 @@ export const theme = {
     accent: '#F1A208',
     accentDarker: '#d69006',
     background: '#0A1924',
+    backgroundLighter: '#07335E',
     white: '#fff',
     gray: {
       50: '#F6F6F6',
@@ -80,7 +81,7 @@ export const theme = {
   sizes,
   animation: {
     standard: '.3s ease',
-    fast: '.2s ease',
+    fast: '150ms ease',
   },
   typography: {
     title: {

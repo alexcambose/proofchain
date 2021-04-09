@@ -63,43 +63,19 @@ const Vision: React.FunctionComponent<IVisionProps> = (props) => {
           ]}
         ></PersuasiveText>
         <VisionGame />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <PersuasiveText
+          content={[
+            {
+              text: 'Your choices can',
+              isHighlighted: true,
+            },
+            { text: ' drive businesses to make ' },
+            {
+              text: 'a positive change.',
+              isHighlighted: true,
+            },
+          ]}
+        ></PersuasiveText>
       </Container>
     </VisionContainer>
   );

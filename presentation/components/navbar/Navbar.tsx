@@ -27,10 +27,13 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
       document.removeEventListener('scroll', scrollHandler);
     };
   }, []);
+  const onLogoClick = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   return (
     <NavbarNav collapsed={isCollapsed}>
       <NavbarContent>
-        <NavbarLogo>
+        <NavbarLogo onClick={onLogoClick}>
           <ProofchainLogoFullLight />
         </NavbarLogo>
         <NavbarList>
