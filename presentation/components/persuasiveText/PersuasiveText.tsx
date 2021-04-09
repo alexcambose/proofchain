@@ -6,19 +6,19 @@ import {
 } from './PersuasiveText.styled';
 
 interface IPersuasiveTextProps {
-  content: [
-    {
-      text: string;
-      isHighlighted: boolean;
-    }
-  ];
+  small?: boolean;
+  content: {
+    text: string;
+    isHighlighted?: boolean;
+  }[];
 }
 
 const PersuasiveText: React.FunctionComponent<IPersuasiveTextProps> = ({
   content,
+  small,
 }) => {
   return (
-    <PersuasiveTextContainer>
+    <PersuasiveTextContainer small={small}>
       {content.map((item) =>
         item.isHighlighted ? (
           <PersuasiveTextHighlighted>{item.text}</PersuasiveTextHighlighted>

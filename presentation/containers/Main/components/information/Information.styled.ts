@@ -1,3 +1,5 @@
+import TreeSvg from '@assets/svg/tree.svg';
+
 import styled, { css } from 'styled-components';
 
 export const InformationContainer = styled.section`
@@ -7,11 +9,13 @@ export const InformationContainer = styled.section`
   background: linear-gradient(
     180deg,
     ${({ theme }) => theme.colors.background} 0%,
-    ${({ theme }) => theme.colors.backgroundLighter} 50%
+    ${({ theme }) => theme.colors.backgroundLighter} 40%
   );
 `;
 export const InformationSection = styled.section`
+  position: relative;
   margin-top: ${({ theme }) => theme.sizing.scale1400};
+  ${({ height }) => height && `height: ${height}px`};
 `;
 export const InformationHeader = styled.div`
   display: flex;
@@ -48,12 +52,55 @@ export const InformationHeaderSubTitle = styled.h2`
 export const InformationHeaderTitle = styled.h1`
   margin-top: ${({ theme }) => theme.sizing.scale1600};
   ${({ theme }) => theme.typography.title};
+  margin-bottom: ${({ theme }) => theme.sizing.scale400};
   text-align: left;
 `;
-export const InformationContent = styled.p``;
+export const InformationContent = styled.p`
+  line-height: 1.2rem;
+`;
 export const InformationSvgContainer = styled.div`
   & > svg {
     width: 100%;
     height: calc(40vh + 100px);
   }
+`;
+export const InformationQuote = styled.div`
+  text-align: center;
+  font-size: ${({ theme }) => theme.font.small};
+  margin-top: ${({ theme }) => theme.sizing.scale300};
+  opacity: 0.5;
+  &:first-of-type {
+    margin-top: auto;
+  }
+`;
+export const InformationTree = styled(TreeSvg)`
+  width: 100%;
+  height: auto;
+`;
+export const InformationEaseOfUseImage1Line = styled.img`
+  width: 1px;
+  background: #fff;
+  height: 600px;
+  position: absolute;
+  left: 170px;
+  top: -40px;
+`;
+export const InformationEaseOfUseImage1 = styled.img`
+  width: 340px;
+  height: auto;
+  position: absolute;
+  box-shadow: 0 0 20px 20px #00000022;
+`;
+export const InformationEaseOfUseImage2 = styled.img`
+  width: 340px;
+  height: auto;
+  position: absolute;
+  top: 300px;
+  left: 460px;
+  box-shadow: 0 0 20px 20px #00000022;
+`;
+export const InformationCodeDemoImg = styled.img`
+  width: 100%;
+
+  height: auto;
 `;

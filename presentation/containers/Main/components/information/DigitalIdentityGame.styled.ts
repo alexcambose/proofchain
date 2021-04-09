@@ -13,7 +13,7 @@ export const DigitalIdentityContainer = styled.div`
   .before-after-seperator {
     background: ${({ theme }) => theme.colors.primary} !important;
     img {
-      transform: translate(-1px, 0px) scale(0.34);
+      transform: translate(-2px, 0px) scale(0.34);
     }
     &:after {
       margin: -15px 0 0 -15px !important;

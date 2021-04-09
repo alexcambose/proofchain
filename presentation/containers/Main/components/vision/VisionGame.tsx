@@ -9,6 +9,7 @@ import {
   VisionGameOptionItem,
   VisionGameOptions,
 } from './VisionGame.styled';
+import Fade from 'react-reveal/Fade';
 
 interface IVisionGameProps {}
 
@@ -67,11 +68,13 @@ const VisionGame: React.FunctionComponent<IVisionGameProps> = (props) => {
   return (
     <VisionGameContainer>
       <VisionGameItemsContainer>
-        <VisionGameIndicatorContainer>
-          <VisionGameIndicator ref={visionGameIndicator}>
-            Imagine you know exactly
-          </VisionGameIndicator>
-        </VisionGameIndicatorContainer>
+        <Fade top duration={200} distance={'200px'}>
+          <VisionGameIndicatorContainer>
+            <VisionGameIndicator ref={visionGameIndicator}>
+              Imagine you know exactly
+            </VisionGameIndicator>
+          </VisionGameIndicatorContainer>
+        </Fade>
         <VisionGameOptions>
           <VisionGameOptionItem ref={visionGameItemFirst}>
             where each product comes from

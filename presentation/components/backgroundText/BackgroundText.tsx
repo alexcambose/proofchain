@@ -16,7 +16,7 @@ import { useEffect, useRef } from 'react';
 
 interface IBackgroundTextProps {
   children: React.ReactNode;
-  smalller?: boolean;
+  smaller?: boolean;
 }
 
 const BackgroundText: React.FunctionComponent<IBackgroundTextProps> = ({
@@ -27,8 +27,8 @@ const BackgroundText: React.FunctionComponent<IBackgroundTextProps> = ({
   const onScroll = () => {
     const element = textRef.current;
     // @ts-ignore
-    const { top } = element.getBoundingClientRect();
-    if (window.innerHeight > top) {
+    const { top, height } = element.getBoundingClientRect();
+    if (window.innerHeight > top && top + height > 0) {
       // @ts-ignore
       element.style.left = Math.floor((window.innerHeight - top) / 8) + 'px';
     }
