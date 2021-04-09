@@ -16,4 +16,9 @@ export const Row = styled.div`
     css`
       justify-content: center;
     `}
+  ${({ horizontallyCentered }) =>
+    horizontallyCentered &&
+    css`
+      align-items: center;
+    `}
 `;

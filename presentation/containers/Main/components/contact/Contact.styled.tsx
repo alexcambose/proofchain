@@ -8,7 +8,7 @@ export const ContactContainer = styled.section`
   background: transparent
     linear-gradient(
       180deg,
-      ${({ theme }) => theme.colors.backgroundLighter} 0%,
+      ${({ theme }) => theme.colors.backgroundLighter} 30%,
       ${({ theme }) => theme.colors.background} 100%
     );
 `;

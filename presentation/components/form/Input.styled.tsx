@@ -16,7 +16,7 @@ export const TextareaElement = styled.textarea`
   min-height: 100px;
 `;
 export const FormGroup = styled.div`
-  padding: ${({ theme }) => theme.sizing.scale400};
+  padding: ${({ theme }) => theme.sizing.scale400} 0;
 `;
 export const Label = styled.label`
   display: block;

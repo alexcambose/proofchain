@@ -5,6 +5,9 @@ import fonts from './fonts';
 import misc from './misc';
 export const GlobalStyle = createGlobalStyle`
   ${fonts}
+  * {
+    box-sizing: border-box;
+  }
   :root {
     font-size: 16px;
   }
@@ -44,6 +47,7 @@ export const theme = {
     white: '#fff',
     gray: {
       50: '#F6F6F6',
+      100: '#EEEEEE',
     },
   },
   font: {
