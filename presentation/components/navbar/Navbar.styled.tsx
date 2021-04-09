@@ -60,3 +60,6 @@ export const NavbarLogo = styled.span`
     height: 2rem;
   }
 `;
+export const NavbarButtonContainer = styled.div`
+  margin-left: ${({ theme }) => theme.sizing.scale300};
+`;

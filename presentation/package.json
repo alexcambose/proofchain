@@ -7,6 +7,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@formspree/react": "^2.2.3",
     "@svgr/webpack": "^5.5.0",
     "@types/react": "^17.0.3",
     "before-after-react": "^1.0.5",

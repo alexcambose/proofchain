@@ -2,6 +2,7 @@ import ProofchainLogoFullLight from '@assets/svg/proofchain-logo-full-light.svg'
 import * as React from 'react';
 import Button from '@components/button/Button';
 import {
+  NavbarButtonContainer,
   NavbarContent,
   NavbarList,
   NavbarListItem,
@@ -60,7 +61,9 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
             <NavbarListItemLink href="#contact">Contact</NavbarListItemLink>
           </NavbarListItem>
           <NavbarListItem>
-            <Button>View Demo</Button>
+            <NavbarButtonContainer>
+              <Button>View Demo</Button>
+            </NavbarButtonContainer>
           </NavbarListItem>
         </NavbarList>
       </NavbarContent>
