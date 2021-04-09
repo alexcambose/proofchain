@@ -9,6 +9,7 @@
   "dependencies": {
     "@svgr/webpack": "^5.5.0",
     "@types/react": "^17.0.3",
+    "before-after-react": "^1.0.5",
     "next": "latest",
     "normalize.css": "^8.0.1",
     "react": "^16.8.0",

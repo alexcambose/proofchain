@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-export const HeaderContainer = styled.div`
+export const HeaderContainer = styled.section`
   height: 100vh;
   overflow: hidden;
   display: flex;

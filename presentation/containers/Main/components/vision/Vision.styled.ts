@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-export const VisionTopSpacer = styled.div`
+export const VisionTopSpacer = styled.section`
   padding-top: calc(100vh - 40vh);
 `;
 export const VisionContainer = styled.div`

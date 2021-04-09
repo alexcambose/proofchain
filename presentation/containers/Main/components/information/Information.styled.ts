@@ -1,14 +1,17 @@
 import styled, { css } from 'styled-components';
 
-export const InformationContainer = styled.div`
+export const InformationContainer = styled.section`
   position: relative;
-  z-index: -2;
+  z-index: 0;
   padding-top: ${({ theme }) => theme.sizing.scale2400};
   background: linear-gradient(
     180deg,
     ${({ theme }) => theme.colors.background} 0%,
     ${({ theme }) => theme.colors.backgroundLighter} 50%
   );
+`;
+export const InformationSection = styled.section`
+  margin-top: ${({ theme }) => theme.sizing.scale1400};
 `;
 export const InformationHeader = styled.div`
   display: flex;
@@ -46,4 +49,11 @@ export const InformationHeaderTitle = styled.h1`
   margin-top: ${({ theme }) => theme.sizing.scale1600};
   ${({ theme }) => theme.typography.title};
   text-align: left;
+`;
+export const InformationContent = styled.p``;
+export const InformationSvgContainer = styled.div`
+  & > svg {
+    width: 100%;
+    height: calc(40vh + 100px);
+  }
 `;
