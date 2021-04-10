@@ -82,11 +82,15 @@ export const MouseContainer = styled.div`
   left: 0;
   right: 0;
   text-align: center;
-  & > svg {
+
+  & svg {
+    transition: ${({ theme }) => theme.animation.standard};
+
     width: 2rem;
     height: auto;
     cursor: pointer;
     &:hover {
+      transform: scale(1.1);
     }
   }
 `;
