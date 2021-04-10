@@ -38,7 +38,7 @@ const ContactForm: React.FunctionComponent<IContactFormProps> = (props) => {
           errors={state.errors}
         />
         <Button type="submit" disabled={state.submitting}>
-          Submit
+          {state.submitting ? 'Sending...' : 'Submit'}
         </Button>
       </Form>
     </ContainerSmall>

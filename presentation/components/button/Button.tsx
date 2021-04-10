@@ -11,5 +11,9 @@ const Button = styled.button`
   &:hover {
     background-color: ${({ theme }) => theme.colors.accent};
   }
+  &:disabled {
+    cursor: not-allowed;
+    background-color: gray;
+  }
 `;
 export default Button;
