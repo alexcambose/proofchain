@@ -5,10 +5,11 @@ const Button = styled.button`
   padding: ${({ theme }) =>
     theme.sizing.scale500 + ' ' + theme.sizing.scale800};
   color: ${({ theme }) => theme.colors.white};
-  background-color: ${({ theme }) => theme.colors.accent};
+  background-color: ${({ theme }) => theme.colors.accentDarker};
   cursor: pointer;
+  font-weight: 600;
   &:hover {
-    background-color: ${({ theme }) => theme.colors.accentDarker};
+    background-color: ${({ theme }) => theme.colors.accent};
   }
 `;
 export default Button;
