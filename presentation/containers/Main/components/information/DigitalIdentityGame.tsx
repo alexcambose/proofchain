@@ -2,9 +2,12 @@ import * as React from 'react';
 import { DigitalIdentityContainer } from './DigitalIdentityGame.styled';
 import dynamic from 'next/dynamic';
 
-const BeforeAfterReact = dynamic(() => import('before-after-react'), {
-  ssr: false,
-});
+const BeforeAfterReact = dynamic(
+  () => import('@components/beforeAfter/BeforeAfterReact'),
+  {
+    ssr: false,
+  }
+);
 
 interface IDigitalIdentityGameProps {}
 

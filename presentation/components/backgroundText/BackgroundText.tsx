@@ -3,7 +3,7 @@ const BackgroundTextContainer = styled.div`
   opacity: 0.02;
 
   font-weight: 800;
-  top: 54vh;
+  top: 50vh;
   left: -100px;
   text-transform: uppercase;
   position: absolute;

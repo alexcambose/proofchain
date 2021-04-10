@@ -11,7 +11,7 @@ interface IContactProps {}
 
 const Contact: React.FunctionComponent<IContactProps> = (props) => {
   return (
-    <ContactContainer>
+    <ContactContainer id="contact">
       <Container>
         <ContactTitle>Contact</ContactTitle>
         <ContactSubtitle>Let's do good together!</ContactSubtitle>

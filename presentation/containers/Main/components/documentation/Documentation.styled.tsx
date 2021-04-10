@@ -35,3 +35,7 @@ export const DocumentationPanelTitle = styled.h2`
 export const DocumentationPanelAction = styled.div`
   text-align: center;
 `;
+
+export const DocumentationInfo = styled.p`
+  text-align: center;
+`;

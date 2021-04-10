@@ -8,6 +8,7 @@ export const TeamContainer = styled.section`
   align-items: column;
   z-index: 0;
   padding-top: ${({ theme }) => theme.sizing.scale2400};
+  padding-bottom: ${({ theme }) => theme.sizing.scale2400};
   background: ${({ theme }) => theme.colors.backgroundLighter};
 `;
 
@@ -29,8 +30,11 @@ export const TeamMember = styled.div`
   align-items: center;
   justify-content: center;
 `;
-export const TeamMemberImage = styled.img`
+export const TeamMemberImage = styled.div`
   margin: ${({ theme }) => theme.sizing.scale800};
+  background: url(${({ src }) => src}) center;
+  width: 300px;
+  height: 400px;
 `;
 export const TeamMemberName = styled.div`
   font-weight: 800;

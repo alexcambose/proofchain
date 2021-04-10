@@ -3,8 +3,21 @@ import ProofchainLogo from '@assets/svg/proofchain-logo-full-light.svg';
 
 export const FooterContainer = styled.section`
   background-color: ${({ theme }) => theme.colors.background};
-  padding: ${({ theme }) => theme.sizing.scale2400} 0
+  padding: ${({ theme }) => theme.sizing.scale3200} 0
     ${({ theme }) => theme.sizing.scale800} 0;
+  position: relative;
+  margin-bottom: -1px;
+  &:before {
+    content: ' ';
+    position: absolute;
+    top: 60px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: ${({ theme }) => theme.colors.white};
+    border-radius: 10px;
+  }
 `;
 export const FooterLogo = styled(ProofchainLogo)`
   width: 100%;

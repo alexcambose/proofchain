@@ -17,6 +17,7 @@ import {
 import Link from '@components/link/Link';
 import Mouse from '@assets/svg/mouse.svg';
 import { isDevelopment } from '@utils/next';
+import config from 'config';
 interface IHeaderProps {}
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
@@ -60,12 +61,16 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
           tamper-proof supply chain traceability.
         </HeaderText3>
         <HeaderActions>
-          <Button>View Demo</Button>
-          <Link href="#">Learn more</Link>
+          <Link href={config.demoLink}>
+            <Button>View Demo</Button>
+          </Link>
+          <Link href="#vision">Learn more</Link>
         </HeaderActions>
       </HeaderContent>
       <MouseContainer>
-        <Mouse />
+        <Link href="#vision">
+          <Mouse />
+        </Link>
       </MouseContainer>
     </HeaderContainer>
   );

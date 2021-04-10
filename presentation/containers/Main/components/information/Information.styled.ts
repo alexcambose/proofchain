@@ -133,4 +133,5 @@ export const InformationFingerprintIcon = styled(FingerprintSvg)`
   height: 50vh;
   top: 0;
   left: -50%;
+  z-index: -1;
 `;

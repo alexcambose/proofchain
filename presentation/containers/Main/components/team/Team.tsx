@@ -12,19 +12,19 @@ import {
 interface ITeamProps {}
 const team = [
   {
-    image: '',
+    image: 'https://avatars.githubusercontent.com/u/12383978',
     name: 'Alexandru Cambose',
     role: 'Founder',
   },
 ];
 const Team: React.FunctionComponent<ITeamProps> = (props) => {
   return (
-    <TeamContainer>
+    <TeamContainer id="team">
       <TeamTitle>Team</TeamTitle>
       <TeamMembersContainer>
         {team.map((member) => (
           <TeamMember>
-            <TeamMemberImage src="https://via.placeholder.com/240x300.png" />
+            <TeamMemberImage src={member.image} />
             <TeamMemberName>{member.name}</TeamMemberName>
             <TeamMemberRole>{member.role}</TeamMemberRole>
           </TeamMember>

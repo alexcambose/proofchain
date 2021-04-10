@@ -13,6 +13,7 @@ import {
 } from './Navbar.styled';
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import config from 'config';
 interface INavbarProps {}
 
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
@@ -65,7 +66,9 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
           </NavbarListItem>
           <NavbarListItem>
             <NavbarButtonContainer>
-              <Button>View Demo</Button>
+              <a href={config.demoLink} target="_blank">
+                <Button>View Demo</Button>
+              </a>
             </NavbarButtonContainer>
           </NavbarListItem>
         </NavbarList>

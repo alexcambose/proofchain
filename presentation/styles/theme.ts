@@ -23,6 +23,8 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: normal;
     font-style: normal;
     letter-spacing: 1px;
+    user-select: auto;
+
     color: #fff;
   }
  ${misc}
@@ -49,6 +51,7 @@ export const theme = {
     background: '#0A1924',
     backgroundLighter: '#07335E',
     white: '#fff',
+    black: '#000',
     gray: {
       50: '#F6F6F6',
       100: '#EEEEEE',
@@ -90,6 +93,7 @@ export const theme = {
   animation: {
     standard: '.3s ease',
     fast: '150ms ease',
+    superFast: '50ms ease',
   },
   typography: {
     title: {

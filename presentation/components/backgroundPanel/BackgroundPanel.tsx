@@ -8,5 +8,6 @@ const BackgroundPanel = styled.div`
   border-radius: 30px;
   left: -200px;
   top: ${({ top }) => top}px;
+  ${({ isRight }) => isRight && `left: auto; right: -200px;`}
 `;
 export default BackgroundPanel;

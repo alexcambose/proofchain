@@ -39,7 +39,9 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
     <InformationContainer>
       <InformationHeader>
         <Fade top>
-          <InformationHeaderStart>Introducing</InformationHeaderStart>
+          <Fade>
+            <InformationHeaderStart>Introducing</InformationHeaderStart>
+          </Fade>
           <InformationHeaderLogo>
             <ProofchainLogoFullLight />
           </InformationHeaderLogo>
@@ -72,7 +74,7 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
               <InformationContent>
                 Each individual operation or interaction, such as creating a new
                 material, adding it to a batch or sending it to another supply
-                chain entity is perfectly recorded and archived
+                chain entity is perfectly recorded and archived.
               </InformationContent>
             </Row>
             <Row>
@@ -91,14 +93,16 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
               <InformationContent>
                 <strong>Smart Contracts</strong> contains predictable and
                 verifiable code that executes supply chain transactions within
-                the framework agreed upon by all parties which makes the
-                contracts more compliant and reduces transaction execution time.
-                This enables actors on the supply chain to create resilient
+                the framework agreed upon by all parties.This makes the
+                contracts more compliant and reduces transaction execution time,
+                but alsos enables actors on the supply chain to create resilient
                 processes of their material products.
               </InformationContent>
             </Row>
           </Col>
         </InformationSection>
+        <BackgroundPanel isRight top={1000} />
+
         <InformationSection>
           <InformationHeaderTitle>Digital Identity</InformationHeaderTitle>
           <Col>
@@ -110,8 +114,14 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
                 trust lays the foundation for whole industries to advance.
               </InformationContent>
               <InformationContent>
-                This digital identity contains a permanent digital record of an
-                asset’s origin, characteristics and ownership.
+                Proofchain uses the NFT(Non-fungible tokens) paradigm, which
+                creates a digital cryptographic token that is linked to a real
+                world asset, and contains metadata that distinguishes it from
+                any other token. This digital identity contains a permanent
+                record of an asset’s origin, characteristics and ownership.
+                Tokeninzing real-world assets allows them to be bought, sold,
+                and traded more efficiently while reducing the probability of
+                fraud.
               </InformationContent>
             </Row>
             <Row>
@@ -172,16 +182,14 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
           <Col>
             <Row>
               <InformationEaseOfUseImage1Line />
-              <Fade top>
-                <InformationEaseOfUseImage1
-                  src={CodeScanImage}
-                  alt="Ease of use image 1"
-                />
-                <InformationEaseOfUseImage2
-                  src={ProofchainImage}
-                  alt="Ease of use image 2"
-                />
-              </Fade>
+              <InformationEaseOfUseImage1
+                src={CodeScanImage}
+                alt="Ease of use image 1"
+              />
+              <InformationEaseOfUseImage2
+                src={ProofchainImage}
+                alt="Ease of use image 2"
+              />
             </Row>
 
             <Row centered>

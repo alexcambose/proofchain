@@ -43,7 +43,9 @@ const Vision: React.FunctionComponent<IVisionProps> = (props) => {
       <Container>
         <BackgroundText>Vision</BackgroundText>
         <VisionTopSpacer />
-        <VisionHeader>The three elements of a honest company</VisionHeader>
+        <VisionHeader id="vision">
+          The three elements of a honest company
+        </VisionHeader>
         <VisionCardsContainer>
           {cards.map((card) => (
             <VisionCard

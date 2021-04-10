@@ -17,7 +17,6 @@ export const VisionGameOptionItem = styled.div`
   padding-left: ${({ theme }) => theme.sizing.scale600};
   font-size: ${({ theme }) => theme.font.large};
   font-weight: 600;
-  transition: ${({ theme }) => theme.animation.fast};
 `;
 export const VisionGameItems = styled.div``;
 export const VisionGameItemsContainer = styled.div`

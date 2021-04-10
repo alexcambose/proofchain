@@ -16,6 +16,7 @@ import {
   FooterSocialLinks,
 } from './Footer.styled';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import config from 'config';
 
 interface IFooterProps {}
 
@@ -65,18 +66,18 @@ const Footer: React.FunctionComponent<IFooterProps> = (props) => {
             <FooterLinks>
               <FooterLinksHeader>Technology</FooterLinksHeader>
               <FooterLinksItem>
-                <FooterLinksItemLink href="#">Whitepaper</FooterLinksItemLink>
+                <FooterLinksItemLink target="_blank" href={config.whitepaperLink}>Whitepaper</FooterLinksItemLink>
               </FooterLinksItem>
               <FooterLinksItem>
-                <FooterLinksItemLink href="#">Library docs</FooterLinksItemLink>
+                <FooterLinksItemLink target="_blank" href={config.documentationLink}>Library docs</FooterLinksItemLink>
               </FooterLinksItem>
               <FooterLinksItem>
-                <FooterLinksItemLink href="#">
+                <FooterLinksItemLink target="_blank" href={config.demoLink}>
                   demo dashboard
                 </FooterLinksItemLink>
               </FooterLinksItem>
               <FooterLinksItem>
-                <FooterLinksItemLink href="#">
+                <FooterLinksItemLink target="_blank" href={config.demoLink + '/client'}>
                   client scan app
                 </FooterLinksItemLink>
               </FooterLinksItem>
