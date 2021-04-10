@@ -1,5 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components';
 
+//@ts-ignore
 import normalizeCss from 'normalize.css';
 import fonts from './fonts';
 import misc from './misc';

@@ -1,10 +1,5 @@
 import * as React from 'react';
-import {
-  DigitalIdentityCode,
-  DigitalIdentityContainer,
-  DigitalIdentityProduct,
-  DigitalItentityHandler,
-} from './DigitalIdentityGame.styled';
+import { DigitalIdentityContainer } from './DigitalIdentityGame.styled';
 import dynamic from 'next/dynamic';
 
 const BeforeAfterReact = dynamic(() => import('before-after-react'), {
@@ -19,6 +14,7 @@ const DigitalIdentityGame: React.FunctionComponent<IDigitalIdentityGameProps> = 
   return (
     <DigitalIdentityContainer>
       <BeforeAfterReact
+        // @ts-ignore
         secondImgSrc="/abstract-product.svg"
         firstImgSrc="/transaction-code.png"
         seperatorImg="/left-and-right-caret.svg"

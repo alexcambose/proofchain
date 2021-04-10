@@ -21,11 +21,11 @@ const VisionGame: React.FunctionComponent<IVisionGameProps> = (props) => {
   const visionGameItem2 = useRef();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const scrollHandler = () => {
-    const $visionGameIndicator = visionGameIndicator.current;
-    const $visionGameItemFirst = visionGameItemFirst.current;
-    const $visionGameItemLast = visionGameItemLast.current;
-    const $visionGameItem1 = visionGameItem1.current;
-    const $visionGameItem2 = visionGameItem2.current;
+    const $visionGameIndicator = visionGameIndicator.current || null;
+    const $visionGameItemFirst = visionGameItemFirst.current || null;
+    const $visionGameItemLast = visionGameItemLast.current || null;
+    const $visionGameItem1 = visionGameItem1.current || null;
+    const $visionGameItem2 = visionGameItem2.current || null;
     // @ts-ignore
     const { top } = $visionGameItemFirst.getBoundingClientRect();
     // @ts-ignore
