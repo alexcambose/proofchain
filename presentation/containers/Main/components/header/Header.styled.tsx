@@ -24,8 +24,14 @@ export const HeaderVideo = styled.video`
   top: 0;
   left: 0;
   bottom: 0;
-  width: 100vw;
-  height: auto;
+  @media (min-aspect-ratio: 16/9) {
+    width: 100%;
+    height: auto;
+  }
+  @media (max-aspect-ratio: 16/9) {
+    width: auto;
+    height: 100%;
+  }
   z-index: -2;
 `;
 

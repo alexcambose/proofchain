@@ -1,4 +1,5 @@
 import TreeSvg from '@assets/svg/tree.svg';
+import FingerprintSvg from '@assets/svg/fingerprint.svg';
 
 import styled, { css } from 'styled-components';
 
@@ -16,6 +17,10 @@ export const InformationSection = styled.section`
   position: relative;
   margin-top: ${({ theme }) => theme.sizing.scale1400};
   ${({ height }) => height && `height: ${height}px`};
+  ${({ theme }) =>
+    theme.media.sm(css`
+      height: auto;
+    `)}
 `;
 export const InformationHeader = styled.div`
   display: flex;
@@ -84,12 +89,23 @@ export const InformationEaseOfUseImage1Line = styled.img`
   position: absolute;
   left: 170px;
   top: -40px;
+  ${({ theme }) =>
+    theme.media.lg(css`
+      display: none;
+    `)}
 `;
 export const InformationEaseOfUseImage1 = styled.img`
   width: 340px;
   height: auto;
   position: absolute;
   box-shadow: 0 0 20px 20px #00000022;
+  ${({ theme }) =>
+    theme.media.lg(css`
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+    `)}
 `;
 export const InformationEaseOfUseImage2 = styled.img`
   width: 340px;
@@ -98,9 +114,23 @@ export const InformationEaseOfUseImage2 = styled.img`
   top: 300px;
   left: 460px;
   box-shadow: 0 0 20px 20px #00000022;
+  ${({ theme }) =>
+    theme.media.lg(css`
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+    `)}
 `;
 export const InformationCodeDemoImg = styled.img`
   width: 100%;
 
   height: auto;
+`;
+export const InformationFingerprintIcon = styled(FingerprintSvg)`
+  position: absolute;
+  width: 50vw;
+  height: 50vh;
+  top: 0;
+  left: -50%;
 `;

@@ -2,6 +2,7 @@ import CodeScanImage from '@assets/images/Proofchain-code-scan.jpg';
 import ProofchainImage from '@assets/images/Proofchain-product-qr.jpg';
 import DemoCodeImage from '@assets/images/demo-code.png';
 import CertificateManSvg from '@assets/svg/certificate-man.svg';
+import BlockchainSvg from '@assets/svg/blockchain.svg';
 import ProofchainLogoFullLight from '@assets/svg/proofchain-logo-full-light.svg';
 import BackgroundText from '@components/backgroundText/BackgroundText';
 import Container from '@components/layout/Container';
@@ -17,6 +18,7 @@ import {
   InformationEaseOfUseImage1,
   InformationEaseOfUseImage1Line,
   InformationEaseOfUseImage2,
+  InformationFingerprintIcon,
   InformationHeader,
   InformationHeaderDescription,
   InformationHeaderLogo,
@@ -28,6 +30,7 @@ import {
   InformationSvgContainer,
   InformationTree,
 } from './Information.styled';
+import BackgroundPanel from '@components/backgroundPanel/BackgroundPanel';
 
 interface IInformationProps {}
 
@@ -48,9 +51,12 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
         </InformationHeaderDescription>
       </InformationHeader>
       <BackgroundText smaller={true}>Technology</BackgroundText>
+      <BackgroundPanel top={3000} />
 
       <Container>
-        <InformationHeaderSubTitle>Techology</InformationHeaderSubTitle>
+        <InformationHeaderSubTitle id="technology">
+          Techology
+        </InformationHeaderSubTitle>
         <InformationSection>
           <InformationHeaderTitle>
             Blockchain and smart contracts
@@ -69,7 +75,11 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
                 chain entity is perfectly recorded and archived
               </InformationContent>
             </Row>
-            <Row>image</Row>
+            <Row>
+              <InformationSvgContainer>
+                <BlockchainSvg />
+              </InformationSvgContainer>
+            </Row>
           </Col>
           <Col>
             <Row>
@@ -108,6 +118,7 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
               <DigitalIdentityGame />
             </Row>
           </Col>
+          <InformationFingerprintIcon />
         </InformationSection>
         <InformationSection>
           <InformationHeaderTitle>Corporate Practice</InformationHeaderTitle>

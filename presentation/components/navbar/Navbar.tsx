@@ -9,11 +9,14 @@ import {
   NavbarListItemLink,
   NavbarLogo,
   NavbarNav,
+  NavbarToggle,
 } from './Navbar.styled';
 import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 interface INavbarProps {}
 
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
+  const [isVisible, setIsVisible] = useState(true);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const scrollHandler = () => {
     if (scrollY > 50) {
@@ -37,7 +40,7 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
         <NavbarLogo onClick={onLogoClick}>
           <ProofchainLogoFullLight />
         </NavbarLogo>
-        <NavbarList>
+        <NavbarList isVisible={isVisible}>
           <NavbarListItem>
             <NavbarListItemLink href="#home">Home</NavbarListItemLink>
           </NavbarListItem>
@@ -66,6 +69,12 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
             </NavbarButtonContainer>
           </NavbarListItem>
         </NavbarList>
+        <NavbarToggle>
+          <FontAwesomeIcon
+            icon="bars"
+            onClick={() => setIsVisible((v) => !v)}
+          />
+        </NavbarToggle>
       </NavbarContent>
     </NavbarNav>
   );

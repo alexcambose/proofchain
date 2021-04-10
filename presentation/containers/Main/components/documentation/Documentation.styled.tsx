@@ -15,6 +15,10 @@ export const DocumentationTitle = styled.h1`
 `;
 export const DocumentationPanelsContainer = styled.div`
   display: flex;
+  ${({ theme }) =>
+    theme.media.lg(css`
+      flex-direction: column;
+    `)}
 `;
 export const DocumentationPanel = styled.div`
   flex: 1;

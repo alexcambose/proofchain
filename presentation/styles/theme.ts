@@ -11,6 +11,9 @@ export const GlobalStyle = createGlobalStyle`
   :root {
     font-size: 16px;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     margin: 0;
     padding: 0;

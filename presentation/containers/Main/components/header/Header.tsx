@@ -29,7 +29,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   return (
     <HeaderContainer>
       <HeaderOverlay />
-      <HeaderVideo ref={videoRef} muted loop id="myVideo">
+      <HeaderVideo ref={videoRef} muted loop>
         <source src="video.mp4" type="video/mp4" />
         Your browser does not support HTML5 video.
       </HeaderVideo>

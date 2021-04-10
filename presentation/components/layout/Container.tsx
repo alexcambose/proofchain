@@ -4,6 +4,6 @@ export default styled.div`
   margin: 0 auto;
   ${({ theme }) =>
     theme.media.lg(css`
-      max-width: 100%;
+      max-width: 98%;
     `)}
 `;
