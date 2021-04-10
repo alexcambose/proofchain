@@ -90,3 +90,22 @@ export const MouseContainer = styled.div`
     }
   }
 `;
+export const LoadingOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: black;
+  z-index: 99;
+  transition: ${({ theme }) => theme.animation.standard};
+  opacity: 1;
+  visibility: visible;
+
+  ${({ isHidden }) =>
+    isHidden &&
+    `
+    opacity: 0;
+    visibility: hidden;
+  `};
+`;

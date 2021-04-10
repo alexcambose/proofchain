@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Button from '@components/button/Button';
 import {
   HeaderActions,
@@ -11,6 +11,7 @@ import {
   HeaderText2Silent,
   HeaderText3,
   HeaderVideo,
+  LoadingOverlay,
   MouseContainer,
 } from './Header.styled';
 import Link from '@components/link/Link';
@@ -19,17 +20,31 @@ import { isDevelopment } from '@utils/next';
 interface IHeaderProps {}
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const videoRef = useRef();
   useEffect(() => {
-    if (!isDevelopment) {
+    if (!isDevelopment()) {
       // @ts-ignore
       videoRef.current.play();
     }
   }, []);
+  useEffect(() => {
+    if (isLoaded) {
+      document.body.style.overflowY = 'scroll';
+    } else {
+      document.body.style.overflow = 'hidden';
+    }
+  }, [isLoaded]);
   return (
     <HeaderContainer>
+      <LoadingOverlay isHidden={isLoaded} />
       <HeaderOverlay />
-      <HeaderVideo ref={videoRef} muted loop>
+      <HeaderVideo
+        onLoadedData={() => setIsLoaded(true)}
+        ref={videoRef}
+        muted
+        loop
+      >
         <source src="video.mp4" type="video/mp4" />
         Your browser does not support HTML5 video.
       </HeaderVideo>
