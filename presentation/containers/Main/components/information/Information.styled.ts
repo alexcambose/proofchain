@@ -12,6 +12,7 @@ export const InformationContainer = styled.section`
     ${({ theme }) => theme.colors.background} 0%,
     ${({ theme }) => theme.colors.backgroundLighter} 40%
   );
+  overflow: hidden;
 `;
 export const InformationSection = styled.section`
   position: relative;
@@ -65,8 +66,13 @@ export const InformationContent = styled.p`
 `;
 export const InformationSvgContainer = styled.div`
   & > svg {
-    width: 100%;
+    width: 500px;
+
     height: calc(40vh + 100px);
+    ${({ theme }) =>
+      theme.media.lg(css`
+        width: 300px;
+      `)}
   }
 `;
 export const InformationQuote = styled.div`

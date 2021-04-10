@@ -24,7 +24,7 @@ export const GlobalStyle = createGlobalStyle`
     font-style: normal;
     letter-spacing: 1px;
     user-select: auto;
-
+    overflow-x: hidden;
     color: #fff;
   }
  ${misc}

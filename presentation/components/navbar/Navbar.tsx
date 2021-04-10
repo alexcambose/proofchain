@@ -17,7 +17,7 @@ import config from 'config';
 interface INavbarProps {}
 
 const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const scrollHandler = () => {
     if (scrollY > 50) {

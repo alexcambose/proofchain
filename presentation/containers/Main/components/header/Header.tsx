@@ -17,6 +17,8 @@ import {
 import Link from '@components/link/Link';
 import Mouse from '@assets/svg/mouse.svg';
 import { isDevelopment } from '@utils/next';
+import { Parallax } from 'react-scroll-parallax';
+
 import config from 'config';
 interface IHeaderProps {}
 
@@ -33,7 +35,7 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
     if (isLoaded) {
       document.body.style.overflowY = 'scroll';
     } else {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflowY = 'hidden';
     }
   }, [isLoaded]);
   return (
@@ -49,24 +51,27 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
         <source src="video.mp4" type="video/mp4" />
         Your browser does not support HTML5 video.
       </HeaderVideo>
-      <HeaderContent>
-        <HeaderText1>
-          In the hyper-connected and ever-evolving world,
-        </HeaderText1>
-        <HeaderText2>
-          transparency is <HeaderText2Silent>the new</HeaderText2Silent> power.
-        </HeaderText2>
-        <HeaderText3>
-          We leverage blockchain based infrastructure to create reliable and
-          tamper-proof supply chain traceability.
-        </HeaderText3>
-        <HeaderActions>
-          <Link href={config.demoLink}>
-            <Button>View Demo</Button>
-          </Link>
-          <Link href="#vision">Learn more</Link>
-        </HeaderActions>
-      </HeaderContent>
+      <Parallax y={['-100px', '100px']}>
+        <HeaderContent>
+          <HeaderText1>
+            In the hyper-connected and ever-evolving world,
+          </HeaderText1>
+          <HeaderText2>
+            transparency is <HeaderText2Silent>the new</HeaderText2Silent>{' '}
+            power.
+          </HeaderText2>
+          <HeaderText3>
+            We leverage blockchain based infrastructure to create reliable and
+            tamper-proof supply chain traceability.
+          </HeaderText3>
+          <HeaderActions>
+            <Link href={config.demoLink}>
+              <Button>View Demo</Button>
+            </Link>
+            <Link href="#vision">Learn more</Link>
+          </HeaderActions>
+        </HeaderContent>
+      </Parallax>
       <MouseContainer>
         <Link href="#vision">
           <Mouse />

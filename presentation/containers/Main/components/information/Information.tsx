@@ -10,6 +10,8 @@ import { Col, Row } from '@components/layout/Grid';
 import PersuasiveText from '@components/persuasiveText/PersuasiveText';
 import * as React from 'react';
 import Fade from 'react-reveal/Fade';
+import { Parallax } from 'react-scroll-parallax';
+
 import DigitalIdentityGame from './DigitalIdentityGame';
 import {
   InformationCodeDemoImg,
@@ -37,6 +39,7 @@ interface IInformationProps {}
 const Information: React.FunctionComponent<IInformationProps> = (props) => {
   return (
     <InformationContainer>
+      <BackgroundText smaller={true}>Technology</BackgroundText>
       <InformationHeader>
         <Fade top>
           <Fade>
@@ -52,9 +55,8 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
           providing customers with proof of product provenance and ownership.
         </InformationHeaderDescription>
       </InformationHeader>
-      <BackgroundText smaller={true}>Technology</BackgroundText>
-      <BackgroundPanel top={3000} />
 
+      <BackgroundPanel top={3000} />
       <Container>
         <InformationHeaderSubTitle id="technology">
           Techology
@@ -101,8 +103,12 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
             </Row>
           </Col>
         </InformationSection>
+
         <BackgroundPanel isRight top={1000} />
 
+        <Parallax y={['-200px', '0px']}>
+          <InformationFingerprintIcon />
+        </Parallax>
         <InformationSection>
           <InformationHeaderTitle>Digital Identity</InformationHeaderTitle>
           <Col>
@@ -128,7 +134,6 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
               <DigitalIdentityGame />
             </Row>
           </Col>
-          <InformationFingerprintIcon />
         </InformationSection>
         <InformationSection>
           <InformationHeaderTitle>Corporate Practice</InformationHeaderTitle>
@@ -182,10 +187,14 @@ const Information: React.FunctionComponent<IInformationProps> = (props) => {
           <Col>
             <Row>
               <InformationEaseOfUseImage1Line />
-              <InformationEaseOfUseImage1
-                src={CodeScanImage}
-                alt="Ease of use image 1"
-              />
+
+              <Parallax y={['-40px', '40px']}>
+                <InformationEaseOfUseImage1
+                  src={CodeScanImage}
+                  alt="Ease of use image 1"
+                />
+              </Parallax>
+
               <InformationEaseOfUseImage2
                 src={ProofchainImage}
                 alt="Ease of use image 2"
