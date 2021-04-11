@@ -58,15 +58,15 @@ describe('material', () => {
           materialTokenId,
           stake: Web3.utils.toWei('2', 'ether'),
         });
-        expect(result.events.AssignedCertificate.certificateAuthority).toEqual(
-          caAccount
-        );
-        expect(result.events.AssignedCertificate.certificateCode).toEqual(
-          certificateCode
-        );
-        expect(result.events.AssignedCertificate.materialTokenId).toEqual(
-          materialTokenId
-        );
+        expect(
+          result.events.MaterialAssignedCertificate.certificateAuthority
+        ).toEqual(caAccount);
+        expect(
+          result.events.MaterialAssignedCertificate.certificateCode
+        ).toEqual(certificateCode);
+        expect(
+          result.events.MaterialAssignedCertificate.materialTokenId
+        ).toEqual(materialTokenId);
       });
     });
     describe('cancelCertificate', () => {
@@ -85,15 +85,15 @@ describe('material', () => {
           certificateCode,
           materialTokenId,
         });
-        expect(result.events.CanceledCertificate.certificateAuthority).toEqual(
-          caAccount
-        );
-        expect(result.events.CanceledCertificate.certificateCode).toEqual(
-          certificateCode
-        );
-        expect(result.events.CanceledCertificate.materialTokenId).toEqual(
-          materialTokenId
-        );
+        expect(
+          result.events.MaterialCanceledCertificate.certificateAuthority
+        ).toEqual(caAccount);
+        expect(
+          result.events.MaterialCanceledCertificate.certificateCode
+        ).toEqual(certificateCode);
+        expect(
+          result.events.MaterialCanceledCertificate.materialTokenId
+        ).toEqual(materialTokenId);
       });
     });
     describe('revokeCertificate', () => {
@@ -117,15 +117,15 @@ describe('material', () => {
           certificateCode,
           materialTokenId,
         });
-        expect(result.events.RevokedCertificate.certificateAuthority).toEqual(
-          account
-        );
-        expect(result.events.RevokedCertificate.certificateCode).toEqual(
-          certificateCode
-        );
-        expect(result.events.RevokedCertificate.materialTokenId).toEqual(
-          materialTokenId
-        );
+        expect(
+          result.events.MaterialRevokedCertificate.certificateAuthority
+        ).toEqual(account);
+        expect(
+          result.events.MaterialRevokedCertificate.certificateCode
+        ).toEqual(certificateCode);
+        expect(
+          result.events.MaterialRevokedCertificate.materialTokenId
+        ).toEqual(materialTokenId);
       });
     });
     describe('assigedCertificates', () => {
@@ -174,7 +174,7 @@ describe('material', () => {
         stake: Web3.utils.toWei('2', 'ether'),
       });
       const certificateInstanceId =
-        result.events.AssignedCertificate.certificateInstanceId;
+        result.events.MaterialAssignedCertificate.certificateInstanceId;
       const fetchedCertificateInstance = await proofchain.material.getCertificateInstance(
         certificateInstanceId
       );

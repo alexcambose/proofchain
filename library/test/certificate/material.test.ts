@@ -91,7 +91,7 @@ describe('certificate', () => {
             materialTokenId,
             stake: Web3.utils.toWei('1', 'ether'),
           })
-        ).events.AssignedCertificate,
+        ).events.MaterialAssignedCertificate,
       });
 
     const revokeCertificate = async (
@@ -105,7 +105,7 @@ describe('certificate', () => {
             certificateCode,
             materialTokenId,
           })
-        ).events.RevokedCertificate,
+        ).events.MaterialRevokedCertificate,
       });
     const cancelCertificate = async (
       certificateCode: number,
@@ -118,7 +118,7 @@ describe('certificate', () => {
             certificateCode,
             materialTokenId,
           })
-        ).events.CanceledCertificate,
+        ).events.MaterialCanceledCertificate,
       });
     await assignCertificate(certificateCode1, materialTokenId1);
     await revokeCertificate(certificateCode1, materialTokenId1);
