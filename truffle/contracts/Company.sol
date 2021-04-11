@@ -6,11 +6,6 @@ import "./Shipper.sol";
 contract Company is Certifiable, Shipper {
     event CompanyCreate(address indexed owner);
     enum EntityTypeEnum {MANUFACTURER, LOGISTIC, WAREHOUSE, RETAILER}
-    struct CertificateInstance {
-        uint256 code;
-        uint256 time;
-        uint256 stake;
-    }
     struct CompanyInfo {
         EntityTypeEnum entityType;
         string name;
@@ -28,7 +23,7 @@ contract Company is Certifiable, Shipper {
         Ownable(_masterAddress, _factoryContractAddress)
     {}
 
-    function create(string memory _name, EntityTypeEnum _entityType) doesNotHaveCompany public {
+    function create(string memory _name, EntityTypeEnum _entityType) public doesNotHaveCompany {
         address sender = msg.sender;
         companies[sender].name = _name;
         companies[sender].entityType = _entityType;
@@ -44,7 +39,7 @@ contract Company is Certifiable, Shipper {
         super.assignCertificate(_certificateCode);
 
         CertificateInstance memory ci =
-            CertificateInstance({code: _certificateCode, time: block.timestamp, stake: msg.value});
+            CertificateInstance({code: _certificateCode, stake: msg.value});
 
         companies[_company].certificates.push(ci);
     }

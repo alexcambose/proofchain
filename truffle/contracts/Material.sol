@@ -5,9 +5,8 @@ import "./MaterialBase.sol";
 
 import "./utils/CompanyOwnable.sol";
 import "./utils/CertificateAuthorityManagerReferencer.sol";
-import "./Certifiable.sol";
 
-contract Material is Certifiable, MaterialBase, CompanyOwnable {
+contract Material is MaterialBase, CompanyOwnable {
     constructor(address _masterAddress, address _factoryContractAddress)
         Ownable(_masterAddress, _factoryContractAddress)
     {}
@@ -242,7 +241,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
             CertificateInstance({code: _certificateCode, stake: msg.value});
         materialToken[_itemIdentifier].certificateInstanceIds.push(certificateInstanceId);
         certificateInstances[certificateInstanceId] = ci;
-        emit AssignedCertificate(
+        emit MaterialAssignedCertificate(
             msg.sender,
             _certificateCode,
             _itemIdentifier,
@@ -276,7 +275,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         if (i == length - 1) {
             revert("Certificate code not found");
         }
-        emit CanceledCertificate(
+        emit MaterialCanceledCertificate(
             msg.sender,
             _certificateCode,
             _itemIdentifier,
@@ -309,7 +308,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
         if (i == length - 1) {
             revert("Certificate code not found");
         }
-        emit RevokedCertificate(
+        emit MaterialRevokedCertificate(
             msg.sender,
             _certificateCode,
             _itemIdentifier,

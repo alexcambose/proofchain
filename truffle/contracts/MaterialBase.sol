@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >0.7.0 <0.9.0;
+import "./Certifiable.sol";
 
-contract MaterialBase {
+abstract contract MaterialBase is Certifiable {
     event MaterialCreate(address indexed company, uint256 indexed materialTokenId);
     event MaterialTransfer(
         address indexed from,
@@ -23,28 +24,25 @@ contract MaterialBase {
         uint256 uuid, // uuid is only specified on burn
         uint256 transportId
     );
-    event AssignedCertificate(
+    event MaterialAssignedCertificate(
         address indexed certificateAuthority,
         uint256 indexed certificateCode,
         uint256 indexed materialTokenId,
         uint256 certificateInstanceId
     );
-    event CanceledCertificate(
+    event MaterialCanceledCertificate(
         address indexed certificateAuthority,
         uint256 indexed certificateCode,
         uint256 indexed materialTokenId,
         uint256 certificateInstanceId
     );
-    event RevokedCertificate(
+    event MaterialRevokedCertificate(
         address indexed certificateAuthority,
         uint256 indexed certificateCode,
         uint256 indexed materialTokenId,
         uint256 certificateInstanceId
     );
-    struct CertificateInstance {
-        uint256 code;
-        uint256 stake;
-    }
+
     struct MaterialTokenInfo {
         uint256 materialTokenId;
         // a basic name for the material

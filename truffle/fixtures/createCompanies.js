@@ -16,7 +16,7 @@ module.exports = async (
   console.log("Logistic company", transportCompany);
 
   await caInstance.methods
-    .createCertificateAuthority("Main Company")
+    .createCertificateAuthority("Certificate Company")
     .send({ from: certificateAuthority, gas: 300000 });
   console.log("Certificate authority", transportCompany);
 };
