@@ -6,7 +6,7 @@ const {
   createCertificate: _createCertificate,
   expectToThrow,
 } = require("../utils");
-
+const Web3 = require("web3");
 contract("Material", (accounts) => {
   const [account, otherAccount, caAccount, otherCaAccount] = accounts;
   const createMaterial = _createMaterial(account);
@@ -25,6 +25,7 @@ contract("Material", (accounts) => {
       const [materialInstance, , certificateAuthorityManagerInstance] = await getInstance();
       const materialTokenId = await createRawMaterial();
       const code = await createCertificate();
+
       expectToThrow(
         materialInstance.methods
           .assignCertificate(code, materialTokenId)
@@ -39,7 +40,7 @@ contract("Material", (accounts) => {
     it("assings a certificate to a product (only owner of the certificate)", async () => {
       const [
         materialInstance,
-        companyInstance, 
+        companyInstance,
         certificateAuthorityManagerInstance,
       ] = await getInstance();
       const materialTokenId = await createRawMaterial();
@@ -78,46 +79,84 @@ contract("Material", (accounts) => {
     });
   });
   describe("cancelCertificate", () => {
+    let certificateCode, materialTokenId, initialBalance;
+    beforeEach(async () => {
+      const [
+        materialInstance,
+        companyInstance,
+        certificateAuthorityManagerInstance,
+      ] = await getInstance();
+      initialBalance = await web3.eth.getBalance(account);
+      materialTokenId = await createRawMaterial();
+      certificateCode = await createCertificate("aa", 3);
+      const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
+      await materialInstance.methods
+        .assignCertificate(certificateCode, materialTokenId)
+        .send({ from: caAccount, gas: 300000, value: minimumStake });
+    });
     it("removes the certificate from the material", async () => {
       const [
         materialInstance,
         companyInstance,
         certificateAuthorityManagerInstance,
       ] = await getInstance();
-      const materialTokenId = await createRawMaterial();
-      const code = await createCertificate("aa", 3);
-      const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
-      const initialBalance = await web3.eth.getBalance(account);
       await materialInstance.methods
-        .assignCertificate(code, materialTokenId)
-        .send({ from: caAccount, gas: 300000, value: minimumStake });
-      // console.log(await web3.eth.getBalance(account));
+        .cancelCertificate(certificateCode, materialTokenId)
+        .send({ from: caAccount, gas: 300000 });
+      const result = await materialInstance.methods
+        .getMaterialCertificateInstance(materialTokenId, certificateCode)
+        .call();
+      expect(result.code).not.equal(certificateCode);
+    });
+    it("returns the balance to the sender", async () => {
+      const [
+        materialInstance,
+        companyInstance,
+        certificateAuthorityManagerInstance,
+      ] = await getInstance();
+
       const r = await materialInstance.methods
-        .revokeCertificate(code, materialTokenId)
-        .send({ from: account, gas: 300000 });
-      // console.log(r.events.T);
-      // console.log(account, initialBalance, await web3.eth.getBalance(account));
+        .cancelCertificate(certificateCode, materialTokenId)
+        .send({ from: caAccount, gas: 300000 });
+      const updatedBalance = await web3.eth.getBalance(account);
+
+      expect(initialBalance - updatedBalance < Web3.utils.toWei("1", "ether")).equal(true);
     });
   });
   describe("revokeCertificate", () => {
-    it("removes the certificate from the material", async () => {
+    let certificateCode, materialTokenId, initialBalance;
+    beforeEach(async () => {
       const [
         materialInstance,
         companyInstance,
         certificateAuthorityManagerInstance,
       ] = await getInstance();
-      const materialTokenId = await createRawMaterial();
-      const code = await createCertificate("aa", 4);
+      materialTokenId = await createRawMaterial();
+      certificateCode = await createCertificate("aa", 4);
       const minimumStake = await certificateAuthorityManagerInstance.methods.minimumStake().call();
-      const initialBalance = await web3.eth.getBalance(account);
       await materialInstance.methods
-        .assignCertificate(code, materialTokenId)
+        .assignCertificate(certificateCode, materialTokenId)
         .send({ from: caAccount, gas: 300000, value: minimumStake });
-      // console.log(await web3.eth.getBalance(account));
-      const r = await materialInstance.methods
-        .revokeCertificate(code, materialTokenId)
+      initialBalance = await web3.eth.getBalance(account);
+    });
+    it("removes the certificate from the material", async () => {
+      const [materialInstance] = await getInstance();
+      await materialInstance.methods
+        .revokeCertificate(certificateCode, materialTokenId)
         .send({ from: account, gas: 300000 });
-      // console.log(account, initialBalance, await web3.eth.getBalance(account));
+      const result = await materialInstance.methods
+        .getMaterialCertificateInstance(materialTokenId, certificateCode)
+        .call();
+      expect(result.code).not.equal(certificateCode);
+    });
+    it("does not return the staked balance", async () => {
+      const [materialInstance] = await getInstance();
+
+      await materialInstance.methods
+        .revokeCertificate(certificateCode, materialTokenId)
+        .send({ from: account, gas: 300000 });
+      const updatedBalance = await web3.eth.getBalance(account);
+      expect(initialBalance - updatedBalance < Web3.utils.toWei("1", "ether")).equal(true);
     });
   });
 });

@@ -17,14 +17,15 @@ abstract contract Certifiable is CertificateAuthorityManagerReferencer {
         );
     }
 
-    function cancelCertificate(uint256 _certificateCode) public {
+    function cancelCertificate(uint256 _certificateCode) public returns (address) {
         CertificateAuthorityManager cam = getCertificateAuthorityManagerContract();
         (, , , , address certificateAuthority) = cam.authorityCertificates(_certificateCode);
 
         require(
             certificateAuthority == msg.sender,
-            "You need to be the owner of the certificate authority in order to assign it"
+            "You need to be the owner of the certificate authority in order to cancel it"
         );
+        return certificateAuthority;
     }
 
     function revokeCertificate() public view {

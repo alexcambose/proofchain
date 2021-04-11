@@ -252,7 +252,7 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
     }
 
     function cancelCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
-        super.cancelCertificate(_certificateCode);
+        address certificateAuthorityFromContract = super.cancelCertificate(_certificateCode);
         uint256 length = materialToken[_itemIdentifier].certificateInstanceIds.length;
         uint8 i;
         uint256 certificateInstanceId;
@@ -261,6 +261,10 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                 certificateInstances[materialToken[_itemIdentifier].certificateInstanceIds[i]]
                     .code == _certificateCode
             ) {
+                payable(certificateAuthorityFromContract).transfer(
+                    certificateInstances[materialToken[_itemIdentifier].certificateInstanceIds[i]]
+                        .stake
+                );
                 certificateInstanceId = materialToken[_itemIdentifier].certificateInstanceIds[i];
                 materialToken[_itemIdentifier].certificateInstanceIds[i] = materialToken[
                     _itemIdentifier
@@ -298,10 +302,6 @@ contract Material is Certifiable, MaterialBase, CompanyOwnable {
                     _itemIdentifier
                 ]
                     .certificateInstanceIds[length - 1];
-
-                // payable(certificateAuthorityManagerAddress).transfer(
-                //     100000000000000000
-                // );
 
                 materialToken[_itemIdentifier].certificateInstanceIds.pop();
             }
