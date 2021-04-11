@@ -27,7 +27,7 @@ abstract contract Shipper is MaterialReferencer {
         uint256[] batchIds;
         uint256 value;
         TransportStatusEnum status;
-        string hashedPassword;
+        bytes32 hashedPassword;
     }
     mapping(uint256 => TransportInfo) public transports;
     uint256 transportIdCounter = 0;
@@ -90,7 +90,7 @@ abstract contract Shipper is MaterialReferencer {
         address _receiver,
         address _transportCompany,
         uint256[] memory _batchIds,
-        string memory _hashedPassword
+        bytes32 _hashedPassword
     ) public batchesOwner(_batchIds) {
         createTransport(_receiver, _transportCompany, _batchIds);
         transports[transportIdCounter - 1].hashedPassword = _hashedPassword;
@@ -112,7 +112,7 @@ abstract contract Shipper is MaterialReferencer {
 
     function finaliseTransport(uint256 _transportId) public onlyReceiver(_transportId) {
         require(
-            bytes(transports[_transportId].hashedPassword).length == 0,
+            transports[_transportId].hashedPassword[0] == 0,
             "This transport can not be finalised without a password"
         );
         transports[_transportId].status = TransportStatusEnum.FINALISED;
@@ -124,13 +124,12 @@ abstract contract Shipper is MaterialReferencer {
         emit TransportStatus(_transportId, TransportStatusEnum.FINALISED);
     }
 
-    function finaliseTransport(uint256 _transportId, string memory _hashedPassword)
+    function finaliseTransport(uint256 _transportId, string memory _password)
         public
         onlyReceiver(_transportId)
     {
         require(
-            (keccak256(abi.encodePacked((transports[_transportId].hashedPassword))) ==
-                keccak256(abi.encodePacked((_hashedPassword)))),
+            transports[_transportId].hashedPassword == keccak256(abi.encodePacked(_password)),
             "Incorrect password"
         );
         transports[_transportId].status = TransportStatusEnum.FINALISED;

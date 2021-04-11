@@ -206,7 +206,7 @@ contract("Company", (accounts) => {
         let value = await companyInstance.methods.transports(transportId).call();
         expect(value.status).not.equal("false");
         await companyInstance.methods
-          .finaliseTransport(transportId, web3.utils.keccak256("password"))
+          .finaliseTransport(transportId, "password")
           .send({ from: otherAccount, gas: 300000 });
         value = await companyInstance.methods.transports(transportId).call();
         expect(value.status).equal("5");
