@@ -1,3 +1,4 @@
+import Web3 from 'web3';
 import Base from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import MinedTransaction from './MinedTransaction';
@@ -47,14 +48,20 @@ class Transport extends Base {
     await this.ensureContract();
     let transaction;
     if (password) {
+      const passwordInHex = keccak256(password).toString('hex');
+      console.log(
+        passwordInHex,
+        Web3.utils.asciiToHex(passwordInHex),
+        passwordInHex.substring(2, passwordInHex.length)
+      );
       transaction = await this.contract.methods
         .createTransport(
           receiver,
           transportCompany,
           batchIds,
-          keccak256(password).toString('hex')
+          '0x' + Web3.utils.padLeft(passwordInHex.replace('0x', ''), 64)
         )
-        .send({ from: this.fromAddress, gas: 300000 });
+        .send({ from: this.fromAddress, gas: 400000 });
     } else {
       transaction = await this.contract.methods
         .createTransport(receiver, transportCompany, batchIds)
