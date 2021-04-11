@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'baseui';
 import { Card, StyledAction } from 'baseui/card';
+import { StyledSpinnerNext as Spinner } from 'baseui/spinner';
 import React from 'react';
 
 interface IGridBaseProps {
@@ -50,6 +51,8 @@ const BodyContents = styled('div', ({ $theme }) => ({
 const StyledBody = styled('div', ({ $theme }) => ({
   display: 'flex',
   height: '100%',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));
 const GridBase: React.FC<IGridBaseProps> = ({
   title,
@@ -103,12 +106,16 @@ const GridBase: React.FC<IGridBaseProps> = ({
       }}
       title={title}
     >
-      {isLoading ? null : (
-        <StyledBody>
-          {icon && <IconContainer>{icon}</IconContainer>}
-          <BodyContents>{children}</BodyContents>
-        </StyledBody>
-      )}
+      <StyledBody>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <>
+            {icon && <IconContainer>{icon}</IconContainer>}
+            <BodyContents>{children}</BodyContents>
+          </>
+        )}
+      </StyledBody>
     </Card>
   );
 };

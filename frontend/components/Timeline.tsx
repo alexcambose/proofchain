@@ -45,7 +45,7 @@ const TimelineDot = styled('div', ({ $theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  padding: $theme.sizing.scale200,
+  padding: $theme.sizing.scale600,
 }));
 const TimelineContent = styled('div', ({ $theme }) => ({
   marginLeft: $theme.sizing.scale400,

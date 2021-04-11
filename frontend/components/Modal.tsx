@@ -19,6 +19,7 @@ interface ModalProps extends UIModalProps {
   header?: any;
   children: any;
   footer?: any | 'standard';
+  isWide?: boolean;
 }
 const ModalHeader = styled(UIModalHeader, ({ $theme }) => ({
   fontWeight: 'bold',
@@ -30,6 +31,7 @@ const Modal: React.FC<ModalProps> = ({
   header,
   children,
   footer,
+  isWide,
   ...props
 }) => {
   const standardFooter = (
@@ -53,6 +55,15 @@ const Modal: React.FC<ModalProps> = ({
             return {
               zIndex: 3,
             };
+          },
+        },
+        Dialog: {
+          style: () => {
+            const styles: any = {};
+            if (isWide) {
+              styles.minWidth = '80vw';
+            }
+            return styles;
           },
         },
       })}

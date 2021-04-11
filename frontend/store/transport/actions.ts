@@ -63,7 +63,7 @@ export const createTransport = createAsyncThunk(
         password,
       })
     );
-
+    if (!result) throw new Error('Error!');
     // return { batches };
   }
 );

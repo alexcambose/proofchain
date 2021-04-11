@@ -20,10 +20,15 @@ interface FinaliseTransportFormValues {
 }
 const _FinaliseTransportForm: React.FC<
   FinaliseTransportFormProps & FormikProps<FinaliseTransportFormValues>
-> = ({ transport }) => {
+> = ({ transport, ...props }) => {
+  if (transport.status == TransportStatusEnum.FINALISED) {
+    return null;
+  }
   if (transport.status != TransportStatusEnum.PENDING_FINALISED) {
     return <>This transport needs to be in the "Pending Finalised" status.</>;
   }
+  const { isSubmitting } = props;
+
   return (
     <Form>
       {transport.hashedPassword && (
@@ -34,7 +39,9 @@ const _FinaliseTransportForm: React.FC<
           caption="The keccak256 of the password set by the sender."
         />
       )}
-      <Button type="submit">Finalise transport</Button>
+      <Button type="submit" isLoading={isSubmitting} disabled={isSubmitting}>
+        Finalise transport
+      </Button>
     </Form>
   );
 };
@@ -51,13 +58,10 @@ const FinaliseTransportForm = withFormik<
 
   validate: (values, { transport }) => {
     const errors: any = {};
-    console.log(
-      keccak256(values.password).toString('hex'),
-      transport.hashedPassword
-    );
     if (
       transport.hashedPassword &&
-      keccak256(values.password).toString('hex') !== transport.hashedPassword
+      '0x' + keccak256(values.password).toString('hex') !==
+        transport.hashedPassword
     ) {
       errors.password = 'Incorrect Password';
     }
@@ -65,7 +69,7 @@ const FinaliseTransportForm = withFormik<
     return errors;
   },
   handleSubmit: async (values, { props }) => {
-    const result = await transactionWrapper(
+    const result = await transactionWrapper(() =>
       proofchain().transport.finaliseTransport({
         transportId: props.transport.transportId,
         password: values.password,

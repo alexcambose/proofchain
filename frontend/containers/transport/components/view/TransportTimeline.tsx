@@ -89,6 +89,7 @@ const TransportTimeline: React.FunctionComponent<ITransportTimelineProps> = ({
       <Modal
         header="Event details"
         opened={isModalOpened}
+        isWide
         onClose={() => setIsModalOpened(false)}
       >
         <VerticalTable

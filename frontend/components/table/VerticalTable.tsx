@@ -15,7 +15,7 @@ import uuid from 'react-uuid';
 import { StyledSpinnerNext, SIZE as SPINNER_SIZE } from 'baseui/spinner';
 import { useStyletron } from 'baseui';
 import { startCase } from 'lodash';
-import clientWeb3Instance from 'clientWeb3Instance';
+import web3Instance from 'web3Instance';
 
 interface IVerticalTable {
   withTransactionDetails?: string;
@@ -35,10 +35,10 @@ const VerticalTable: React.FC<IVerticalTable> = ({
   const onTransactionDetailsClick = async () => {
     setIsLoading(true);
     if (!isExpanded) {
-      const transaction = await clientWeb3Instance().eth.getTransaction(
+      const transaction = await web3Instance().eth.getTransaction(
         withTransactionDetails
       );
-      const transactionReceipt = await clientWeb3Instance().eth.getTransactionReceipt(
+      const transactionReceipt = await web3Instance().eth.getTransactionReceipt(
         withTransactionDetails
       );
       console.log({ ...transaction, ...transactionReceipt });

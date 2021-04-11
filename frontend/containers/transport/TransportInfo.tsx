@@ -75,6 +75,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
       <Grid2
         left={
           <>
+            <Label1>Transport details</Label1>
             <VerticalTable
               withTransactionDetails={
                 transport.events.TransportCreated.transactionHash
@@ -99,7 +100,12 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
             />
           </>
         }
-        right={<TransportBatchesTable transportbatches={batchInfo} />}
+        right={
+          <>
+            <Label1>Transport Cotents</Label1>
+            <TransportBatchesTable transportbatches={batchInfo} />
+          </>
+        }
       />
     </>
   );

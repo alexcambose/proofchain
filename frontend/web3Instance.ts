@@ -14,7 +14,11 @@ const initWeb3FromWallet = (wallet, password = 'password'): string => {
   _web3Instance.eth.accounts.wallet.add(decrytedWallet);
   return _web3Instance.eth.accounts.wallet[0].address;
 };
-
+const initWeb3 = () => {
+  _web3Instance = new Web3(
+    new Web3.providers.HttpProvider(config.ethProvider.default.http)
+  );
+};
 const initWeb3FromMetamask = async (): Promise<string> => {
   const ethereum = window.ethereum;
   // @ts-ignore
@@ -24,6 +28,10 @@ const initWeb3FromMetamask = async (): Promise<string> => {
 };
 
 export const initWeb3Instance = async (loginObject): Promise<string> => {
+  if (!loginObject) {
+    initWeb3();
+    return;
+  }
   const { type, wallet } = loginObject;
   if (isClient()) {
     // @ts-ignore

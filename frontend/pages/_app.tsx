@@ -1,86 +1,29 @@
-import '@assets/styles/style.css';
-import '@assets/styles/react-grid.css';
 import '@assets/styles/react-flow.css';
-import 'normalize.css';
-import { refreshBalance, refreshLogin } from '@store/user/actions';
+import '@assets/styles/react-grid.css';
+import '@assets/styles/style.css';
+import LoadingOverlay from '@components/loading/LoadingOverlay';
+import { setApplicationLoading } from '@store/application';
+import { fetchGasPrice } from '@store/application/actions';
+import { refreshBalance } from '@store/user/actions';
+import '@styles/icons';
+import '@types/declarations';
+import authManager from '@utils/auth/authManager';
 import { init } from '@utils/auth/torus';
 import { isClient } from '@utils/next';
 import { BaseProvider, LightTheme } from 'baseui';
+import { ToasterContainer } from 'baseui/toast';
+import initweb3Instance from 'web3Instance';
+import * as dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
 import { useRouter } from 'next/router';
+import 'normalize.css';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Provider as StyletronProvider } from 'styletron-react';
-import '@types/declarations';
+import { initWeb3Instance } from 'web3Instance';
 import { State, wrapper } from '../store';
 import { styletron } from '../styletron';
-import { EntityTypeEnum } from '@enums';
-import { ToasterContainer } from 'baseui/toast';
-import LoadingOverlay from '@components/loading/LoadingOverlay';
-import { initWeb3Instance } from 'web3Instance';
-import authManager, { AuthManager } from '@utils/auth/authManager';
-import { setApplicationLoading } from '@store/application';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { fab, faEthereum } from '@fortawesome/free-brands-svg-icons';
-import {
-  faHome,
-  faTimes,
-  faLink,
-  faBan,
-  faQrcode,
-  faBuilding,
-  faHistory,
-  faScroll,
-  faPlus,
-  faCheck,
-  faTruckLoading,
-  faTruckMoving,
-  faTh,
-  faCheckDouble,
-  faParachuteBox,
-  faLightbulb,
-  faDotCircle,
-  faDrawPolygon,
-  faBoxes,
-  faTruck,
-  faDownload,
-  faTrash,
-  faBox,
-  faIndustry,
-} from '@fortawesome/free-solid-svg-icons';
-import * as dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
-import { fetchGasPrice } from '@store/application/actions';
-import { initClientWeb3Instance } from 'clientWeb3Instance';
 dayjs.extend(relativeTime);
-
-library.add(
-  fab,
-  faHome,
-  faTimes,
-  faLink,
-  faBan,
-  faHistory,
-  faQrcode,
-  faBuilding,
-  faScroll,
-  faPlus,
-  faCheck,
-  faTruck,
-  faTruckLoading,
-  faTruckMoving,
-  faParachuteBox,
-  faCheckDouble,
-  faTh,
-  faLightbulb,
-  faEthereum,
-  faDotCircle,
-  faDrawPolygon,
-  faBoxes,
-  faDownload,
-  faTrash,
-  faBox,
-  faIndustry
-);
 
 if (isClient()) {
   init();
@@ -105,6 +48,7 @@ function MyApp({ Component, pageProps }) {
         if (loggedIn) {
           dispatch(setApplicationLoading(true));
           await initWeb3Instance(authManager.getInfo());
+
           await dispatch(refreshBalance());
           dispatch(setApplicationLoading(false));
           dispatch(fetchGasPrice());
@@ -113,7 +57,7 @@ function MyApp({ Component, pageProps }) {
     } else {
       (async () => {
         dispatch(setApplicationLoading(true));
-        await initClientWeb3Instance();
+        await initweb3Instance();
         dispatch(setApplicationLoading(false));
       })();
     }

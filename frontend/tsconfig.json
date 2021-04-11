@@ -21,6 +21,7 @@
       "@containers/*": ["containers/*"],
       "@assets/*": ["assets/*"],
       "@utils/*": ["utils/*"],
+      "@styles/*": ["styles/*"],
       "@enums": ["enums.ts"],
       "@constants": ["constants.ts"]
     }

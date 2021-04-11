@@ -92,7 +92,7 @@ const CreateTransportEventForm: React.FunctionComponent<ICreateTransportEventFor
     return null;
   }
   if (transportStatus == TransportStatusEnum.PENDING_FINALISED) {
-    return <>Awaiting receiver confirmation</>;
+    return <>Awaiting receiver confirmation.</>;
   }
   return (
     <>
