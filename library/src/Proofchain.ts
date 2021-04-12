@@ -1,3 +1,5 @@
+export { CERTIFICATE_ASSIGNMENT_TYPE } from './Material';
+
 import { Factory } from './abi';
 import Web3 from 'web3';
 import Company from './Company';
@@ -27,15 +29,20 @@ class Proofchain {
   public batch: Batch;
   public transport: Transport;
   public certificateAuthority: CertificateAuthority;
-  constructor({
-    web3,
-    factoryContractAddress,
-    fromAddress,
-  }: {
+  /**
+   * Proofchain constructor function
+   *
+   * @param options       An object containing proofchain configuration parameters
+   * @param options.web3  The web3 instance used to execute transactions. Must have a provider. See {@link https://web3js.readthedocs.io/|Web3.js}
+   * @param options.factoryContractAddress  The address of Factory.sol
+   * @param options.fromAddress  The address from which smart contract interaction will be done.
+   */
+  private constructor(options: {
     web3: Web3;
     factoryContractAddress: string;
     fromAddress?: string;
   }) {
+    const { web3, factoryContractAddress, fromAddress } = options;
     this.web3 = web3;
     this.factoryContract = new web3.eth.Contract(
       // @ts-ignore
@@ -95,6 +102,14 @@ class Proofchain {
       fromAddress: web3.eth.accounts.wallet[0].address,
     });
   }
+  /**
+   * This is the second signature of a function with multiple signatures.
+   *
+   * @param options       An object containing proofchain configuration parameters
+   * @param options.web3  The web3 instance used to execute transactions. Must have a provider. See {@link https://web3js.readthedocs.io/|Web3.js}
+   * @param options.factoryContractAddress  The address of Factory.sol
+   * @param options.fromAddress  The address from which smart contract interaction will be done.
+   */
   static providerInit({
     web3Provider,
     factoryContractAddress,
@@ -106,6 +121,14 @@ class Proofchain {
     const web3 = new Web3(web3Provider);
     return this.web3Init({ web3, factoryContractAddress, fromAddress });
   }
+  /**
+   * This is the second signature of a function with multiple signatures.
+   *
+   * @param options       An object containing proofchain configuration parameters
+   * @param options.web3  The web3 instance used to execute transactions. Must have a provider. See {@link https://web3js.readthedocs.io/|Web3.js}
+   * @param options.factoryContractAddress  The address of Factory.sol
+   * @param options.fromAddress  The address from which smart contract interaction will be done.
+   */
   static web3Init({
     web3,
     factoryContractAddress,

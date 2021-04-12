@@ -1,5 +1,5 @@
 import { deployedFactoryAddress, provider } from '../provider';
-import Proofchain from '../../src/index';
+import Proofchain from '../../src/Proofchain';
 import CompanyEntityTypeEnum from '../../src/enums/CompanyEntityTypeEnum';
 import Web3 from 'web3';
 import { CERTIFICATE_ASSIGNMENT_TYPE } from '../../src/Material';

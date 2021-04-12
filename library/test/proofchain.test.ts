@@ -1,7 +1,7 @@
 jest.useFakeTimers();
 jest.setTimeout(30000);
 
-import Proofchain from '../src';
+import Proofchain from '../src/Proofchain';
 import { provider } from './provider';
 
 describe('Proofchain', () => {
