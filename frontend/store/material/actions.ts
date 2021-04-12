@@ -141,7 +141,7 @@ export const fetchMaterialInfoCertificates = createAsyncThunk(
         certificate.certificateAuthority
       );
       const assignEvents = await proofchain().material.getPastEvents(
-        'AssignedCertificate',
+        'MaterialAssignedCertificate',
         {
           certificateAuthority: certificateAuthority.owner,
           certificateCode: certificate.code,
