@@ -25,6 +25,7 @@ export const GlobalStyle = createGlobalStyle`
     letter-spacing: 1px;
     user-select: auto;
     overflow-x: hidden;
+    overflow-y: hidden;
     color: #fff;
   }
  ${misc}
