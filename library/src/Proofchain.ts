@@ -14,9 +14,6 @@ import Batch from './Batch';
 import Transport from './Transport';
 import { EMPTY_ADDRESS } from './utils/eth';
 
-interface IProofchainConfig {
-  factoryContractAddress: string;
-}
 /**
  * Main class
  */
@@ -24,10 +21,25 @@ class Proofchain {
   private factoryContract;
   private web3: Web3;
   private fromAddress?: string;
+  /**
+   * Material class instance.
+   */
   public material: Material;
+  /**
+   * Company class instance.
+   */
   public company: Company;
+  /**
+   * Batch class instance.
+   */
   public batch: Batch;
+  /**
+   * Transport class instance.
+   */
   public transport: Transport;
+  /**
+   * CertificateAuthority class instance.
+   */
   public certificateAuthority: CertificateAuthority;
   /**
    * Proofchain constructor function
@@ -90,9 +102,10 @@ class Proofchain {
     httpProvider,
     privateKey,
     factoryContractAddress,
-  }: IProofchainConfig & {
+  }: {
     httpProvider: string;
     privateKey: string;
+    factoryContractAddress: string;
   }): Proofchain {
     const web3 = new Web3(new Web3.providers.HttpProvider(httpProvider));
     web3.eth.accounts.wallet.add(privateKey);
@@ -103,40 +116,39 @@ class Proofchain {
     });
   }
   /**
-   * This is the second signature of a function with multiple signatures.
+   * Creates a new proofchain instance. Similar to web3Init.
+   * @see {@link web3Init}
    *
    * @param options       An object containing proofchain configuration parameters
-   * @param options.web3  The web3 instance used to execute transactions. Must have a provider. See {@link https://web3js.readthedocs.io/|Web3.js}
+   * @param options.web3Provider  Web3 provider. See {@link https://web3js.readthedocs.io/en/v1.3.4/web3-eth.html#providers|Web3.js}
    * @param options.factoryContractAddress  The address of Factory.sol
    * @param options.fromAddress  The address from which smart contract interaction will be done.
+   * @returns Proofchain instance
    */
-  static providerInit({
-    web3Provider,
-    factoryContractAddress,
-    fromAddress,
-  }: IProofchainConfig & {
+  static providerInit(options: {
     web3Provider: any;
+    factoryContractAddress: string;
     fromAddress?: string;
   }): Proofchain {
+    const { web3Provider, factoryContractAddress, fromAddress } = options;
     const web3 = new Web3(web3Provider);
     return this.web3Init({ web3, factoryContractAddress, fromAddress });
   }
   /**
-   * This is the second signature of a function with multiple signatures.
+   * Creates a new proofchain instance
    *
-   * @param options       An object containing proofchain configuration parameters
+   * @param options  An object containing proofchain configuration parameters
    * @param options.web3  The web3 instance used to execute transactions. Must have a provider. See {@link https://web3js.readthedocs.io/|Web3.js}
    * @param options.factoryContractAddress  The address of Factory.sol
    * @param options.fromAddress  The address from which smart contract interaction will be done.
+   * @returns Proofchain instance
    */
-  static web3Init({
-    web3,
-    factoryContractAddress,
-    fromAddress,
-  }: IProofchainConfig & {
+  static web3Init(options: {
     web3: any;
+    factoryContractAddress: string;
     fromAddress?: string;
   }): Proofchain {
+    const { web3, factoryContractAddress, fromAddress } = options;
     return new Proofchain({
       web3,
       fromAddress,

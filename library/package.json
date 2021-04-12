@@ -8,8 +8,8 @@
     "test:watch": "jest --watch",
     "format": "prettier --write .",
     "build": "tsc -p tsconfig.json",
-    "docs": "typedoc ./src/Proofchain.ts",
-    "docs:dev": "typedoc ./src/Proofchain.ts --watch --logLevel Verbose",
+    "docs": "typedoc ./src/ ",
+    "docs:dev": "typedoc ./src/  --watch --logLevel Verbose",
     "get-abi": "mkdir -p ./src/contract-build/ && cd ../truffle && npm run solc-build && cp ./build/solc/* ../library/src/contract-build/"
   },
   "author": "",

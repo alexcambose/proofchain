@@ -1,10 +1,8 @@
 import Base from './Base';
-import { ICertificate } from './CertificateAuthority';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
 import MinedTransaction from './MinedTransaction';
 import { EMPTY_ADDRESS } from './utils/eth';
-import { parseEvent } from './utils/eventsParser';
 
 interface IMaterialTokenInfo {
   materialTokenId: number;
@@ -88,6 +86,9 @@ interface ICertificateAssignmentHistory {
       | MaterialRevokedCertificateEvent;
   }[];
 }
+/**
+ * Material class
+ */
 class Material extends Base implements IEntity {
   async create({
     name,
