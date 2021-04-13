@@ -1,6 +1,6 @@
 import { deployedFactoryAddress, provider } from '../provider';
 import Proofchain from '../../src/Proofchain';
-import CompanyEntityTypeEnum from '../../src/enums/CompanyEntityTypeEnum';
+import { CompanyEntityTypeEnum } from '../../src/enums';
 import Web3 from 'web3';
 
 describe('Certificates', () => {
