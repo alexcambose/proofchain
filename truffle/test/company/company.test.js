@@ -71,8 +71,8 @@ contract("Company", (accounts) => {
           .send({ from: account, gas: 300000, value: minimumStake })
       );
 
-      const result = await companyInstance.methods.getCompanyCertificate(account).call();
-      expect(result.code).equal(code);
+      // const result = await companyInstance.methods.getCompanyCertificate(account).call();
+      // expect(result.code).equal(code);
     });
   });
   describe("cancelCertificate", () => {

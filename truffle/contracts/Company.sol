@@ -23,6 +23,12 @@ contract Company is Certifiable, Shipper {
         Ownable(_masterAddress, _factoryContractAddress)
     {}
 
+    /**
+     * Creates a new company
+     *
+     * @param _name Company name
+     * @param _entityType Company entity type
+     */
     function create(string memory _name, EntityTypeEnum _entityType) public doesNotHaveCompany {
         address sender = msg.sender;
         companies[sender].name = _name;
@@ -31,10 +37,22 @@ contract Company is Certifiable, Shipper {
         emit CompanyCreate(sender);
     }
 
+    /**
+     * Retrieves a company by address
+     *
+     * @param _addr Company account address
+     * @return Company information
+     */
     function getCompany(address _addr) public view returns (CompanyInfo memory) {
         return companies[_addr];
     }
 
+    /**
+     * Assigns a certificate to a company
+     *
+     * @param _certificateCode The certificate code
+     * @param _company The company to be assigned to
+     */
     function assignCertificate(uint256 _certificateCode, address _company) public payable {
         super.assignCertificate(_certificateCode);
 
@@ -44,6 +62,12 @@ contract Company is Certifiable, Shipper {
         companies[_company].certificates.push(ci);
     }
 
+    /**
+     * Cancels a certificate from a company
+     *
+     * @param _certificateCode The certificate code
+     * @param _company The target company
+     */
     function cancelCertificate(uint256 _certificateCode, address _company) public {
         super.cancelCertificate(_certificateCode);
         uint256 length = companies[_company].certificates.length;
@@ -59,6 +83,12 @@ contract Company is Certifiable, Shipper {
         }
     }
 
+    /**
+     * Revokes a certificate from a company
+     *
+     * @param _certificateCode The certificate code
+     * @param _company The target company
+     */
     function revokeCertificate(uint256 _certificateCode, address _company) public {
         super.revokeCertificate();
         uint256 length = companies[_company].certificates.length;
@@ -77,19 +107,4 @@ contract Company is Certifiable, Shipper {
         }
     }
 
-    function getCompanyCertificate(address _company)
-        public
-        view
-        returns (CertificateInstance memory)
-    {
-        return companies[_company].certificates[companies[_company].certificates.length - 1];
-    }
-
-    function getCompanyCertificate(address _company, uint256 _index)
-        public
-        view
-        returns (CertificateInstance memory)
-    {
-        return companies[_company].certificates[_index];
-    }
 }
