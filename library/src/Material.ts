@@ -4,7 +4,7 @@ import IEntity from './interface/IEntity';
 import MinedTransaction from './MinedTransaction';
 import { EMPTY_ADDRESS } from './utils/eth';
 
-interface IMaterialTokenInfo {
+export interface IMaterialTokenInfo {
   materialTokenId: number;
   name: string;
   code: string;
@@ -14,14 +14,14 @@ interface IMaterialTokenInfo {
   recipeMaterialTokenId: number[];
   recipeMaterialAmount: number[];
 }
-interface IMaterialInfo {
+export interface IMaterialInfo {
   materialTokenId: number;
   uuid: number;
   fromBatchId: number[];
   batchMaterialsUuid: number[][];
   mintEvent: MaterialCreateEvent;
 }
-interface ICreateRawMaterial {
+export interface ICreateRawMaterial {
   name: string;
   code: string;
   amountIdentifier: string;
@@ -29,11 +29,11 @@ interface ICreateRawMaterial {
   recipeMaterialTokenId?: number[];
   recipeMaterialAmount?: number[];
 }
-interface IMaterialTypeSelector {
+export interface IMaterialTypeSelector {
   onlyRawMaterials?: boolean;
   onlyMaterials?: boolean;
 }
-interface ICertificateInstance {
+export interface ICertificateInstance {
   code: number;
   stake: number;
 }

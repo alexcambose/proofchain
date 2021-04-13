@@ -1,8 +1,9 @@
 export { CERTIFICATE_ASSIGNMENT_TYPE } from './Material';
+export { CompanyEntityTypeEnum } from './enums';
 
 import { Factory } from './abi';
 import Web3 from 'web3';
-import Company from './Company';
+import { Company } from './Company';
 import {
   Company as CompanyAbi,
   Material as MaterialAbi,

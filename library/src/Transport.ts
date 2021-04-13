@@ -49,11 +49,6 @@ class Transport extends Base {
     let transaction;
     if (password) {
       const passwordInHex = keccak256(password).toString('hex');
-      console.log(
-        passwordInHex,
-        Web3.utils.asciiToHex(passwordInHex),
-        passwordInHex.substring(2, passwordInHex.length)
-      );
       transaction = await this.contract.methods
         .createTransport(
           receiver,
