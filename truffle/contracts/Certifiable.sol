@@ -3,10 +3,19 @@ pragma solidity >0.7.0 <0.9.0;
 import "./utils/CertificateAuthorityManagerReferencer.sol";
 
 abstract contract Certifiable is CertificateAuthorityManagerReferencer {
+    /**
+     * Created for each certificate assigned
+     */
     struct CertificateInstance {
         uint256 code;
         uint256 stake;
     }
+    /**
+     * Mapping
+     * certificateInstanceId => CertificateInstance
+     */
+    mapping(uint256 => CertificateInstance) public certificateInstances;
+    uint256 certificateInstanceId = 0;
 
     function assignCertificate(uint256 _certificateCode) public payable {
         CertificateAuthorityManager cam = getCertificateAuthorityManagerContract();

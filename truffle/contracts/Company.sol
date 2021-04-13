@@ -5,11 +5,30 @@ import "./Shipper.sol";
 
 contract Company is Certifiable, Shipper {
     event CompanyCreate(address indexed owner);
+    event CompanyAssignedCertificate(
+        address indexed certificateAuthority,
+        uint256 indexed certificateCode,
+        address indexed companyAddress,
+        uint256 certificateInstanceId
+    );
+    event CompanyCanceledCertificate(
+        address indexed certificateAuthority,
+        uint256 indexed certificateCode,
+        address indexed companyAddress,
+        uint256 certificateInstanceId
+    );
+    event CompanyRevokedCertificate(
+        address indexed certificateAuthority,
+        uint256 indexed certificateCode,
+        address indexed companyAddress,
+        uint256 certificateInstanceId
+    );
+
     enum EntityTypeEnum {MANUFACTURER, LOGISTIC, WAREHOUSE, RETAILER}
     struct CompanyInfo {
         EntityTypeEnum entityType;
         string name;
-        CertificateInstance[] certificates;
+        uint256[] certificateInstanceIds;
         bool isValue;
     }
     mapping(address => CompanyInfo) public companies;
@@ -55,32 +74,62 @@ contract Company is Certifiable, Shipper {
      */
     function assignCertificate(uint256 _certificateCode, address _company) public payable {
         super.assignCertificate(_certificateCode);
-
+        for (uint256 i = 0; i < companies[_company].certificateInstanceIds.length; i++) {
+            if (
+                certificateInstances[companies[_company].certificateInstanceIds[i]].code ==
+                _certificateCode
+            ) {
+                revert("Can not assign the same certificate twice");
+            }
+        }
         CertificateInstance memory ci =
             CertificateInstance({code: _certificateCode, stake: msg.value});
 
-        companies[_company].certificates.push(ci);
+        companies[_company].certificateInstanceIds.push(certificateInstanceId);
+        certificateInstances[certificateInstanceId] = ci;
+        emit CompanyAssignedCertificate(
+            msg.sender,
+            _certificateCode,
+            _company,
+            certificateInstanceId
+        );
+        certificateInstanceId++;
     }
 
     /**
-     * Cancels a certificate from a company
+     * Cancels a certificate for a company
      *
      * @param _certificateCode The certificate code
      * @param _company The target company
      */
     function cancelCertificate(uint256 _certificateCode, address _company) public {
-        super.cancelCertificate(_certificateCode);
-        uint256 length = companies[_company].certificates.length;
+        address certificateAuthorityFromContract = super.cancelCertificate(_certificateCode);
+        uint256 length = companies[_company].certificateInstanceIds.length;
         uint8 i;
+        uint256 certificateInstanceId;
         for (i = 0; i < length; i++) {
-            if (companies[_company].certificates[i].code == _certificateCode) {
-                companies[_company].certificates[i] = companies[_company].certificates[length - 1];
-                delete companies[_company].certificates[length - 1];
+            if (
+                certificateInstances[companies[_company].certificateInstanceIds[i]].code ==
+                _certificateCode
+            ) {
+                payable(certificateAuthorityFromContract).transfer(
+                    certificateInstances[companies[_company].certificateInstanceIds[i]].stake
+                );
+                certificateInstanceId = companies[_company].certificateInstanceIds[i];
+                companies[_company].certificateInstanceIds[i] = companies[_company]
+                    .certificateInstanceIds[length - 1];
+                companies[_company].certificateInstanceIds.pop();
             }
         }
         if (i == length - 1) {
             revert("Certificate code not found");
         }
+        emit CompanyCanceledCertificate(
+            msg.sender,
+            _certificateCode,
+            _company,
+            certificateInstanceId
+        );
     }
 
     /**
@@ -91,20 +140,60 @@ contract Company is Certifiable, Shipper {
      */
     function revokeCertificate(uint256 _certificateCode, address _company) public {
         super.revokeCertificate();
-        uint256 length = companies[_company].certificates.length;
+        uint256 length = companies[_company].certificateInstanceIds.length;
         uint8 i;
+        uint256 certificateInstanceId;
         for (i = 0; i < length; i++) {
-            if (companies[_company].certificates[i].code == _certificateCode) {
-                companies[_company].certificates[i] = companies[_company].certificates[length - 1];
-                // payable(certificateAuthorityManagerAddress).transfer(
-                //     100000000000000000
-                // );
-                delete companies[_company].certificates[length - 1];
+            if (
+                certificateInstances[companies[_company].certificateInstanceIds[i]].code ==
+                _certificateCode
+            ) {
+                certificateInstanceId = companies[_company].certificateInstanceIds[i];
+                companies[_company].certificateInstanceIds[i] = companies[_company]
+                    .certificateInstanceIds[length - 1];
+                companies[_company].certificateInstanceIds.pop();
             }
         }
         if (i == length - 1) {
             revert("Certificate code not found");
         }
+        emit CompanyRevokedCertificate(
+            msg.sender,
+            _certificateCode,
+            _company,
+            certificateInstanceId
+        );
     }
 
+    /**
+     * Get a certificate instance assigned to a company
+     * @param _company Company address where the certificate is assigned
+     * @param _code Certificate code
+     * @return Certificate instance
+     */
+    function getCompanyCertificateInstance(address _company, uint256 _code)
+        public
+        view
+        returns (CertificateInstance memory)
+    {
+        for (uint256 i = 0; i < companies[_company].certificateInstanceIds.length; i++) {
+            if (certificateInstances[companies[_company].certificateInstanceIds[i]].code == _code) {
+                return certificateInstances[companies[_company].certificateInstanceIds[i]];
+            }
+        }
+        // revert("Certificate with code is not assigned");
+    }
+
+    /**
+     * Get the ids of all certificates assigned to a company
+     * @param _company Company address where the certificates are assigned
+     * @return Certificate instance
+     */
+    function getCompanyCertificatesInstanceIds(address _company)
+        public
+        view
+        returns (uint256[] memory)
+    {
+        return companies[_company].certificateInstanceIds;
+    }
 }

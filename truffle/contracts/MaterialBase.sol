@@ -93,9 +93,6 @@ abstract contract MaterialBase is Certifiable {
     mapping(uint256 => BatchInfo) public batch;
     uint256 batchId = 0;
 
-    // certificateInstanceId => CertificateInstance
-    mapping(uint256 => CertificateInstance) public certificateInstances;
-    uint256 certificateInstanceId = 0;
     modifier senderIsTokenCreator(uint256 _materialTokenId) {
         require(
             msg.sender == materialToken[_materialTokenId].creator,

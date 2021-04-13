@@ -119,7 +119,7 @@ contract("Material", (accounts) => {
 
       expectToThrow(
         materialInstance.methods
-          .changeBatchOwnershipBatch([batchId], otherAccount,0)
+          .changeBatchOwnershipBatch([batchId], otherAccount, 0)
           .send({ from: account, gas: 400000 })
       );
     });

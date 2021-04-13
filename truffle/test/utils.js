@@ -94,9 +94,12 @@ const expectToThrow = async (promise) => {
   try {
     await promise;
   } catch (error) {
-    isOk = true;
+    isOk = error;
   }
-  if (!isOk) throw "Expected throw not received";
+  if (!isOk) {
+    console.trace(isOk);
+    throw new Error("Expected throw not received. ");
+  }
 };
 module.exports = {
   createMaterial,
