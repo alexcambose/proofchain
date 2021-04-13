@@ -12,7 +12,6 @@ import { init } from '@utils/auth/torus';
 import { isClient } from '@utils/next';
 import { BaseProvider, LightTheme } from 'baseui';
 import { ToasterContainer } from 'baseui/toast';
-import initweb3Instance from 'web3Instance';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
 import { useRouter } from 'next/router';
@@ -56,8 +55,9 @@ function MyApp({ Component, pageProps }) {
       })();
     } else {
       (async () => {
+        console.log('if strm');
         dispatch(setApplicationLoading(true));
-        await initweb3Instance();
+        await initWeb3Instance(null);
         dispatch(setApplicationLoading(false));
       })();
     }

@@ -34,16 +34,7 @@ const ProductInfoModal: React.FunctionComponent<IProductInfoModalProps> = ({
   };
   return (
     <Modal
-      overrides={{
-        Dialog: {
-          style: {
-            width: '50vw',
-            minHeight: '50vh',
-            display: 'flex',
-            flexDirection: 'column',
-          },
-        },
-      }}
+      isWide
       header={info[historyItem.type].title}
       opened={isOpened}
       onClose={handleClose}

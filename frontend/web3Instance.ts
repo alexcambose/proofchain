@@ -18,6 +18,7 @@ const initWeb3 = () => {
   _web3Instance = new Web3(
     new Web3.providers.HttpProvider(config.ethProvider.default.http)
   );
+  console.log('Init web3 as client');
 };
 const initWeb3FromMetamask = async (): Promise<string> => {
   const ethereum = window.ethereum;
@@ -27,9 +28,13 @@ const initWeb3FromMetamask = async (): Promise<string> => {
   return _web3Instance.givenProvider.selectedAddress;
 };
 
-export const initWeb3Instance = async (loginObject): Promise<string> => {
+export const initWeb3Instance = async (loginObject: {
+  type?: 'metamask';
+  wallet?: object;
+}): Promise<string> => {
   if (!loginObject) {
     initWeb3();
+    initProofchain(_web3Instance);
     return;
   }
   const { type, wallet } = loginObject;

@@ -1,5 +1,5 @@
 import { Tag, TagProps } from 'baseui/tag';
-import CompanyEntityTypeEnum from 'proofchain-library/src/enums/CompanyEntityTypeEnum';
+import { CompanyEntityTypeEnum } from 'proofchain-library';
 import React from 'react';
 
 interface ICompanyEntityTypeTagProps extends TagProps {

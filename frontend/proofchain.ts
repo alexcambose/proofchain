@@ -3,7 +3,7 @@ import config from 'config';
 import Proofchain from 'proofchain-library';
 let _proofchain;
 export const initProofchain = (web3, fromAddress = null) => {
-  console.log('init');
+  console.log('Init proofchain with fromAddress=' + fromAddress);
   _proofchain = Proofchain.web3Init({
     web3,
     fromAddress: fromAddress,
