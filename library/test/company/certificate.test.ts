@@ -33,13 +33,13 @@ describe('company', () => {
   describe('certificate', () => {
     describe('assignCertificate', () => {
       it('assigns a certificate to a company', async () => {
-        const certificateCreateResult = await proofchainCa.certificateAuthority.createCertificate(
-          {
+        const certificateCreateResult = await proofchainCa.certificateAuthority
+          .createCertificate({
             name: 'certificate',
             description: 'description',
             type: 2,
-          }
-        );
+          })
+          .send();
         const certificateCode =
           certificateCreateResult.events.CertificateAuthorityCertificateCreated
             .code;
@@ -61,13 +61,13 @@ describe('company', () => {
     });
     describe('cancelCertificate', () => {
       it('removes a certificate from a company', async () => {
-        const certificateCreateResult = await proofchainCa.certificateAuthority.createCertificate(
-          {
+        const certificateCreateResult = await proofchainCa.certificateAuthority
+          .createCertificate({
             name: 'certificate',
             description: 'description',
             type: 3,
-          }
-        );
+          })
+          .send();
         const certificateCode =
           certificateCreateResult.events.CertificateAuthorityCertificateCreated
             .code;
@@ -88,13 +88,13 @@ describe('company', () => {
     });
     describe('revokeCertificate', () => {
       it('assigns a certificate to a company', async () => {
-        const certificateCreateResult = await proofchainCa.certificateAuthority.createCertificate(
-          {
+        const certificateCreateResult = await proofchainCa.certificateAuthority
+          .createCertificate({
             name: 'certificate',
             description: 'description',
             type: 1,
-          }
-        );
+          })
+          .send();
         const certificateCode =
           certificateCreateResult.events.CertificateAuthorityCertificateCreated
             .code;
@@ -120,13 +120,13 @@ describe('company', () => {
     });
     describe('assigedCertificates', () => {
       it('returns the assigned certificates from a comapany', async () => {
-        const certificateCreateResult = await proofchainCa.certificateAuthority.createCertificate(
-          {
+        const certificateCreateResult = await proofchainCa.certificateAuthority
+          .createCertificate({
             name: 'certificate',
             description: 'description',
             type: 1,
-          }
-        );
+          })
+          .send();
         const certificateCode =
           certificateCreateResult.events.CertificateAuthorityCertificateCreated
             .code;
@@ -148,13 +148,13 @@ describe('company', () => {
   });
   describe('getCertificateInstance', () => {
     it('retuns the assigned certificate instance', async () => {
-      const certificateCreateResult = await proofchainCa.certificateAuthority.createCertificate(
-        {
+      const certificateCreateResult = await proofchainCa.certificateAuthority
+        .createCertificate({
           name: 'certificate',
           description: 'description',
           type: 2,
-        }
-      );
+        })
+        .send();
       const certificateCode =
         certificateCreateResult.events.CertificateAuthorityCertificateCreated
           .code;

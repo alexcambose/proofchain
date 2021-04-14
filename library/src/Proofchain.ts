@@ -99,7 +99,7 @@ class Proofchain {
       CompanyAbi
     );
   }
-  static init({
+  protected static async init({
     httpProvider,
     privateKey,
     factoryContractAddress,
@@ -107,14 +107,20 @@ class Proofchain {
     httpProvider: string;
     privateKey: string;
     factoryContractAddress: string;
-  }): Proofchain {
+  }): Promise<Proofchain> {
     const web3 = new Web3(new Web3.providers.HttpProvider(httpProvider));
     web3.eth.accounts.wallet.add(privateKey);
-    return new Proofchain({
+    const proofchain = new Proofchain({
       web3,
       factoryContractAddress,
       fromAddress: web3.eth.accounts.wallet[0].address,
     });
+    await proofchain.batch.ensureContract();
+    await proofchain.certificateAuthority.ensureContract();
+    await proofchain.company.ensureContract();
+    await proofchain.material.ensureContract();
+    await proofchain.transport.ensureContract();
+    return proofchain;
   }
   /**
    * Creates a new proofchain instance. Similar to web3Init.
@@ -126,11 +132,11 @@ class Proofchain {
    * @param options.fromAddress  The address from which smart contract interaction will be done.
    * @returns Proofchain instance
    */
-  static providerInit(options: {
+  static async providerInit(options: {
     web3Provider: any;
     factoryContractAddress: string;
     fromAddress?: string;
-  }): Proofchain {
+  }): Promise<Proofchain> {
     const { web3Provider, factoryContractAddress, fromAddress } = options;
     const web3 = new Web3(web3Provider);
     return this.web3Init({ web3, factoryContractAddress, fromAddress });
@@ -144,11 +150,11 @@ class Proofchain {
    * @param options.fromAddress  The address from which smart contract interaction will be done.
    * @returns Proofchain instance
    */
-  static web3Init(options: {
+  static async web3Init(options: {
     web3: any;
     factoryContractAddress: string;
     fromAddress?: string;
-  }): Proofchain {
+  }): Promise<Proofchain> {
     const { web3, factoryContractAddress, fromAddress } = options;
     return new Proofchain({
       web3,

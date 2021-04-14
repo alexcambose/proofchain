@@ -40,32 +40,34 @@ describe('certificate', () => {
     });
     // ====
     // create a certificate: 1
-    const createResult1 = await proofchainCA.certificateAuthority.createCertificate(
-      {
+    const createResult1 = await proofchainCA.certificateAuthority
+      .createCertificate({
         name: 'name',
         description: 'description',
         type: 2,
-      }
-    );
+      })
+      .send();
     certificateCode1 =
       createResult1.events.CertificateAuthorityCertificateCreated.code;
     // create a certificate: 2
-    const createResult2 = await proofchainCA.certificateAuthority.createCertificate(
-      {
+    const createResult2 = await proofchainCA.certificateAuthority
+      .createCertificate({
         name: 'name',
         description: 'description',
         type: 2,
-      }
-    );
+      })
+      .send();
+
     certificateCode2 =
       createResult2.events.CertificateAuthorityCertificateCreated.code;
-    const createResult3 = await proofchainCA.certificateAuthority.createCertificate(
-      {
+    const createResult3 = await proofchainCA.certificateAuthority
+      .createCertificate({
         name: 'name',
         description: 'description',
         type: 2,
-      }
-    );
+      })
+      .send();
+
     certificateCode3 =
       createResult3.events.CertificateAuthorityCertificateCreated.code;
     certificateEvents[certificateCode1] = [];

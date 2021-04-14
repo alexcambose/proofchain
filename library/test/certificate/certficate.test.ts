@@ -78,13 +78,14 @@ describe('Certificates', () => {
   });
   describe('create certificate', () => {
     it('creates a new certificate', async () => {
-      const createResult = await proofchainCA.certificateAuthority.createCertificate(
-        {
+      const createResult = await proofchainCA.certificateAuthority
+        .createCertificate({
           name: 'name',
           description: 'description',
           type: 2,
-        }
-      );
+        })
+        .send();
+
       const code =
         createResult.events.CertificateAuthorityCertificateCreated.code;
       expect(code).not.toEqual(undefined);
@@ -101,13 +102,14 @@ describe('Certificates', () => {
   });
   describe('getByCode', () => {
     it('returns a certificate by a provided code', async () => {
-      const createResult = await proofchainCA.certificateAuthority.createCertificate(
-        {
+      const createResult = await proofchainCA.certificateAuthority
+        .createCertificate({
           name: 'name',
           description: 'description',
           type: 2,
-        }
-      );
+        })
+        .send();
+
       const code =
         createResult.events.CertificateAuthorityCertificateCreated.code;
       const fetchedCertificate = await proofchainCA.certificateAuthority.getByCode(

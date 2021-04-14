@@ -7,10 +7,9 @@ export const provider = ganache.provider({
     'pilot derive lamp negative way glance science sniff member goat warrior hole',
   gasLimit: 7721975,
 });
-
+// @ts-ignore
+export const web3 = new Web3(provider);
 export const deployedFactoryAddress = async () => {
-  // @ts-ignore
-  const web3 = new Web3(provider);
   // @ts-ignore
   const instance = new web3.eth.Contract(Factory);
   const accounts = await web3.eth.getAccounts();

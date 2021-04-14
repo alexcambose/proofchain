@@ -1,5 +1,6 @@
 import Base from './Base';
 import MinedTransaction from './MinedTransaction';
+import { Transaction } from './Transaction';
 import { EMPTY_ADDRESS } from './utils/eth';
 enum CertificateTypeEnum {
   ENVIRONMENTAL_IMPACT,
@@ -47,7 +48,7 @@ class CertificateAuthority extends Base {
       CertificateAuthorityCreated: CertificateAuthorityCreatedEvent;
     }>(transaction);
   }
-  async createCertificate({
+  createCertificate({
     name,
     description,
     type,
@@ -55,18 +56,15 @@ class CertificateAuthority extends Base {
     name: string;
     description: string;
     type: CertificateTypeEnum;
-  }): Promise<
-    MinedTransaction<{
-      CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
-    }>
-  > {
-    await this.ensureContract();
-    const transaction = await this.contract.methods
-      .createCertificate(name, description || '', type)
-      .send({ from: this.fromAddress, gas: 500000 });
-    return new MinedTransaction<{
-      CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
-    }>(transaction);
+  }): Transaction<{
+    CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
+  }> {
+    const transaction = this.contract.methods.createCertificate(
+      name,
+      description || '',
+      type
+    );
+    return new Transaction(transaction, this.fromAddress);
   }
   async getByCode(code: number): Promise<ICertificate | null> {
     await this.ensureContract();
