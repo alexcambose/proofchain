@@ -1,4 +1,5 @@
-import Logo from '@assets/images/logo/logo-full-dark.svg';
+import Logo from '@assets/images/logo/proofchain-logo-full-dark.svg';
+import { Block } from 'baseui/block';
 import {
   ALIGN,
   HeaderNavigation,
@@ -21,30 +22,41 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ items }) => {
   return (
-    <HeaderNavigation
-      overrides={{
-        Root: {
-          style: ({ $theme }) => ({
-            marginBottom: $theme.sizing.scale400,
-          }),
-        },
-      }}
-    >
-      <StyledNavigationList $align={ALIGN.left}>
-        <StyledNavigationItem>
-          <Logo style={{ width: '7em' }} />
-        </StyledNavigationItem>
-      </StyledNavigationList>
-      {['left', 'center', 'right'].map((alignment) => (
-        <StyledNavigationList key={uuid()} $align={ALIGN[alignment]}>
-          {(items[alignment] || []).map((item: { content: any }) => (
-            <StyledNavigationItem key={uuid()}>
-              {item.content}
-            </StyledNavigationItem>
-          ))}
+    <>
+      <Block $style={{ height: '80px' }} />
+      <HeaderNavigation
+        overrides={{
+          Root: {
+            style: ({ $theme }) => ({
+              marginBottom: $theme.sizing.scale400,
+              border: 'none',
+              boxShadow: $theme.lighting.shadow500,
+              position: 'fixed',
+              left: 0,
+              right: 0,
+              top: 0,
+              zIndex: 99,
+              backgroundColor: $theme.colors.primaryB,
+            }),
+          },
+        }}
+      >
+        <StyledNavigationList $align={ALIGN.left}>
+          <StyledNavigationItem>
+            <Logo style={{ width: '11em' }} />
+          </StyledNavigationItem>
         </StyledNavigationList>
-      ))}
-    </HeaderNavigation>
+        {['left', 'center', 'right'].map((alignment) => (
+          <StyledNavigationList key={uuid()} $align={ALIGN[alignment]}>
+            {(items[alignment] || []).map((item: { content: any }) => (
+              <StyledNavigationItem key={uuid()}>
+                {item.content}
+              </StyledNavigationItem>
+            ))}
+          </StyledNavigationList>
+        ))}
+      </HeaderNavigation>
+    </>
   );
 };
 export default Navbar;

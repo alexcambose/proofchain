@@ -6,11 +6,12 @@ import { setApplicationLoading } from '@store/application';
 import { fetchGasPrice } from '@store/application/actions';
 import { refreshBalance } from '@store/user/actions';
 import '@styles/icons';
+import theme from '@styles/theme';
 import '@types/declarations';
 import authManager from '@utils/auth/authManager';
 import { init } from '@utils/auth/torus';
 import { isClient } from '@utils/next';
-import { BaseProvider, LightTheme } from 'baseui';
+import { BaseProvider } from 'baseui';
 import { ToasterContainer } from 'baseui/toast';
 import * as dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'; // import plugin
@@ -64,7 +65,7 @@ function MyApp({ Component, pageProps }) {
   }, [loggedIn]);
   return (
     <StyletronProvider value={styletron}>
-      <BaseProvider theme={LightTheme}>
+      <BaseProvider theme={theme}>
         <ToasterContainer autoHideDuration={3500}>
           <LoadingOverlay />
           {!isLoading && <Component {...pageProps} />}

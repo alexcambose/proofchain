@@ -13,7 +13,7 @@ const Login = () => {
         </Head>
 
         <Grid>
-          <Cell skip={4} span={4}>
+          <Cell skip={[0, 2, 4]} span={[4, 4, 4]}>
             <Auth />
           </Cell>
         </Grid>

@@ -16,6 +16,7 @@ import proofchain from 'proofchain';
 import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import CertificateHistoryAccordion from './CertificateHistoryAccordion';
 import CertificateAssignmentDetailsTable from '@containers/certificate/components/table/CertificateAssignmentDetailsTable';
+import Tabs from '@components/tab/Tabs';
 interface CertificateInformationTabs {
   certificateInfo: {
     certificate: ICertificate;
@@ -105,31 +106,47 @@ const CertificateInformationTabs: React.FC<CertificateInformationTabs> = ({
   certificateInfo,
 }) => {
   return (
-    <StatefulTabs renderAll orientation={ORIENTATION.vertical}>
-      <Tab title="Assignment details">
-        <CertificateAssignmentDetailsTable
-          certificateInstance={certificateInfo.certificateInstance}
-          assignEvent={certificateInfo.assignEvent}
-        />
-      </Tab>
-      <Tab title="Certificate Info">
-        <CertificateInfo
-          certificate={certificateInfo.certificate}
-          assignEvent={certificateInfo.assignEvent}
-        />
-      </Tab>
-      <Tab title="History">
-        <CertificateHistoryAccordion
-          certificateCode={certificateInfo.assignEvent.certificateCode}
-          materialTokenId={certificateInfo.assignEvent.materialTokenId}
-        />
-      </Tab>
-      <Tab title="Certificate Authority">
-        <CertificateAuthorityDetails
-          certificateAuthority={certificateInfo.certificateAuthority}
-        />
-      </Tab>
-    </StatefulTabs>
+    <Tabs
+      renderAll
+      tabs={[
+        {
+          title: 'Assignment details',
+          content: (
+            <CertificateAssignmentDetailsTable
+              certificateInstance={certificateInfo.certificateInstance}
+              assignEvent={certificateInfo.assignEvent}
+            />
+          ),
+        },
+        {
+          title: 'Certificate Info',
+          content: (
+            <CertificateInfo
+              certificate={certificateInfo.certificate}
+              assignEvent={certificateInfo.assignEvent}
+            />
+          ),
+        },
+        {
+          title: 'History',
+          content: (
+            <CertificateHistoryAccordion
+              certificateCode={certificateInfo.assignEvent.certificateCode}
+              materialTokenId={certificateInfo.assignEvent.materialTokenId}
+            />
+          ),
+        },
+        {
+          title: 'Certificate Authority',
+          content: (
+            <CertificateAuthorityDetails
+              certificateAuthority={certificateInfo.certificateAuthority}
+            />
+          ),
+        },
+      ]}
+      orientation={ORIENTATION.vertical}
+    />
   );
 };
 

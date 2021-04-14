@@ -29,16 +29,7 @@ const CertificateInfoModalButton: React.FC<ICertificateInfoModal> = ({
     <>
       <Button {...props} onClick={handleClick} />
       <Modal
-        overrides={{
-          Dialog: {
-            style: {
-              width: '50vw',
-              minHeight: '50vh',
-              display: 'flex',
-              flexDirection: 'column',
-            },
-          },
-        }}
+        isWide
         header="Certificate Info"
         opened={isOpened}
         onClose={() => setIsOpened(false)}

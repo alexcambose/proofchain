@@ -34,7 +34,7 @@ const Footer: React.FunctionComponent<IFooterProps> = (props) => {
         <Cell span={[4, 4, 6]}>
           <FooterList $reversed>
             <li>
-              <Paragraph1>
+              <Paragraph1 $style={{ textAlign: 'center' }}>
                 Copyright © 2021 <strong>Proofchain</strong>. All rights
                 reserved.
               </Paragraph1>

@@ -36,6 +36,7 @@ const EntityNav = () => {
                   $style={{
                     display: 'inline-block',
                     position: 'relative',
+
                     top: theme.sizing.scale100,
                     left: theme.sizing.scale200,
                     width: theme.sizing.scale500,

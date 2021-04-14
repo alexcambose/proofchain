@@ -87,9 +87,22 @@ const CompanySidebar = () => {
   );
   return (
     <Navigation
+      overrides={{
+        Root: {
+          style: ({ $theme }) => ({
+            width: '100%',
+            [$theme.mediaQuery.large]: {
+              position: 'fixed',
+              top: '80px',
+              left: 0,
+              width: 'auto',
+            },
+          }),
+        },
+      }}
       items={[
         {
-          title: 'Home',
+          title: <>Dashboard</>,
           itemId: '/',
         },
         ...(entityType === EntityTypeEnum.CERTIFICATE_AUTHORITY

@@ -8,7 +8,12 @@ import AuthMnemonic from './components/AuthMnemonic';
 import { useDispatch } from 'react-redux';
 import { loginWithMetamask, loginWithTorus } from '@store/user/actions';
 import { loginWithMnemonic } from '@store/user/actions';
-
+import LogoSvg from '@assets/images/logo/proofchain-logo-full-dark.svg';
+import { styled } from 'baseui';
+const Logo = styled(LogoSvg, {
+  width: '100%',
+  height: '26%',
+});
 const Auth: React.FC = () => {
   const dispatch = useDispatch();
   const onSocialButtonsClick = async (loginType: SocialLoginTypeEnum) => {
@@ -28,11 +33,14 @@ const Auth: React.FC = () => {
     await dispatch(loginWithMnemonic({ mnemonic, derivationPath }));
   };
   return (
-    <AuthContainer
-      formElement={<AuthForm onSubmit={onFormSubmit} />}
-      socialLoginElement={<SocialButtons onClick={onSocialButtonsClick} />}
-      mnemonicElement={<AuthMnemonic onSubmit={onMnemonicSubmit} />}
-    ></AuthContainer>
+    <>
+      <Logo />
+      <AuthContainer
+        formElement={<AuthForm onSubmit={onFormSubmit} />}
+        socialLoginElement={<SocialButtons onClick={onSocialButtonsClick} />}
+        mnemonicElement={<AuthMnemonic onSubmit={onMnemonicSubmit} />}
+      ></AuthContainer>
+    </>
   );
 };
 
