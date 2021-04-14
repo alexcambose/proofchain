@@ -4,6 +4,7 @@ import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
 import IMinedTransaction from './interface/IMinedTransaction';
 import MinedTransaction from './MinedTransaction';
+import { Transaction } from './Transaction';
 /**
  * Event emitted on company creation
  */
@@ -13,12 +14,7 @@ export type CompanyCreateEvent = {
    */
   owner: string;
 };
-/**
- * Events emitted on company creation
- */
-export type CreateTransactionEvents = {
-  CompanyCreate: CompanyCreateEvent;
-};
+
 /**
  * Company information
  */
@@ -35,7 +31,13 @@ export interface ICompany {
 }
 
 export interface ICertificateInstance {
+  /**
+   * Certificate unique code
+   */
   code: number;
+  /**
+   * Certificate stake amount
+   */
   stake: number;
 }
 export type CompanyAssignedCertificateEvent = {
@@ -85,16 +87,17 @@ class Company extends Base implements IEntity {
    * @param options.entityType Company entity type
    * @returns
    */
-  async create(options: {
+  create(options: {
     name: string;
     entityType: CompanyEntityTypeEnum;
-  }): Promise<MinedTransaction<CreateTransactionEvents>> {
+  }): Transaction<{
+    CompanyCreate: CompanyCreateEvent;
+  }> {
     const { name, entityType } = options;
-    await this.ensureContract();
-    const result: IMinedTransaction<CreateTransactionEvents> = await this.contract.methods
-      .create(name, entityType)
-      .send({ from: this.fromAddress, gas: 300000 });
-    return new MinedTransaction<CreateTransactionEvents>(result);
+    const transaction = this.contract.methods.create(name, entityType);
+    return new Transaction<{
+      CompanyCreate: CompanyCreateEvent;
+    }>(transaction, this.fromAddress);
   }
   /**
    * Get company by onwer address
@@ -127,24 +130,22 @@ class Company extends Base implements IEntity {
    * @param options.stake The amount in wei that will be sent as a stake
    * @returns Assigned certificate event
    */
-  async assignCertificate(options: {
+  assignCertificate(options: {
     certificateCode: number;
     companyAddress: string;
     stake: string;
-  }): Promise<
-    MinedTransaction<{
-      CompanyAssignedCertificate: CompanyAssignedCertificateEvent;
-    }>
-  > {
+  }): Transaction<{
+    CompanyAssignedCertificate: CompanyAssignedCertificateEvent;
+  }> {
     const { certificateCode, companyAddress, stake } = options;
-    await this.ensureContract();
-    const result = await this.contract.methods
-      .assignCertificate(certificateCode, companyAddress)
-      .send({ from: this.fromAddress, gas: 400000, value: stake });
+    const result = this.contract.methods.assignCertificate(
+      certificateCode,
+      companyAddress
+    );
 
-    return new MinedTransaction<{
+    return new Transaction<{
       CompanyAssignedCertificate: CompanyAssignedCertificateEvent;
-    }>(result);
+    }>(result, this.fromAddress, { value: stake });
   }
   /**
    * Cancel a certificate from a company
@@ -153,23 +154,21 @@ class Company extends Base implements IEntity {
    * @param options.companyAddress The address of the company that the certificate will be canceled
    * @returns Canceled certificate event
    */
-  async cancelCertificate(options: {
+  cancelCertificate(options: {
     certificateCode: number;
     companyAddress: string;
-  }): Promise<
-    MinedTransaction<{
-      CompanyCanceledCertificate: CompanyCanceledCertificateEvent;
-    }>
-  > {
+  }): Transaction<{
+    CompanyCanceledCertificate: CompanyCanceledCertificateEvent;
+  }> {
     const { certificateCode, companyAddress } = options;
-    await this.ensureContract();
-    const result = await this.contract.methods
-      .cancelCertificate(certificateCode, companyAddress)
-      .send({ from: this.fromAddress, gas: 400000 });
+    const transaction = this.contract.methods.cancelCertificate(
+      certificateCode,
+      companyAddress
+    );
 
-    return new MinedTransaction<{
+    return new Transaction<{
       CompanyCanceledCertificate: CompanyCanceledCertificateEvent;
-    }>(result);
+    }>(transaction, this.fromAddress);
   }
   /**
    * Revoke a certificate from a company
@@ -178,23 +177,21 @@ class Company extends Base implements IEntity {
    * @param options.companyAddress The address of the company that the certificate will be revoked
    * @returns Revoked certificate event
    */
-  async revokeCertificate(options: {
+  revokeCertificate(options: {
     certificateCode: number;
     companyAddress: string;
-  }): Promise<
-    MinedTransaction<{
-      CompanyRevokedCertificate: CompanyRevokedCertificateEvent;
-    }>
-  > {
+  }): Transaction<{
+    CompanyRevokedCertificate: CompanyRevokedCertificateEvent;
+  }> {
     const { certificateCode, companyAddress } = options;
-    await this.ensureContract();
-    const result = await this.contract.methods
-      .revokeCertificate(certificateCode, companyAddress)
-      .send({ from: this.fromAddress, gas: 400000 });
+    const result = this.contract.methods.revokeCertificate(
+      certificateCode,
+      companyAddress
+    );
 
-    return new MinedTransaction<{
+    return new Transaction<{
       CompanyRevokedCertificate: CompanyRevokedCertificateEvent;
-    }>(result);
+    }>(result, this.fromAddress);
   }
   /**
    * Get all assigned certificates to a company
@@ -214,7 +211,11 @@ class Company extends Base implements IEntity {
       )
     );
   }
-
+  /**
+   * Get the companies that have the specified certificate assigned
+   * @param certificateCode Certificate code
+   * @returns Companies that have the specified certificate assigned
+   */
   async getFromCertificate(
     certificateCode: number
   ): Promise<
@@ -255,14 +256,18 @@ class Company extends Base implements IEntity {
     }
     return companies;
   }
-  async certificateAssignmentHistory({
-    company,
-    certificateCode,
-  }: {
+  /**
+   *
+   * @param options Filtering options
+   * @param options.company The company that the certificate was assigned
+   * @param options.certificateCode The certificate code
+   * @returns Certificate history events
+   */
+  async certificateAssignmentHistory(options: {
     company: number;
     certificateCode?: number;
   }): Promise<ICertificateAssignmentHistory> {
-    await this.ensureContract();
+    const { company, certificateCode } = options;
     let history: ICertificateAssignmentHistory = {};
     let assignEvents = await this.getPastEvents<CompanyAssignedCertificateEvent>(
       'CompanyAssignedCertificate',

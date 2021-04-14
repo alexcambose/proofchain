@@ -17,10 +17,12 @@ describe('Company', () => {
   });
   describe('create', () => {
     it('creates a new company', async () => {
-      const result = await proofchain.company.create({
-        name: 'company',
-        entityType: CompanyEntityTypeEnum.MANUFACTURER,
-      });
+      const result = await proofchain.company
+        .create({
+          name: 'company',
+          entityType: CompanyEntityTypeEnum.MANUFACTURER,
+        })
+        .send();
       expect(result.transactionHash.length > 1).toBeTruthy();
       expect(result.events.CompanyCreate.owner.length).toEqual(
         '0xa3AAB829D1694E2B96b4905b0c7E17d86EC084ED'.length

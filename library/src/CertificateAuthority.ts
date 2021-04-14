@@ -64,7 +64,9 @@ class CertificateAuthority extends Base {
       description || '',
       type
     );
-    return new Transaction(transaction, this.fromAddress);
+    return new Transaction<{
+      CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
+    }>(transaction, this.fromAddress);
   }
   async getByCode(code: number): Promise<ICertificate | null> {
     await this.ensureContract();

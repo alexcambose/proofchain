@@ -1,7 +1,12 @@
 import Web3 from 'web3';
 import { ContractSendMethod } from 'web3-eth-contract';
 import MinedTransaction from './MinedTransaction';
-
+export interface ITransactionOptions {
+  /**
+   * Transaction value in wei
+   */
+  value?: string;
+}
 /**
  * Transaction class. Used as an additional layer of abstractisation
  */
@@ -13,19 +18,18 @@ class Transaction<EmmitedEvents = {}> {
    */
   constructor(
     protected transactionInstance: ContractSendMethod,
-    protected fromAddress: string
+    protected fromAddress: string,
+    protected options: ITransactionOptions = {}
   ) {}
   /**
    * Estimages the gas needed to perform the transaction
    * @param options Transaction options
    * @returns Returns the gas needed to perform the transaction
    */
-  async estimateGas(options: { value?: string } = {}): Promise<number> {
-    const { value } = options;
-
+  async estimateGas(): Promise<number> {
     return await this.transactionInstance.estimateGas({
       from: this.fromAddress,
-      value,
+      value: this.options.value,
     });
   }
   async encodeAbi() {}
@@ -34,17 +38,12 @@ class Transaction<EmmitedEvents = {}> {
    * @param options Send options
    * @returns Transaction result
    */
-  async send(
-    options: {
-      value?: string;
-    } = {}
-  ): Promise<MinedTransaction<EmmitedEvents>> {
-    const { value } = options;
+  async send(): Promise<MinedTransaction<EmmitedEvents>> {
     const gas = await this.estimateGas();
     const result = await this.transactionInstance.send({
       from: this.fromAddress,
       gas: await this.estimateGas(),
-      value,
+      value: this.options.value,
     });
     //@ts-ignore
     return new MinedTransaction<EmmitedEvents>(result);

@@ -38,28 +38,34 @@ describe('Company - transport', () => {
       factoryContractAddress,
       fromAddress: account,
     });
-    await proofchain.company.create({
-      name: 'company',
-      entityType: CompanyEntityTypeEnum.MANUFACTURER,
-    });
+    await proofchain.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.MANUFACTURER,
+      })
+      .send();
     proofchainReceiver = await Proofchain.providerInit({
       web3Provider: provider,
       factoryContractAddress,
       fromAddress: otherAccount,
     });
-    await proofchainReceiver.company.create({
-      name: 'company',
-      entityType: CompanyEntityTypeEnum.MANUFACTURER,
-    });
+    await proofchainReceiver.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.MANUFACTURER,
+      })
+      .send();
     proofchainTc = await Proofchain.providerInit({
       web3Provider: provider,
       factoryContractAddress,
       fromAddress: tcAccount,
     });
-    await proofchainTc.company.create({
-      name: 'company',
-      entityType: CompanyEntityTypeEnum.LOGISTIC,
-    });
+    await proofchainTc.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.LOGISTIC,
+      })
+      .send();
     const createResult = await proofchain.material.create({
       name: 'product',
       code: '123',

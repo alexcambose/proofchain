@@ -22,10 +22,12 @@ describe('company', () => {
       factoryContractAddress,
       fromAddress: caAccount,
     });
-    await proofchain.company.create({
-      name: 'company',
-      entityType: CompanyEntityTypeEnum.MANUFACTURER,
-    });
+    await proofchain.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.MANUFACTURER,
+      })
+      .send();
     await proofchainCa.certificateAuthority.createCertificateAuthority({
       name: 'certifcate authority',
     });
@@ -43,11 +45,13 @@ describe('company', () => {
         const certificateCode =
           certificateCreateResult.events.CertificateAuthorityCertificateCreated
             .code;
-        const result = await proofchainCa.company.assignCertificate({
-          certificateCode,
-          companyAddress: account,
-          stake: Web3.utils.toWei('2', 'ether'),
-        });
+        const result = await proofchainCa.company
+          .assignCertificate({
+            certificateCode,
+            companyAddress: account,
+            stake: Web3.utils.toWei('2', 'ether'),
+          })
+          .send();
         expect(
           result.events.CompanyAssignedCertificate.certificateAuthority
         ).toEqual(caAccount);
@@ -71,10 +75,12 @@ describe('company', () => {
         const certificateCode =
           certificateCreateResult.events.CertificateAuthorityCertificateCreated
             .code;
-        const result = await proofchainCa.company.cancelCertificate({
-          certificateCode,
-          companyAddress: account,
-        });
+        const result = await proofchainCa.company
+          .cancelCertificate({
+            certificateCode,
+            companyAddress: account,
+          })
+          .send();
         expect(
           result.events.CompanyCanceledCertificate.certificateAuthority
         ).toEqual(caAccount);
@@ -98,15 +104,19 @@ describe('company', () => {
         const certificateCode =
           certificateCreateResult.events.CertificateAuthorityCertificateCreated
             .code;
-        await proofchainCa.company.assignCertificate({
-          certificateCode,
-          companyAddress: account,
-          stake: Web3.utils.toWei('2', 'ether'),
-        });
-        const result = await proofchain.company.revokeCertificate({
-          certificateCode,
-          companyAddress: account,
-        });
+        await proofchainCa.company
+          .assignCertificate({
+            certificateCode,
+            companyAddress: account,
+            stake: Web3.utils.toWei('2', 'ether'),
+          })
+          .send();
+        const result = await proofchain.company
+          .revokeCertificate({
+            certificateCode,
+            companyAddress: account,
+          })
+          .send();
         expect(
           result.events.CompanyRevokedCertificate.certificateAuthority
         ).toEqual(account);
@@ -135,10 +145,12 @@ describe('company', () => {
           companyAddress: account,
           stake: Web3.utils.toWei('2', 'ether'),
         });
-        await proofchainCa.company.cancelCertificate({
-          certificateCode,
-          companyAddress: account,
-        });
+        await proofchainCa.company
+          .cancelCertificate({
+            certificateCode,
+            companyAddress: account,
+          })
+          .send();
         const certificateInstances = await proofchain.company.assigedCertificates(
           account
         );
@@ -158,11 +170,13 @@ describe('company', () => {
       const certificateCode =
         certificateCreateResult.events.CertificateAuthorityCertificateCreated
           .code;
-      const result = await proofchainCa.company.assignCertificate({
-        certificateCode,
-        companyAddress: account,
-        stake: Web3.utils.toWei('2', 'ether'),
-      });
+      const result = await proofchainCa.company
+        .assignCertificate({
+          certificateCode,
+          companyAddress: account,
+          stake: Web3.utils.toWei('2', 'ether'),
+        })
+        .send();
       const certificateInstanceId =
         result.events.CompanyAssignedCertificate.certificateInstanceId;
       const fetchedCertificateInstance = await proofchain.company.getCertificateInstance(
