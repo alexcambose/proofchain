@@ -63,7 +63,12 @@ abstract contract Shipper is MaterialReferencer {
         _;
     }
 
-    // The sender calls this
+    /**
+     * Create a new transport
+     * @param _receiver The address of the transport sender
+     * @param _transportCompany The address of the transport company associated with this transport
+     * @param _batchIds The ids of the batches that will be sent with this transport
+     */
     function createTransport(
         address _receiver,
         address _transportCompany,
@@ -86,6 +91,14 @@ abstract contract Shipper is MaterialReferencer {
         transportIdCounter++;
     }
 
+    /**
+     * Create a new transport
+     * @param _receiver The address of the transport sender
+     * @param _transportCompany The address of the transport company associated with this transport
+     * @param _batchIds The ids of the batches that will be sent with this transport
+     * @param _hashedPassword A password associated with this transport
+     */
+
     function createTransport(
         address _receiver,
         address _transportCompany,
@@ -96,6 +109,11 @@ abstract contract Shipper is MaterialReferencer {
         transports[transportIdCounter - 1].hashedPassword = _hashedPassword;
     }
 
+    /**
+     * Sets the status of a transport
+     * @param _transportId The id of the transport
+     * @param _status The status to be set
+     */
     function setTransportStatus(uint256 _transportId, TransportStatusEnum _status)
         public
         onlyTransportCompany(_transportId)
@@ -110,6 +128,10 @@ abstract contract Shipper is MaterialReferencer {
         emit TransportStatus(_transportId, _status);
     }
 
+    /**
+     * Sets a transport as finalised
+     * @param _transportId The id of the transport
+     */
     function finaliseTransport(uint256 _transportId) public onlyReceiver(_transportId) {
         require(
             transports[_transportId].hashedPassword[0] == 0,
@@ -124,6 +146,11 @@ abstract contract Shipper is MaterialReferencer {
         emit TransportStatus(_transportId, TransportStatusEnum.FINALISED);
     }
 
+    /**
+     * Sets the status of a transport
+     * @param _transportId The id of the transport
+     * @param _password Password of the transport
+     */
     function finaliseTransport(uint256 _transportId, string memory _password)
         public
         onlyReceiver(_transportId)
@@ -142,6 +169,11 @@ abstract contract Shipper is MaterialReferencer {
         emit TransportStatus(_transportId, TransportStatusEnum.FINALISED);
     }
 
+    /**
+     * Get the batch ids from a transport
+     * @param _transportId The id of the transport
+     * @return Batch ids
+     */
     function getTransportBatchids(uint256 _transportId) public view returns (uint256[] memory) {
         return transports[_transportId].batchIds;
     }
