@@ -73,11 +73,13 @@ describe('certificate', () => {
     certificateEvents[certificateCode1] = [];
     certificateEvents[certificateCode2] = [];
     // create a material
-    const materialCreateResult1 = await proofchain.material.create({
-      name: 'product',
-      code: '123',
-      amountIdentifier: 'kg',
-    });
+    const materialCreateResult1 = await proofchain.material
+      .create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      })
+      .send();
     materialTokenId1 =
       materialCreateResult1.events.MaterialCreate.materialTokenId;
     // temporary methods for easier visibility
@@ -88,11 +90,13 @@ describe('certificate', () => {
       certificateEvents[certificateCode].push({
         type: CERTIFICATE_ASSIGNMENT_TYPE.CREATE,
         event: (
-          await proofchainCA.material.assignCertificate({
-            certificateCode,
-            materialTokenId,
-            stake: Web3.utils.toWei('1', 'ether'),
-          })
+          await proofchainCA.material
+            .assignCertificate({
+              certificateCode,
+              materialTokenId,
+              stake: Web3.utils.toWei('1', 'ether'),
+            })
+            .send()
         ).events.MaterialAssignedCertificate,
       });
 
@@ -103,10 +107,12 @@ describe('certificate', () => {
       certificateEvents[certificateCode].push({
         type: CERTIFICATE_ASSIGNMENT_TYPE.REVOKE,
         event: (
-          await proofchain.material.revokeCertificate({
-            certificateCode,
-            materialTokenId,
-          })
+          await proofchain.material
+            .revokeCertificate({
+              certificateCode,
+              materialTokenId,
+            })
+            .send()
         ).events.MaterialRevokedCertificate,
       });
     const cancelCertificate = async (
@@ -116,10 +122,12 @@ describe('certificate', () => {
       certificateEvents[certificateCode].push({
         type: CERTIFICATE_ASSIGNMENT_TYPE.CANCEL,
         event: (
-          await proofchainCA.material.cancelCertificate({
-            certificateCode,
-            materialTokenId,
-          })
+          await proofchainCA.material
+            .cancelCertificate({
+              certificateCode,
+              materialTokenId,
+            })
+            .send()
         ).events.MaterialCanceledCertificate,
       });
     await assignCertificate(certificateCode1, materialTokenId1);

@@ -257,7 +257,7 @@ class Company extends Base implements IEntity {
     return companies;
   }
   /**
-   *
+   * Get certificate assignment history
    * @param options Filtering options
    * @param options.company The company that the certificate was assigned
    * @param options.certificateCode The certificate code
@@ -316,7 +316,7 @@ class Company extends Base implements IEntity {
     return history;
   }
   /**
-   * Get a certificate instance by a acertificate id
+   * Get a certificate instance by a certificate id
    * @param certificateInstanceId Certification instance identification number
    * @returns A certificate instance
    */

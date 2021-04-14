@@ -2,23 +2,63 @@ import Base from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
 import MinedTransaction from './MinedTransaction';
+import { Transaction } from './Transaction';
 import { EMPTY_ADDRESS } from './utils/eth';
 
 export interface IMaterialTokenInfo {
+  /**
+   * Material tokend identificator. Unique for each material type
+   */
   materialTokenId: number;
+  /**
+   * Material name
+   */
   name: string;
+  /**
+   * Material code
+   */
   code: string;
+  /**
+   * Material images array
+   */
   images: string[];
+  /**
+   * Material creator address
+   */
   creator: string;
+  /**
+   * Material amount identifier
+   */
   amountIdentifier: string;
+  /**
+   * Material tokend ids for the recipe
+   */
   recipeMaterialTokenId: number[];
+  /**
+   * Material amount for each recipe item
+   */
   recipeMaterialAmount: number[];
 }
 export interface IMaterialInfo {
+  /**
+   * Material instance id that represents this instance
+   */
   materialTokenId: number;
+  /**
+   * Material unique identifier
+   */
   uuid: number;
+  /**
+   * Material created from batch id
+   */
   fromBatchId: number[];
+  /**
+   * Each ingredients that created this material
+   */
   batchMaterialsUuid: number[][];
+  /**
+   * Material mint event
+   */
   mintEvent: MaterialCreateEvent;
 }
 export interface ICreateRawMaterial {
@@ -37,39 +77,39 @@ export interface ICertificateInstance {
   code: number;
   stake: number;
 }
-type MaterialCreateEvent = {
+export type MaterialCreateEvent = {
   company: string; // address
   materialTokenId: number;
   event: IEmittedEvent;
 };
-type MaterialTransferEvent = {
+export type MaterialTransferEvent = {
   from: string;
   to: string;
   uuid: number;
   event: IEmittedEvent;
 };
-type MaterialAssignedCertificateEvent = {
+export type MaterialAssignedCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
   certificateInstanceId: number;
   event: IEmittedEvent;
 };
-type MaterialCanceledCertificateEvent = {
+export type MaterialCanceledCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
   certificateInstanceId: number;
   event: IEmittedEvent;
 };
-type MaterialRevokedCertificateEvent = {
+export type MaterialRevokedCertificateEvent = {
   certificateAuthority: string;
   certificateCode: number;
   materialTokenId: number;
   certificateInstanceId: number;
   event: IEmittedEvent;
 };
-type CreateTransactionEvents = {
+export type CreateTransactionEvents = {
   MaterialCreate: MaterialCreateEvent;
 };
 export enum CERTIFICATE_ASSIGNMENT_TYPE {
@@ -77,7 +117,7 @@ export enum CERTIFICATE_ASSIGNMENT_TYPE {
   CANCEL,
   REVOKE,
 }
-interface ICertificateAssignmentHistory {
+export interface ICertificateAssignmentHistory {
   [certificateCode: number]: {
     type: CERTIFICATE_ASSIGNMENT_TYPE;
     event:
@@ -90,22 +130,33 @@ interface ICertificateAssignmentHistory {
  * Material class
  */
 class Material extends Base implements IEntity {
-  async create({
-    name,
-    code,
-    amountIdentifier,
-    images = [],
-    recipeMaterialTokenId = [],
-    recipeMaterialAmount = [],
-  }: ICreateRawMaterial): Promise<MinedTransaction<CreateTransactionEvents>> {
-    await this.ensureContract();
+  /**
+   * Create a new material
+   * @param options Material creation options
+   * @param options.name Material name
+   * @param options.code Material code
+   * @param options.amountIdentifier Material instance amount identifier
+   * @param options.images Material images array
+   * @param options.recipeMaterialTokenId Material recipe token id
+   * @param options.recipeMaterialAmount Material recipe token amount
+   * @returns Create material event
+   */
+  create(options: ICreateRawMaterial): Transaction<CreateTransactionEvents> {
+    const {
+      name,
+      code,
+      amountIdentifier,
+      images = [],
+      recipeMaterialTokenId = [],
+      recipeMaterialAmount = [],
+    } = options;
     // check if the specified recipe ids exist
-    for (let id of recipeMaterialTokenId) {
-      const material = await this.getById(id, false);
-      if (!material) {
-        throw new Error(`Material with id ${id} does not exist`);
-      }
-    }
+    // for (let id of recipeMaterialTokenId) {
+    //   const material = await this.getById(id, false);
+    //   if (!material) {
+    //     throw new Error(`Material with id ${id} does not exist`);
+    //   }
+    // }
     if (recipeMaterialTokenId.length !== recipeMaterialAmount.length) {
       throw new Error(
         'recipeMaterialTokenId and recipeMaterialAmount are different lengths'
@@ -113,24 +164,34 @@ class Material extends Base implements IEntity {
     }
     let transaction;
     if (recipeMaterialAmount.length) {
-      transaction = await this.contract.methods
-        .create(
-          name,
-          code,
-          amountIdentifier,
-          images,
-          recipeMaterialTokenId,
-          recipeMaterialAmount
-        )
-        .send({ from: this.fromAddress, gas: 600000 });
+      transaction = this.contract.methods.create(
+        name,
+        code,
+        amountIdentifier,
+        images,
+        recipeMaterialTokenId,
+        recipeMaterialAmount
+      );
     } else {
-      transaction = await this.contract.methods
-        .create(name, code, amountIdentifier, images)
-        .send({ from: this.fromAddress, gas: 600000 });
+      transaction = this.contract.methods.create(
+        name,
+        code,
+        amountIdentifier,
+        images
+      );
     }
 
-    return new MinedTransaction<CreateTransactionEvents>(transaction);
+    return new Transaction<CreateTransactionEvents>(
+      transaction,
+      this.fromAddress
+    );
   }
+  /**
+   * Get a material by its token id
+   * @param materialTokenId Material token id
+   * @param full Set to true it the resulting object should include recipe details
+   * @returns Material token info
+   */
   async getById(
     materialTokenId: string | number,
     full: boolean = true
@@ -149,11 +210,17 @@ class Material extends Base implements IEntity {
     if (material.creator === EMPTY_ADDRESS) return null;
     return material;
   }
-  async all({
-    onlyRawMaterials,
-    onlyMaterials,
-  }: IMaterialTypeSelector = {}): Promise<(IMaterialTokenInfo | null)[]> {
-    await this.ensureContract();
+  /**
+   * Get all materials
+   * @param options Filtering options
+   * @param options.onlyRawMaterials - Set to true to include only raw materials
+   * @param options.onlyMaterials - Set to true to include only compound materials
+   * @returns Materials tokens info
+   */
+  async all(
+    options: IMaterialTypeSelector = {}
+  ): Promise<(IMaterialTokenInfo | null)[]> {
+    const { onlyRawMaterials, onlyMaterials } = options;
     const createEvents = await this.getPastEvents<MaterialCreateEvent>(
       'MaterialCreate',
       { company: this.fromAddress }
@@ -177,72 +244,92 @@ class Material extends Base implements IEntity {
     }
     return materials;
   }
-  async countAll({
-    onlyMaterials,
-    onlyRawMaterials,
-  }: IMaterialTypeSelector = {}): Promise<number> {
-    await this.ensureContract();
+  /**
+   * Count the number of materials
+   * @param options Count options
+   * @param options.onlyRawMaterials - Set to true to count only raw materials
+   * @param options.onlyMaterials - Set to true to count only compound materials
+   * @returns Number of materials
+   */
+  async countAll(options: IMaterialTypeSelector = {}): Promise<number> {
+    const { onlyMaterials, onlyRawMaterials } = options;
     const createEvents = await this.getPastEvents<MaterialCreateEvent>(
       'MaterialCreate',
       { company: this.fromAddress }
     );
     return createEvents.length;
   }
+  /**
+   * Get the number of materials the account has
+   * @param materialTokenId Material token id
+   * @returns The balance of the materials that the "fromAddress" account has
+   */
   async getBalance(materialTokenId: number): Promise<number> {
     const balance = await this.contract.methods
       .getBalance(materialTokenId, this.fromAddress)
       .call();
     return parseInt(balance);
   }
-  async mint({
-    materialTokenId,
-    amount,
-    fromBatchId,
-    fromBatchMaterialsUuid,
-  }: {
+  /**
+   * Create a new material instance.
+   * @param options Minting options
+   * @param options.materialTokenId Material token id to mint
+   * @param options.amount Amount to mint
+   * @param options.fromBatchId Recipe batch id
+   * @param options.fromBatchMaterialsUuid Recipe amount from the corresponding batch id
+   * @returns Mint event
+   */
+  async mint(options: {
     materialTokenId: number;
     amount?: number;
     fromBatchId?: number[];
     fromBatchMaterialsUuid?: number[][];
-  }): Promise<MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>> {
-    await this.ensureContract();
+  }): Promise<Transaction<{ MaterialTransfer: MaterialTransferEvent[] }>> {
+    const {
+      materialTokenId,
+      amount,
+      fromBatchId,
+      fromBatchMaterialsUuid,
+    } = options;
 
     const material = await this.getById(materialTokenId);
     if (material?.creator !== this.fromAddress) {
       throw new Error('You are not the owner of this material');
     }
     const isRaw = material?.recipeMaterialAmount.length === 0;
-    let result;
+    let transaction;
 
     if (isRaw) {
-      const estimatedGas = await this.contract.methods
-        .mint(materialTokenId, amount)
-        .estimateGas({ from: this.fromAddress });
-      result = await this.contract.methods
-        .mint(materialTokenId, amount)
-        .send({ from: this.fromAddress, gas: estimatedGas + 1 });
+      transaction = await this.contract.methods.mint(materialTokenId, amount);
     } else {
       const estimatedGas = await this.contract.methods
         .mint(materialTokenId, fromBatchId, fromBatchMaterialsUuid)
         .estimateGas({ from: this.fromAddress });
-      result = await this.contract.methods
-        .mint(materialTokenId, fromBatchId, fromBatchMaterialsUuid)
-        .send({ from: this.fromAddress, gas: estimatedGas + 1 });
+      transaction = await this.contract.methods.mint(
+        materialTokenId,
+        fromBatchId,
+        fromBatchMaterialsUuid
+      );
     }
-    return new MinedTransaction<{ MaterialTransfer: MaterialTransferEvent[] }>(
-      result
+    return new Transaction<{ MaterialTransfer: MaterialTransferEvent[] }>(
+      transaction,
+      this.fromAddress
     );
   }
-  async getTransfers({
-    from,
-    to,
-    materialTokenId,
-  }: {
+  /**
+   * Get transfers
+   * @param options Transfer filtering options
+   * @param options.from Transfer sender account
+   * @param options.to Transfer receiver account
+   * @param options.materialTokenId Transfer material token id
+   * @returns Transfer events
+   */
+  async getTransfers(options: {
     from?: string;
     to?: string;
     materialTokenId?: number;
   }): Promise<MaterialTransferEvent[]> {
-    await this.ensureContract();
+    const { from, to, materialTokenId } = options;
 
     const transferEvents = await this.getPastEvents<MaterialTransferEvent>(
       'MaterialTransfer',
@@ -250,6 +337,11 @@ class Material extends Base implements IEntity {
     );
     return transferEvents;
   }
+  /**
+   * Get owned material instances
+   * @param materialTokenId Material token id
+   * @returns Uuids
+   */
   async getOwnedMaterialsUuid(
     materialTokenId: number
   ): Promise<IMaterialInfo[]> {
@@ -261,6 +353,11 @@ class Material extends Base implements IEntity {
       materialsUuid.map(async (e) => this.getMaterialByUuid(e))
     );
   }
+  /**
+   * get the uuids of the owned material
+   * @param materialTokenId Material token id
+   * @returns Uuids
+   */
   async getOwnedMaterialsUuidCodes(materialTokenId: number): Promise<number[]> {
     await this.ensureContract();
     const materialsUuid: number[] = await this.contract.methods
@@ -268,6 +365,12 @@ class Material extends Base implements IEntity {
       .call();
     return materialsUuid;
   }
+  /**
+   * Get the instance of the material by uuid
+   * @param materialUuid Material uuid
+   * @param full Include material batch information
+   * @returns Material instance
+   */
   async getMaterialByUuid(
     materialUuid: number,
     full: boolean = false
@@ -297,69 +400,82 @@ class Material extends Base implements IEntity {
     material.mintEvent = events.find((e) => e.uuid == material.uuid);
     return material;
   }
-  async assignCertificate({
-    certificateCode,
-    materialTokenId,
-    stake,
-  }: {
+  /**
+   * Assign a certificate to a material
+   * @param options Assign Certificate Options
+   * @param options.certificateCode The code of the certificate to be assigned
+   * @param options.materialTokenId The material token id that will be assigned the certificate to
+   * @param options.stake The amount in wei that will be sent as a stake
+   * @returns Assigned certificate event
+   */
+  assignCertificate(options: {
     certificateCode: number;
     materialTokenId: number;
     stake: string;
-  }): Promise<
-    MinedTransaction<{
-      MaterialAssignedCertificate: MaterialAssignedCertificateEvent;
-    }>
-  > {
-    await this.ensureContract();
-    const result = await this.contract.methods
-      .assignCertificate(certificateCode, materialTokenId)
-      .send({ from: this.fromAddress, gas: 400000, value: stake });
+  }): Transaction<{
+    MaterialAssignedCertificate: MaterialAssignedCertificateEvent;
+  }> {
+    const { certificateCode, materialTokenId, stake } = options;
+    const transaction = this.contract.methods.assignCertificate(
+      certificateCode,
+      materialTokenId
+    );
 
-    return new MinedTransaction<{
+    return new Transaction<{
       MaterialAssignedCertificate: MaterialAssignedCertificateEvent;
-    }>(result);
+    }>(transaction, this.fromAddress, { value: stake });
   }
-  async cancelCertificate({
-    certificateCode,
-    materialTokenId,
-  }: {
+  /**
+   * Cancel a certificate from a material
+   * @param options Cancel certificate options
+   * @param options.certificateCode The code of the certificate to be canceled
+   * @param options.materialTokenId The material token id that the certificate will be canceled
+   * @returns Canceled certificate event
+   */
+  cancelCertificate(options: {
     certificateCode: number;
     materialTokenId: number;
-  }): Promise<
-    MinedTransaction<{
-      MaterialCanceledCertificate: MaterialCanceledCertificateEvent;
-    }>
-  > {
-    await this.ensureContract();
-    const result = await this.contract.methods
-      .cancelCertificate(certificateCode, materialTokenId)
-      .send({ from: this.fromAddress, gas: 400000 });
+  }): Transaction<{
+    MaterialCanceledCertificate: MaterialCanceledCertificateEvent;
+  }> {
+    const { certificateCode, materialTokenId } = options;
+    const transaction = this.contract.methods.cancelCertificate(
+      certificateCode,
+      materialTokenId
+    );
 
-    return new MinedTransaction<{
+    return new Transaction<{
       MaterialCanceledCertificate: MaterialCanceledCertificateEvent;
-    }>(result);
+    }>(transaction, this.fromAddress);
   }
-  async revokeCertificate({
-    certificateCode,
-    materialTokenId,
-  }: {
+  /**
+   * Revoke a certificate from a material
+   * @param options Revoke certificate options
+   * @param options.certificateCode The code of the certificate to be revoked
+   * @param options.materialTokenId The material token id that the certificate will be revoked
+   * @returns Revoked certificate event
+   */
+  revokeCertificate(options: {
     certificateCode: number;
     materialTokenId: number;
-  }): Promise<
-    MinedTransaction<{
-      MaterialRevokedCertificate: MaterialRevokedCertificateEvent;
-    }>
-  > {
-    await this.ensureContract();
-    const result = await this.contract.methods
-      .revokeCertificate(certificateCode, materialTokenId)
-      .send({ from: this.fromAddress, gas: 400000 });
+  }): Transaction<{
+    MaterialRevokedCertificate: MaterialRevokedCertificateEvent;
+  }> {
+    const { certificateCode, materialTokenId } = options;
+    const transaction = this.contract.methods.revokeCertificate(
+      certificateCode,
+      materialTokenId
+    );
 
-    return new MinedTransaction<{
+    return new Transaction<{
       MaterialRevokedCertificate: MaterialRevokedCertificateEvent;
-    }>(result);
+    }>(transaction, this.fromAddress);
   }
-
+  /**
+   * Get all assigned certificates to a material token
+   * @param materialTokenId Company address
+   * @returns Array of certificate instances
+   */
   async assigedCertificates(
     materialTokenId: number
   ): Promise<ICertificateInstance[]> {
@@ -373,7 +489,11 @@ class Material extends Base implements IEntity {
       )
     );
   }
-
+  /**
+   * Get the materials that have the specified certificate assigned
+   * @param certificateCode Certificate code
+   * @returns Materials that have the specified certificate assigned
+   */
   async getFromCertificate(
     certificateCode: number
   ): Promise<
@@ -414,14 +534,18 @@ class Material extends Base implements IEntity {
     }
     return materials;
   }
-  async certificateAssignmentHistory({
-    materialTokenId,
-    certificateCode,
-  }: {
+  /**
+   * Get certificate assignment history
+   * @param options Filtering options
+   * @param options.materialTokenId The material token id that the certificate was assigned
+   * @param options.certificateCode The certificate code
+   * @returns Certificate history events
+   */
+  async certificateAssignmentHistory(options: {
     materialTokenId: number;
     certificateCode?: number;
   }): Promise<ICertificateAssignmentHistory> {
-    await this.ensureContract();
+    const { materialTokenId, certificateCode } = options;
     let history: ICertificateAssignmentHistory = {};
     let assignEvents = await this.getPastEvents<MaterialAssignedCertificateEvent>(
       'MaterialAssignedCertificate',
@@ -469,7 +593,11 @@ class Material extends Base implements IEntity {
     }
     return history;
   }
-
+  /**
+   * Get a certificate instance by a certificate id
+   * @param certificateInstanceId Certification instance identification number
+   * @returns A certificate instance
+   */
   async getCertificateInstance(
     certificateInstanceId: number
   ): Promise<ICertificateInstance> {

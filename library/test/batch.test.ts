@@ -20,17 +20,21 @@ describe('batch', () => {
       name: 'company',
       entityType: CompanyEntityTypeEnum.MANUFACTURER,
     });
-    const result = await proofchain.material.create({
-      name: 'product',
-      code: '123',
-      amountIdentifier: 'kg',
-    });
+    const result = await proofchain.material
+      .create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      })
+      .send();
     materialTokenId = result.events.MaterialCreate.materialTokenId;
 
-    const mintResult = await proofchain.material.mint({
-      materialTokenId: materialTokenId,
-      amount: 5,
-    });
+    const mintResult = await (
+      await proofchain.material.mint({
+        materialTokenId: materialTokenId,
+        amount: 5,
+      })
+    ).send();
     materialsUuid = mintResult.events.MaterialTransfer.map((e) => e.uuid);
   });
   describe('create', () => {
@@ -96,18 +100,22 @@ describe('batch', () => {
   describe('destroyBatch', () => {
     let materialTokenId: number, batchId: number;
     beforeEach(async () => {
-      const materialCreateResult = await proofchain.material.create({
-        name: 'product',
-        code: '123',
-        amountIdentifier: 'kg',
-      });
+      const materialCreateResult = await proofchain.material
+        .create({
+          name: 'product',
+          code: '123',
+          amountIdentifier: 'kg',
+        })
+        .send();
       materialTokenId =
         materialCreateResult.events.MaterialCreate.materialTokenId;
 
-      const mintResult = await proofchain.material.mint({
-        materialTokenId: materialTokenId,
-        amount: 5,
-      });
+      const mintResult = await (
+        await proofchain.material.mint({
+          materialTokenId: materialTokenId,
+          amount: 5,
+        })
+      ).send();
       materialsUuid = mintResult.events.MaterialTransfer.map((e) => e.uuid);
       const result = await proofchain.batch.create({
         materialsUuid: materialsUuid,

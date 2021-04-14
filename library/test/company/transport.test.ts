@@ -4,15 +4,19 @@ import { CompanyEntityTypeEnum } from '../../src/enums';
 import Web3 from 'web3';
 
 const createBatch = async (proofchain: Proofchain) => {
-  const createResult1 = await proofchain.material.create({
-    name: 'product',
-    code: '123',
-    amountIdentifier: 'kg',
-  });
-  const mintResult1 = await proofchain.material.mint({
-    materialTokenId: createResult1.events.MaterialCreate.materialTokenId,
-    amount: 5,
-  });
+  const createResult1 = await proofchain.material
+    .create({
+      name: 'product',
+      code: '123',
+      amountIdentifier: 'kg',
+    })
+    .send();
+  const mintResult1 = await (
+    await proofchain.material.mint({
+      materialTokenId: createResult1.events.MaterialCreate.materialTokenId,
+      amount: 5,
+    })
+  ).send();
   const materialsUuid1 = mintResult1.events.MaterialTransfer.map((e) => e.uuid);
   const result1 = await proofchain.batch.create({
     materialsUuid: [materialsUuid1[1]],
@@ -66,16 +70,20 @@ describe('Company - transport', () => {
         entityType: CompanyEntityTypeEnum.LOGISTIC,
       })
       .send();
-    const createResult = await proofchain.material.create({
-      name: 'product',
-      code: '123',
-      amountIdentifier: 'kg',
-    });
+    const createResult = await proofchain.material
+      .create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      })
+      .send();
     const materialTokenId = createResult.events.MaterialCreate.materialTokenId;
-    const mintResult = await proofchain.material.mint({
-      materialTokenId,
-      amount: 5,
-    });
+    const mintResult = await (
+      await proofchain.material.mint({
+        materialTokenId,
+        amount: 5,
+      })
+    ).send();
 
     const materialsUuid = mintResult.events.MaterialTransfer.map((e) => e.uuid);
     const result1 = await proofchain.batch.create({

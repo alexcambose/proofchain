@@ -35,11 +35,13 @@ describe('Certificates', () => {
       name: 'company',
     });
     //create material
-    const createResult = await proofchain.material.create({
-      name: 'product',
-      code: '123',
-      amountIdentifier: 'kg',
-    });
+    const createResult = await proofchain.material
+      .create({
+        name: 'product',
+        code: '123',
+        amountIdentifier: 'kg',
+      })
+      .send();
     const materialTokenId = createResult.events.MaterialCreate.materialTokenId;
   });
   describe('create a new certificate authority', () => {
