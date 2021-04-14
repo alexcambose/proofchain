@@ -91,11 +91,13 @@ describe('Company - transport', () => {
           events: {
             TransportCreated: { transportId },
           },
-        } = await proofchain.transport.initiate({
-          receiver: otherAccount,
-          transportCompany: tcAccount,
-          batchIds: [batchId],
-        });
+        } = await proofchain.transport
+          .initiate({
+            receiver: otherAccount,
+            transportCompany: tcAccount,
+            batchIds: [batchId],
+          })
+          .send();
         const fetchedTransport = await proofchain.transport.getById(
           transportId
         );
@@ -109,12 +111,14 @@ describe('Company - transport', () => {
           events: {
             TransportCreated: { transportId },
           },
-        } = await proofchain.transport.initiate({
-          receiver: otherAccount,
-          transportCompany: tcAccount,
-          batchIds: [batchId],
-          password: '1234',
-        });
+        } = await proofchain.transport
+          .initiate({
+            receiver: otherAccount,
+            transportCompany: tcAccount,
+            batchIds: [batchId],
+            password: '1234',
+          })
+          .send();
         const fetchedTransport = await proofchain.transport.getById(
           transportId
         );
@@ -130,15 +134,19 @@ describe('Company - transport', () => {
         events: {
           TransportCreated: { transportId },
         },
-      } = await proofchain.transport.initiate({
-        receiver: otherAccount,
-        transportCompany: tcAccount,
-        batchIds: [batchId],
-      });
-      await proofchainTc.transport.setTransportStatus({
-        transportId,
-        status: 2,
-      });
+      } = await proofchain.transport
+        .initiate({
+          receiver: otherAccount,
+          transportCompany: tcAccount,
+          batchIds: [batchId],
+        })
+        .send();
+      await proofchainTc.transport
+        .setTransportStatus({
+          transportId,
+          status: 2,
+        })
+        .send();
       const fetchedTransport = await proofchain.transport.getById(transportId);
       expect(fetchedTransport.status).toEqual('2');
     });
@@ -147,13 +155,17 @@ describe('Company - transport', () => {
         events: {
           TransportCreated: { transportId },
         },
-      } = await proofchain.transport.initiate({
-        receiver: otherAccount,
-        transportCompany: tcAccount,
-        batchIds: [batchId],
-      });
+      } = await proofchain.transport
+        .initiate({
+          receiver: otherAccount,
+          transportCompany: tcAccount,
+          batchIds: [batchId],
+        })
+        .send();
       await expect(
-        proofchain.transport.setTransportStatus({ transportId, status: 2 })
+        proofchain.transport
+          .setTransportStatus({ transportId, status: 2 })
+          .send()
       ).rejects.toThrow();
     });
   });
@@ -164,13 +176,17 @@ describe('Company - transport', () => {
         events: {
           TransportCreated: { transportId },
         },
-      } = await proofchain.transport.initiate({
-        receiver: otherAccount,
-        transportCompany: tcAccount,
-        batchIds: [batchId],
-      });
+      } = await proofchain.transport
+        .initiate({
+          receiver: otherAccount,
+          transportCompany: tcAccount,
+          batchIds: [batchId],
+        })
+        .send();
       batchIdTransportId = transportId;
-      await proofchainReceiver.transport.finaliseTransport({ transportId });
+      await proofchainReceiver.transport
+        .finaliseTransport({ transportId })
+        .send();
     });
     it('sets the status of a transport as finalised', async () => {
       const fetchedTransport = await proofchain.transport.getById(
@@ -187,14 +203,16 @@ describe('Company - transport', () => {
         events: {
           TransportCreated: { transportId },
         },
-      } = await proofchain.transport.initiate({
-        receiver: otherAccount,
-        transportCompany: tcAccount,
-        batchIds: [batchId2],
-      });
+      } = await proofchain.transport
+        .initiate({
+          receiver: otherAccount,
+          transportCompany: tcAccount,
+          batchIds: [batchId2],
+        })
+        .send();
 
       await expect(
-        proofchainTc.transport.finaliseTransport({ transportId })
+        proofchainTc.transport.finaliseTransport({ transportId }).send()
       ).rejects.toThrow();
     });
   });
@@ -204,11 +222,13 @@ describe('Company - transport', () => {
         events: {
           TransportCreated: { transportId },
         },
-      } = await proofchain.transport.initiate({
-        receiver: otherAccount,
-        transportCompany: tcAccount,
-        batchIds: [batchId2],
-      });
+      } = await proofchain.transport
+        .initiate({
+          receiver: otherAccount,
+          transportCompany: tcAccount,
+          batchIds: [batchId2],
+        })
+        .send();
       const fetchedTransport = await proofchain.transport.getById(transportId);
       expect(fetchedTransport.receiver).toEqual(otherAccount);
       expect(fetchedTransport.batchIds).toEqual([batchId2]);
@@ -276,19 +296,25 @@ describe('Company - transport', () => {
         events: {
           TransportCreated: { transportId },
         },
-      } = await proofchain.transport.initiate({
-        receiver: otherAccount,
-        transportCompany: tcAccount,
-        batchIds: [batchId],
-      });
-      await proofchainTc.transport.setTransportStatus({
-        transportId,
-        status: 1,
-      });
-      await proofchainTc.transport.setTransportStatus({
-        transportId,
-        status: 2,
-      });
+      } = await proofchain.transport
+        .initiate({
+          receiver: otherAccount,
+          transportCompany: tcAccount,
+          batchIds: [batchId],
+        })
+        .send();
+      await proofchainTc.transport
+        .setTransportStatus({
+          transportId,
+          status: 1,
+        })
+        .send();
+      await proofchainTc.transport
+        .setTransportStatus({
+          transportId,
+          status: 2,
+        })
+        .send();
       const events = await proofchain.transport.getStatusEvents(transportId);
       expect(events[0].status).toEqual('2');
       expect(events[1].status).toEqual('1');

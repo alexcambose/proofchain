@@ -3,107 +3,165 @@ import Base from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import MinedTransaction from './MinedTransaction';
 import keccak256 from 'keccak256';
-enum TransportStatusEnum {
+import { Transaction } from './Transaction';
+export enum TransportStatusEnum {
+  /**
+   * Transport has no status set. It was just created
+   */
   NONE,
+  /**
+   * Transport is ready for transit
+   */
   READY_FOR_TRANSIT,
+  /**
+   * Transport is awaiting transit.
+   */
   PENDING_TRANSIT,
+  /**
+   * Transport is in transit
+   */
   IN_TRANSIT,
+  /**
+   * Transport is pending to be finalised
+   */
   PENDING_FINALISED,
+  /**
+   * Transport is finalised
+   */
   FINALISED,
 }
-interface ITransport {
+export interface ITransport {
+  /**
+   * Transport sneder address
+   */
   sender: string;
+  /**
+   * Transport receiver address
+   */
   receiver: string;
+  /**
+   * Transport company address associated with this transport instance
+   */
   transportCompany: string;
+  /**
+   * Transport batches id
+   */
   batchIds: number[];
+  /**
+   * Transport values as price
+   */
   value: string;
+  /**
+   * Transport status
+   */
   status: TransportStatusEnum;
-  hashedPassword: string;
+  /**
+   * Transport password
+   */
+  hashedPassword?: string;
 }
-type TransportCreatedEvent = {
+export type TransportCreatedEvent = {
   sender: string;
   receiver: string;
   transportCompany: string;
   transportId: number;
   event: IEmittedEvent;
 };
-type TransportStatusEvent = {
+export type TransportStatusEvent = {
   transportId: number;
   status: TransportStatusEnum;
   event: IEmittedEvent;
 };
 class Transport extends Base {
   TransportStatusEnum = TransportStatusEnum;
-  async initiate({
-    receiver,
-    transportCompany,
-    batchIds,
-    password,
-  }: {
+  /**
+   * Creates a new transport
+   * @param options Transport options
+   * @param options.receiver Transport receiver
+   * @param options.batchIds Transport batches
+   * @param options.transportCompany Transport company
+   * @param options.password Transport password
+   * @returns Transport created event
+   */
+  initiate(options: {
     receiver: string;
     batchIds: number[];
     transportCompany: string;
     password?: string;
-  }): Promise<MinedTransaction<{ TransportCreated: TransportCreatedEvent }>> {
-    await this.ensureContract();
+  }): Transaction<{ TransportCreated: TransportCreatedEvent }> {
+    const { receiver, transportCompany, batchIds, password } = options;
     let transaction;
     if (password) {
       const passwordInHex = keccak256(password).toString('hex');
-      transaction = await this.contract.methods
-        .createTransport(
-          receiver,
-          transportCompany,
-          batchIds,
-          '0x' + Web3.utils.padLeft(passwordInHex.replace('0x', ''), 64)
-        )
-        .send({ from: this.fromAddress, gas: 400000 });
+      transaction = this.contract.methods.createTransport(
+        receiver,
+        transportCompany,
+        batchIds,
+        '0x' + Web3.utils.padLeft(passwordInHex.replace('0x', ''), 64)
+      );
     } else {
-      transaction = await this.contract.methods
-        .createTransport(receiver, transportCompany, batchIds)
-        .send({ from: this.fromAddress, gas: 300000 });
+      transaction = this.contract.methods.createTransport(
+        receiver,
+        transportCompany,
+        batchIds
+      );
     }
-    return new MinedTransaction<{
+    return new Transaction<{
       TransportCreated: TransportCreatedEvent;
-    }>(transaction);
+    }>(transaction, this.fromAddress);
   }
-  async setTransportStatus({
-    transportId,
-    status,
-  }: {
+  /**
+   * Set a new status to a transport
+   * @param options Transport status options
+   * @param options.transportId Traget transport id
+   * @param options.status Transport status to be set
+   * @returns Transport status chaged event
+   */
+  setTransportStatus(options: {
     transportId: number;
     status: TransportStatusEnum;
-  }): Promise<MinedTransaction<{ TransportStatus: TransportStatusEvent }>> {
-    await this.ensureContract();
-    const transaction = await this.contract.methods
-      .setTransportStatus(transportId, status)
-      .send({ from: this.fromAddress, gas: 300000 });
-    return new MinedTransaction<{
+  }): Transaction<{ TransportStatus: TransportStatusEvent }> {
+    const { transportId, status } = options;
+    const transaction = this.contract.methods.setTransportStatus(
+      transportId,
+      status
+    );
+
+    return new Transaction<{
       TransportStatus: TransportStatusEvent;
-    }>(transaction);
+    }>(transaction, this.fromAddress);
   }
-  async finaliseTransport({
-    transportId,
-    password,
-  }: {
+  /**
+   * Sets a transport as finalised
+   * @param options Transport finalisation options
+   * @param options.transportId Traget transport id
+   * @param options.password Transport password
+   * @returns Transport finalised event
+   */
+  finaliseTransport(options: {
     transportId: number;
     password?: string;
-  }): Promise<MinedTransaction<{ TransportStatus: TransportStatusEvent }>> {
-    await this.ensureContract();
+  }): Transaction<{ TransportStatus: TransportStatusEvent }> {
+    const { transportId, password } = options;
 
     let transaction;
     if (password) {
-      transaction = await this.contract.methods
-        .finaliseTransport(transportId, password)
-        .send({ from: this.fromAddress, gas: 300000 });
+      transaction = this.contract.methods.finaliseTransport(
+        transportId,
+        password
+      );
     } else {
-      transaction = await this.contract.methods
-        .finaliseTransport(transportId)
-        .send({ from: this.fromAddress, gas: 300000 });
+      transaction = this.contract.methods.finaliseTransport(transportId);
     }
-    return new MinedTransaction<{
+    return new Transaction<{
       TransportStatus: TransportStatusEvent;
-    }>(transaction);
+    }>(transaction, this.fromAddress);
   }
+  /**
+   * Get a transport by id
+   * @param transportId Transport id
+   * @returns Transport data
+   */
   async getById(transportId: number): Promise<ITransport> {
     await this.ensureContract();
 
@@ -113,6 +171,11 @@ class Transport extends Base {
     transport.batchIds = await this.getBatchIds(transportId);
     return transport;
   }
+  /**
+   * Get transport batches
+   * @param transportId Transport id
+   * @returns Transport batches
+   */
   async getBatchIds(transportId: number): Promise<number[]> {
     await this.ensureContract();
 
@@ -121,16 +184,22 @@ class Transport extends Base {
       .call();
     return batchIds;
   }
-  async all({
-    sender,
-    receiver,
-    transportCompany,
-  }: {
-    sender?: string;
-    receiver?: string;
-    transportCompany?: string;
-  } = {}) {
-    await this.ensureContract();
+  /**
+   * Get all transports
+   * @param options Fetch filters
+   * @param options.sender The sender of the transport
+   * @param options.receiver The receiver of the transport
+   * @param options.transportCompany The tranport company associated with this transport
+   * @returns Fetched transports
+   */
+  async all(
+    options: {
+      sender?: string;
+      receiver?: string;
+      transportCompany?: string;
+    } = {}
+  ): Promise<ITransport[]> {
+    const { sender, receiver, transportCompany } = options;
     const createEvents = await this.getPastEvents<TransportCreatedEvent>(
       'TransportCreated',
       {
@@ -146,7 +215,11 @@ class Transport extends Base {
     }
     return transports;
   }
-
+  /**
+   * Get all status events from a transport
+   * @param transportId Transport id
+   * @returns Transport status events
+   */
   async getStatusEvents(transportId: number): Promise<TransportStatusEvent[]> {
     await this.ensureContract();
 
@@ -159,4 +232,4 @@ class Transport extends Base {
     return events;
   }
 }
-export default Transport;
+export { Transport };

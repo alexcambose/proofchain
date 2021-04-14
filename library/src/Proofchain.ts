@@ -12,7 +12,7 @@ import {
 import Material from './Material';
 import CertificateAuthority from './CertificateAuthority';
 import Batch from './Batch';
-import Transport from './Transport';
+import { Transport } from './Transport';
 import { EMPTY_ADDRESS } from './utils/eth';
 
 /**
@@ -139,7 +139,7 @@ class Proofchain {
   }): Promise<Proofchain> {
     const { web3Provider, factoryContractAddress, fromAddress } = options;
     const web3 = new Web3(web3Provider);
-    return this.web3Init({ web3, factoryContractAddress, fromAddress });
+    return await this.web3Init({ web3, factoryContractAddress, fromAddress });
   }
   /**
    * Creates a new proofchain instance
@@ -156,11 +156,17 @@ class Proofchain {
     fromAddress?: string;
   }): Promise<Proofchain> {
     const { web3, factoryContractAddress, fromAddress } = options;
-    return new Proofchain({
+    const proofchain = new Proofchain({
       web3,
       fromAddress,
       factoryContractAddress,
     });
+    await proofchain.batch.ensureContract();
+    await proofchain.certificateAuthority.ensureContract();
+    await proofchain.company.ensureContract();
+    await proofchain.material.ensureContract();
+    await proofchain.transport.ensureContract();
+    return proofchain;
   }
   isInitialised(): boolean {
     return !!this.web3;
