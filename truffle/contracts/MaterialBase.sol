@@ -101,10 +101,24 @@ abstract contract MaterialBase is Certifiable {
         _;
     }
 
+    /**
+     * The number of materials an address has
+     *
+     * @param _tokenID Material token id
+     * @param _address The address
+     * @return Balance
+     */
     function getBalance(uint256 _tokenID, address _address) public view returns (uint256) {
         return balance[_tokenID][_address].length;
     }
 
+    /**
+     * Get the owned material instance uuids
+     *
+     * @param _tokenID Material token id
+     * @param _address The address
+     * @return Material uuids
+     */
     function getOwnedMaterialsUuid(uint256 _tokenID, address _address)
         public
         view
@@ -113,6 +127,13 @@ abstract contract MaterialBase is Certifiable {
         return balance[_tokenID][_address];
     }
 
+    /**
+     * Get the certificate instance of a material token
+     *
+     * @param _materialTokenId Material token id
+     * @param _code Certificate identification code
+     * @return Material certificate instances
+     */
     function getMaterialCertificateInstance(uint256 _materialTokenId, uint256 _code)
         public
         view
@@ -134,10 +155,22 @@ abstract contract MaterialBase is Certifiable {
         // revert("Certificate with code is not assigned");
     }
 
+    /**
+     * Get material images
+     *
+     * @param _materialTokenId Material token id
+     * @return Material images
+     */
     function getMaterialImages(uint256 _materialTokenId) public view returns (string[] memory) {
         return materialToken[_materialTokenId].images;
     }
 
+    /**
+     * Get material recipe
+     *
+     * @param _materialTokenId Material token id
+     * @return Material recipe with token ids and amounts
+     */
     function getMaterialRecipe(uint256 _materialTokenId)
         public
         view
@@ -149,10 +182,22 @@ abstract contract MaterialBase is Certifiable {
         );
     }
 
+    /**
+     * Get the material instance uuids that are in a particular batch
+     *
+     * @param _batchId The target batch id
+     * @return Material uuids
+     */
     function getBatchMaterialsUuid(uint256 _batchId) public view returns (uint256[] memory) {
         return batch[_batchId].materialsUuid;
     }
 
+    /**
+     * Get material certificate instances
+     *
+     * @param _materialTokenId Material token id
+     * @return Material certificate instances
+     */
     function getMaterialCertificatesInstanceIds(uint256 _materialTokenId)
         public
         view
@@ -161,10 +206,23 @@ abstract contract MaterialBase is Certifiable {
         return materialToken[_materialTokenId].certificateInstanceIds;
     }
 
+    /**
+     * Check if a batch is owned by an address
+     *
+     * @param _address An address
+     * @param _batchId A batch id
+     * @return True if the batch is owned by an address
+     */
     function getAddressBatches(address _address, uint256 _batchId) public view returns (bool) {
         return addressBatches[_address][_batchId];
     }
 
+    /**
+     * Get the used batches used to create a material
+     *
+     * @param _materialUuid Material instance uuid
+     * @return Material batch ids
+     */
     function getMaterialInfoFromBatchId(uint256 _materialUuid)
         public
         view
@@ -173,6 +231,12 @@ abstract contract MaterialBase is Certifiable {
         return uuidMaterialInfo[_materialUuid].fromBatchId;
     }
 
+    /**
+     * Get the used material instances to create a specific material instance
+     *
+     * @param _materialUuid  Material instance uuid
+     * @return Used material instance uuids
+     */
     function getMaterialInfoBatchMaterialsUuid(uint256 _materialUuid)
         public
         view
