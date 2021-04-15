@@ -196,7 +196,6 @@ export class Material extends Base implements IEntity {
     materialTokenId: string | number,
     full: boolean = true
   ): Promise<IMaterialTokenInfo | null> {
-    await this.ensureContract();
     const material: IMaterialTokenInfo = await this.contract.methods
       .materialToken(String(materialTokenId))
       .call();
@@ -345,7 +344,6 @@ export class Material extends Base implements IEntity {
   async getOwnedMaterialsUuid(
     materialTokenId: number
   ): Promise<IMaterialInfo[]> {
-    await this.ensureContract();
     const materialsUuid = await this.getOwnedMaterialsUuidCodes(
       materialTokenId
     );
@@ -359,7 +357,6 @@ export class Material extends Base implements IEntity {
    * @returns Uuids
    */
   async getOwnedMaterialsUuidCodes(materialTokenId: number): Promise<number[]> {
-    await this.ensureContract();
     const materialsUuid: number[] = await this.contract.methods
       .getOwnedMaterialsUuid(materialTokenId, this.fromAddress)
       .call();
@@ -375,7 +372,6 @@ export class Material extends Base implements IEntity {
     materialUuid: number,
     full: boolean = false
   ): Promise<IMaterialInfo> {
-    await this.ensureContract();
 
     const material: IMaterialInfo = await this.contract.methods
       .uuidMaterialInfo(materialUuid)
@@ -479,7 +475,6 @@ export class Material extends Base implements IEntity {
   async assigedCertificates(
     materialTokenId: number
   ): Promise<ICertificateInstance[]> {
-    await this.ensureContract();
     const certificateInstanceIds = await this.contract.methods
       .getMaterialCertificatesInstanceIds(materialTokenId)
       .call();
@@ -501,7 +496,6 @@ export class Material extends Base implements IEntity {
       assignEvent: MaterialAssignedCertificateEvent;
     } & ICertificateInstance)[]
   > {
-    await this.ensureContract();
     // assign certificate will always be the first
     const assignedEvents = await this.getPastEvents<MaterialAssignedCertificateEvent>(
       'MaterialAssignedCertificate',

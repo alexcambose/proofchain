@@ -11,6 +11,7 @@ export interface ITransactionOptions {
  * Transaction class. Used as an additional layer of abstractisation
  */
 class Transaction<EmmitedEvents = {}> {
+  protected gasPrice: number = 0;
   /**
    * Transaction constructor
    * @param transactionInstance Web3 transaction instance
@@ -33,17 +34,26 @@ class Transaction<EmmitedEvents = {}> {
     });
   }
   async encodeAbi() {}
+  async setGasPrice(gasInWei: number) {
+    this.gasPrice = gasInWei;
+  }
   /**
    * Sends the transaction
    * @param options Send options
    * @returns Transaction result
    */
   async send(): Promise<MinedTransaction<EmmitedEvents>> {
-    const gas = await this.estimateGas();
+    let additionalOptions: {
+      gasPrice?: string;
+    } = {};
+    if (this.gasPrice) {
+      additionalOptions.gasPrice = String(this.gasPrice);
+    }
     const result = await this.transactionInstance.send({
       from: this.fromAddress,
       gas: await this.estimateGas(),
       value: this.options.value,
+      ...additionalOptions,
     });
     //@ts-ignore
     return new MinedTransaction<EmmitedEvents>(result);

@@ -1,4 +1,4 @@
-import {Base} from './Base';
+import { Base } from './Base';
 import { CompanyEntityTypeEnum } from './enums';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
@@ -105,8 +105,6 @@ class Company extends Base implements IEntity {
    * @returns Company Information
    */
   async getCompany(address: string = ''): Promise<ICompany> {
-    await this.ensureContract();
-
     if (!address) address = this.fromAddress;
     return await this.contract.methods.companies(address).call();
   }
@@ -116,8 +114,6 @@ class Company extends Base implements IEntity {
    * @returns True if the owner has a company
    */
   async hasCompany(address: string = ''): Promise<boolean> {
-    await this.ensureContract();
-
     if (!address) address = this.fromAddress;
     const company = await this.contract.methods.companies(address).call();
     return company.isValue;
@@ -201,7 +197,6 @@ class Company extends Base implements IEntity {
   async assigedCertificates(
     companyAddress: string
   ): Promise<ICertificateInstance[]> {
-    await this.ensureContract();
     const certificateInstanceIds = await this.contract.methods
       .getCompanyCertificatesInstanceIds(companyAddress)
       .call();
@@ -223,7 +218,6 @@ class Company extends Base implements IEntity {
       assignEvent: CompanyAssignedCertificateEvent;
     } & ICertificateInstance)[]
   > {
-    await this.ensureContract();
     // assign certificate will always be the first
     const assignedEvents = await this.getPastEvents<CompanyAssignedCertificateEvent>(
       'CompanyAssignedCertificate',

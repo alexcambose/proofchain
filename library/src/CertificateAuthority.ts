@@ -129,7 +129,6 @@ export class CertificateAuthority extends Base {
    * @returns Certificate informations
    */
   async getByCode(code: number): Promise<ICertificate | null> {
-    await this.ensureContract();
     const certificate = await this.contract.methods
       .authorityCertificates(code)
       .call();
@@ -144,7 +143,6 @@ export class CertificateAuthority extends Base {
   async getCertificateAuthority(
     address: string
   ): Promise<ICertificateAuthority | null> {
-    await this.ensureContract();
     const ca: ICertificateAuthority = await this.contract.methods
       .certificateAuthorities(address)
       .call();
@@ -159,7 +157,6 @@ export class CertificateAuthority extends Base {
   async hasCertificateAuthority(
     address: string = this.fromAddress
   ): Promise<boolean> {
-    await this.ensureContract();
     return !!(await this.getCertificateAuthority(address));
   }
   /**
@@ -170,8 +167,6 @@ export class CertificateAuthority extends Base {
   async certificates(
     address: string = this.fromAddress
   ): Promise<ICertificate[]> {
-    await this.ensureContract();
-
     const createEvents = await this.getPastEvents<CertificateAuthorityCertificateCreatedEvent>(
       'CertificateAuthorityCertificateCreated',
       { owner: address }
@@ -188,7 +183,6 @@ export class CertificateAuthority extends Base {
   async allCertificateAutorities(
     full: boolean = true
   ): Promise<ICertificateAuthority[] | string[]> {
-    await this.ensureContract();
     const createEvents = await this.getPastEvents<CertificateAuthorityCreatedEvent>(
       'CertificateAuthorityCreated'
     );
@@ -208,7 +202,6 @@ export class CertificateAuthority extends Base {
    * @returns Minimum stake in wei
    */
   async minimumStake(): Promise<string> {
-    await this.ensureContract();
     return this.contract.methods.minimumStake().call();
   }
 }

@@ -163,8 +163,6 @@ class Transport extends Base {
    * @returns Transport data
    */
   async getById(transportId: number): Promise<ITransport> {
-    await this.ensureContract();
-
     const transport: ITransport = await this.contract.methods
       .transports(transportId)
       .call();
@@ -177,8 +175,6 @@ class Transport extends Base {
    * @returns Transport batches
    */
   async getBatchIds(transportId: number): Promise<number[]> {
-    await this.ensureContract();
-
     const batchIds = await this.contract.methods
       .getTransportBatchids(transportId)
       .call();
@@ -221,8 +217,6 @@ class Transport extends Base {
    * @returns Transport status events
    */
   async getStatusEvents(transportId: number): Promise<TransportStatusEvent[]> {
-    await this.ensureContract();
-
     const events = await this.getPastEvents<TransportStatusEvent>(
       'TransportStatus',
       {
