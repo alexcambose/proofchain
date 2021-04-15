@@ -12,7 +12,12 @@ contract Material is MaterialBase, CompanyOwnable {
     {}
 
     /**
-    Create a new raw material token info
+     * Creates a new material token
+     *
+     * @param _name Material name
+     * @param _code Material code
+     * @param _amountIdentifier The amount identifier for one instance of this material
+     * @param _images An array of images of this material
      */
     function create(
         string memory _name,
@@ -31,7 +36,14 @@ contract Material is MaterialBase, CompanyOwnable {
     }
 
     /**
-    Create a new compound material token info
+     * Creates a new compound material
+     *
+     * @param _name Material name
+     * @param _code Material code
+     * @param _amountIdentifier The amount identifier for one instance of this material
+     * @param _images An array of images of this material
+     * @param _recipeMaterialTokenId Material tokens id that are reqeuired to produce one instance of this material
+     * @param _recipeMaterialTokenId Amount of each material tokens
      */
     function create(
         string memory _name,
@@ -51,7 +63,10 @@ contract Material is MaterialBase, CompanyOwnable {
     }
 
     /**
-    Mint a new raw material 
+     * Mint a new raw material
+     *
+     * @param  _tokenID The material token id to be minted
+     * @param _amount The amount of instances to be minted
      */
     function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {
         require(
@@ -73,9 +88,13 @@ contract Material is MaterialBase, CompanyOwnable {
         }
     }
 
-    /*
-    Mints a compound material
-    */
+    /**
+     * Mints a compound material
+     *
+     * @param _tokenID The material token id to be minted
+     * @param _batchesID The id of the batches used
+     * @param _batchesMaterialsUuid The amount of mateirals associated with the batch ids
+     */
     function mint(
         uint256 _tokenID, // material to be minted
         uint256[] memory _batchesId,
@@ -147,6 +166,12 @@ contract Material is MaterialBase, CompanyOwnable {
         emit MaterialTransfer(address(0), companyAddress, _tokenID, mi.uuid);
     }
 
+    /**
+     * Create a new batch
+     *
+     * @param _code Batch code
+     * @param _uuids The material instance uuids that will be added to this batch
+     */
     function createBatch(string memory _code, uint256[] memory _uuids) public senderHasCompany {
         require(_uuids.length > 0, "Can not create a batch without materials");
 
@@ -185,6 +210,11 @@ contract Material is MaterialBase, CompanyOwnable {
         batchId++;
     }
 
+    /**
+     * Destroy a batch and move all materials to the balance of the user
+     *
+     * @param _batchId The id of the batch to be destroyed
+     */
     function destroyBatch(uint256 _batchId) public {
         require(batch[_batchId].owner == msg.sender, "You are not the owner of this batch");
         emit BatchTransfer(msg.sender, address(0), _batchId, 0, 0);
@@ -196,6 +226,12 @@ contract Material is MaterialBase, CompanyOwnable {
         }
     }
 
+    /**
+     * Burn some tokens from a batch
+     *
+     * @param _batchId The batch id that contains material instances
+     * @param _uuids The uuids of the material instance to be burned
+     */
     function burnBatchTokens(uint256 _batchId, uint256[] memory _uuids) public {
         require(_uuids.length > 0, "Amount needs to be bigger than 0");
         require(batch[_batchId].materialsUuid.length >= _uuids.length, "Amount not available");
@@ -205,6 +241,12 @@ contract Material is MaterialBase, CompanyOwnable {
         }
     }
 
+    /**
+     * Burn a token from a batch
+     *
+     * @param _batchId The batch id that contains the material instance
+     * @param _uuid The uuid of the material instance to be burned
+     */
     function burnBatchToken(uint256 _batchId, uint256 _uuid) public {
         require(batch[_batchId].materialsUuid.length >= 1, "Amount not available");
         bool burned = false;
@@ -227,6 +269,12 @@ contract Material is MaterialBase, CompanyOwnable {
         }
     }
 
+    /**
+     * Assigns a certificate to a material
+     *
+     * @param _certificateCode The certificate code
+     * @param _itemIdentifier Material token id where the certificate will be assigned to
+     */
     function assignCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public payable {
         super.assignCertificate(_certificateCode);
         for (uint256 i = 0; i < materialToken[_itemIdentifier].certificateInstanceIds.length; i++) {
@@ -250,6 +298,12 @@ contract Material is MaterialBase, CompanyOwnable {
         certificateInstanceId++;
     }
 
+    /**
+     * Cancels a certificate forom a material
+     *
+     * @param _certificateCode The certificate code
+     * @param _itemIdentifier Material token id where the certificate will be canceled from
+     */
     function cancelCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
         address certificateAuthorityFromContract = super.cancelCertificate(_certificateCode);
         uint256 length = materialToken[_itemIdentifier].certificateInstanceIds.length;
@@ -283,7 +337,11 @@ contract Material is MaterialBase, CompanyOwnable {
         );
     }
 
-    /*
+    /**
+     * Revokes a certificate forom a material
+     *
+     * @param _certificateCode The certificate code
+     * @param _itemIdentifier Material token id where the certificate will be revoked from
      */
     function revokeCertificate(uint256 _certificateCode, uint256 _itemIdentifier) public {
         super.revokeCertificate();
@@ -316,6 +374,13 @@ contract Material is MaterialBase, CompanyOwnable {
         );
     }
 
+    /**
+     * Changes the owner of multiple batches at once
+     *
+     * @param _batchIds The ids of the batches to change the owner from
+     * @param _newOwner The address of the new owner
+     * @param _transportId The transport id associated with this operation
+     */
     function changeBatchOwnershipBatch(
         uint256[] memory _batchIds,
         address _newOwner,
@@ -329,6 +394,10 @@ contract Material is MaterialBase, CompanyOwnable {
         }
     }
 
+    /**
+     * Remove a batch from a specified address.
+     * @param _batchId The batch id to be removed
+     */
     function removeBatchFromAddress(uint256 _batchId) public {
         // require(
         //     batch[_batchId].owner == _address,
