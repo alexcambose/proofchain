@@ -25,6 +25,7 @@ import {
   faTrash,
   faBox,
   faIndustry,
+  faNetworkWired,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -40,6 +41,7 @@ library.add(
   faPlus,
   faCheck,
   faTruck,
+  faNetworkWired,
   faTruckLoading,
   faTruckMoving,
   faParachuteBox,

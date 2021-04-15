@@ -18,6 +18,9 @@ import BalanceCard, {
 import CompanyOverviewCard, {
   gridConfig as CompanyOverviewCardGridConfig,
 } from './components/grid/CompanyOverviewCard';
+import NetworkCard, {
+  gridConfig as NetworkCardConfig,
+} from './components/grid/NetworkCard';
 const layouts = {
   lg: [
     CompanyOverviewCardGridConfig,
@@ -26,6 +29,7 @@ const layouts = {
     RawMaterialsCardConfig,
     BatchesCardConfig,
     TransportsCardConfig,
+    NetworkCardConfig,
   ],
 };
 const Index = () => {
@@ -57,6 +61,9 @@ const Index = () => {
         </div>
         <div key={TransportsCardConfig.i}>
           <TransportsCard />
+        </div>
+        <div key={NetworkCardConfig.i}>
+          <NetworkCard />
         </div>
       </ResponsiveGridLayout>
     </>
