@@ -4,12 +4,12 @@ import { parseEvent } from './utils/eventsParser';
 import IEmittedEvent from './interface/IEmittedEvent';
 import { EMPTY_ADDRESS } from './utils/eth';
 
-type BaseContracts =
+export type BaseContracts =
   | 'companyContract'
   | 'materialContract'
   | 'certificateAuthorityManagerContract';
 
-abstract class Base {
+export abstract class Base {
   contract: any = null;
   constructor(
     protected web3: Web3,
@@ -18,6 +18,7 @@ abstract class Base {
     protected contractName: BaseContracts,
     protected contractAbi: any[]
   ) {}
+
   get fromAddress() {
     if (this._fromAddress !== EMPTY_ADDRESS) return this._fromAddress;
     throw new Error(`fromAddress parameter not specified`);
@@ -76,5 +77,3 @@ abstract class Base {
     return parsedEvents;
   }
 }
-
-export default Base;

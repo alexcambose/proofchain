@@ -1,4 +1,4 @@
-import Base from './Base';
+import { Base } from './Base';
 import MinedTransaction from './MinedTransaction';
 import { Transaction } from './Transaction';
 import { EMPTY_ADDRESS } from './utils/eth';
@@ -63,16 +63,13 @@ export class Batch extends Base {
    * @param options.materialsUuid The uuids of the materials to be burned
    * @returns Burn event
    */
-  async burn(options: { batchId: number; materialsUuid: number[] }) {
+  burn(options: { batchId: number; materialsUuid: number[] }): Transaction {
     const { batchId, materialsUuid } = options;
-    const transaction = await this.contract.methods.burnBatchTokens(
+    const transaction = this.contract.methods.burnBatchTokens(
       batchId,
       materialsUuid
     );
-    return new Transaction<CreateTransactionEvents>(
-      transaction,
-      this.fromAddress
-    );
+    return new Transaction(transaction, this.fromAddress);
   }
   /**
    * Get batch by id
@@ -81,8 +78,6 @@ export class Batch extends Base {
    * @returns Batch informations
    */
   async getById(batchId: number, full: boolean = true): Promise<IBatch | null> {
-    await this.ensureContract();
-
     const batch = await this.contract.methods.batch(batchId).call();
     if (batch.owner == EMPTY_ADDRESS) return null;
     if (full) {
@@ -99,7 +94,6 @@ export class Batch extends Base {
    * @returns Batch ids
    */
   async allBatchIds(onlyExistingBatches = true): Promise<number[]> {
-    await this.ensureContract();
     const createEvents = await this.getPastEvents<BatchCreateEvent>(
       'BatchCreate',
       { company: this.fromAddress }
@@ -133,7 +127,6 @@ export class Batch extends Base {
    * @returns Batches details
    */
   async all(onlyExistingBatches = true) {
-    await this.ensureContract();
     const batchIds = await this.allBatchIds(onlyExistingBatches);
     let batches = [];
     for (let batchId of batchIds) {
@@ -147,26 +140,17 @@ export class Batch extends Base {
    * @param batchId The id of the batch
    * @returns
    */
-  async remove(batchId: number): Promise<any> {
-    await this.ensureContract();
-    const transaction = await this.contract.methods
-      .removeBatchFromAddress(batchId);
-    return new Transaction(
-      transaction,
-      this.fromAddress
-    );
+  remove(batchId: number): Transaction {
+    const transaction = this.contract.methods.removeBatchFromAddress(batchId);
+    return new Transaction(transaction, this.fromAddress);
   }
   /**
    * Destory batch and add existing materials to users balance
    * @param batchId Target batch id
-   * 
+   *
    */
-   destroyBatch(
-    batchId: number
-  ): Transaction<BatchTransferEvent>
-   {
-    const transaction = this.contract.methods
-      .destroyBatch(batchId)
+  destroyBatch(batchId: number): Transaction<BatchTransferEvent> {
+    const transaction = this.contract.methods.destroyBatch(batchId);
 
     return new Transaction<BatchTransferEvent>(transaction, this.fromAddress);
   }

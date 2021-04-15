@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import Base from './Base';
+import { Base } from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import MinedTransaction from './MinedTransaction';
 import keccak256 from 'keccak256';

@@ -30,9 +30,11 @@ describe('material', () => {
         entityType: CompanyEntityTypeEnum.MANUFACTURER,
       })
       .send();
-    await proofchainCa.certificateAuthority.createCertificateAuthority({
-      name: 'certifcate authority',
-    });
+    await proofchainCa.certificateAuthority
+      .createCertificateAuthority({
+        name: 'certifcate authority',
+      })
+      .send();
 
     const materialCreateResult = await proofchain.material
       .create({

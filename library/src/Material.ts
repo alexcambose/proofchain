@@ -1,4 +1,4 @@
-import Base from './Base';
+import {Base} from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
 import MinedTransaction from './MinedTransaction';

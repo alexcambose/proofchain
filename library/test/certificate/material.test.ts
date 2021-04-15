@@ -31,13 +31,17 @@ describe('certificate', () => {
       factoryContractAddress,
       fromAddress: caAccount,
     });
-    await proofchain.company.create({
-      name: 'company',
-      entityType: CompanyEntityTypeEnum.MANUFACTURER,
-    });
-    await proofchainCA.certificateAuthority.createCertificateAuthority({
-      name: 'company',
-    });
+    await proofchain.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.MANUFACTURER,
+      })
+      .send();
+    await proofchainCA.certificateAuthority
+      .createCertificateAuthority({
+        name: 'company',
+      })
+      .send();
     // ====
     // create a certificate: 1
     const createResult1 = await proofchainCA.certificateAuthority

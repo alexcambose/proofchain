@@ -27,13 +27,17 @@ describe('Certificates', () => {
       factoryContractAddress,
       fromAddress: caAccount,
     });
-    await proofchain.company.create({
-      name: 'company',
-      entityType: CompanyEntityTypeEnum.MANUFACTURER,
-    });
-    await proofchainCA.certificateAuthority.createCertificateAuthority({
-      name: 'company',
-    });
+    await proofchain.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.MANUFACTURER,
+      })
+      .send();
+    await proofchainCA.certificateAuthority
+      .createCertificateAuthority({
+        name: 'company',
+      })
+      .send();
     //create material
     const createResult = await proofchain.material
       .create({
@@ -52,11 +56,11 @@ describe('Certificates', () => {
         factoryContractAddress,
         fromAddress: otherAccount,
       });
-      const result = await localProofcahin.certificateAuthority.createCertificateAuthority(
-        {
+      const result = await localProofcahin.certificateAuthority
+        .createCertificateAuthority({
           name: 'company',
-        }
-      );
+        })
+        .send();
       expect(result.events.CertificateAuthorityCreated.owner).toEqual(
         otherAccount
       );
@@ -68,13 +72,17 @@ describe('Certificates', () => {
         factoryContractAddress,
         fromAddress: otherAccount,
       });
-      await localProofcahin.certificateAuthority.createCertificateAuthority({
-        name: 'company',
-      });
-      await expect(
-        localProofcahin.certificateAuthority.createCertificateAuthority({
+      await localProofcahin.certificateAuthority
+        .createCertificateAuthority({
           name: 'company',
         })
+        .send();
+      await expect(
+        localProofcahin.certificateAuthority
+          .createCertificateAuthority({
+            name: 'company',
+          })
+          .send()
       ).rejects.toThrow();
     });
   });
@@ -94,11 +102,13 @@ describe('Certificates', () => {
     });
     it('fails to create a certificate if the sender is not a certificate authority', async () => {
       await expect(
-        proofchain.certificateAuthority.createCertificate({
-          name: 'name',
-          description: 'description',
-          type: 2,
-        })
+        proofchain.certificateAuthority
+          .createCertificate({
+            name: 'name',
+            description: 'description',
+            type: 2,
+          })
+          .send()
       ).rejects.toThrow();
     });
   });

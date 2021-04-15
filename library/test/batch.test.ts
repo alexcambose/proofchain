@@ -16,10 +16,12 @@ describe('batch', () => {
       factoryContractAddress: await deployedFactoryAddress(),
       fromAddress: account,
     });
-    await proofchain.company.create({
-      name: 'company',
-      entityType: CompanyEntityTypeEnum.MANUFACTURER,
-    });
+    await proofchain.company
+      .create({
+        name: 'company',
+        entityType: CompanyEntityTypeEnum.MANUFACTURER,
+      })
+      .send();
     const result = await proofchain.material
       .create({
         name: 'product',
@@ -77,10 +79,12 @@ describe('batch', () => {
         .send();
       const batchId = result.events.BatchCreate.batchId;
       const oldBatch = await proofchain.batch.getById(batchId);
-      await proofchain.batch.burn({
-        batchId,
-        materialsUuid: [materialsUuid[2]],
-      });
+      await proofchain.batch
+        .burn({
+          batchId,
+          materialsUuid: [materialsUuid[2]],
+        })
+        .send();
       const newBatch = await proofchain.batch.getById(batchId);
       expect(
         oldBatch!.materialsUuid.length - newBatch!.materialsUuid.length
@@ -98,7 +102,7 @@ describe('batch', () => {
     it('removes a batch from the user', async () => {
       const oldBatches = await proofchain.batch.all();
       // @ts-ignore
-      await proofchain.batch.remove(oldBatches[0]?.batchId);
+      await proofchain.batch.remove(oldBatches[0]?.batchId).send();
       const newBatches = await proofchain.batch.all();
       expect(oldBatches.length - newBatches.length).toEqual(1);
     });
@@ -133,7 +137,7 @@ describe('batch', () => {
     });
     it('removes the batch from all batches return values', async () => {
       const oldFetchedBatches = await proofchain.batch.all();
-      await proofchain.batch.destroyBatch(batchId);
+      await proofchain.batch.destroyBatch(batchId).send();
       const newFetchedBatches = await proofchain.batch.all();
       expect(oldFetchedBatches.length - newFetchedBatches.length).toEqual(1);
     });
@@ -141,7 +145,7 @@ describe('batch', () => {
       const oldFetchedBalance = await proofchain.material.getBalance(
         materialTokenId
       );
-      await proofchain.batch.destroyBatch(batchId);
+      await proofchain.batch.destroyBatch(batchId).send();
       const newFetchedBalance = await proofchain.material.getBalance(
         materialTokenId
       );

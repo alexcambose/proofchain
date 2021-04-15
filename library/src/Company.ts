@@ -1,4 +1,4 @@
-import Base from './Base';
+import {Base} from './Base';
 import { CompanyEntityTypeEnum } from './enums';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';

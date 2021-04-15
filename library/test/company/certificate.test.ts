@@ -28,9 +28,11 @@ describe('company', () => {
         entityType: CompanyEntityTypeEnum.MANUFACTURER,
       })
       .send();
-    await proofchainCa.certificateAuthority.createCertificateAuthority({
-      name: 'certifcate authority',
-    });
+    await proofchainCa.certificateAuthority
+      .createCertificateAuthority({
+        name: 'certifcate authority',
+      })
+      .send();
   });
   describe('certificate', () => {
     describe('assignCertificate', () => {

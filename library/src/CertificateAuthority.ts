@@ -1,32 +1,79 @@
-import Base from './Base';
+import { Base } from './Base';
 import MinedTransaction from './MinedTransaction';
 import { Transaction } from './Transaction';
 import { EMPTY_ADDRESS } from './utils/eth';
-enum CertificateTypeEnum {
+/**
+ * Certificate types
+ */
+export enum CertificateTypeEnum {
+  /**
+   * This certificate has an environmental impact
+   */
   ENVIRONMENTAL_IMPACT,
+  /**
+   * This certificate describes the fact that the material/company uses a safe way of producing and operatins
+   */
   SAFETY_AND_QUALITY,
+  /**
+   * This certificate has natural products
+   */
   HEALTH_AND_NUTRITION,
+  /**
+   * This certificate has a social impact
+   */
   SOCIAL_IMPACT,
+  /**
+   * This certificate doesn't harm animals
+   */
   ANIMAL_WELFARE,
+  /**
+   * This certificate has some other good qualities.
+   */
   OTHER,
 }
+/**
+ * Certificate interface
+ */
 export interface ICertificate {
+  /**
+   * Certificate name
+   */
   name: string;
+  /**
+   * Certificate code
+   */
   code: number;
+  /**
+   * Certificate description
+   */
   description: string;
+  /**
+   * Certificate type
+   */
   ctype: CertificateTypeEnum;
+  /**
+   * Certificate owner
+   */
   certificateAuthority: string;
 }
-interface ICertificateAuthority {
+export interface ICertificateAuthority {
+  /**
+   * Certificate authority name
+   */
   name: string;
+  /**
+   * True if this certificate authority is disabled
+   */
   disabled: boolean;
+  /**
+   * Certificate owner address
+   */
   owner: string;
-  isValue: boolean;
 }
-type CertificateAuthorityCreatedEvent = {
+export type CertificateAuthorityCreatedEvent = {
   owner: string;
 };
-type CertificateAuthorityCertificateCreatedEvent = {
+export type CertificateAuthorityCertificateCreatedEvent = {
   owner: string;
   code: number;
 };
@@ -34,34 +81,39 @@ type CertificateAuthorityCertificateCreatedEvent = {
  * Certificate authority class
  */
 export class CertificateAuthority extends Base {
-  async createCertificateAuthority({
-    name,
-  }: {
+  /**
+   * Create a certificate authority
+   * @param options Create certificate authority options
+   * @param options.name Certificate authority name
+   * @returns Create certifiate authority events
+   */
+  createCertificateAuthority(options: {
     name: string;
-  }): Promise<
-    MinedTransaction<{
+  }): Transaction<{
+    CertificateAuthorityCreated: CertificateAuthorityCreatedEvent;
+  }> {
+    const { name } = options;
+    const transaction = this.contract.methods.createCertificateAuthority(name);
+    return new Transaction<{
       CertificateAuthorityCreated: CertificateAuthorityCreatedEvent;
-    }>
-  > {
-    await this.ensureContract();
-    const transaction = await this.contract.methods
-      .createCertificateAuthority(name)
-      .send({ from: this.fromAddress, gas: 400000 });
-    return new MinedTransaction<{
-      CertificateAuthorityCreated: CertificateAuthorityCreatedEvent;
-    }>(transaction);
+    }>(transaction, this.fromAddress);
   }
-  createCertificate({
-    name,
-    description,
-    type,
-  }: {
+  /**
+   *
+   * @param options Create certificate options
+   * @param options.name Certificate name
+   * @param options.description Certificate description
+   * @param options.type Certificate type
+   * @returns Create certificate event
+   */
+  createCertificate(options: {
     name: string;
     description: string;
     type: CertificateTypeEnum;
   }): Transaction<{
     CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
   }> {
+    const { name, description, type } = options;
     const transaction = this.contract.methods.createCertificate(
       name,
       description || '',
@@ -71,6 +123,11 @@ export class CertificateAuthority extends Base {
       CertificateAuthorityCertificateCreated: CertificateAuthorityCertificateCreatedEvent;
     }>(transaction, this.fromAddress);
   }
+  /**
+   * Get certificate by code
+   * @param code Certificate code
+   * @returns Certificate informations
+   */
   async getByCode(code: number): Promise<ICertificate | null> {
     await this.ensureContract();
     const certificate = await this.contract.methods
@@ -79,6 +136,11 @@ export class CertificateAuthority extends Base {
     if (certificate.certificateAuthority === EMPTY_ADDRESS) return null;
     return certificate;
   }
+  /**
+   * Get certificate authority by address
+   * @param address Owner addres
+   * @returns Certificate authority details
+   */
   async getCertificateAuthority(
     address: string
   ): Promise<ICertificateAuthority | null> {
@@ -89,14 +151,22 @@ export class CertificateAuthority extends Base {
     if (ca.owner === EMPTY_ADDRESS) return null;
     return ca;
   }
-
+  /**
+   * Check if an address has a certificate authority
+   * @param address Owner address
+   * @returns True if the address has a certificate authority
+   */
   async hasCertificateAuthority(
     address: string = this.fromAddress
   ): Promise<boolean> {
     await this.ensureContract();
     return !!(await this.getCertificateAuthority(address));
   }
-
+  /**
+   * Get certificates of address
+   * @param address Address with certificates
+   * @returns Certificates info
+   */
   async certificates(
     address: string = this.fromAddress
   ): Promise<ICertificate[]> {
@@ -110,6 +180,11 @@ export class CertificateAuthority extends Base {
       createEvents.map((e) => this.getByCode(e.code) as Promise<ICertificate>)
     );
   }
+  /**
+   * Get certificate authorities
+   * @param full Include certificate authority details
+   * @returns Certificate authorities
+   */
   async allCertificateAutorities(
     full: boolean = true
   ): Promise<ICertificateAuthority[] | string[]> {
