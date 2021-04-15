@@ -70,16 +70,16 @@ export const createMaterial = createAsyncThunk(
       }
     }
     const result = await transactionWrapper(
-      async () =>
-        await proofchain().material.create({
-          name,
-          code,
-          images: [],
-          amountIdentifier,
-          recipeMaterialTokenId,
-          recipeMaterialAmount,
-        })
+      proofchain().material.create({
+        name,
+        code,
+        images: [],
+        amountIdentifier,
+        recipeMaterialTokenId,
+        recipeMaterialAmount,
+      })
     );
+    if (!result) throw new Error('Error!');
     return {};
   }
 );
@@ -153,9 +153,10 @@ export const fetchMaterialInfoCertificates = createAsyncThunk(
         certificateInstance,
         certificateAuthority,
         assignEvent: assignEvents[0],
-        assignTimestamp: // @ts-ignore
-        (await web3Instance().eth.getBlock(assignEvents[0].blockNumber))
-          .timestamp,
+        // @ts-ignore
+        assignTimestamp: (
+          await web3Instance().eth.getBlock(assignEvents[0].blockNumber)
+        ).timestamp,
       });
     }
     return { certificates };

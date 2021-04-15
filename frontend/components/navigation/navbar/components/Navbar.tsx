@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
               left: 0,
               right: 0,
               top: 0,
-              zIndex: 99,
+              zIndex: 2,
               backgroundColor: $theme.colors.primaryB,
             }),
           },

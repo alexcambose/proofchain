@@ -52,7 +52,7 @@ export const initWeb3Instance = async (loginObject: {
   }
   console.log('Init with wallet');
   const address = await initWeb3FromWallet(wallet);
-  initProofchain(_web3Instance, address);
+  await initProofchain(_web3Instance, address);
   return address;
 };
 const web3Instance = () => _web3Instance;

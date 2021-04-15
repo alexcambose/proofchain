@@ -109,7 +109,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         >
           <CompanySidebar />
         </Cell>
-        <Cell span={[2, 4, 10]}>
+        <Cell span={[2, 6, 10]}>
           <BreadcrumbNavigation />
           <Block marginTop="scale400" $style={{}}>
             {title && <Display4>{title}</Display4>}

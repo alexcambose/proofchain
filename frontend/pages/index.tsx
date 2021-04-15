@@ -63,7 +63,6 @@ export const authCheck = (expectLoggedIn) =>
       // }
     }
 
-    console.log();
     const onLoginPage = req.url == '/login';
     if (expectLoggedIn && !loggedIn && !onLoginPage) {
       return {

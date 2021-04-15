@@ -95,7 +95,7 @@ const CompanySidebar = () => {
               position: 'fixed',
               top: '80px',
               left: 0,
-              width: 'auto',
+              width: 'inherit',
             },
           }),
         },

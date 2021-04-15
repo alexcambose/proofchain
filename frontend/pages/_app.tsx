@@ -66,7 +66,17 @@ function MyApp({ Component, pageProps }) {
   return (
     <StyletronProvider value={styletron}>
       <BaseProvider theme={theme}>
-        <ToasterContainer autoHideDuration={3500}>
+        <ToasterContainer
+          autoHideDuration={3500}
+          overrides={{
+            Root: {
+              style: {
+                marginTop: '70px',
+                zIndex: 4,
+              },
+            },
+          }}
+        >
           <LoadingOverlay />
           {!isLoading && <Component {...pageProps} />}
         </ToasterContainer>
