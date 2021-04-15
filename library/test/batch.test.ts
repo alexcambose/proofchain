@@ -40,10 +40,12 @@ describe('batch', () => {
   describe('create', () => {
     it('creates a new batch', async () => {
       const oldBalance = await proofchain.material.getBalance(materialTokenId);
-      const result = await proofchain.batch.create({
-        materialsUuid: [materialsUuid[0]],
-        code: '1',
-      });
+      const result = await proofchain.batch
+        .create({
+          materialsUuid: [materialsUuid[0]],
+          code: '1',
+        })
+        .send();
       const newBalance = await proofchain.material.getBalance(materialTokenId);
       expect(result.events.BatchCreate.company).toEqual(account);
       expect(oldBalance - newBalance).toEqual(1);
@@ -51,10 +53,12 @@ describe('batch', () => {
   });
   describe('getById', () => {
     it('return a batch by batchId', async () => {
-      const result = await proofchain.batch.create({
-        materialsUuid: [materialsUuid[1]],
-        code: '1',
-      });
+      const result = await proofchain.batch
+        .create({
+          materialsUuid: [materialsUuid[1]],
+          code: '1',
+        })
+        .send();
       const fetchedBatch = await proofchain.batch.getById(
         result.events.BatchCreate.batchId
       );
@@ -65,10 +69,12 @@ describe('batch', () => {
   });
   describe('burn', () => {
     it('decreases batch material quantity', async () => {
-      const result = await proofchain.batch.create({
-        materialsUuid: [materialsUuid[2], materialsUuid[3]],
-        code: '1',
-      });
+      const result = await proofchain.batch
+        .create({
+          materialsUuid: [materialsUuid[2], materialsUuid[3]],
+          code: '1',
+        })
+        .send();
       const batchId = result.events.BatchCreate.batchId;
       const oldBatch = await proofchain.batch.getById(batchId);
       await proofchain.batch.burn({
@@ -117,10 +123,12 @@ describe('batch', () => {
         })
       ).send();
       materialsUuid = mintResult.events.MaterialTransfer.map((e) => e.uuid);
-      const result = await proofchain.batch.create({
-        materialsUuid: materialsUuid,
-        code: '1',
-      });
+      const result = await proofchain.batch
+        .create({
+          materialsUuid: materialsUuid,
+          code: '1',
+        })
+        .send();
       batchId = result.events.BatchCreate.batchId;
     });
     it('removes the batch from all batches return values', async () => {

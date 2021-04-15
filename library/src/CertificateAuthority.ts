@@ -30,7 +30,10 @@ type CertificateAuthorityCertificateCreatedEvent = {
   owner: string;
   code: number;
 };
-class CertificateAuthority extends Base {
+/**
+ * Certificate authority class
+ */
+export class CertificateAuthority extends Base {
   async createCertificateAuthority({
     name,
   }: {
@@ -125,10 +128,12 @@ class CertificateAuthority extends Base {
     }
     return certificateAuthorities;
   }
-
+  /**
+   * Get the minimum allowed stake
+   * @returns Minimum stake in wei
+   */
   async minimumStake(): Promise<string> {
     await this.ensureContract();
     return this.contract.methods.minimumStake().call();
   }
 }
-export default CertificateAuthority;

@@ -9,9 +9,9 @@ import {
   Material as MaterialAbi,
   CertificateAuthorityManagerAbi,
 } from './abi';
-import Material from './Material';
-import CertificateAuthority from './CertificateAuthority';
-import Batch from './Batch';
+import { Material } from './Material';
+import { CertificateAuthority } from './CertificateAuthority';
+import { Batch } from './Batch';
 import { Transport } from './Transport';
 import { EMPTY_ADDRESS } from './utils/eth';
 

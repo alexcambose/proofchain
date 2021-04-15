@@ -21,7 +21,7 @@ const createBatch = async (proofchain: Proofchain) => {
   const result1 = await proofchain.batch.create({
     materialsUuid: [materialsUuid1[1]],
     code: '1',
-  });
+  }).send();
   return result1.events.BatchCreate.batchId;
 };
 
@@ -89,12 +89,12 @@ describe('Company - transport', () => {
     const result1 = await proofchain.batch.create({
       materialsUuid: [materialsUuid[0]],
       code: '1',
-    });
+    }).send();
     batchId = result1.events.BatchCreate.batchId;
     const result2 = await proofchain.batch.create({
       materialsUuid: [materialsUuid[1]],
       code: '1',
-    });
+    }).send()
     batchId2 = result2.events.BatchCreate.batchId;
   });
 

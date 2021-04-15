@@ -120,14 +120,18 @@ describe('material', () => {
         materialTokenId2Uuids = mintResult2.events.MaterialTransfer.map(
           (e) => e.uuid
         );
-        const createBatchResult1 = await proofchain.batch.create({
-          materialsUuid: materialTokenId1Uuids,
-          code: '1',
-        });
-        const createBatchResult2 = await proofchain.batch.create({
-          materialsUuid: materialTokenId2Uuids,
-          code: '1',
-        });
+        const createBatchResult1 = await proofchain.batch
+          .create({
+            materialsUuid: materialTokenId1Uuids,
+            code: '1',
+          })
+          .send();
+        const createBatchResult2 = await proofchain.batch
+          .create({
+            materialsUuid: materialTokenId2Uuids,
+            code: '1',
+          })
+          .send();
         batchId1 = createBatchResult1.events.BatchCreate.batchId;
         batchId2 = createBatchResult2.events.BatchCreate.batchId;
       });

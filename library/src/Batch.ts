@@ -1,54 +1,85 @@
 import Base from './Base';
 import MinedTransaction from './MinedTransaction';
+import { Transaction } from './Transaction';
 import { EMPTY_ADDRESS } from './utils/eth';
-interface IBatch {
+export interface IBatch {
+  /**
+   * Batch id
+   */
   batchId?: number;
+  /**
+   * Batch code
+   */
   code: string;
+  /**
+   * Material token that represents this batch
+   */
   materialTokenId: number;
+  /**
+   * Materials uuid that are in this match
+   */
   materialsUuid: number[];
+  /**
+   * Batch owner address
+   */
   owner?: string;
 }
-type BatchCreateEvent = {
+export type BatchCreateEvent = {
   company: string; // address
   batchId: number;
   uuids: number[];
 };
-type BatchTransferEvent = {
+export type BatchTransferEvent = {
   from: string;
   to: string;
   batchId: number;
   uuid: number;
   transportId: number;
 };
-type CreateTransactionEvents = {
+export type CreateTransactionEvents = {
   BatchCreate: BatchCreateEvent;
 };
-class Batch extends Base {
-  async create({
-    code,
-    materialsUuid,
-  }: {
+export class Batch extends Base {
+  /**
+   * Create a new batch
+   * @param options Batch create options
+   * @returns Batch create event
+   */
+  create(options: {
     code: string;
     materialsUuid: number[];
-  }): Promise<MinedTransaction<CreateTransactionEvents>> {
-    await this.ensureContract();
-    const transaction = await this.contract.methods
-      .createBatch(code, materialsUuid)
-      .send({ from: this.fromAddress, gas: 500000 });
-    return new MinedTransaction<CreateTransactionEvents>(transaction);
+  }): Transaction<CreateTransactionEvents> {
+    const { code, materialsUuid } = options;
+    const transaction = this.contract.methods.createBatch(code, materialsUuid);
+    return new Transaction<CreateTransactionEvents>(
+      transaction,
+      this.fromAddress
+    );
   }
-  async burn({
-    batchId,
-    materialsUuid,
-  }: {
-    batchId: number;
-    materialsUuid: number[];
-  }) {
-    await this.ensureContract();
-    const transaction = await this.contract.methods
-      .burnBatchTokens(batchId, materialsUuid)
-      .send({ from: this.fromAddress, gas: 300000 });
+  /**
+   * Burn batch material uuid
+   * @param options Burn options
+   * @param options.batchId The id of the batch
+   * @param options.materialsUuid The uuids of the materials to be burned
+   * @returns Burn event
+   */
+  async burn(options: { batchId: number; materialsUuid: number[] }) {
+    const { batchId, materialsUuid } = options;
+    const transaction = await this.contract.methods.burnBatchTokens(
+      batchId,
+      materialsUuid
+    );
+    return new Transaction<CreateTransactionEvents>(
+      transaction,
+      this.fromAddress
+    );
   }
+  /**
+   * Get batch by id
+   * @param batchId Batch id
+   * @param full Instead of return materials uuid, it will return the material instance details
+   * @returns Batch informations
+   */
   async getById(batchId: number, full: boolean = true): Promise<IBatch | null> {
     await this.ensureContract();
 
@@ -62,6 +93,11 @@ class Batch extends Base {
 
     return batch;
   }
+  /**
+   * Get all batch ids
+   * @param onlyExistingBatches If set to true it will return only the batches owned by "fromAddress"
+   * @returns Batch ids
+   */
   async allBatchIds(onlyExistingBatches = true): Promise<number[]> {
     await this.ensureContract();
     const createEvents = await this.getPastEvents<BatchCreateEvent>(
@@ -91,6 +127,11 @@ class Batch extends Base {
     // @ts-ignore
     return ids;
   }
+  /**
+   * Get all batches
+   * @param onlyExistingBatches If set to true it will return only the batches owned by "fromAddress"
+   * @returns Batches details
+   */
   async all(onlyExistingBatches = true) {
     await this.ensureContract();
     const batchIds = await this.allBatchIds(onlyExistingBatches);
@@ -101,21 +142,32 @@ class Batch extends Base {
     }
     return batches;
   }
+  /**
+   * Remove a batch (burn)
+   * @param batchId The id of the batch
+   * @returns
+   */
   async remove(batchId: number): Promise<any> {
     await this.ensureContract();
-    await this.contract.methods
-      .removeBatchFromAddress(batchId)
-      .send({ from: this.fromAddress, gas: 300000 });
-  }
-  async destroyBatch(
-    batchId: number
-  ): Promise<MinedTransaction<BatchTransferEvent>> {
-    await this.ensureContract();
     const transaction = await this.contract.methods
+      .removeBatchFromAddress(batchId);
+    return new Transaction(
+      transaction,
+      this.fromAddress
+    );
+  }
+  /**
+   * Destory batch and add existing materials to users balance
+   * @param batchId Target batch id
+   * 
+   */
+   destroyBatch(
+    batchId: number
+  ): Transaction<BatchTransferEvent>
+   {
+    const transaction = this.contract.methods
       .destroyBatch(batchId)
-      .send({ from: this.fromAddress, gas: 300000 });
 
-    return new MinedTransaction<BatchTransferEvent>(transaction);
+    return new Transaction<BatchTransferEvent>(transaction, this.fromAddress);
   }
 }
-export default Batch;

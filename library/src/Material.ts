@@ -129,7 +129,7 @@ export interface ICertificateAssignmentHistory {
 /**
  * Material class
  */
-class Material extends Base implements IEntity {
+export class Material extends Base implements IEntity {
   /**
    * Create a new material
    * @param options Material creation options
@@ -607,4 +607,3 @@ class Material extends Base implements IEntity {
     return certificateInstance;
   }
 }
-export default Material;
