@@ -92,7 +92,7 @@ contract Material is MaterialBase, CompanyOwnable {
      * Mints a compound material
      *
      * @param _tokenID The material token id to be minted
-     * @param _batchesID The id of the batches used
+     * @param _batchesId The id of the batches used
      * @param _batchesMaterialsUuid The amount of mateirals associated with the batch ids
      */
     function mint(
