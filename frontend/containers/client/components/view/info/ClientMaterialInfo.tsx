@@ -1,17 +1,17 @@
 import AccordionEventPanel from '@components/AccordionEventPanel';
 import LoadingSkeleton from '@components/loading/LoadingSkeleton';
+import Tabs from '@components/tab/Tabs';
 import VerticalTable from '@components/table/VerticalTable';
 import TimeIndicator from '@components/TimeIndicator';
 import TransactionLink from '@components/TransactionLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useStyletron } from 'baseui';
 import { Accordion } from 'baseui/accordion';
-import { ORIENTATION, StatefulTabs, Tab } from 'baseui/tabs-motion';
+import { ORIENTATION } from 'baseui/tabs-motion';
+import pluralize from 'pluralize';
 import proofchain from 'proofchain';
-import { EMPTY_ADDRESS } from 'proofchain-library/src/utils/eth';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import pluralize from 'pluralize';
 interface IClientMaterialInfoProps {
   historyItem: any;
 }
@@ -135,48 +135,57 @@ const ClientMaterialInfo: React.FunctionComponent<IClientMaterialInfoProps> = ({
     },
   };
   return (
-    <>
-      <StatefulTabs orientation={ORIENTATION.vertical}>
-        <Tab title="Information">
-          <VerticalTable
-            items={{
-              'Material token ID': material.materialTokenId,
-              Name: material.name,
-              Code: material.code,
-              'Amount Identifier': material.amountIdentifier,
-              Creator: material.creator,
-              Ingredients: ingredients,
-              Created: (
-                <TimeIndicator>{mintEvent.block.timestamp}</TimeIndicator>
-              ),
-              'Create Event': (
-                <TransactionLink>
-                  {mintEvent.event.transactionHash}
-                </TransactionLink>
-              ),
-            }}
-          />
-        </Tab>
-        <Tab title="History">
-          <Accordion>
-            {!historyEvents ? (
-              <LoadingSkeleton />
-            ) : (
-              historyEvents.map((historyEvent) => (
-                <AccordionEventPanel
-                  title={headerConfig[historyEvent.type].title}
-                  icon={headerConfig[historyEvent.type].icon}
-                  iconColor={headerConfig[historyEvent.type].color}
-                  timestamp={historyEvent.event.block.timestamp}
-                >
-                  {headerConfig[historyEvent.type].details(historyEvent.event)}
-                </AccordionEventPanel>
-              ))
-            )}
-          </Accordion>
-        </Tab>
-      </StatefulTabs>
-    </>
+    <Tabs
+      tabs={[
+        {
+          title: 'Information',
+          content: (
+            <VerticalTable
+              items={{
+                'Material token ID': material.materialTokenId,
+                Name: material.name,
+                Code: material.code,
+                'Amount Identifier': material.amountIdentifier,
+                Creator: material.creator,
+                Ingredients: ingredients,
+                Created: (
+                  <TimeIndicator>{mintEvent.block.timestamp}</TimeIndicator>
+                ),
+                'Create Event': (
+                  <TransactionLink>
+                    {mintEvent.event.transactionHash}
+                  </TransactionLink>
+                ),
+              }}
+            />
+          ),
+        },
+        {
+          title: 'History',
+          content: (
+            <Accordion>
+              {!historyEvents ? (
+                <LoadingSkeleton />
+              ) : (
+                historyEvents.map((historyEvent) => (
+                  <AccordionEventPanel
+                    title={headerConfig[historyEvent.type].title}
+                    icon={headerConfig[historyEvent.type].icon}
+                    iconColor={headerConfig[historyEvent.type].color}
+                    timestamp={historyEvent.event.block.timestamp}
+                  >
+                    {headerConfig[historyEvent.type].details(
+                      historyEvent.event
+                    )}
+                  </AccordionEventPanel>
+                ))
+              )}
+            </Accordion>
+          ),
+        },
+      ]}
+      orientation={ORIENTATION.vertical}
+    />
   );
 };
 

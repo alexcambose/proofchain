@@ -111,7 +111,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         </Cell>
         <Cell span={[2, 6, 10]}>
           <BreadcrumbNavigation />
-          <Block marginTop="scale400" $style={{}}>
+          <Block paddingTop="scale400" $style={{}}>
             {title && <Display4>{title}</Display4>}
             {children}
           </Block>

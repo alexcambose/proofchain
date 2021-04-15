@@ -82,7 +82,6 @@ export const refreshBalance = createAsyncThunk(
       // @ts-ignore
       user: { address },
     } = thunkApi.getState();
-    console.log(thunkApi.getState());
     const balanceInWei = await web3Instance().eth.getBalance(address);
     const balance = web3Instance().utils.fromWei(balanceInWei);
 

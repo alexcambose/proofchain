@@ -52,8 +52,7 @@ export const authCheck = (expectLoggedIn) =>
     const cookies = new Cookies(req, res);
     const authManager = new AuthManager(cookies);
     let loggedIn = authManager.isLoggedIn();
-
-    if (loggedIn) {
+    if (loggedIn && authManager.getInfo().type !== 'metamask') {
       store.dispatch(setLoggedIn(true));
       store.dispatch(setInitialData(await refreshUserInfo(authManager)));
       // after refresh user info, chech if hasEntity is set to true,

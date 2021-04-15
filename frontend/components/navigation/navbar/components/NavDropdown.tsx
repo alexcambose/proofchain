@@ -40,6 +40,13 @@ const NavDropdown: React.FunctionComponent<INavDropdownProps> = ({
   };
   return (
     <StatefulPopover
+      overrides={{
+        Body: {
+          style: ({ $theme }) => ({
+            zIndex: 2,
+          }),
+        },
+      }}
       content={({ close }) => (
         <StatefulMenu
           overrides={{

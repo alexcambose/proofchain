@@ -4,7 +4,8 @@ import '@assets/styles/style.css';
 import LoadingOverlay from '@components/loading/LoadingOverlay';
 import { setApplicationLoading } from '@store/application';
 import { fetchGasPrice } from '@store/application/actions';
-import { refreshBalance } from '@store/user/actions';
+import { setInitialData, setLoggedIn } from '@store/user';
+import { refreshBalance, refreshUserInfo } from '@store/user/actions';
 import '@styles/icons';
 import theme from '@styles/theme';
 import '@types/declarations';
@@ -37,17 +38,20 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     const { pathname } = router;
     if (!pathname.startsWith('/client')) {
-      if (loggedIn && pathname === '/login') {
-        router.push('/');
-      }
-      if (!loggedIn && pathname !== '/login') {
-        router.push('/login');
+      if (authManager.getInfo().type === 'metamask') {
+        dispatch(setLoggedIn(true));
+      } else {
+        if (loggedIn && pathname === '/login') {
+          router.push('/');
+        }
+        if (!loggedIn && pathname !== '/login') {
+          router.push('/login');
+        }
       }
       (async () => {
-        console.log(loggedIn);
         if (loggedIn) {
           dispatch(setApplicationLoading(true));
-          await initWeb3Instance(authManager.getInfo());
+          await dispatch(setInitialData(await refreshUserInfo(authManager)));
 
           await dispatch(refreshBalance());
           dispatch(setApplicationLoading(false));
@@ -56,7 +60,6 @@ function MyApp({ Component, pageProps }) {
       })();
     } else {
       (async () => {
-        console.log('if strm');
         dispatch(setApplicationLoading(true));
         await initWeb3Instance(null);
         dispatch(setApplicationLoading(false));

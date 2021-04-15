@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { StatefulTabs, Tab, ORIENTATION } from 'baseui/tabs-motion';
+import Address from '@components/Address';
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
+import Tabs from '@components/tab/Tabs';
+import VerticalTable from '@components/table/VerticalTable';
+import TimeIndicator from '@components/TimeIndicator';
+import TransactionLink from '@components/TransactionLink';
+import CertificateAssignmentDetailsTable from '@containers/certificate/components/table/CertificateAssignmentDetailsTable';
+import { ORIENTATION } from 'baseui/tabs-motion';
 import {
   ICertificate,
   ICertificateAuthority,
   ICertificateInstance,
 } from 'interface';
-
-import Address from '@components/Address';
-import VerticalTable from '@components/table/VerticalTable';
-import { StyledLink } from 'baseui/link';
-import web3Instance from 'web3Instance';
-import TimeIndicator from '@components/TimeIndicator';
-import TransactionLink from '@components/TransactionLink';
 import proofchain from 'proofchain';
-import LoadingSkeleton from '@components/loading/LoadingSkeleton';
+import React, { useEffect, useState } from 'react';
+import web3Instance from 'web3Instance';
 import CertificateHistoryAccordion from './CertificateHistoryAccordion';
-import CertificateAssignmentDetailsTable from '@containers/certificate/components/table/CertificateAssignmentDetailsTable';
-import Tabs from '@components/tab/Tabs';
+
 interface CertificateInformationTabs {
   certificateInfo: {
     certificate: ICertificate;

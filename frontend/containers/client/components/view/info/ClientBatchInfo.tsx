@@ -1,12 +1,13 @@
 import AccordionEventPanel from '@components/AccordionEventPanel';
 import LoadingSkeleton from '@components/loading/LoadingSkeleton';
+import Tabs from '@components/tab/Tabs';
 import VerticalTable from '@components/table/VerticalTable';
 import TimeIndicator from '@components/TimeIndicator';
 import TransactionLink from '@components/TransactionLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useStyletron } from 'baseui';
-import { Panel, Accordion } from 'baseui/accordion';
-import { ORIENTATION, StatefulTabs, Tab, Tabs } from 'baseui/tabs-motion';
+import { Accordion } from 'baseui/accordion';
+import { ORIENTATION } from 'baseui/tabs-motion';
 import proofchain from 'proofchain';
 import { EMPTY_ADDRESS } from 'proofchain-library/src/utils/eth';
 import * as React from 'react';
@@ -122,47 +123,56 @@ const ClientBatchInfo: React.FunctionComponent<IClientBatchInfoProps> = ({
     },
   };
   return (
-    <>
-      <StatefulTabs orientation={ORIENTATION.vertical}>
-        <Tab title="Information">
-          <VerticalTable
-            items={{
-              Id: batchInstance.batchId,
-              Code: batchInstance.code,
-              'Current owner': batchInstance.owner,
-              'Contains material': material.name,
-              'Current Materials': batchInstance.materialsUuid.join(', '),
-              Created: (
-                <TimeIndicator>{createEvent.block.timestamp}</TimeIndicator>
-              ),
-              'Create Event': (
-                <TransactionLink>
-                  {createEvent.event.transactionHash}
-                </TransactionLink>
-              ),
-            }}
-          />
-        </Tab>
-        <Tab title="History">
-          <Accordion>
-            {!historyEvents ? (
-              <LoadingSkeleton />
-            ) : (
-              historyEvents.map((historyEvent) => (
-                <AccordionEventPanel
-                  title={headerConfig[historyEvent.type].title}
-                  icon={headerConfig[historyEvent.type].icon}
-                  iconColor={headerConfig[historyEvent.type].color}
-                  timestamp={historyEvent.event.block.timestamp}
-                >
-                  {headerConfig[historyEvent.type].details(historyEvent.event)}
-                </AccordionEventPanel>
-              ))
-            )}
-          </Accordion>
-        </Tab>
-      </StatefulTabs>
-    </>
+    <Tabs
+      orientation={ORIENTATION.vertical}
+      tabs={[
+        {
+          title: 'Information',
+          content: (
+            <VerticalTable
+              items={{
+                Id: batchInstance.batchId,
+                Code: batchInstance.code,
+                'Current owner': batchInstance.owner,
+                'Contains material': material.name,
+                'Current Materials': batchInstance.materialsUuid.join(', '),
+                Created: (
+                  <TimeIndicator>{createEvent.block.timestamp}</TimeIndicator>
+                ),
+                'Create Event': (
+                  <TransactionLink>
+                    {createEvent.event.transactionHash}
+                  </TransactionLink>
+                ),
+              }}
+            />
+          ),
+        },
+        {
+          title: 'History',
+          content: (
+            <Accordion>
+              {!historyEvents ? (
+                <LoadingSkeleton />
+              ) : (
+                historyEvents.map((historyEvent) => (
+                  <AccordionEventPanel
+                    title={headerConfig[historyEvent.type].title}
+                    icon={headerConfig[historyEvent.type].icon}
+                    iconColor={headerConfig[historyEvent.type].color}
+                    timestamp={historyEvent.event.block.timestamp}
+                  >
+                    {headerConfig[historyEvent.type].details(
+                      historyEvent.event
+                    )}
+                  </AccordionEventPanel>
+                ))
+              )}
+            </Accordion>
+          ),
+        },
+      ]}
+    />
   );
 };
 

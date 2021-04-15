@@ -4,7 +4,7 @@ import uuid from 'react-uuid';
 interface ITabsProps {
   tabs: { title: string; content: React.ReactNode }[];
   orientation?: ORIENTATION[keyof ORIENTATION];
-  renderAll?: boolean;
+  [key: string]: any;
 }
 
 const Tabs: React.FunctionComponent<ITabsProps> = ({ tabs, ...props }) => {

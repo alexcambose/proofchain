@@ -6,7 +6,11 @@ import SocialButtons from './components/SocialButtons';
 import Web3 from 'web3';
 import AuthMnemonic from './components/AuthMnemonic';
 import { useDispatch } from 'react-redux';
-import { loginWithMetamask, loginWithTorus } from '@store/user/actions';
+import {
+  loginWithMetamask,
+  loginWithTorus,
+  refreshBalance,
+} from '@store/user/actions';
 import { loginWithMnemonic } from '@store/user/actions';
 import LogoSvg from '@assets/images/logo/proofchain-logo-full-dark.svg';
 import { styled } from 'baseui';
@@ -22,6 +26,7 @@ const Auth: React.FC = () => {
     } else {
       await dispatch(loginWithTorus(loginType));
     }
+    await dispatch(refreshBalance());
   };
   const onFormSubmit = async (email, password) => {
     await triggerLogin(SocialLoginTypeEnum.EMAIL_PASSWORD, {
@@ -31,6 +36,7 @@ const Auth: React.FC = () => {
   };
   const onMnemonicSubmit = async (mnemonic, derivationPath) => {
     await dispatch(loginWithMnemonic({ mnemonic, derivationPath }));
+    await dispatch(refreshBalance());
   };
   return (
     <>

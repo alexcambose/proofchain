@@ -23,7 +23,9 @@ const Header = styled('div', ({ $theme }) => ({
   color: $theme.colors.primaryB,
   ...$theme.typography.LabelMedium,
 }));
-const Title = styled('div', ({ $theme }) => ({}));
+const Title = styled('div', ({ $theme }) => ({
+  cursor: 'default',
+}));
 const TitleIcon = styled('span', ({ $theme }) => ({
   color: $theme.colors.primaryB,
   cursor: 'move',
