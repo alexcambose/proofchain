@@ -79,8 +79,7 @@ const CreateTransportEventForm: React.FunctionComponent<ICreateTransportEventFor
   }, [transportStatus]);
   const onSubmit = async () => {
     setIsLoading(true);
-    const result = await transactionWrapper(() =>
-      proofchain().transport.setTransportStatus({
+    const result = await transactionWrapper(proofchain().transport.setTransportStatus({
         transportId,
         status: value.id,
       })

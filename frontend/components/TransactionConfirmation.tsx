@@ -7,9 +7,12 @@ import { useState } from 'react';
 const MySwal = withReactContent(Swal);
 const Info = ({ gasPrice, setGasPrice, gasUsed }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [internalGasPrice, setInternalGasPrice] = useState<number>(gasPrice);
+  const [internalGasPrice, setInternalGasPrice] = useState(gasPrice);
   const onChange = (e) => {
-    const value = e.target.value;
+    let valueNumber = Number(e.target.value);
+    valueNumber = Math.min(9999, Math.max(1, valueNumber));
+
+    const value = String(valueNumber) || '0';
     setGasPrice(value);
     setInternalGasPrice(value);
   };
@@ -43,6 +46,7 @@ const Info = ({ gasPrice, setGasPrice, gasUsed }) => {
             type="number"
             placeholder="Gas price"
             min="1"
+            max="1000"
             value={internalGasPrice}
             onChange={onChange}
           />

@@ -110,8 +110,8 @@ export const mintMaterial = createAsyncThunk(
     fromBatchId?: number[];
     fromBatchMaterialsUuid?: number[][];
   }) => {
-    await transactionWrapper(() =>
-      proofchain().material.mint({
+    await transactionWrapper(
+      await proofchain().material.mint({
         materialTokenId,
         amount,
         fromBatchId,
@@ -153,10 +153,9 @@ export const fetchMaterialInfoCertificates = createAsyncThunk(
         certificateInstance,
         certificateAuthority,
         assignEvent: assignEvents[0],
-        // @ts-ignore
-        assignTimestamp: (
-          await web3Instance().eth.getBlock(assignEvents[0].blockNumber)
-        ).timestamp,
+        assignTimestamp: // @ts-ignore
+        (await web3Instance().eth.getBlock(assignEvents[0].blockNumber))
+          .timestamp,
       });
     }
     return { certificates };

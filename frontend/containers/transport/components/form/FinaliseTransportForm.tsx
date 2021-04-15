@@ -69,7 +69,7 @@ const FinaliseTransportForm = withFormik<
     return errors;
   },
   handleSubmit: async (values, { props }) => {
-    const result = await transactionWrapper(() =>
+    const result = await transactionWrapper(
       proofchain().transport.finaliseTransport({
         transportId: props.transport.transportId,
         password: values.password,

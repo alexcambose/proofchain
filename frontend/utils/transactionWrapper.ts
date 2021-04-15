@@ -1,17 +1,15 @@
 import transactionToast from '@components/toast/transactionToast';
 import TransactionConfirmation from '@components/TransactionConfirmation';
 import { toaster } from 'baseui/toast';
-const transactionWrapper = async (callback) => {
+const transactionWrapper = async (transaction) => {
   let result;
   try {
-    const gas = await callback.estimateGas();
+    const gas = await transaction.estimateGas();
 
     const gasPrice = await TransactionConfirmation(gas);
-    console.log(gasPrice);
-    callback.setGasPrice(gasPrice);
-    return;
+    transaction.setGasPrice(gasPrice);
     if (gasPrice) {
-      result = await callback.send();
+      result = await transaction.send();
       console.log(result);
     } else {
       return;

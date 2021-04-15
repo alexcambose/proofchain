@@ -43,7 +43,7 @@ export const createCertificate = createAsyncThunk(
     type: CertificateTypeEnum;
   }) => {
     console.log(name, description);
-    const result = await transactionWrapper(() =>
+    const result = await transactionWrapper(
       proofchain().certificateAuthority.createCertificate({
         name,
         description,
@@ -68,7 +68,7 @@ export const assignCertificate = createAsyncThunk(
     console.log(
       `Assigning certificate ${code} to materialTokenId: ${materialTokenId} with stake ${stake}`
     );
-    const result = await transactionWrapper(() =>
+    const result = await transactionWrapper(
       proofchain().material.assignCertificate({
         materialTokenId,
         certificateCode: code,
@@ -127,7 +127,7 @@ export const cancelCertificate = createAsyncThunk(
     certificateCode: number;
     materialTokenId: number;
   }) => {
-    await transactionWrapper(() =>
+    await transactionWrapper(
       proofchain().material.cancelCertificate({
         certificateCode,
         materialTokenId,

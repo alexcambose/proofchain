@@ -18,7 +18,7 @@ const DestroyBatchButton: React.FunctionComponent<IDestroyBatchButtonProps> = ({
   const onDestroyBatchClick = async () => {
     setIsLoading(true);
 
-    const result = await transactionWrapper(() =>
+    const result = await transactionWrapper(
       proofchain().batch.destroyBatch(batchId)
     );
     if (result) {

@@ -15,7 +15,9 @@ const getTransports = async (props = {}) => {
             sender: e.sender,
             receiver: e.receiver,
           })
-        ).find((event) => event.returnValues.transportId === e.transportId),
+        )
+          //@ts-ignore
+          .find((event) => event.returnValues.transportId === e.transportId),
       },
     }))
   );
@@ -55,7 +57,7 @@ export const createTransport = createAsyncThunk(
     batchIds: number[];
     password?: string;
   }) => {
-    const result = await transactionWrapper(() =>
+    const result = await transactionWrapper(
       proofchain().transport.initiate({
         receiver,
         transportCompany,
