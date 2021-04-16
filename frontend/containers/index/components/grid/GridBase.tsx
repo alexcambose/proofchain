@@ -1,3 +1,4 @@
+import { CompanyEntityTypeEnum, EntityTypeEnum } from '@enums';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'baseui';
 import { Card, StyledAction } from 'baseui/card';
@@ -9,6 +10,7 @@ interface IGridBaseProps {
   title?: React.ReactNode;
   icon?: React.ReactNode;
   isLoading?: boolean;
+  isDisabled?: boolean;
 }
 const Header = styled('div', ({ $theme }) => ({
   marginLeft: `-1px`,
@@ -23,15 +25,18 @@ const Header = styled('div', ({ $theme }) => ({
   color: $theme.colors.primaryB,
   ...$theme.typography.LabelMedium,
 }));
+
 const Title = styled('div', ({ $theme }) => ({
   cursor: 'default',
 }));
+
 const TitleIcon = styled('span', ({ $theme }) => ({
   color: $theme.colors.primaryB,
   cursor: 'move',
   opacity: 0.5,
   marginRight: $theme.sizing.scale300,
 }));
+
 const IconContainer = styled('div', ({ $theme }) => ({
   // background: $theme.colors.backgroundTertiary,
   height: '100%',
@@ -41,6 +46,7 @@ const IconContainer = styled('div', ({ $theme }) => ({
   justifyContent: 'center',
   ...$theme.typography.DisplayMedium,
 }));
+
 const HeaderActions = styled('div', ({ $theme }) => ({}));
 const BodyContents = styled('div', ({ $theme }) => ({
   flex: 2,
@@ -50,17 +56,40 @@ const BodyContents = styled('div', ({ $theme }) => ({
   justifyContent: 'center',
   flexDirection: 'column',
 }));
-const StyledBody = styled('div', ({ $theme }) => ({
+
+const StyledBody = styled('div', ({ $theme, isDisabled }) => ({
   display: 'flex',
   height: '100%',
   alignItems: 'center',
   justifyContent: 'center',
+  background: isDisabled && $theme.colors.backgroundTertiary,
 }));
+
+export const shouldBeDisabled = (
+  cardType,
+  companyType: CompanyEntityTypeEnum,
+  entityType: EntityTypeEnum
+) => {
+  if (
+    ['material', 'raw material', 'batch', 'transport'].indexOf(cardType) !==
+      -1 &&
+    entityType === EntityTypeEnum.CERTIFICATE_AUTHORITY
+  )
+    return true;
+  if (
+    ['material', 'raw material', 'batch'].indexOf(cardType) !== -1 &&
+    companyType === CompanyEntityTypeEnum.LOGISTIC
+  )
+    return true;
+  return false;
+};
+
 const GridBase: React.FC<IGridBaseProps> = ({
   title,
   children,
   icon,
   isLoading,
+  isDisabled,
 }) => {
   return (
     <Card
@@ -83,7 +112,8 @@ const GridBase: React.FC<IGridBaseProps> = ({
           style: ({ $theme }) => ({
             height: '100%',
             transition: $theme.animation.timing200,
-
+            filter: isDisabled && `brightness(40%)`,
+            opacity: isDisabled && 0.5,
             [':active']: {
               boxShadow: $theme.lighting.shadow700,
               opacity: '0.95',
@@ -108,7 +138,7 @@ const GridBase: React.FC<IGridBaseProps> = ({
       }}
       title={title}
     >
-      <StyledBody>
+      <StyledBody isDisabled={isDisabled}>
         {isLoading ? (
           <Spinner />
         ) : (

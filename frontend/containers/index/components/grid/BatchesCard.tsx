@@ -1,10 +1,12 @@
 import CenteredContainer from '@components/layout/CenteredContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { State } from '@store/index';
 import pluralize from 'pluralize';
 import proofchain from 'proofchain';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import GridBase from './GridBase';
+import { useSelector, useStore } from 'react-redux';
+import GridBase, { shouldBeDisabled } from './GridBase';
 
 interface IBatchCardProps {}
 export const gridConfig = {
@@ -17,17 +19,26 @@ export const gridConfig = {
   minH: 4,
 };
 const BatchCard: React.FunctionComponent<IBatchCardProps> = (props) => {
+  const user = useSelector((state: State) => state.user);
+  const isDisabled = shouldBeDisabled(
+    'batch',
+    user.companyEntityType,
+    user.entityType
+  );
   const [batches, setBatches] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
+      if (isDisabled) return;
       setIsLoading(true);
+
       setBatches(await proofchain().batch.all());
       setIsLoading(false);
     })();
   }, []);
   return (
     <GridBase
+      isDisabled={isDisabled}
       title="Batches"
       icon={<FontAwesomeIcon icon="boxes" />}
       isLoading={isLoading}

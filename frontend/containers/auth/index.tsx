@@ -26,7 +26,6 @@ const Auth: React.FC = () => {
     } else {
       await dispatch(loginWithTorus(loginType));
     }
-    await dispatch(refreshBalance());
   };
   const onFormSubmit = async (email, password) => {
     await triggerLogin(SocialLoginTypeEnum.EMAIL_PASSWORD, {
@@ -36,7 +35,6 @@ const Auth: React.FC = () => {
   };
   const onMnemonicSubmit = async (mnemonic, derivationPath) => {
     await dispatch(loginWithMnemonic({ mnemonic, derivationPath }));
-    await dispatch(refreshBalance());
   };
   return (
     <>

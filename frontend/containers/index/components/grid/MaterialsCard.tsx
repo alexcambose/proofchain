@@ -1,10 +1,12 @@
 import CenteredContainer from '@components/layout/CenteredContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { State } from '@store/index';
 import pluralize from 'pluralize';
 import proofchain from 'proofchain';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import GridBase from './GridBase';
+import { useSelector } from 'react-redux';
+import GridBase, { shouldBeDisabled } from './GridBase';
 
 interface IMaterialCardProps {}
 export const gridConfig = {
@@ -17,10 +19,17 @@ export const gridConfig = {
   minH: 4,
 };
 const MaterialCard: React.FunctionComponent<IMaterialCardProps> = (props) => {
+  const user = useSelector((state: State) => state.user);
+  const isDisabled = shouldBeDisabled(
+    'material',
+    user.companyEntityType,
+    user.entityType
+  );
   const [materials, setMaterials] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
+      if (isDisabled) return;
       setIsLoading(true);
       setMaterials(await proofchain().material.all({ onlyMaterials: true }));
       setIsLoading(false);
@@ -28,6 +37,7 @@ const MaterialCard: React.FunctionComponent<IMaterialCardProps> = (props) => {
   }, []);
   return (
     <GridBase
+      isDisabled={isDisabled}
       title="Materials"
       icon={<FontAwesomeIcon icon="dot-circle" />}
       isLoading={isLoading}

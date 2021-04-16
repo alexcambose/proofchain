@@ -6,7 +6,7 @@ import { styled, useStyletron } from 'baseui';
 import { Display4, Label3 } from 'baseui/typography';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import GridBase from './GridBase';
+import GridBase, { shouldBeDisabled } from './GridBase';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 
@@ -59,8 +59,9 @@ const headerLabel = (user: IUser) => {
 const CompanyOverviewCard: React.FunctionComponent<ICompanyOverviewCardProps> = (
   props
 ) => {
-  const [css, theme] = useStyletron();
   const user = useSelector((state: State) => state.user);
+
+  const [css, theme] = useStyletron();
   if (!user.address) return <LoadingSkeleton />;
   return (
     <GridBase title="About you">

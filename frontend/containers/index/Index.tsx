@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
 import BatchesCard, {
   gridConfig as BatchesCardConfig,
@@ -21,7 +21,7 @@ import CompanyOverviewCard, {
 import NetworkCard, {
   gridConfig as NetworkCardConfig,
 } from './components/grid/NetworkCard';
-const layouts = {
+const defaultLayouts = {
   lg: [
     CompanyOverviewCardGridConfig,
     BalanceCardConfig,
@@ -32,7 +32,33 @@ const layouts = {
     NetworkCardConfig,
   ],
 };
+
+function getFromLS(key) {
+  let ls = {};
+  if (global.localStorage) {
+    try {
+      ls = JSON.parse(global.localStorage.getItem('rgl-8')) || {};
+    } catch (e) {
+      /*Ignore*/
+    }
+  }
+  return ls[key];
+}
+
+function saveToLS(key, value) {
+  if (global.localStorage) {
+    global.localStorage.setItem(
+      'rgl-8',
+      JSON.stringify({
+        [key]: value,
+      })
+    );
+  }
+}
+
 const Index = () => {
+  const [layouts, setLayouts] = useState(getFromLS('layout') || defaultLayouts);
+
   return (
     <>
       <ResponsiveGridLayout
@@ -43,6 +69,10 @@ const Index = () => {
         width={1200}
         items={20}
         rowHeight={30}
+        onLayoutChange={(layout, layouts) => {
+          saveToLS('layout', layouts);
+          setLayouts(layouts);
+        }}
       >
         <div key={CompanyOverviewCardGridConfig.i}>
           <CompanyOverviewCard />

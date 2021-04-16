@@ -25,16 +25,19 @@ const LastRefresh = styled(Paragraph4, ({ $theme }) => ({
   fontSize: '10px',
 }));
 const BalanceCard: React.FunctionComponent<IBalanceCardProps> = (props) => {
-  const user = useSelector((state: State) => state.user);
+  const [balance, lastBalanceRefresh] = useSelector((state: State) => [
+    state.user.balance,
+    state.user.lastBalanceRefresh,
+  ]);
   return (
     <GridBase
       title="Balance"
       icon={<FontAwesomeIcon icon={['fab', 'ethereum']} />}
     >
       <CenteredContainer>
-        {user.balance} ETH
+        {balance} ETH
         <LastRefresh>
-          Updated <TimeIndicator>{user.lastBalanceRefresh}</TimeIndicator>
+          Updated <TimeIndicator>{Number(lastBalanceRefresh)}</TimeIndicator>
         </LastRefresh>
       </CenteredContainer>
     </GridBase>

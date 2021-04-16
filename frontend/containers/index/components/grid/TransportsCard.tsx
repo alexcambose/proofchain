@@ -1,10 +1,12 @@
 import CenteredContainer from '@components/layout/CenteredContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { State } from '@store/index';
 import pluralize from 'pluralize';
 import proofchain from 'proofchain';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import GridBase from './GridBase';
+import { useSelector } from 'react-redux';
+import GridBase, { shouldBeDisabled } from './GridBase';
 
 interface ITransportCardProps {}
 export const gridConfig = {
@@ -17,10 +19,18 @@ export const gridConfig = {
   minH: 4,
 };
 const TransportCard: React.FunctionComponent<ITransportCardProps> = (props) => {
+  const user = useSelector((state: State) => state.user);
+
+  const isDisabled = shouldBeDisabled(
+    'material',
+    user.companyEntityType,
+    user.entityType
+  );
   const [transports, setTransports] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     (async () => {
+      if (isDisabled) return;
       setIsLoading(true);
       setTransports(await proofchain().transport.all());
       setIsLoading(false);
@@ -28,6 +38,7 @@ const TransportCard: React.FunctionComponent<ITransportCardProps> = (props) => {
   }, []);
   return (
     <GridBase
+      isDisabled={isDisabled}
       title="Transports"
       icon={<FontAwesomeIcon icon="truck" />}
       isLoading={isLoading}

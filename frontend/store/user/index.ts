@@ -46,7 +46,10 @@ export const UserSlice = createSlice({
       if (payload[UserSlice.name]['address']) {
         console.log(payloadToHydrate);
 
-        for (let key in omit(payloadToHydrate, ['balance'])) {
+        for (let key in omit(payloadToHydrate, [
+          'balance',
+          'lastBalanceRefresh',
+        ])) {
           state[key] = payload[UserSlice.name][key];
         }
       }
@@ -83,7 +86,7 @@ export const UserSlice = createSlice({
     });
     builder.addCase(refreshBalance.fulfilled, (state, { payload }) => {
       state.balance = payload.balance;
-      state.lastBalanceRefresh = payload.lastRefresh;
+      state.lastBalanceRefresh = payload.lastBalanceRefresh;
       state.loadingBalance = false;
     });
     builder.addCase(refreshBalance.pending, (state, { payload }) => {

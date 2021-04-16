@@ -33,6 +33,7 @@ export const refreshUserInfo = async (authManager = AuthManager) => {
     companyEntityType: hasCompany && company.entityType,
   };
 };
+
 export const loginWithMetamask = createAsyncThunk(
   'users/loginWithMetamask',
   async () => {
@@ -40,6 +41,7 @@ export const loginWithMetamask = createAsyncThunk(
     return;
   }
 );
+
 export const loginWithTorus = createAsyncThunk(
   'users/loginWithTorus',
   // Declare the type your function argument here:
@@ -48,6 +50,7 @@ export const loginWithTorus = createAsyncThunk(
     return result;
   }
 );
+
 export const loginWithMnemonic = createAsyncThunk(
   'users/loginWithMnemonic',
   // Declare the type your function argument here:
@@ -82,9 +85,10 @@ export const refreshBalance = createAsyncThunk(
       // @ts-ignore
       user: { address },
     } = thunkApi.getState();
+    console.log(thunkApi.getState());
     const balanceInWei = await web3Instance().eth.getBalance(address);
     const balance = web3Instance().utils.fromWei(balanceInWei);
 
-    return { balance, lastRefresh: dayjs().unix() };
+    return { balance, lastBalanceRefresh: dayjs().unix() };
   }
 );

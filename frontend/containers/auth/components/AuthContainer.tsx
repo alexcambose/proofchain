@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Card, StyledBody, StyledAction } from 'baseui/card';
+import { StyledBody, StyledAction } from 'baseui/card';
 import { Block } from 'baseui/block';
 import TooltipIcon from '@components/icon/TooltipIcon';
 import SecurityIcon from '@assets/images/icons/security.svg';
+import Card from '@components/Card';
 interface AuthContainerProps {
   formElement?: React.ReactNode;
   socialLoginElement?: React.ReactNode;

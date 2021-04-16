@@ -4,7 +4,7 @@ import { merge } from 'lodash';
 export default merge(
   {
     colors: {
-      // primaryA: '#07335E',
+      primaryA: '#07335E',
     },
   },
   LightTheme
