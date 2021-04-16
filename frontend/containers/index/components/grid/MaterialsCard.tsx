@@ -11,12 +11,22 @@ import GridBase, { shouldBeDisabled } from './GridBase';
 interface IMaterialCardProps {}
 export const gridConfig = {
   i: 'Material Card',
-  x: 2,
-  y: 0,
-  w: 2,
-  h: 4,
-  minW: 2,
-  minH: 4,
+  lg: {
+    x: 2,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
+  md: {
+    x: 2,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
 };
 const MaterialCard: React.FunctionComponent<IMaterialCardProps> = (props) => {
   const user = useSelector((state: State) => state.user);

@@ -11,12 +11,22 @@ import GridBase from './GridBase';
 interface IBalanceCardProps {}
 export const gridConfig = {
   i: 'Balance Card',
-  x: 8,
-  y: 0,
-  w: 2,
-  h: 4,
-  minW: 2,
-  minH: 4,
+  lg: {
+    x: 8,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
+  md: {
+    x: 8,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
 };
 const LastRefresh = styled(Paragraph4, ({ $theme }) => ({
   marginTop: $theme.sizing.scale100,

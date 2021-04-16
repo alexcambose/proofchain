@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+const ResponsiveGridLayout = WidthProvider(Responsive);
 import BatchesCard, {
   gridConfig as BatchesCardConfig,
 } from './components/grid/BatchesCard';
@@ -23,13 +24,22 @@ import NetworkCard, {
 } from './components/grid/NetworkCard';
 const defaultLayouts = {
   lg: [
-    CompanyOverviewCardGridConfig,
-    BalanceCardConfig,
-    MaterialsCardConfig,
-    RawMaterialsCardConfig,
-    BatchesCardConfig,
-    TransportsCardConfig,
-    NetworkCardConfig,
+    CompanyOverviewCardGridConfig.lg,
+    BalanceCardConfig.lg,
+    MaterialsCardConfig.lg,
+    RawMaterialsCardConfig.lg,
+    BatchesCardConfig.lg,
+    TransportsCardConfig.lg,
+    NetworkCardConfig.lg,
+  ],
+  md: [
+    CompanyOverviewCardGridConfig.md,
+    BalanceCardConfig.md,
+    MaterialsCardConfig.md,
+    RawMaterialsCardConfig.md,
+    BatchesCardConfig.md,
+    TransportsCardConfig.md,
+    NetworkCardConfig.md,
   ],
 };
 
@@ -42,6 +52,7 @@ function getFromLS(key) {
       /*Ignore*/
     }
   }
+  console.log(ls[key]);
   return ls[key];
 }
 
@@ -57,7 +68,8 @@ function saveToLS(key, value) {
 }
 
 const Index = () => {
-  const [layouts, setLayouts] = useState(getFromLS('layout') || defaultLayouts);
+  // getFromLS('layout') ||
+  const [layouts, setLayouts] = useState(defaultLayouts);
 
   return (
     <>

@@ -13,12 +13,22 @@ import GridBase from './GridBase';
 interface INetworkCardProps {}
 export const gridConfig = {
   i: 'Network Card',
-  x: 8,
-  y: 0,
-  w: 2,
-  h: 4,
-  minW: 2,
-  minH: 4,
+  lg: {
+    x: 8,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
+  md: {
+    x: 8,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
 };
 const List = styled('ul', {
   padding: 0,

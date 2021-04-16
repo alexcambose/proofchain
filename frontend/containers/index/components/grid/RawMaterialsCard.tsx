@@ -11,12 +11,22 @@ import GridBase, { shouldBeDisabled } from './GridBase';
 interface IRawMaterialCardProps {}
 export const gridConfig = {
   i: 'Raw Material Card',
-  x: 0,
-  y: 0,
-  w: 2,
-  h: 4,
-  minW: 2,
-  minH: 4,
+  lg: {
+    x: 0,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
+  md: {
+    x: 0,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
 };
 const RawMaterialCard: React.FunctionComponent<IRawMaterialCardProps> = (
   props

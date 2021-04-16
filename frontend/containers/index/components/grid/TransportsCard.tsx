@@ -11,12 +11,22 @@ import GridBase, { shouldBeDisabled } from './GridBase';
 interface ITransportCardProps {}
 export const gridConfig = {
   i: 'Transport Card',
-  x: 6,
-  y: 0,
-  w: 2,
-  h: 4,
-  minW: 2,
-  minH: 4,
+  lg: {
+    x: 6,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
+  md: {
+    x: 6,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
 };
 const TransportCard: React.FunctionComponent<ITransportCardProps> = (props) => {
   const user = useSelector((state: State) => state.user);

@@ -11,12 +11,22 @@ import GridBase, { shouldBeDisabled } from './GridBase';
 interface IBatchCardProps {}
 export const gridConfig = {
   i: 'Batch Card',
-  x: 4,
-  y: 0,
-  w: 2,
-  h: 4,
-  minW: 2,
-  minH: 4,
+  lg: {
+    x: 4,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
+  md: {
+    x: 4,
+    y: 0,
+    w: 2,
+    h: 4,
+    minW: 2,
+    minH: 4,
+  },
 };
 const BatchCard: React.FunctionComponent<IBatchCardProps> = (props) => {
   const user = useSelector((state: State) => state.user);

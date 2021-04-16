@@ -44,7 +44,7 @@ const IconContainer = styled('div', ({ $theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  ...$theme.typography.DisplayMedium,
+  ...$theme.typography.DisplaySmall,
 }));
 
 const HeaderActions = styled('div', ({ $theme }) => ({}));
