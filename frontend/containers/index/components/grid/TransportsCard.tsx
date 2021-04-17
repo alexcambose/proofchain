@@ -12,6 +12,8 @@ interface ITransportCardProps {}
 export const gridConfig = {
   i: 'Transport Card',
   lg: {
+    i: 'Transport Card',
+
     x: 6,
     y: 0,
     w: 2,
@@ -20,6 +22,8 @@ export const gridConfig = {
     minH: 4,
   },
   md: {
+    i: 'Transport Card',
+
     x: 6,
     y: 0,
     w: 2,

@@ -55,7 +55,7 @@ function MyApp({ Component, pageProps }) {
 
           await dispatch(refreshBalance());
           dispatch(setApplicationLoading(false));
-          dispatch(fetchGasPrice());
+          // dispatch(fetchGasPrice());
         }
       })();
     } else {

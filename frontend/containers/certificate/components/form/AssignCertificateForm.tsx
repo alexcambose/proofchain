@@ -15,26 +15,28 @@ interface AssignCertificateFormProps
   minimumStake: string;
   onSuccess?: () => void;
   certificateCode: string;
+  isCompany?: boolean;
 }
 interface FormValues {
-  materialTokenId: string;
+  materialTokenId?: string;
+  companyAddress?: string;
   stake: string;
   code: string;
 }
 const _AssignCertificateForm: React.FC<
   AssignCertificateFormProps & FormikProps<FormValues>
 > = (props) => {
-  const { isSubmitting, values, minimumStake, setFieldValue } = props;
+  const {
+    isSubmitting,
+    values,
+    minimumStake,
+    setFieldValue,
+    isCompany,
+  } = props;
   useEffect(() => {
-    setFieldValue(
-      'stake',
-      web3Instance().utils.fromWei(minimumStake || '0', 'ether')
-    );
+    setFieldValue('stake', web3Instance().utils.fromWei(minimumStake, 'ether'));
   }, [minimumStake]);
-  const minimumStakeEth = web3Instance().utils.fromWei(
-    values.stake || '0',
-    'ether'
-  );
+  const minimumStakeEth = web3Instance().utils.fromWei(minimumStake, 'ether');
   return (
     <Form>
       <Field
@@ -44,13 +46,23 @@ const _AssignCertificateForm: React.FC<
         label="Certificate code"
         caption="Code for the certificate you want to assign"
       />
-      <Field
-        name="materialTokenId"
-        type="text"
-        placeholder="Material Id"
-        label="Material id"
-        caption="Mateirial id to assign the certificate"
-      />
+      {isCompany ? (
+        <Field
+          name="companyAddress"
+          type="text"
+          placeholder="Company Address"
+          label="Company Address"
+          caption="Company address to assign the certificate"
+        />
+      ) : (
+        <Field
+          name="materialTokenId"
+          type="text"
+          placeholder="Material Id"
+          label="Material id"
+          caption="Mateirial id to assign the certificate"
+        />
+      )}
       <Field
         name="stake"
         type="number"
@@ -81,11 +93,20 @@ const AssignCertificateForm = withFormik<
     };
   },
 
-  validationSchema: yup.object().shape({
-    code: validation.certificateCode,
-    materialTokenId: validation.materialTokenId,
-    stake: validation.stake,
-  }),
+  validationSchema: (props) =>
+    yup.object().shape(
+      props.isCompany
+        ? {
+            code: validation.certificateCode,
+            companyAddress: validation.companyAddress,
+            stake: validation.stake,
+          }
+        : {
+            code: validation.certificateCode,
+            materialTokenId: validation.materialTokenId,
+            stake: validation.stake,
+          }
+    ),
   handleSubmit: async (values, { props }) => {
     const { assignCertificate, onSuccess } = props;
     console.log(values);

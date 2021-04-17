@@ -12,6 +12,8 @@ interface IRawMaterialCardProps {}
 export const gridConfig = {
   i: 'Raw Material Card',
   lg: {
+    i: 'Raw Material Card',
+
     x: 0,
     y: 0,
     w: 2,
@@ -20,6 +22,8 @@ export const gridConfig = {
     minH: 4,
   },
   md: {
+    i: 'Raw Material Card',
+
     x: 0,
     y: 0,
     w: 2,

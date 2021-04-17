@@ -12,6 +12,8 @@ interface IMaterialCardProps {}
 export const gridConfig = {
   i: 'Material Card',
   lg: {
+    i: 'Material Card',
+
     x: 2,
     y: 0,
     w: 2,
@@ -20,6 +22,8 @@ export const gridConfig = {
     minH: 4,
   },
   md: {
+    i: 'Material Card',
+
     x: 2,
     y: 0,
     w: 2,

@@ -51,6 +51,10 @@ const companyItems = [
       },
     ],
   },
+  {
+    title: 'Certificates',
+    itemId: '/certificate',
+  },
 ];
 const certificateAuthorityItems = [
   {

@@ -112,8 +112,8 @@ const GridBase: React.FC<IGridBaseProps> = ({
           style: ({ $theme }) => ({
             height: '100%',
             transition: $theme.animation.timing200,
-            filter: isDisabled && `brightness(40%)`,
-            opacity: isDisabled && 0.5,
+            filter: isDisabled ? `brightness(40%)` : `brightness(100%)`,
+            opacity: isDisabled ? 0.5 : 1,
             [':active']: {
               boxShadow: $theme.lighting.shadow700,
               opacity: '0.95',
@@ -138,7 +138,7 @@ const GridBase: React.FC<IGridBaseProps> = ({
       }}
       title={title}
     >
-      <StyledBody isDisabled={isDisabled}>
+      <StyledBody $isDisabled={isDisabled}>
         {isLoading ? (
           <Spinner />
         ) : (

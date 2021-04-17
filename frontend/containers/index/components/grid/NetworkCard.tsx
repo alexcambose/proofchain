@@ -14,6 +14,8 @@ interface INetworkCardProps {}
 export const gridConfig = {
   i: 'Network Card',
   lg: {
+    i: 'Network Card',
+
     x: 8,
     y: 0,
     w: 2,
@@ -22,6 +24,8 @@ export const gridConfig = {
     minH: 4,
   },
   md: {
+    i: 'Network Card',
+
     x: 8,
     y: 0,
     w: 2,

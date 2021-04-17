@@ -12,6 +12,8 @@ interface IBalanceCardProps {}
 export const gridConfig = {
   i: 'Balance Card',
   lg: {
+    i: 'Balance Card',
+
     x: 8,
     y: 0,
     w: 2,
@@ -20,6 +22,8 @@ export const gridConfig = {
     minH: 4,
   },
   md: {
+    i: 'Balance Card',
+
     x: 8,
     y: 0,
     w: 2,

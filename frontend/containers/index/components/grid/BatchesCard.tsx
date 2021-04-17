@@ -12,6 +12,7 @@ interface IBatchCardProps {}
 export const gridConfig = {
   i: 'Batch Card',
   lg: {
+    i: 'Batch Card',
     x: 4,
     y: 0,
     w: 2,
@@ -19,7 +20,8 @@ export const gridConfig = {
     minW: 2,
     minH: 4,
   },
-  md: {
+md: {
+    i: 'Batch Card',
     x: 4,
     y: 0,
     w: 2,

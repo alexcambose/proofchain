@@ -58,23 +58,38 @@ export const assignCertificate = createAsyncThunk(
   'certificate/asignCertficate',
   async ({
     materialTokenId,
+    companyAddress,
     code,
     stake,
   }: {
-    materialTokenId: number;
+    materialTokenId?: number;
+    companyAddress?: string;
     code: number;
     stake;
   }) => {
-    console.log(
-      `Assigning certificate ${code} to materialTokenId: ${materialTokenId} with stake ${stake}`
-    );
-    const result = await transactionWrapper(
-      proofchain().material.assignCertificate({
-        materialTokenId,
-        certificateCode: code,
-        stake,
-      })
-    );
+    if (companyAddress) {
+      console.log(
+        `Assigning certificate ${code} to materialTokenId: ${materialTokenId} with stake ${stake}`
+      );
+      await transactionWrapper(
+        proofchain().company.assignCertificate({
+          companyAddress,
+          certificateCode: code,
+          stake,
+        })
+      );
+    } else if (materialTokenId) {
+      console.log(
+        `Assigning certificate ${code} to compay address: ${materialTokenId} with stake ${stake}`
+      );
+      await transactionWrapper(
+        proofchain().material.assignCertificate({
+          materialTokenId,
+          certificateCode: code,
+          stake,
+        })
+      );
+    }
 
     // return { batches };
   }
@@ -107,9 +122,10 @@ export const fetchCertificateInfo = createAsyncThunk(
           material,
           certificateInstance,
           assignEvent,
-          assignTime: // @ts-ignore
-          (await web3Instance().eth.getBlock(assignEvent.blockNumber))
-            .timestamp,
+          // @ts-ignore
+          assignTime: (
+            await web3Instance().eth.getBlock(assignEvent.blockNumber)
+          ).timestamp,
         });
       }
       return { certificate, additionalInfo };

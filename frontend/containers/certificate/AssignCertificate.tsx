@@ -2,9 +2,11 @@ import { State } from '@store/index';
 import { fetchMinimumStake } from '@store/certificate/actions';
 import { stat } from 'fs';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AssignCertificateForm from './components/form/AssignCertificateForm';
+import Tabs from '@components/tab/Tabs';
+import { ORIENTATION } from 'baseui/tabs-motion';
 
 const AssignCertificate = () => {
   const router = useRouter();
@@ -21,10 +23,31 @@ const AssignCertificate = () => {
 
   return (
     <>
-      <AssignCertificateForm
-        certificateCode={router.query.certificateCode as string}
-        minimumStake={minimumStake}
-        onSuccess={onSucess}
+      <Tabs
+        orientation={ORIENTATION.vertical}
+        tabs={[
+          {
+            title: 'Company',
+            content: (
+              <AssignCertificateForm
+                isCompany
+                certificateCode={router.query.certificateCode as string}
+                minimumStake={minimumStake}
+                onSuccess={onSucess}
+              />
+            ),
+          },
+          {
+            title: 'Material',
+            content: (
+              <AssignCertificateForm
+                certificateCode={router.query.certificateCode as string}
+                minimumStake={minimumStake}
+                onSuccess={onSucess}
+              />
+            ),
+          },
+        ]}
       />
     </>
   );

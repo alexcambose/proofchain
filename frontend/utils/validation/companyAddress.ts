@@ -6,5 +6,6 @@ export default Yup.string()
   .trim()
   .test('company', 'Company does not exist', async (value) => {
     if (!web3Instance().utils.isAddress(value)) return false;
+    console.log(await proofchain().company.hasCompany(value));
     return await proofchain().company.hasCompany(value);
   });

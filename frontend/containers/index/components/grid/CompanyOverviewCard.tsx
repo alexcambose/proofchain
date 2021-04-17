@@ -14,6 +14,7 @@ interface ICompanyOverviewCardProps {}
 export const gridConfig = {
   i: 'CompanyOverviewCard',
   lg: {
+    i: 'CompanyOverviewCard',
 
     x: 0,
     y: 2,
@@ -23,6 +24,7 @@ export const gridConfig = {
     minH: 5,
   },
   md: {
+    i: 'CompanyOverviewCard',
 
     x: 1,
     y: 2,
