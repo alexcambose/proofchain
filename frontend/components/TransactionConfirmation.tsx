@@ -72,7 +72,7 @@ const TransactionConfirmation = async (gasUsed) => {
     confirmButtonText: `Send transaction`,
     icon: 'info',
     footer:
-      '<a href="https://www.investopedia.com/terms/g/gas-ethereum.asp" target="_blank">What is this?</a>',
+      '<a href="https://ethereum.org/en/developers/docs/gas/" target="_blank">What is this?</a>',
   });
   if (value) {
     return gasPrice;

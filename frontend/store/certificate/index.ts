@@ -3,6 +3,7 @@ import { HYDRATE } from 'next-redux-wrapper';
 import {
   fetchCertificateInfo,
   fetchCertificates,
+  fetchCompanyCertificates,
   fetchMinimumStake,
 } from './actions';
 import initialState from './initialState';
@@ -27,6 +28,12 @@ export const CertificateSlice = createSlice({
       state.certificateInfo.certificate = payload.certificate;
       state.certificateInfo.additionalInfo = payload.additionalInfo;
     });
+    builder.addCase(
+      fetchCompanyCertificates.fulfilled,
+      (state, { payload }) => {
+        state.companyCertificates = payload.certificates;
+      }
+    );
   },
 });
 

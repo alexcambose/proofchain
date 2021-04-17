@@ -151,3 +151,18 @@ export const cancelCertificate = createAsyncThunk(
     );
   }
 );
+
+export const fetchCompanyCertificates = createAsyncThunk(
+  'certificate/fetchCompanyCertificates',
+  async () => {
+    let certificateInstances = await proofchain().company.assigedCertificates();
+    let information = [];
+    for (let certificateInstance of certificateInstances) {
+      const certificate = await proofchain().certificateAuthority.getByCode(
+        certificateInstance.code
+      );
+      information.push({ certificateInstance, certificate });
+    }
+    return { certificates: information };
+  }
+);

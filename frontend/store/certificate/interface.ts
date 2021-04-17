@@ -2,6 +2,11 @@ import { ICertificate, ICertificateInstance, IMaterial } from 'interface';
 
 export interface ICertificateStore {
   certificates: ICertificate[];
+  companyCertificates: {
+    certificate: ICertificate;
+    certificateInstance: ICertificateInstance;
+    certificateAssignmentHistory: any;
+  }[];
   loadingCertificates: boolean;
   minimumStake: string;
   certificateInfo: {

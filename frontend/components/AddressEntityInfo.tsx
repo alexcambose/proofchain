@@ -11,14 +11,23 @@ import LoadingSkeleton from './loading/LoadingSkeleton';
 
 interface IAddressEntityInfoProps {
   children: string;
+  isCertificateAuthority?: boolean;
 }
 const AddressEntityInfoContent: React.FC<IAddressEntityInfoProps> = ({
   children,
+  isCertificateAuthority,
 }) => {
   const [company, setCompany] = useState<ICompany>(null);
   useEffect(() => {
     (async () => {
-      const result = await proofchain().company.getCompany(children);
+      let result;
+      if (!isCertificateAuthority) {
+        result = await proofchain().company.getCompany(children);
+      } else {
+        result = await proofchain().certificateAuthority.getCertificateAuthority(
+          children
+        );
+      }
       setCompany(result);
     })();
   }, [children]);
@@ -31,11 +40,18 @@ const AddressEntityInfoContent: React.FC<IAddressEntityInfoProps> = ({
     </Card>
   );
 };
-const AddressEntityInfo: React.FC<IAddressEntityInfoProps> = ({ children }) => {
+const AddressEntityInfo: React.FC<IAddressEntityInfoProps> = ({
+  children,
+  isCertificateAuthority,
+}) => {
   return (
     <StatefulPopover
       content={() => (
-        <AddressEntityInfoContent>{children}</AddressEntityInfoContent>
+        <AddressEntityInfoContent
+          isCertificateAuthority={isCertificateAuthority}
+        >
+          {children}
+        </AddressEntityInfoContent>
       )}
       returnFocus
       triggerType={TRIGGER_TYPE.hover}
