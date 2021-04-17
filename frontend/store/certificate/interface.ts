@@ -1,4 +1,9 @@
-import { ICertificate, ICertificateInstance, IMaterial } from 'interface';
+import {
+  ICertificate,
+  ICertificateInstance,
+  ICompany,
+  IMaterial,
+} from 'interface';
 
 export interface ICertificateStore {
   certificates: ICertificate[];
@@ -11,9 +16,17 @@ export interface ICertificateStore {
   minimumStake: string;
   certificateInfo: {
     certificate: ICertificate;
-    additionalInfo: [
+    materialAdditionalInfo: [
       {
         material: IMaterial;
+        certificateInstance: ICertificateInstance;
+        assignEvent: any;
+        assignTime: number;
+      }
+    ];
+    companyAdditionalInfo: [
+      {
+        company: ICompany;
         certificateInstance: ICertificateInstance;
         assignEvent: any;
         assignTime: number;

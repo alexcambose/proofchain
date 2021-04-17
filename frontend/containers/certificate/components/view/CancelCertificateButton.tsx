@@ -10,20 +10,22 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 interface ICancelCertificateButtonProps {
-  materialTokenId: number;
+  materialTokenId?: number;
+  companyAddress?: string;
   certificateCode: number;
 }
 
 const CancelCertificateButton: React.FC<ICancelCertificateButtonProps> = ({
   materialTokenId,
+  companyAddress,
   certificateCode,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const handleClick = async () => {
-    setIsLoading(true);
-    console.log(materialTokenId, certificateCode);
-    await dispatch(cancelCertificate({ materialTokenId, certificateCode }));
+    await dispatch(
+      cancelCertificate({ materialTokenId, companyAddress, certificateCode })
+    );
     await dispatch(refreshBalance());
     await dispatch(fetchCertificateInfo({ certificateCode }));
     setIsLoading(false);

@@ -7,7 +7,8 @@ const initialState: ICertificateStore = {
   minimumStake: '0',
   certificateInfo: {
     certificate: null,
-    additionalInfo: null,
+    materialAdditionalInfo: null,
+    companyAdditionalInfo: null,
   },
   loadingCertificateInfo: false,
 };

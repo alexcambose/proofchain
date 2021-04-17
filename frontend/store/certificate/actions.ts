@@ -110,7 +110,7 @@ export const fetchCertificateInfo = createAsyncThunk(
       const certificate = await proofchain().certificateAuthority.getByCode(
         certificateCode
       );
-      let additionalInfo = [];
+      let materialAdditionalInfo = [];
       const materials = await proofchain().material.getFromCertificate(
         certificate.code
       );
@@ -118,7 +118,7 @@ export const fetchCertificateInfo = createAsyncThunk(
         const material = await proofchain().material.getById(
           assignEvent.materialTokenId
         );
-        additionalInfo.push({
+        materialAdditionalInfo.push({
           material,
           certificateInstance,
           assignEvent,
@@ -128,7 +128,26 @@ export const fetchCertificateInfo = createAsyncThunk(
           ).timestamp,
         });
       }
-      return { certificate, additionalInfo };
+      // companies
+      let companyAdditionalInfo = [];
+      const companies = await proofchain().company.getFromCertificate(
+        certificate.code
+      );
+      for (let { assignEvent, ...certificateInstance } of companies) {
+        const company = await proofchain().company.getCompany(
+          assignEvent.companyAddress
+        );
+        companyAdditionalInfo.push({
+          company,
+          certificateInstance,
+          assignEvent,
+          // @ts-ignore
+          assignTime: (
+            await web3Instance().eth.getBlock(assignEvent.blockNumber)
+          ).timestamp,
+        });
+      }
+      return { certificate, materialAdditionalInfo, companyAdditionalInfo };
     } catch (e) {
       console.log(e);
     }
@@ -138,17 +157,28 @@ export const cancelCertificate = createAsyncThunk(
   'certificate/cancelCertificate',
   async ({
     certificateCode,
+    companyAddress,
     materialTokenId,
   }: {
+    companyAddress: string;
     certificateCode: number;
     materialTokenId: number;
   }) => {
-    await transactionWrapper(
-      proofchain().material.cancelCertificate({
-        certificateCode,
-        materialTokenId,
-      })
-    );
+    if (materialTokenId) {
+      await transactionWrapper(
+        proofchain().material.cancelCertificate({
+          certificateCode,
+          materialTokenId,
+        })
+      );
+    } else if (companyAddress) {
+      await transactionWrapper(
+        proofchain().company.cancelCertificate({
+          certificateCode,
+          companyAddress,
+        })
+      );
+    }
   }
 );
 

@@ -37,7 +37,17 @@ const CertificateTypeTag: React.FunctionComponent<ICertificateTypeTagProps> = ({
   ...props
 }) => {
   return (
-    <Tag closeable={false} {...props}>
+    <Tag
+      closeable={false}
+      overrides={{
+        Text: {
+          style: ({ $theme }) => ({
+            maxWidth: 'auto',
+          }),
+        },
+      }}
+      {...props}
+    >
       {certificateTypeOptions.find((e) => e.id == type).label}
     </Tag>
   );

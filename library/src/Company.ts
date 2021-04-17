@@ -191,12 +191,14 @@ class Company extends Base implements IEntity {
   }
   /**
    * Get all assigned certificates to a company
-   * @param companyAddress Company address
+   * @param companyAddress Company address. If not provided, this will default to "fromAddress"
    * @returns Array of certificate instances
    */
   async assigedCertificates(
-    companyAddress: string
+    companyAddress?: string
   ): Promise<ICertificateInstance[]> {
+    if (!companyAddress) companyAddress = this.fromAddress;
+
     const certificateInstanceIds = await this.contract.methods
       .getCompanyCertificatesInstanceIds(companyAddress)
       .call();
@@ -258,22 +260,22 @@ class Company extends Base implements IEntity {
    * @returns Certificate history events
    */
   async certificateAssignmentHistory(options: {
-    company: number;
+    companyAddress: string;
     certificateCode?: number;
   }): Promise<ICertificateAssignmentHistory> {
-    const { company, certificateCode } = options;
+    const { companyAddress, certificateCode } = options;
     let history: ICertificateAssignmentHistory = {};
     let assignEvents = await this.getPastEvents<CompanyAssignedCertificateEvent>(
       'CompanyAssignedCertificate',
-      { company, certificateCode }
+      { companyAddress, certificateCode }
     );
     let revokeEvents = await this.getPastEvents<CompanyAssignedCertificateEvent>(
       'CompanyRevokedCertificate',
-      { company, certificateCode }
+      { companyAddress, certificateCode }
     );
     let cancelEvents = await this.getPastEvents<CompanyAssignedCertificateEvent>(
       'CompanyCanceledCertificate',
-      { company, certificateCode }
+      { companyAddress, certificateCode }
     );
 
     for (let { type, events } of [

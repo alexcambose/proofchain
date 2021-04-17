@@ -13,9 +13,10 @@ import { CERTIFICATE_ASSIGNMENT_TYPE } from 'proofchain-library';
 import React, { useEffect, useState } from 'react';
 import web3Instance from 'web3Instance';
 
-interface ICertificateHistoryAccordionProps {
+interface ICertificateAssignmentHistoryProps {
   certificateCode?: number;
-  materialTokenId: number;
+  materialTokenId?: number;
+  companyAddress?: string;
 }
 const assignmentStyle = {
   [CERTIFICATE_ASSIGNMENT_TYPE.CREATE]: {
@@ -34,20 +35,31 @@ const assignmentStyle = {
     color: ($theme) => $theme.colors.negative,
   },
 };
-const CertificateHistoryAccordion: React.FC<ICertificateHistoryAccordionProps> = ({
+const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps> = ({
   certificateCode,
   materialTokenId,
+  companyAddress,
 }) => {
   const [css, theme] = useStyletron();
   const [history, setHistory] = useState(null);
   useEffect(() => {
     (async () => {
-      const fetchedHistory = (
-        await proofchain().material.certificateAssignmentHistory({
-          materialTokenId,
-          certificateCode,
-        })
-      )[certificateCode];
+      let fetchedHistory = [];
+      if (companyAddress) {
+        fetchedHistory = (
+          await proofchain().company.certificateAssignmentHistory({
+            companyAddress,
+            certificateCode,
+          })
+        )[certificateCode];
+      } else if (materialTokenId) {
+        fetchedHistory = (
+          await proofchain().material.certificateAssignmentHistory({
+            materialTokenId,
+            certificateCode,
+          })
+        )[certificateCode];
+      }
 
       const historyWithBlocks = await Promise.all(
         fetchedHistory.map(async (e) => ({
@@ -115,4 +127,4 @@ const CertificateHistoryAccordion: React.FC<ICertificateHistoryAccordionProps> =
     </>
   );
 };
-export default CertificateHistoryAccordion;
+export default CertificateAssignmentHistory;

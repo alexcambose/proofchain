@@ -5,6 +5,7 @@ import VerticalTable from '@components/table/VerticalTable';
 import TimeIndicator from '@components/TimeIndicator';
 import TransactionLink from '@components/TransactionLink';
 import CertificateAssignmentDetailsTable from '@containers/certificate/components/table/CertificateAssignmentDetailsTable';
+import CertificateAssignmentHistory from '@containers/certificate/components/table/CertificateAssignmentHistory';
 import { ORIENTATION } from 'baseui/tabs-motion';
 import {
   ICertificate,
@@ -14,7 +15,6 @@ import {
 import proofchain from 'proofchain';
 import React, { useEffect, useState } from 'react';
 import web3Instance from 'web3Instance';
-import CertificateHistoryAccordion from './CertificateHistoryAccordion';
 
 interface CertificateInformationTabs {
   certificateInfo: {
@@ -129,7 +129,7 @@ const CertificateInformationTabs: React.FC<CertificateInformationTabs> = ({
         {
           title: 'History',
           content: (
-            <CertificateHistoryAccordion
+            <CertificateAssignmentHistory
               certificateCode={certificateInfo.assignEvent.certificateCode}
               materialTokenId={certificateInfo.assignEvent.materialTokenId}
             />

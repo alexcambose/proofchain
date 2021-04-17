@@ -14,12 +14,12 @@ const transactionWrapper = async (transaction) => {
     } else {
       return;
     }
-    const toastPendingKey = toaster.info('Pending transaction...', {
-      autoHideDuration: 0,
-    });
+    // const toastPendingKey = toaster.info('Pending transaction...', {
+    //   autoHideDuration: 0,
+    // });
     // @ts-ignore
     transactionToast(result.transactionHash);
-    toaster.clear(toastPendingKey);
+    // toaster.clear(toastPendingKey);
   } catch (e) {
     console.error(e);
     toaster.negative('Error' + e, {});
