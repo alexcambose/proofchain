@@ -23,7 +23,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ items }) => {
   return (
     <>
-      <Block $style={{ height: '80px' }} />
+      <Block $style={{ height: '50px' }} />
       <HeaderNavigation
         overrides={{
           Root: {

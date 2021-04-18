@@ -22,6 +22,9 @@ import CompanyOverviewCard, {
 import NetworkCard, {
   gridConfig as NetworkCardConfig,
 } from './components/grid/NetworkCard';
+import { Display3, H2 } from 'baseui/typography';
+import HelloGreeting from './components/Hello';
+import { styled } from 'baseui';
 const defaultLayouts = {
   lg: [
     CompanyOverviewCardGridConfig.lg,
@@ -66,13 +69,18 @@ function saveToLS(key, value) {
     );
   }
 }
-
+const DashboardContainer = styled('div', ({ $theme }) => ({
+  paddingTop: $theme.sizing.scale800,
+  paddingLeft: $theme.sizing.scale400,
+  paddingRight: $theme.sizing.scale400,
+}));
 const Index = () => {
   // getFromLS('layout') ||
   const [layouts, setLayouts] = useState(defaultLayouts);
 
   return (
-    <>
+    <DashboardContainer>
+      <HelloGreeting />
       <ResponsiveGridLayout
         className="layout"
         layouts={layouts}
@@ -108,7 +116,7 @@ const Index = () => {
           <NetworkCard />
         </div>
       </ResponsiveGridLayout>
-    </>
+    </DashboardContainer>
   );
 };
 export default Index;

@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { Navigation } from 'baseui/side-navigation';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '@store/index';
 import { StatefulTextarea } from 'baseui/textarea';
 import { CompanyEntityTypeEnum, EntityTypeEnum } from '@enums';
+import SideNavigation from './side-navigation/SideNavigation';
 const companyItems = [
   {
     title: 'Materials',
     itemId: '/material',
+    icon: 'draw-polygon',
     subNav: [
       { title: 'All materials', itemId: '/material' },
       {
@@ -21,6 +22,8 @@ const companyItems = [
   {
     title: 'Raw materials',
     itemId: '/raw-material',
+    icon: 'dot-circle',
+
     subNav: [
       { title: 'All raw materials', itemId: '/raw-material' },
       {
@@ -32,6 +35,7 @@ const companyItems = [
   {
     title: 'Batches',
     itemId: '/batch',
+    icon: 'boxes',
     subNav: [
       { title: 'All batches', itemId: '/batch' },
       {
@@ -43,6 +47,7 @@ const companyItems = [
   {
     title: 'Transports',
     itemId: '/transport',
+    icon: 'truck',
     subNav: [
       { title: 'All transports', itemId: '/transport' },
       {
@@ -54,6 +59,7 @@ const companyItems = [
   {
     title: 'Certificates',
     itemId: '/certificate',
+    icon: 'scroll',
   },
 ];
 const certificateAuthorityItems = [
@@ -90,23 +96,17 @@ const CompanySidebar = () => {
     (state: State) => state.user.companyEntityType
   );
   return (
-    <Navigation
-      overrides={{
-        Root: {
-          style: ({ $theme }) => ({
-            width: '100%',
-            [$theme.mediaQuery.large]: {
-              position: 'fixed',
-              top: '80px',
-              left: 0,
-              width: 'inherit',
-            },
-          }),
+    <SideNavigation
+      bottomItems={[
+        {
+          title: 'Github',
+          icon: ['fab', 'github'],
         },
-      }}
+      ]}
       items={[
         {
           title: <>Dashboard</>,
+          icon: 'home',
           itemId: '/',
         },
         ...(entityType === EntityTypeEnum.CERTIFICATE_AUTHORITY

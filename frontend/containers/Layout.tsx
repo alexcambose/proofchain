@@ -92,13 +92,14 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
             style: ({ $theme }) => ({
               paddingRight: '0 !important',
               paddingLeft: '0 !important',
+              paddingTop: '20px'
               // height: '100%',
             }),
           },
         }}
       >
         <Cell
-          span={[2, 2, 2]}
+          span={[4, 8, 2]}
           overrides={{
             Cell: {
               style: ({ $theme }) => ({
@@ -109,7 +110,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         >
           <CompanySidebar />
         </Cell>
-        <Cell span={[2, 6, 10]}>
+        <Cell span={[4, 8, 10]}>
           <BreadcrumbNavigation />
           <Block paddingTop="scale400" $style={{}}>
             {title && <Display4>{title}</Display4>}

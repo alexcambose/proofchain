@@ -26,6 +26,7 @@
     "ethereumjs-wallet": "^1.0.1",
     "formik": "^2.2.6",
     "fuse.js": "^6.4.6",
+    "hello-international": "^2.2.1",
     "js-cookie": "^2.2.1",
     "js-search": "^2.0.0",
     "keccak256": "^1.0.2",
