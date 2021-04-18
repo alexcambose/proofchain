@@ -31,36 +31,42 @@
 
 ### `createTransport(address _receiver, address _transportCompany, uint256[] _batchIds)` (public)
 
+Create a new transport
 
 
 
 
 ### `createTransport(address _receiver, address _transportCompany, uint256[] _batchIds, bytes32 _hashedPassword)` (public)
 
+Create a new transport
 
 
 
 
 ### `setTransportStatus(uint256 _transportId, enum Shipper.TransportStatusEnum _status)` (public)
 
+Sets the status of a transport
 
 
 
 
 ### `finaliseTransport(uint256 _transportId)` (public)
 
+Sets a transport as finalised
 
 
 
 
 ### `finaliseTransport(uint256 _transportId, string _password)` (public)
 
+Sets the status of a transport
 
 
 
 
 ### `getTransportBatchids(uint256 _transportId) → uint256[]` (public)
 
+Get the batch ids from a transport
 
 
 
