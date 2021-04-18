@@ -16,8 +16,8 @@
 </p>
 
 <p align="center">
-  <a href="#key-features">Key Features</a> •
-  <a href="#how-to-use">How To Use</a> •
+  <a href="#platform">Platform</a> •
+  <a href="#core-features">Core features</a> •
   <a href="#download">Structure</a> •
   <a href="#credits">Credits</a> •
   <a href="#related">Related</a> •
@@ -25,3 +25,35 @@
 </p>
 
 ---
+
+## Platform
+
+<img align="right" width="400" src="https://imgur.com/tTHFr37.png">
+
+**Smart Contracts**: At the core of Proofchain are the smart contracts, written in Solidity, which live on the Ethereum blockchain. These make up an open platform that anyone can interact with.
+
+**Proofchain Dashboard**: It offers a snapshot of the core features of
+
+**Proofchain Web3 library**: A JS library which simplifies interacting with Proofchain contracts, facilitating communication between existing Supply Chain Management software and distributed ledged technology.
+
+**Proofchain Client App**: A mobile-first web application that provides end users with the ability to view a complete provenance history of each product.
+
+## Core features overview
+
+#### Representing physical goods in the form of non-fungible digital tokens and recipes that enable their transformation
+
+##### Batching
+
+- **Company identity**: Each company that uses the Proofchain excosystem is identified by an ethereum address.
+  - Manufacturer company: Creates raw materials, materials, batches and transports.
+  - Transport company: Intermediary between other company types, can manage transports.
+- **Raw Materials**
+  - represented using non-fungible digital tokens that are created on a blockchain for each batch of manufactured products
+- **Materials**
+- **Batches**
+  - Ba
+- **Transports**
+- **Certificate authorities**:
+- **Certificates**
+  - Certificates are a method by which companies communicates impact about their business, proudcts and supply chains.
+  - Certificate authorities can create and assign certificates to materials, raw materials and companies.

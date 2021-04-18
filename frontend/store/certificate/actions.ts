@@ -118,14 +118,16 @@ export const fetchCertificateInfo = createAsyncThunk(
         const material = await proofchain().material.getById(
           assignEvent.materialTokenId
         );
+
+        const block = await web3Instance().eth.getBlock(
+          // @ts-ignore
+          assignEvent.blockNumber
+        );
         materialAdditionalInfo.push({
           material,
           certificateInstance,
           assignEvent,
-          // @ts-ignore
-          assignTime: (
-            await web3Instance().eth.getBlock(assignEvent.blockNumber)
-          ).timestamp,
+          assignTime: block.timestamp,
         });
       }
       // companies
@@ -137,14 +139,15 @@ export const fetchCertificateInfo = createAsyncThunk(
         const company = await proofchain().company.getCompany(
           assignEvent.companyAddress
         );
+        const block = await web3Instance().eth.getBlock(
+          // @ts-ignore
+          assignEvent.blockNumber
+        );
         companyAdditionalInfo.push({
           company,
           certificateInstance,
           assignEvent,
-          // @ts-ignore
-          assignTime: (
-            await web3Instance().eth.getBlock(assignEvent.blockNumber)
-          ).timestamp,
+          assignTime: block.timestamp,
         });
       }
       return { certificate, materialAdditionalInfo, companyAdditionalInfo };
