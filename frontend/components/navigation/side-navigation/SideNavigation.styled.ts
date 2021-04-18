@@ -39,7 +39,10 @@ export const SideNavigationSectionMainTitle = styled('div', ({ $theme }) => ({
   userSelect: 'none',
 }));
 export const SideNavigationSectionTitle = styled('div', ({ $theme }) => ({
-  padding: $theme.sizing.scale400,
+  paddingLeft: $theme.sizing.scale400,
+  paddingRight: $theme.sizing.scale400,
+  paddingTop: $theme.sizing.scale500,
+  paddingBottom: $theme.sizing.scale500,
   cursor: 'pointer',
   userSelect: 'none',
   transition: $theme.animation.timing200,
@@ -66,7 +69,7 @@ export const SideNavigationSectionList = styled(
     listStyleType: 'none',
     paddingLeft: $theme.sizing.scale900,
     margin: 0,
-    maxHeight: $opened ? '600px' : 0,
+    maxHeight: $opened ? '300px' : 0,
     overflow: 'hidden',
     transition: 'all .3s ease ',
     color: $theme.colors.contentSecondary,
@@ -87,10 +90,13 @@ export const SideNavigationSectionListItem = styled(
   'li',
   ({ $theme, $isActive }) => ({
     transition: 'all .3s ease ',
-
-    padding: $theme.sizing.scale400,
+    paddingLeft: $theme.sizing.scale400,
+    paddingRight: $theme.sizing.scale400,
+    paddingTop: $theme.sizing.scale500,
+    paddingBottom: $theme.sizing.scale500,
     cursor: 'pointer',
     userSelect: 'none',
+    color: $isActive ? 'black' : 'inherit',
     fontWeight: $isActive ? 'bold' : 'normal',
     background: $isActive ? `rgba(39, 110, 241, 0.2)` : 'auto',
     [':hover']: {

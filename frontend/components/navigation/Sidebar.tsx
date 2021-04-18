@@ -101,6 +101,7 @@ const CompanySidebar = () => {
         {
           title: 'Github',
           icon: ['fab', 'github'],
+          itemId: 'https://github.com/alexcambose/proofchain',
         },
       ]}
       items={[

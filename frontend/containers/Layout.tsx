@@ -14,12 +14,15 @@ import { Display4 } from 'baseui/typography';
 import uuid from 'react-uuid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Footer from '@components/navigation/Footer';
+import { styled, useStyletron } from 'baseui';
 
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
+  noContainer?: boolean;
 }
 const BreadcrumbNavigation = () => {
+  const [theme, css] = useStyletron();
   const router = useRouter();
   const [breadcrumbs, setBreadcrumbs] = useState(null);
 
@@ -72,8 +75,24 @@ const BreadcrumbNavigation = () => {
     </Breadcrumbs>
   );
 };
-const Layout: React.FC<LayoutProps> = ({ children, title }) => {
+const ChildrenContainer = styled('div', ({ $theme }) => ({
+  boxShadow: $theme.lighting.shadow700,
+  padding: $theme.sizing.scale1000,
+}));
+const Layout: React.FC<LayoutProps> = ({
+  children,
+  title,
+  noContainer = false,
+}) => {
   const hasEntity = useSelector((state: State) => state.user.hasEntity);
+  if (!noContainer) {
+    children = (
+      <ChildrenContainer>
+        {title && <Display4>{title}</Display4>}
+        <Block paddingTop="scale400">{children}</Block>
+      </ChildrenContainer>
+    );
+  }
   if (!hasEntity) {
     return (
       <>
@@ -83,7 +102,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
     );
   }
   return (
-    <div style={{ height: '100%' }}>
+    <div style={{ height: '100%', backgroundColor: 'rgb(251,251,251)' }}>
       <EntityNav />
       <Grid
         behavior={BEHAVIOR.fluid}
@@ -92,7 +111,7 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
             style: ({ $theme }) => ({
               paddingRight: '0 !important',
               paddingLeft: '0 !important',
-              paddingTop: '20px'
+              paddingTop: '20px',
               // height: '100%',
             }),
           },
@@ -113,7 +132,6 @@ const Layout: React.FC<LayoutProps> = ({ children, title }) => {
         <Cell span={[4, 8, 10]}>
           <BreadcrumbNavigation />
           <Block paddingTop="scale400" $style={{}}>
-            {title && <Display4>{title}</Display4>}
             {children}
           </Block>
         </Cell>

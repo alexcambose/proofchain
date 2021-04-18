@@ -6,6 +6,7 @@ import {
   StyledNavigationItem,
   StyledNavigationList,
 } from 'baseui/header-navigation';
+import { useRouter } from 'next/router';
 import * as React from 'react';
 import uuid from 'react-uuid';
 interface ItemsInterface {
@@ -21,6 +22,10 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ items }) => {
+  const router = useRouter();
+  const onLogoClick = () => {
+    router.push('/');
+  };
   return (
     <>
       <Block $style={{ height: '50px' }} />
@@ -43,7 +48,10 @@ const Navbar: React.FC<NavbarProps> = ({ items }) => {
       >
         <StyledNavigationList $align={ALIGN.left}>
           <StyledNavigationItem>
-            <Logo style={{ width: '11em' }} />
+            <a href="#" onClick={onLogoClick}>
+              {' '}
+              <Logo style={{ width: '11em' }} />
+            </a>
           </StyledNavigationItem>
         </StyledNavigationList>
         {['left', 'center', 'right'].map((alignment) => (

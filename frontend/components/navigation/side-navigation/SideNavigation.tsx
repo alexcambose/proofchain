@@ -26,7 +26,7 @@ interface ISideNaviagtionItem {
 }
 interface ISideNavigationProps {
   items: ISideNaviagtionItem[];
-  bottomItems: ISideNavigationProps[];
+  bottomItems: ISideNaviagtionItem[];
   activeItemId: string;
 }
 
@@ -54,7 +54,9 @@ const SideNavigation: React.FunctionComponent<ISideNavigationProps> = ({
           </SideNavigationSectionMainTitle>
           <SideNavigationSectionTitle
             onClick={() =>
-              setStatus((s) => ({ ...s, [item.itemId]: !s[item.itemId] }))
+              !item.subNav
+                ? onItemClick(item.itemId)
+                : setStatus((s) => ({ ...s, [item.itemId]: !s[item.itemId] }))
             }
             $opened={status[item.itemId]}
           >

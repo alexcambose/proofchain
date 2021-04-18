@@ -26,7 +26,7 @@ const IndexPage = () => {
           <title>Get started</title>
         </Head>
 
-        <Layout>
+        <Layout noContainer>
           <Grid>
             <Cell skip={[0, 1, 3]} span={[4, 6, 6]}>
               <InitialSetupSteps />
@@ -41,7 +41,7 @@ const IndexPage = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <Layout>
+      <Layout noContainer>
         <Index />
       </Layout>
     </>
