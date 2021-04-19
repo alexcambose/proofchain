@@ -11,7 +11,6 @@ import {
   HeaderText2Silent,
   HeaderText3,
   HeaderVideo,
-  LoadingOverlay,
   MouseContainer,
 } from './Header.styled';
 import Link from '@components/link/Link';
@@ -20,6 +19,7 @@ import { isDevelopment } from '@utils/next';
 import { Parallax } from 'react-scroll-parallax';
 
 import config from 'config';
+import LoadingOverlay from './LoadingOverlay';
 interface IHeaderProps {}
 
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
@@ -40,10 +40,14 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   }, [isLoaded]);
   return (
     <HeaderContainer>
-      <LoadingOverlay isHidden={isLoaded} />
+      <LoadingOverlay isVisible={!isLoaded} />
       <HeaderOverlay />
       <HeaderVideo
-        onLoadedData={() => setIsLoaded(true)}
+        onLoadedData={() =>
+          setTimeout(() => {
+            setIsLoaded(true);
+          }, 4000)
+        }
         ref={videoRef}
         muted
         loop
