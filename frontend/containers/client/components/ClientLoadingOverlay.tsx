@@ -1,6 +1,6 @@
 import { styled } from 'baseui';
 import * as React from 'react';
-import ProofchainLogoWhite from '@assets/images/logo/proofchain-logo-full-light.svg';
+import ProofchainLogoDark from '@assets/images/logo/proofchain-logo-full-dark-padded.svg';
 import { useEffect } from 'react';
 interface IClientLoadingOverlayProps {
   isVisible: boolean;
@@ -35,7 +35,7 @@ const ClientLoadingOverlay: React.FunctionComponent<IClientLoadingOverlayProps> 
   useEffect(() => {}, [isVisible]);
   return (
     <LoadingOverlay $isVisible={isVisible}>
-      <ProofchainLogoWhite className="client-overlay-logo" />
+      <ProofchainLogoDark className="client-overlay-logo" />
     </LoadingOverlay>
   );
 };

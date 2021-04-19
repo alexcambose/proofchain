@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ClientLoadingOverlay from './components/ClientLoadingOverlay';
 import ProductInfoCompany from './components/view/ProductInfoCompany';
 import ProductInfoHistory from './components/view/ProductInfoHistory';
+import ProductInformation from './components/view/ProductInformation';
 interface IClientProductInfoProps {
   uuid: number;
 }
@@ -49,9 +50,14 @@ const ClientProductInfo: React.FunctionComponent<IClientProductInfoProps> = ({
           <H1>{material.name}</H1>
           <Label1>{material.code}</Label1>
           <Tabs
+            renderAll
             tabs={[
               {
                 title: 'Information',
+                content: <ProductInformation material={material} uuid={uuid} />,
+              },
+              {
+                title: 'Material graph',
                 content: <ProductInfoHistory uuid={uuid} />,
               },
               { title: 'Company', content: <ProductInfoCompany /> },
