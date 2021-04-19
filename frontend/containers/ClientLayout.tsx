@@ -4,10 +4,10 @@ import { ChevronDown, Delete, Overflow, Upload } from 'baseui/icon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import Footer from '@components/navigation/Footer';
+import Logo from '@assets/images/logo/proofchain-logo-full-dark.svg';
 interface IClientLayoutProps {
   children: React.ReactNode;
 }
-
 const ClientLayout: React.FunctionComponent<IClientLayoutProps> = ({
   children,
 }) => {
@@ -37,7 +37,7 @@ const ClientLayout: React.FunctionComponent<IClientLayoutProps> = ({
         }}
         title={
           <span onClick={onTitleClick} style={{ cursor: 'pointer' }}>
-            Proofchain
+            <Logo style={{ width: '11em' }} />
           </span>
         }
         mainItems={mainItems}

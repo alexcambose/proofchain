@@ -40,9 +40,21 @@
 
 ## Core features overview
 
-#### Representing physical goods in the form of non-fungible digital tokens and recipes that enable their transformation
+### Representing physical goods in the form of non-fungible digital tokens and recipes that enable their transformation
 
-##### Batching
+In order to digitally represent a manufacturing process, tokens can be minted, added to a batch, or transformed into a new token based on a pre defined recipe.
+
+#### Batching
+
+Each batch of materials corresponds to one token that holds unique features. Batches can be transferred or used as input for other materials.
+
+#### Transport
+
+Batches can be transferred from one entity to another.
+
+#### Company and goods certification
+
+Supply chain entities and materials can be audited by third party "certificate authority" organizations. These certificates communicates impact about their business, proudcts and supply chains practices.
 
 - **Company identity**: Each company that uses the Proofchain excosystem is identified by an ethereum address.
   - Manufacturer company: Creates raw materials, materials, batches and transports.
@@ -55,5 +67,5 @@
 - **Transports**
 - **Certificate authorities**:
 - **Certificates**
-  - Certificates are a method by which companies communicates impact about their business, proudcts and supply chains.
+  - Certificates are a method by which companies communicates impact about their business, proudcts and supply chains practices.
   - Certificate authorities can create and assign certificates to materials, raw materials and companies.

@@ -10,8 +10,9 @@ import { FILL } from 'baseui/tabs-motion';
 import { H1, Label1 } from 'baseui/typography';
 import { useRouter } from 'next/router';
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ClientLoadingOverlay from './components/ClientLoadingOverlay';
 import ProductInfoCompany from './components/view/ProductInfoCompany';
 import ProductInfoHistory from './components/view/ProductInfoHistory';
 interface IClientProductInfoProps {
@@ -26,28 +27,39 @@ const ClientProductInfo: React.FunctionComponent<IClientProductInfoProps> = ({
   const material = useSelector(
     (state: State) => state.client.information.material
   );
+  const [overlayVisible, setOverlayVisible] = useState(true);
   useEffect(() => {
+    setTimeout(() => {
+      setOverlayVisible(false);
+    }, 6000);
     dispatch(fetchMaterialInfo({ uuid }));
   }, []);
   const onBackClick = () => {
     router.push('/client');
   };
-  if (!material) return <LoadingSkeleton />;
   return (
     <Container>
+      <ClientLoadingOverlay isVisible={overlayVisible} />
       <Button onClick={onBackClick} kind={KIND.secondary}>
         <ArrowLeft />
         Scan another product
       </Button>
-      <H1>{material.name}</H1>
-      <Label1>{material.code}</Label1>
-      <Tabs
-        tabs={[
-          { title: 'Information', content: <ProductInfoHistory uuid={uuid} /> },
-          { title: 'Company', content: <ProductInfoCompany /> },
-        ]}
-        fill={FILL.fixed}
-      />
+      {material && (
+        <>
+          <H1>{material.name}</H1>
+          <Label1>{material.code}</Label1>
+          <Tabs
+            tabs={[
+              {
+                title: 'Information',
+                content: <ProductInfoHistory uuid={uuid} />,
+              },
+              { title: 'Company', content: <ProductInfoCompany /> },
+            ]}
+            fill={FILL.fixed}
+          />
+        </>
+      )}
     </Container>
   );
 };

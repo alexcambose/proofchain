@@ -40,3 +40,26 @@ button > svg {
   width: 100%;
   display: block;
 }
+.client-overlay-logo {
+  padding: 20px;
+}
+.client-overlay-logo path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  fill: white;
+  stroke: black;
+  stroke-width: 1px;
+
+  animation: dash 6s forwards;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    filter: drop-shadow(0 0 0px rgba(0, 0, 0));
+    stroke-dashoffset: 600;
+    fill: rgba(0, 0, 0, 0.1);
+  }
+}
