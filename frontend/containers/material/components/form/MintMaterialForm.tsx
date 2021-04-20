@@ -223,7 +223,9 @@ const _MintMaterialForm: React.FC<
         </>
       )}
       <Button isLoading={isSubmitting} disabled={isSubmitting} type="submit">
-        {isRawMaterial ? 'Mint' : 'Mint 1 ' + material.name}
+        {isRawMaterial
+          ? 'Mint'
+          : 'Mint one "' + material.amountIdentifier + '" of ' + material.name}
       </Button>
     </Form>
   );

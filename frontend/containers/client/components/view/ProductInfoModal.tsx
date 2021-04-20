@@ -25,7 +25,13 @@ const ProductInfoModal: React.FunctionComponent<IProductInfoModalProps> = ({
   const info = {
     MATERIAL: {
       title: 'Material information',
-      component: () => <ClientMaterialInfo historyItem={historyItem} />,
+      component: () => (
+        <ClientMaterialInfo
+          material={historyItem.material}
+          materialInstance={historyItem.materialInstance}
+          mintEvent={historyItem.mintEvent}
+        />
+      ),
     },
     BATCH: {
       title: 'Batch information',

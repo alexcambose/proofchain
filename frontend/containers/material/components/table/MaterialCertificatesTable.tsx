@@ -24,6 +24,7 @@ interface IMaterialCertificatesTableProps {
 const MaterialCertificatesTable: React.FC<IMaterialCertificatesTableProps> = ({
   certficates,
 }) => {
+  console.log(certficates);
   return (
     <Table
       columns={['Name', 'Certificate Authority', 'Stake', 'Time', 'Action']}
@@ -32,7 +33,7 @@ const MaterialCertificatesTable: React.FC<IMaterialCertificatesTableProps> = ({
         e.certificateAuthority.name,
         web3Instance().utils.fromWei(e.certificateInstance.stake, 'ether') +
           ' ETH',
-        <TimeIndicator>{e.assignTimestamp}</TimeIndicator>,
+        <TimeIndicator>{e.assignEvent.block.timestamp}</TimeIndicator>,
         // <TransactionLink>
         //   {e.assignEvent.event.transactionHash}
         // </TransactionLink>,

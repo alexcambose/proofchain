@@ -146,16 +146,14 @@ export const fetchMaterialInfoCertificates = createAsyncThunk(
           certificateAuthority: certificateAuthority.owner,
           certificateCode: certificate.code,
           materialTokenId,
-        }
+        },
+        true
       );
       certificates.push({
         certificate,
         certificateInstance,
         certificateAuthority,
         assignEvent: assignEvents[0],
-        assignTimestamp: // @ts-ignore
-        (await web3Instance().eth.getBlock(assignEvents[0].blockNumber))
-          .timestamp,
       });
     }
     return { certificates };

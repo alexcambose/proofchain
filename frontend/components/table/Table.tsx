@@ -42,6 +42,9 @@ const PaginationContainer = styled('div', {
   alignItems: 'center',
   justifyContent: 'space-between',
 });
+const PaginationLabel = styled('span', ({ $theme }) => ({
+  ...$theme.typography.ParagraphSmall,
+}));
 const Table: React.FC<ITableProps> = ({
   data,
   columns,
@@ -137,11 +140,11 @@ const Table: React.FC<ITableProps> = ({
       </TableBuilder>
       {withPagination && (
         <PaginationContainer>
-          <span>
+          <PaginationLabel>
             Showing {perPage * (currentPage - 1) + 1} to{' '}
             {Math.min(perPage * currentPage, filteredData.length)} out of{' '}
             {pluralize('entry', filteredData.length, true)}
-          </span>
+          </PaginationLabel>
           <Pagination
             overrides={{
               Root: {

@@ -32,7 +32,7 @@ const ClientProductInfo: React.FunctionComponent<IClientProductInfoProps> = ({
   useEffect(() => {
     setTimeout(() => {
       setOverlayVisible(false);
-    }, 6000);
+    }, 3000);
     dispatch(fetchMaterialInfo({ uuid }));
   }, []);
   const onBackClick = () => {
@@ -45,7 +45,7 @@ const ClientProductInfo: React.FunctionComponent<IClientProductInfoProps> = ({
         <ArrowLeft />
         Scan another product
       </Button>
-      {material && (
+      {material && !overlayVisible && (
         <>
           <H1>{material.name}</H1>
           <Label1>{material.code}</Label1>
@@ -70,4 +70,4 @@ const ClientProductInfo: React.FunctionComponent<IClientProductInfoProps> = ({
   );
 };
 
-export default ClientProductInfo;
+export default React.memo(ClientProductInfo);

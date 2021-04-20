@@ -3,7 +3,6 @@ import {
   CompanyEntityTypeEnum,
   TransportStatusEnum,
 } from '@enums';
-import { number, string } from 'yup/lib/locale';
 export interface ICompany {
   entityType: CompanyEntityTypeEnum;
   name: string;

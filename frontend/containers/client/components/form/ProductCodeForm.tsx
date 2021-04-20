@@ -4,12 +4,16 @@ import { Input, SIZE as INPUT_SIZE } from 'baseui/input';
 import { throttle } from 'lodash';
 import proofchain from 'proofchain';
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { Card, StyledAction, StyledBody } from 'baseui/card';
+import { useCallback, useEffect, useState } from 'react';
+import { StyledAction, StyledBody } from 'baseui/card';
 import Button from '@components/Button';
 import { IMaterial } from 'interface';
 import { EMPTY_ADDRESS } from 'proofchain-library/src/utils/eth';
 import { useRouter } from 'next/router';
+import LoadingSkeleton from '@components/loading/LoadingSkeleton';
+import { getMaterialById, getMaterialByUuid } from '@utils/cachable';
+import Card from '@components/Card';
+import { Label1 } from 'baseui/typography';
 
 interface IProductCodeFormProps {}
 
@@ -23,23 +27,30 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
   const [materialFound, setMaterialFound] = useState<
     { uuid: string } & IMaterial
   >(null);
-  const searchProduct = throttle(async (uuid) => {
-    setLoading(true);
-    setError('');
-    if (uuid && uuid !== '0') {
-      const materialInstance = await proofchain().material.getMaterialByUuid(
-        uuid
-      );
+  // highlight-starts
+  const searchProduct = useCallback(
+    throttle(async (uuid) => {
+      setLoading(true);
+      setError('');
+      setMaterialFound(null);
 
-      const materialFromInstance = await proofchain().material.getById(
-        materialInstance.materialTokenId
-      );
-      setMaterialFound({ ...materialFromInstance, uuid });
-    } else {
-      setError('Nothing found');
-    }
-    setLoading(false);
-  }, 1000);
+      if (!uuid) {
+      } else if (uuid !== '0') {
+        console.log('getting instance');
+        const materialInstance = await getMaterialByUuid(uuid);
+        console.log('got instance');
+        const materialFromInstance = await getMaterialById(
+          materialInstance.materialTokenId
+        );
+        console.log('finish', materialInstance, materialFromInstance);
+        setMaterialFound({ ...materialFromInstance, uuid });
+      } else {
+        setError('Products codes start at 1');
+      }
+      setLoading(false);
+    }, 2000),
+    [] // will be created only once initially
+  );
   useEffect(() => {
     searchProduct(value);
   }, [value]);
@@ -57,7 +68,7 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
           size={INPUT_SIZE.large}
           autoFocus
           type="number"
-          min={0}
+          min={1}
           step={1}
           endEnhancer={() => loading && <Spinner $size={SIZE.small} />}
           onChange={(e) =>
@@ -68,9 +79,12 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
           clearOnEscape
         />
       </FormControl>
+      {loading && <LoadingSkeleton />}
       {materialFound && (
         <Card title={materialFound.name}>
-          {/* <StyledBody>{materialFound.name}</StyledBody> */}
+          <StyledBody>
+            <Label1>Uuid: {materialFound.uuid}</Label1>
+          </StyledBody>
           <StyledAction>
             <Button
               onClick={() => {

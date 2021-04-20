@@ -49,20 +49,16 @@ button > svg {
   fill: white;
   stroke: black;
   stroke-width: 1px;
-
-  animation: dash 6s forwards;
+  transition: 2s;
+  animation: dash 3s forwards;
 }
 
 @keyframes dash {
   0% {
     stroke-dashoffset: 1000;
   }
-  40% {
-    filter: drop-shadow(0 0 0px rgba(0, 0, 0));
+  50% {
     stroke-dashoffset: 600;
-  }
-  70% {
-    fill: rgba(0, 0, 0, 0.05);
   }
   100% {
     stroke-dashoffset: 1000;

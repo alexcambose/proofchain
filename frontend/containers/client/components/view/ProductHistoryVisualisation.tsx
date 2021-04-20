@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'baseui';
 import dagre from 'dagre';
 import * as React from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactFlow, { Controls, isNode, MiniMap } from 'react-flow-renderer';
 interface IProductHistoryVisualizationProps {
   history: any[];
@@ -174,8 +174,16 @@ const ProductHistoryVisualization: React.FunctionComponent<IProductHistoryVisual
     rfInstance &&
       rfInstance.fitView({ padding: 0.2, includeHiddenNodes: true });
 
+    console.log('fit');
     return data;
   }, [history, rfInstance]);
+  useEffect(() => {
+    setTimeout(() => {
+      rfInstance &&
+        rfInstance.fitView({ padding: 0.2, includeHiddenNodes: true });
+      console.log('fit');
+    }, 500);
+  }, []);
   const onElementClick = (e, element) => {
     element?.data?.onClick && element.data.onClick(element.data.historyElement);
   };

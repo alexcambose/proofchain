@@ -4,6 +4,7 @@ import LoadingSkeleton from '@components/loading/LoadingSkeleton';
 import { State } from '@store/index';
 import { fetchMaterialInfo } from '@store/material/actions';
 import { Accordion, Panel } from 'baseui/accordion';
+import { Block } from 'baseui/block';
 import { Skeleton } from 'baseui/skeleton';
 import { Display4, Label1, Label2 } from 'baseui/typography';
 import { IMaterial } from 'interface';
@@ -35,13 +36,13 @@ const MaterialInfo: React.FC<IMaterialInfoProps> = ({ materialTokenId }) => {
       <Display4>{material.name}</Display4>
       <Label1>{material.code}</Label1>
       {material.recipeMaterialAmount.length > 0 && (
-        <>
+        <Block marginTop="scale600" marginBottom="scale600">
           <Label1>Recipe</Label1>
           <MaterialRecipeTable
             materialTokenAmount={material.recipeMaterialAmount}
             materialTokenId={material.recipeMaterialTokenId}
           />
-        </>
+        </Block>
       )}
 
       <Grid2

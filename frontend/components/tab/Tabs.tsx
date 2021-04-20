@@ -1,4 +1,10 @@
-import { ORIENTATION, StatefulTabs, TabsProps, Tab } from 'baseui/tabs-motion';
+import {
+  ORIENTATION,
+  Tabs as BaseUiTabs,
+  StatefulTabs,
+  TabsProps,
+  Tab,
+} from 'baseui/tabs-motion';
 import * as React from 'react';
 import uuid from 'react-uuid';
 interface ITabsProps {
@@ -9,6 +15,8 @@ interface ITabsProps {
 }
 
 const Tabs: React.FunctionComponent<ITabsProps> = ({ tabs, ...props }) => {
+  const [activeKey, setActiveKey] = React.useState(null);
+
   return (
     <StatefulTabs
       overrides={{
@@ -34,4 +42,4 @@ const Tabs: React.FunctionComponent<ITabsProps> = ({ tabs, ...props }) => {
   );
 };
 
-export default Tabs;
+export default React.memo(Tabs);
