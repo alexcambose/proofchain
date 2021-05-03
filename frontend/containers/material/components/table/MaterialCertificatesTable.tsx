@@ -17,7 +17,6 @@ interface IMaterialCertificatesTableProps {
       certificateInstance: ICertificateInstance;
       certificateAuthority: ICertificateAuthority;
       assignEvent: any;
-      assignTimestamp: number;
     }
   ];
 }

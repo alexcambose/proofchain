@@ -64,7 +64,6 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
       const historyWithBlocks = await Promise.all(
         fetchedHistory.map(async (e) => ({
           ...e,
-          block: await web3Instance().eth.getBlock(e.event.event.blockNumber),
           certificateInstance: await proofchain().material.getCertificateInstance(
             e.event.certificateInstanceId
           ),
@@ -74,7 +73,6 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
     })();
   }, []);
   if (!history) return <LoadingSkeleton />;
-  console.log(history);
   return (
     <>
       <Accordion>
@@ -91,7 +89,7 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
                   {assignmentStyle[e.type].icon}
                 </span>
                 {assignmentStyle[e.type].label} -{' '}
-                <TimeIndicator>{e.block.timestamp}</TimeIndicator>
+                <TimeIndicator>{e.event.block.timestamp}</TimeIndicator>
               </div>
             }
           >
@@ -112,7 +110,7 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
                     e.certificateInstance.stake,
                     'ether'
                   ) + ' ETH',
-                Time: <TimeIndicator>{e.block.timestamp}</TimeIndicator>,
+                Time: <TimeIndicator>{e.event.block.timestamp}</TimeIndicator>,
                 Creator: <Address>{e.event.event.address}</Address>,
                 Transaction: (
                   <TransactionLink>

@@ -156,6 +156,7 @@ export const fetchMaterialInfoCertificates = createAsyncThunk(
         assignEvent: assignEvents[0],
       });
     }
+    console.log('certificates', certificates);
     return { certificates };
   }
 );

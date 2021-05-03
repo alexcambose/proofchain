@@ -16,18 +16,15 @@ contract Factory {
         aggregator = address(aggregatorContract);
 
         Company company = new Company(masterAddress, aggregator);
-        address companyContractAddress = address(company);
         Material materialContract = new Material(masterAddress, aggregator);
-        address materialContractAddress = address(materialContract);
         CertificateAuthorityManager certificateAuthorityManager =
             new CertificateAuthorityManager(masterAddress, aggregator);
-        address certificateAuthorityManagerContractAddress = address(certificateAuthorityManager);
 
         aggregatorContract.setContracts(
             masterAddress,
-            companyContractAddress,
-            materialContractAddress,
-            certificateAuthorityManagerContractAddress
+            address(company),
+            address(materialContract),
+            address(certificateAuthorityManager)
         );
     }
 }

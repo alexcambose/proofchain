@@ -16,7 +16,6 @@ interface ICertificateTableMaterialsProps {
     material: IMaterial;
     certificateInstance: ICertificateInstance;
     assignEvent: any;
-    assignTime: number;
   }[];
   isLoading?: boolean;
 }
@@ -42,7 +41,7 @@ const CertificateTableMaterials: React.FC<ICertificateTableMaterialsProps> = ({
         web3Instance() &&
           web3Instance().utils.fromWei(e.certificateInstance.stake, 'ether') +
             ' ETH',
-        <TimeIndicator>{e.assignTime}</TimeIndicator>,
+        <TimeIndicator>{e.assignEvent.block.time}</TimeIndicator>,
         <TransactionLink>
           {e.assignEvent.event.transactionHash}
         </TransactionLink>,
