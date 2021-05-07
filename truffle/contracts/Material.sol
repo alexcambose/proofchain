@@ -65,7 +65,7 @@ contract Material is MaterialBase, CompanyOwnable {
     /**
      * Mint a new raw material
      *
-     * @param  _tokenID The material token id to be minted
+     * @param _tokenID The material token id to be minted
      * @param _amount The amount of instances to be minted
      */
     function mint(uint256 _tokenID, uint256 _amount) public senderIsTokenCreator(_tokenID) {

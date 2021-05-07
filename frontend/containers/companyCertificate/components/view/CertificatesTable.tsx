@@ -18,7 +18,6 @@ const CertificatesTable: React.FC<ICertificatesTableProps> = ({
   isLoading,
   certificates,
 }) => {
-  console.log(certificates);
   return (
     <Table
       withSearch

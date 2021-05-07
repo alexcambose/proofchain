@@ -25,7 +25,7 @@ const MaterialCertificatesPanel: React.FC<IMaterialCertificatesPanelProps> = ({
   return (
     <>
       <Label1>Certificates - {certificates.length}</Label1>
-      <MaterialCertificatesTable certficates={certificates} />
+      <MaterialCertificatesTable certificates={certificates} />
     </>
   );
 };

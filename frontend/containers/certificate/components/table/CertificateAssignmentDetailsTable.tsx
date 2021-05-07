@@ -15,19 +15,6 @@ const CertificateAssignmentDetailsTable: React.FC<ICertificateAssignmentDetailsT
   assignEvent,
   certificateInstance,
 }) => {
-  const [certificateCreatedEvent, setCertificateCreatedEvent] = useState(null);
-  const [eventBlock, setEventBlock] = useState(null);
-  useEffect(() => {
-    (async () => {
-      const [event] = await proofchain().certificateAuthority.getPastEvents(
-        'CertificateAuthorityCertificateCreated'
-      );
-      setCertificateCreatedEvent(event);
-      // @ts-ignore
-      setEventBlock(await web3Instance().eth.getBlock(event.event.blockNumber));
-    })();
-  }, []);
-  if (!eventBlock) return <LoadingSkeleton />;
   return (
     <VerticalTable
       withTransactionDetails={assignEvent.event.transactionHash}
@@ -43,7 +30,7 @@ const CertificateAssignmentDetailsTable: React.FC<ICertificateAssignmentDetailsT
         Stake:
           web3Instance().utils.fromWei(certificateInstance.stake, 'ether') +
           ' ETH',
-        Time: <TimeIndicator>{eventBlock.timestamp}</TimeIndicator>,
+        Time: <TimeIndicator>{assignEvent.block.timestamp}</TimeIndicator>,
         Transaction: (
           <TransactionLink>{assignEvent.event.transactionHash}</TransactionLink>
         ),

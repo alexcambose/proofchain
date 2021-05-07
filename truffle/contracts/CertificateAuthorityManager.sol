@@ -17,16 +17,19 @@ contract CertificateAuthorityManager {
         OTHER
     }
     struct Certificate {
+        // a name for the certificate
         string name;
+        // unique code
         uint256 code;
+        // certificate description
         string description;
+        // certificate type
         CertificateType ctype;
         // unique certificate code, used to assign a specific certificate code to a material/company
         address certificateAuthority;
     }
     struct CertificateAuthority {
         string name;
-        bool disabled;
         address owner;
     }
     // address => [code => certificate]

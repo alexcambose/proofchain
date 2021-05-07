@@ -4,7 +4,7 @@ import "./utils/CertificateAuthorityManagerReferencer.sol";
 
 abstract contract Certifiable is CertificateAuthorityManagerReferencer {
     /**
-     * Created for each certificate assigned
+     * Created for each certificate assignment
      */
     struct CertificateInstance {
         uint256 code;

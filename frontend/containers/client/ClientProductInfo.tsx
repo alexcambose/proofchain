@@ -60,7 +60,10 @@ const ClientProductInfo: React.FunctionComponent<IClientProductInfoProps> = ({
                 title: 'Material graph',
                 content: <ProductInfoHistory uuid={uuid} />,
               },
-              { title: 'Company', content: <ProductInfoCompany /> },
+              {
+                title: 'Company',
+                content: <ProductInfoCompany material={material} />,
+              },
             ]}
             fill={FILL.fixed}
           />

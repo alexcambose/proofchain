@@ -2,12 +2,12 @@
   "name": "proofchain-library",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/Proofchain.ts",
+  "main": "./dist/Proofchain.js",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
     "format": "prettier --write .",
-    "build": "tsc -p tsconfig.json",
+    "build": "rm -rf ./dist/ && tsc -p tsconfig.production.json",
     "docs": "typedoc ./src/ ",
     "docs:dev": "typedoc ./src/  --watch --logLevel Verbose",
     "get-abi": "mkdir -p ./src/contract-build/ && cd ../truffle && npm run solc-build && cp ./build/solc/* ../library/src/contract-build/"

@@ -3,7 +3,7 @@ import { IClientStore } from './interface';
 const initialState: IClientStore = {
   materialUuid: '',
   information: {
-    company: null,
+    companyInfo: null,
     material: null,
     materialInstance: null,
   },

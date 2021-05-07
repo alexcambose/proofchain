@@ -47,7 +47,7 @@ const ClientMaterialCertificates: React.FunctionComponent<IClientMaterialCertifi
     })();
   }, []);
   if (!certificates) return <LoadingSkeleton />;
-  return <MaterialCertificatesTable certficates={certificates} />;
+  return <MaterialCertificatesTable certificates={certificates} />;
 };
 
 export default ClientMaterialCertificates;

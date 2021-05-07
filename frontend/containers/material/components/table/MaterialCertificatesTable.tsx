@@ -11,24 +11,23 @@ import React from 'react';
 import web3Instance from 'web3Instance';
 import CertificateDetailsModalButton from '../view/CertificateDetailsModal';
 interface IMaterialCertificatesTableProps {
-  certficates: [
+  certificates: [
     {
       certificate: ICertificate;
       certificateInstance: ICertificateInstance;
       certificateAuthority: ICertificateAuthority;
       assignEvent: any;
-      assignTimestamp: number;
     }
   ];
 }
 const MaterialCertificatesTable: React.FC<IMaterialCertificatesTableProps> = ({
-  certficates,
+  certificates,
 }) => {
-  console.log(certficates);
+  console.log(certificates);
   return (
     <Table
       columns={['Name', 'Certificate Authority', 'Stake', 'Time', 'Action']}
-      data={certficates.map((e) => [
+      data={certificates.map((e) => [
         e.certificate.name,
         e.certificateAuthority.name,
         web3Instance().utils.fromWei(e.certificateInstance.stake, 'ether') +

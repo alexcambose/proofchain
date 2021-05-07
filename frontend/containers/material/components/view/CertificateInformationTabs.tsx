@@ -33,19 +33,18 @@ const CertificateInfo: React.FC<ICertificateInfoProps> = ({
   certificate,
 }) => {
   const [certificateCreatedEvent, setCertificateCreatedEvent] = useState(null);
-  const [eventBlock, setEventBlock] = useState(null);
   useEffect(() => {
     (async () => {
       const events = await proofchain().certificateAuthority.getPastEvents(
-        'CertificateAuthorityCertificateCreated'
+        'CertificateAuthorityCertificateCreated',
+        { code: certificate.code },
+        true
       );
       const [event] = events;
       setCertificateCreatedEvent(event);
-      // @ts-ignore
-      setEventBlock(await web3Instance().eth.getBlock(event.event.blockNumber));
     })();
   }, []);
-  if (!eventBlock) return <LoadingSkeleton />;
+  if (!certificateCreatedEvent) return <LoadingSkeleton />;
   return (
     <VerticalTable
       items={{
@@ -55,7 +54,7 @@ const CertificateInfo: React.FC<ICertificateInfoProps> = ({
         'Certificate Authority Address': (
           <Address>{assignEvent.certificateAuthority}</Address>
         ),
-        Created: <TimeIndicator>{eventBlock.timestamp}</TimeIndicator>,
+        Created: <TimeIndicator>{assignEvent.block.timestamp}</TimeIndicator>,
         'Create Transaction': (
           <TransactionLink>
             {certificateCreatedEvent.event.transactionHash}

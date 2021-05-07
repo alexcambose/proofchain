@@ -20,15 +20,20 @@ abstract contract Shipper is MaterialReferencer {
     }
     struct TransportInfo {
         uint256 transportId;
-        // sender company
+        // address of the sender company
         address sender;
+        // address of the receiver company
         address receiver;
+        // address of the transport company
         address transportCompany;
+        // batch ids
         uint256[] batchIds;
-        uint256 value;
+        // the status of the transport
         TransportStatusEnum status;
+        // a keccak256 hash of the password, if specified
         bytes32 hashedPassword;
     }
+    // transportId => TransportInfo
     mapping(uint256 => TransportInfo) public transports;
     uint256 transportIdCounter = 0;
     modifier batchesOwner(uint256[] memory _batchIds) {
@@ -129,7 +134,7 @@ abstract contract Shipper is MaterialReferencer {
     }
 
     /**
-     * Sets a transport as finalised
+     * Finalises a transport
      * @param _transportId The id of the transport
      */
     function finaliseTransport(uint256 _transportId) public onlyReceiver(_transportId) {
@@ -147,7 +152,7 @@ abstract contract Shipper is MaterialReferencer {
     }
 
     /**
-     * Sets the status of a transport
+     * Finalises a transport
      * @param _transportId The id of the transport
      * @param _password Password of the transport
      */

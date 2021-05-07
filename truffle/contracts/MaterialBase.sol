@@ -53,7 +53,7 @@ abstract contract MaterialBase is Certifiable {
         address creator;
         // certificates
         uint256[] certificateInstanceIds;
-        // ipfs images hash
+        // images
         string[] images;
         // mapping from (tokenID -> amount of the amount identifier)
         uint256[] recipeMaterialTokenId;
@@ -73,10 +73,15 @@ abstract contract MaterialBase is Certifiable {
     // uuid => MaterialInfo
     mapping(uint256 => MaterialInfo) public uuidMaterialInfo;
     struct BatchInfo {
+        // unique id
         uint256 batchId;
+        // the owner's address of this batch
         address owner;
+        // arbitrary code of a batch
         string code;
+        // the material id that this batch is made of
         uint256 materialTokenId;
+        // array of material instance ids
         uint256[] materialsUuid;
     }
     // Mapping tokenid => to materials owned by an address (materials who are not in a batch)
@@ -87,7 +92,7 @@ abstract contract MaterialBase is Certifiable {
     uint256 materialTokenId = 0;
     mapping(uint256 => MaterialTokenInfo) public materialToken;
 
-    // all batches associated with an address (address => (batchId => (has|doesn't have)))
+    // true if an address has a specific batch id (address => (batchId => [true|false]))
     mapping(address => mapping(uint256 => bool)) public addressBatches;
     // all batchId associated with a batch
     mapping(uint256 => BatchInfo) public batch;

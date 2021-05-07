@@ -1,4 +1,4 @@
-import {Base} from './Base';
+import { Base } from './Base';
 import IEmittedEvent from './interface/IEmittedEvent';
 import IEntity from './interface/IEntity';
 import MinedTransaction from './MinedTransaction';
@@ -372,7 +372,6 @@ export class Material extends Base implements IEntity {
     materialUuid: number,
     full: boolean = false
   ): Promise<IMaterialInfo> {
-
     const material: IMaterialInfo = await this.contract.methods
       .uuidMaterialInfo(materialUuid)
       .call();
@@ -543,15 +542,18 @@ export class Material extends Base implements IEntity {
     let history: ICertificateAssignmentHistory = {};
     let assignEvents = await this.getPastEvents<MaterialAssignedCertificateEvent>(
       'MaterialAssignedCertificate',
-      { materialTokenId, certificateCode }
+      { materialTokenId, certificateCode },
+      true
     );
     let revokeEvents = await this.getPastEvents<MaterialAssignedCertificateEvent>(
       'MaterialRevokedCertificate',
-      { materialTokenId, certificateCode }
+      { materialTokenId, certificateCode },
+      true
     );
     let cancelEvents = await this.getPastEvents<MaterialAssignedCertificateEvent>(
       'MaterialCanceledCertificate',
-      { materialTokenId, certificateCode }
+      { materialTokenId, certificateCode },
+      true
     );
 
     for (let { type, events } of [

@@ -6,13 +6,13 @@ const {
   expectToThrow,
 } = require("../utils");
 
-contract("RawMaterial", (accounts) => {
+contract("Material", (accounts) => {
   const [account, otherAccount] = accounts;
   const createMaterial = _createMaterial(account);
   const createRawMaterial = _createRawMaterial(account);
   const createBatch = _createBatch(account);
   before(async () => {
-    const [materialInstance, companyInstance] = await getInstance();
+    const [, companyInstance] = await getInstance();
 
     await companyInstance.methods.create("", 0).send({ from: account });
   });

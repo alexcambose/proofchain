@@ -39,7 +39,7 @@ const createRawMaterial = (account) => async (
   code = "1234",
   images = ["abc"]
 ) => {
-  const [materialInstance, companyInstance] = await getInstance();
+  const [materialInstance] = await getInstance();
   // create a company
   const result = await materialInstance.methods
     .create(name, code, "", images)
@@ -55,7 +55,7 @@ const createMaterial = (account) => async (
   recipeMaterialTokenId = [],
   recipeMaterialAmount = []
 ) => {
-  const [materialInstance, companyInstance] = await getInstance();
+  const [materialInstance] = await getInstance();
   const result = await materialInstance.methods
     .create(name, code, "", images, recipeMaterialTokenId, recipeMaterialAmount)
     .send({ from: account, gas: 500000 });
@@ -63,7 +63,7 @@ const createMaterial = (account) => async (
   return eventReturn.materialTokenId;
 };
 const createBatch = (account) => async (code, uuids) => {
-  const [materialInstance, companyInstance] = await getInstance();
+  const [materialInstance] = await getInstance();
   const result = await materialInstance.methods
     .createBatch(code, uuids)
     .send({ from: account, gas: 400000 });
@@ -71,11 +71,7 @@ const createBatch = (account) => async (code, uuids) => {
   return eventReturn.batchId;
 };
 const createCertificate = (account) => async (name = "Company donates to charity", code = 123) => {
-  const [
-    materialInstance,
-    companyInstance,
-    certificateAuthorityManagerInstance,
-  ] = await getInstance();
+  const [materialInstance, , certificateAuthorityManagerInstance] = await getInstance();
   const result = await certificateAuthorityManagerInstance.methods
     .createCertificate(name, code, 2)
     .send({ from: account, gas: 300000 });

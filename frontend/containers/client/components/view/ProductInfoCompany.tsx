@@ -1,35 +1,71 @@
 import LoadingSkeleton from '@components/loading/LoadingSkeleton';
+import Tabs from '@components/tab/Tabs';
 import VerticalTable from '@components/table/VerticalTable';
 import CompanyEntityTypeTag from '@components/tag/CompanyEntityTypeTag';
+import TimeIndicator from '@components/TimeIndicator';
+import TransactionLink from '@components/TransactionLink';
 import { fetchCompanyInfo } from '@store/client/actions';
 import { State } from '@store/index';
+import { ORIENTATION } from 'baseui/tabs-motion';
 import { H3 } from 'baseui/typography';
+import { IMaterial } from 'interface';
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ClientCompanyCertificates from './info/material/ClientMaterialCertificates';
 
-interface IProductInfoCompanyProps {}
+interface IProductInfoCompanyProps {
+  material: IMaterial;
+}
 
-const ProductInfoCompany: React.FunctionComponent<IProductInfoCompanyProps> = ({}) => {
+const ProductInfoCompany: React.FunctionComponent<IProductInfoCompanyProps> = ({
+  material,
+}) => {
   const dispatch = useDispatch();
-  const company = useSelector(
-    (state: State) => state.client.information.company
-  );
-  const material = useSelector(
-    (state: State) => state.client.information.material
+  const companyInfo = useSelector(
+    (state: State) => state.client.information.companyInfo
   );
   useEffect(() => {
-    dispatch(fetchCompanyInfo());
+    dispatch(fetchCompanyInfo(material));
   }, []);
-  if (!company) return <LoadingSkeleton />;
+  if (!companyInfo) return <LoadingSkeleton />;
+  console.log(companyInfo);
+  const { company, createdEvent } = companyInfo;
   return (
     <>
       <H3>{company.name}</H3>
-      <VerticalTable
-        items={{
-          Type: <CompanyEntityTypeTag entityType={company.entityType} />,
-          Address: material.creator,
-        }}
+      <Tabs
+        orientation={ORIENTATION.vertical}
+        tabs={[
+          {
+            title: 'Information',
+            content: (
+              <VerticalTable
+                items={{
+                  Name: company.name,
+                  Type: (
+                    <CompanyEntityTypeTag entityType={company.entityType} />
+                  ),
+                  Address: material.creator,
+                  Created: (
+                    <TimeIndicator>
+                      {createdEvent.block.timestamp}
+                    </TimeIndicator>
+                  ),
+                  'Create transaction': (
+                    <TransactionLink>
+                      {createdEvent.event.transactionHash}
+                    </TransactionLink>
+                  ),
+                }}
+              />
+            ),
+          },
+          {
+            title: 'Certificates',
+            content: <ClientCompanyCertificates material={material} />,
+          },
+        ]}
       />
     </>
   );
