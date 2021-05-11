@@ -16,13 +16,14 @@ import LogoSvg from '@assets/images/logo/proofchain-logo-full-dark.svg';
 import { styled } from 'baseui';
 const Logo = styled(LogoSvg, {
   width: '100%',
-  height: '26%',
+  height: '24%',
 });
 const Auth: React.FC = () => {
   const dispatch = useDispatch();
   const onSocialButtonsClick = async (loginType: SocialLoginTypeEnum) => {
     if (loginType === SocialLoginTypeEnum.METAMASK) {
       await dispatch(loginWithMetamask());
+      location.reload();
     } else {
       await dispatch(loginWithTorus(loginType));
     }

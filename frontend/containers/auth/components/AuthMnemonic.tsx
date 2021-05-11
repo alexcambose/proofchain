@@ -23,7 +23,7 @@ const AuthMnemonic: React.FC<AuthMnemonicProps> = ({ onSubmit }) => {
       >
         <MnemonicForm onSubmit={handleOnMnemonicFormSubmit} />
       </Modal>
-      <Button onClick={handleOnCreateClick}>Create from mnemonic phrase</Button>
+      <Button onClick={handleOnCreateClick}>Wallet from mnemonic phrase</Button>
     </>
   );
 };

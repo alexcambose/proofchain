@@ -103,6 +103,11 @@ const CompanySidebar = () => {
           icon: ['fab', 'github'],
           itemId: 'https://github.com/alexcambose/proofchain',
         },
+        {
+          title: 'Documentation',
+          icon: 'book',
+          itemId: 'https://docs.proofchain.alexcambose.ro/',
+        },
       ]}
       items={[
         {

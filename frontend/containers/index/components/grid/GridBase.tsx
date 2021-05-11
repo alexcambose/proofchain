@@ -126,7 +126,10 @@ const GridBase: React.FC<IGridBaseProps> = ({
             height: '100%',
             display: 'flex',
             flexDirection: 'column',
-            margin: 0,
+            marginTop: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: 0,
           }),
         },
         Body: {

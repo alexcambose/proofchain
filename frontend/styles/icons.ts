@@ -24,6 +24,7 @@ import {
   faDownload,
   faTrash,
   faBox,
+  faBook,
   faIndustry,
   faNetworkWired,
 } from '@fortawesome/free-solid-svg-icons';
@@ -55,5 +56,6 @@ library.add(
   faDownload,
   faTrash,
   faBox,
-  faIndustry
+  faIndustry,
+  faBook
 );

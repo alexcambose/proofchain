@@ -30,29 +30,34 @@ export const SideNavigationSectionContainer = styled(
   ({ $theme }) => ({})
 );
 export const SideNavigationSection = styled('div', ({ $theme, $isBottom }) => ({
-  paddingLeft: $theme.sizing.scale700,
-  paddingRight: $theme.sizing.scale700,
+  paddingLeft: $theme.sizing.scale600,
+  paddingRight: $theme.sizing.scale600,
   marginTop: $isBottom && 'auto',
 }));
 export const SideNavigationSectionMainTitle = styled('div', ({ $theme }) => ({
   color: $theme.colors.accent,
   userSelect: 'none',
 }));
-export const SideNavigationSectionTitle = styled('div', ({ $theme }) => ({
-  paddingLeft: $theme.sizing.scale400,
-  paddingRight: $theme.sizing.scale400,
-  paddingTop: $theme.sizing.scale500,
-  paddingBottom: $theme.sizing.scale500,
-  cursor: 'pointer',
-  userSelect: 'none',
-  transition: $theme.animation.timing200,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  [':hover']: {
-    background: `rgba(39, 110, 241, 0.2)`,
-  },
-}));
+export const SideNavigationSectionTitle = styled(
+  'div',
+  ({ $theme, $opened, $hasChildren }) => ({
+    paddingLeft: $theme.sizing.scale500,
+    paddingRight: $theme.sizing.scale500,
+    paddingTop: $theme.sizing.scale500,
+    paddingBottom: $theme.sizing.scale500,
+    cursor: 'pointer',
+    userSelect: 'none',
+    transition: $theme.animation.timing200,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    background: $opened && !$hasChildren ? `rgba(39, 110, 241, 0.2)` : 'auto',
+
+    [':hover']: {
+      background: $opened ? `rgba(39, 110, 241, 0.15)` : `rgba(0, 0, 0, 0.05)`,
+    },
+  })
+);
 export const SideNavigationSectionTitleIcon = styled(
   FontAwesomeIcon,
   ({ $theme }) => ({
@@ -100,7 +105,9 @@ export const SideNavigationSectionListItem = styled(
     fontWeight: $isActive ? 'bold' : 'normal',
     background: $isActive ? `rgba(39, 110, 241, 0.2)` : 'auto',
     [':hover']: {
-      background: `rgba(39, 110, 241, 0.2)`,
+      background: $isActive
+        ? `rgba(39, 110, 241, 0.15)`
+        : `rgba(0, 0, 0, 0.05)`,
     },
   })
 );

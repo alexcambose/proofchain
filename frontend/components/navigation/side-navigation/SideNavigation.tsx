@@ -59,6 +59,7 @@ const SideNavigation: React.FunctionComponent<ISideNavigationProps> = ({
                 : setStatus((s) => ({ ...s, [item.itemId]: !s[item.itemId] }))
             }
             $opened={status[item.itemId]}
+            $hasChildren={item.subNav}
           >
             <span>
               <SideNavigationSectionTitleIcon icon={item.icon} />

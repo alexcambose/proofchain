@@ -59,6 +59,7 @@ function MyApp({ Component, pageProps }) {
         }
       })();
     } else {
+      // init web3 for clients
       (async () => {
         dispatch(setApplicationLoading(true));
         await initWeb3Instance(null);
