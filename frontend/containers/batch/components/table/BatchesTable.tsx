@@ -22,7 +22,7 @@ const BatchesTable: React.FC<IBatchesTableProps> = ({ isLoading, batches }) => {
         'Code',
         'Material Id',
         'Material Uuids',
-        'Create Transaction',
+        'Created Transaction',
         'Action',
       ]}
       data={batches.map((e) => [

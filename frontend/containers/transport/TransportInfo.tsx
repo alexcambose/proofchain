@@ -91,7 +91,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
                   ? 'Yes'
                   : 'No',
                 Created: <TimeIndicator>{createdTimestamp}</TimeIndicator>,
-                'Create Transaction': (
+                'Created Transaction': (
                   <TransactionLink>
                     {transport.events.TransportCreated.transactionHash}
                   </TransactionLink>

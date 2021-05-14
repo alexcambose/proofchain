@@ -27,7 +27,7 @@ const CertificatesTable: React.FC<ICertificatesTableProps> = ({
         'Name',
         'Description',
         'Type',
-        'Create Transaction',
+        'Created Transaction',
         'Action',
       ]}
       data={certificates.map((e) => [

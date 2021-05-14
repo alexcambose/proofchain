@@ -52,7 +52,7 @@ const ProductInfoCompany: React.FunctionComponent<IProductInfoCompanyProps> = ({
                       {createdEvent.block.timestamp}
                     </TimeIndicator>
                   ),
-                  'Create transaction': (
+                  'Created Transaction': (
                     <TransactionLink>
                       {createdEvent.event.transactionHash}
                     </TransactionLink>

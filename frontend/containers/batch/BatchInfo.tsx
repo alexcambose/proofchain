@@ -53,7 +53,7 @@ const BatchInfo: React.FC<IBatchInfoProps> = ({ batchId }) => {
                 Id: batch.batchId,
                 Code: batch.code,
                 Created: <TimeIndicator>{createdTimestamp}</TimeIndicator>,
-                'Create Transaction': (
+                'Created Transaction': (
                   <TransactionLink>
                     {batch.events.BatchCreate.transactionHash}
                   </TransactionLink>

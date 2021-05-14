@@ -19,7 +19,7 @@ const MaterialsTable: React.FC<IMaterialsTableProps> = ({
       withPagination
       withSearch
       isLoading={isLoading}
-      columns={['ID', 'Name', 'Code', 'Create Transaction', 'Action']}
+      columns={['ID', 'Name', 'Code', 'Created Transaction', 'Action']}
       data={materials.map((e) => [
         e.materialTokenId,
         e.name,

@@ -28,7 +28,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         'Transport Company',
         'Batch ids',
         'Status',
-        'Create Transaction',
+        'Created Transaction',
         'Action',
       ]}
       data={transports.map((e) => [
@@ -63,7 +63,7 @@ const IncomingTransportsTable: React.FC<IIncomingTransportsTableeProps> = ({
         'Transport Company',
         'Batch ids',
         'Status',
-        'Create Transaction',
+        'Created Transaction',
         'Action',
       ]}
       data={transports.map((e) => [

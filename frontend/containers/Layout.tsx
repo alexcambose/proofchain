@@ -76,7 +76,7 @@ const BreadcrumbNavigation = () => {
   );
 };
 const ChildrenContainer = styled('div', ({ $theme }) => ({
-  boxShadow: $theme.lighting.shadow700,
+  boxShadow: $theme.lighting.shadow600,
   padding: $theme.sizing.scale1000,
 }));
 const Layout: React.FC<LayoutProps> = ({

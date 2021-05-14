@@ -55,7 +55,7 @@ const CertificateInfo: React.FC<ICertificateInfoProps> = ({
           <Address>{assignEvent.certificateAuthority}</Address>
         ),
         Created: <TimeIndicator>{assignEvent.block.timestamp}</TimeIndicator>,
-        'Create Transaction': (
+        'Created Transaction': (
           <TransactionLink>
             {certificateCreatedEvent.event.transactionHash}
           </TransactionLink>
@@ -67,38 +67,39 @@ const CertificateInfo: React.FC<ICertificateInfoProps> = ({
 interface IcertificateAuthorityDetailsProps {
   certificateAuthority: ICertificateAuthority;
 }
-const CertificateAuthorityDetails: React.FC<IcertificateAuthorityDetailsProps> = ({
-  certificateAuthority,
-}) => {
-  const [createEvent, setCreateEvent] = useState(null);
-  const [eventBlock, setEventBlock] = useState(null);
-  useEffect(() => {
-    (async () => {
-      const events = await proofchain().certificateAuthority.getPastEvents(
-        'CertificateAuthorityCreated'
-      );
-      const [event] = events;
-      setCreateEvent(event);
-      // @ts-ignore
-      setEventBlock(await web3Instance().eth.getBlock(event.blockNumber));
-    })();
-  }, []);
-  if (!eventBlock) return <LoadingSkeleton />;
-  return (
-    <VerticalTable
-      withTransactionDetails={createEvent.event.transactionHash}
-      items={{
-        Name: certificateAuthority.name,
-        Address: certificateAuthority.owner,
-        Created: <TimeIndicator>{eventBlock.timestamp}</TimeIndicator>,
-        Status: certificateAuthority.disabled ? 'Disabled' : 'Enabled',
-        'Create Transaction': (
-          <TransactionLink>{createEvent.event.transactionHash}</TransactionLink>
-        ),
-      }}
-    />
-  );
-};
+const CertificateAuthorityDetails: React.FC<IcertificateAuthorityDetailsProps> =
+  ({ certificateAuthority }) => {
+    const [createEvent, setCreateEvent] = useState(null);
+    const [eventBlock, setEventBlock] = useState(null);
+    useEffect(() => {
+      (async () => {
+        const events = await proofchain().certificateAuthority.getPastEvents(
+          'CertificateAuthorityCreated'
+        );
+        const [event] = events;
+        setCreateEvent(event);
+        // @ts-ignore
+        setEventBlock(await web3Instance().eth.getBlock(event.blockNumber));
+      })();
+    }, []);
+    if (!eventBlock) return <LoadingSkeleton />;
+    return (
+      <VerticalTable
+        withTransactionDetails={createEvent.event.transactionHash}
+        items={{
+          Name: certificateAuthority.name,
+          Address: certificateAuthority.owner,
+          Created: <TimeIndicator>{eventBlock.timestamp}</TimeIndicator>,
+          Status: certificateAuthority.disabled ? 'Disabled' : 'Enabled',
+          'Created Transaction': (
+            <TransactionLink>
+              {createEvent.event.transactionHash}
+            </TransactionLink>
+          ),
+        }}
+      />
+    );
+  };
 
 const CertificateInformationTabs: React.FC<CertificateInformationTabs> = ({
   certificateInfo,
