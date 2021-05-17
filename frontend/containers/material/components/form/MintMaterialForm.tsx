@@ -211,7 +211,7 @@ const _MintMaterialForm: React.FC<
               ]?.length === 0 && values.fromBatchId.length > 0
             }
             onClick={() => {
-              setFieldValue('batchMaterialsUuid', [
+              setFieldValue('fromBatchMaterialsUuid', [
                 ...values.fromBatchMaterialsUuid,
                 [],
               ]);
@@ -244,13 +244,9 @@ const MintMaterialForm = withFormik<MintMaterialFormProps, FormValues>({
       amount: validation.mintAmount,
     }),
   handleSubmit: async (values, { props, resetForm }) => {
-    const {
-      mintMaterial,
-      materialTokenId,
-      onSuccess,
-      fetchMaterialInfo,
-    } = props;
-    console.log(values);
+    const { mintMaterial, materialTokenId, onSuccess, fetchMaterialInfo } =
+      props;
+    console.log();
     await mintMaterial({
       materialTokenId,
       ...values,

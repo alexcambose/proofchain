@@ -1,9 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ChevronDown from 'baseui/icon/chevron-down';
 import { useRouter } from 'next/router';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import uuid from 'react-uuid';
 import {
   SideNavigationCaret,
   SideNavigationContainer,
@@ -45,6 +43,7 @@ const SideNavigation: React.FunctionComponent<ISideNavigationProps> = ({
       setStatus({ [activeItemId]: true });
     }
   }, [activeItemId]);
+  console.log(activeItemId);
   const renderItems = (items, ...props) => (
     <SideNavigationSectionContainer>
       {items.map((item) => (
@@ -66,12 +65,22 @@ const SideNavigation: React.FunctionComponent<ISideNavigationProps> = ({
               {item.title}
             </span>
             {item.subNav && (
-              <SideNavigationCaret $opened={status[item.itemId]}>
+              <SideNavigationCaret
+                $opened={
+                  status[item.itemId] ||
+                  activeItemId.indexOf(item.itemId) !== -1
+                }
+              >
                 <ChevronDown />
               </SideNavigationCaret>
             )}
           </SideNavigationSectionTitle>
-          <SideNavigationSectionList $opened={status[item.itemId]}>
+          <SideNavigationSectionList
+            $opened={
+              status[item.itemId] || activeItemId.indexOf(item.itemId) !== -1
+            }
+          >
+            {/* {item.itemId} */}
             <SideNavigationSectionLine />
 
             {item.subNav &&
