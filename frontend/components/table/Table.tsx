@@ -141,7 +141,7 @@ const Table: React.FC<ITableProps> = ({
       {withPagination && (
         <PaginationContainer>
           <PaginationLabel>
-            Showing {perPage * (currentPage - 1) + 1} to{' '}
+            Showing {perPage * (currentPage - 1)} to{' '}
             {Math.min(perPage * currentPage, filteredData.length)} out of{' '}
             {pluralize('entry', filteredData.length, true)}
           </PaginationLabel>

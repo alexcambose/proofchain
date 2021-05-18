@@ -53,9 +53,7 @@ const CertificateTableCompanies: React.FC<ICertificateTableCompaniesProps> = ({
         />,
       ])}
       emptyMessage={
-        <Link
-          href={`/certificate/assign?certificateCode=${certificateCode}`}
-        >
+        <Link href={`/certificate/assign?certificateCode=${certificateCode}`}>
           <StyledLink animateUnderline href="#">
             Assign this certificate to a company
           </StyledLink>

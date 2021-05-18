@@ -48,13 +48,9 @@ const CertificatesTable: React.FC<ICertificatesTableProps> = ({
 
         <ViewButton id={e.certificate.code} baseUrl="/certificate" />,
       ])}
-      emptyMessage={
-        <Link href="/certificate/create">
-          <StyledLink animateUnderline href="#">
-            Create a new certificate
-          </StyledLink>
-        </Link>
-      }
+      emptyMessage="
+           No certificates
+      "
     />
   );
 };

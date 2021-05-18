@@ -15,6 +15,7 @@ import {
   SideNavigationSectionTitle,
   SideNavigationSectionTitleIcon,
 } from './SideNavigation.styled';
+
 interface ISideNaviagtionItem {
   title: any;
   itemId: string;
@@ -22,6 +23,7 @@ interface ISideNaviagtionItem {
   sectionTitle?: string;
   subNav?: ISideNaviagtionItem[];
 }
+
 interface ISideNavigationProps {
   items: ISideNaviagtionItem[];
   bottomItems: ISideNaviagtionItem[];

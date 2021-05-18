@@ -88,6 +88,11 @@ const logisticEntityMenus = [
       // { title: 'Transport requests', itemId: '/transport/requests' },
     ],
   },
+  {
+    title: 'Certificates',
+    itemId: '/certificate',
+    icon: 'scroll',
+  },
 ];
 const CompanySidebar = () => {
   const router = useRouter();

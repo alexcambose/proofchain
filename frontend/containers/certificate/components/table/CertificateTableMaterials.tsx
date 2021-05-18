@@ -24,6 +24,7 @@ const CertificateTableMaterials: React.FC<ICertificateTableMaterialsProps> = ({
   certificateCode,
   info,
 }) => {
+  console.log(info);
   return (
     <Table
       isLoading={isLoading}
@@ -41,7 +42,7 @@ const CertificateTableMaterials: React.FC<ICertificateTableMaterialsProps> = ({
         web3Instance() &&
           web3Instance().utils.fromWei(e.certificateInstance.stake, 'ether') +
             ' ETH',
-        <TimeIndicator>{e.assignEvent.block.time}</TimeIndicator>,
+        <TimeIndicator>{e.assignTime}</TimeIndicator>,
         <TransactionLink>
           {e.assignEvent.event.transactionHash}
         </TransactionLink>,
