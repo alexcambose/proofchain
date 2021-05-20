@@ -17,9 +17,6 @@ const ClientMaterialInfo: React.FunctionComponent<IClientMaterialInfoProps> = ({
   material,
   mintEvent,
 }) => {
-  const [css, theme] = useStyletron();
-
-  console.log('tabs');
   return (
     <Tabs
       tabs={[

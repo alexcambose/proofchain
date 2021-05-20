@@ -13,7 +13,7 @@ const FooterContainer = styled('footer', ({ $theme }) => ({
   borderTopColor: $theme.colors.borderOpaque,
   backgroundColor: $theme.colors.backgroundSecondary,
   // paddingTop: $theme.sizing.scale600,
-  paddingBottom: $theme.sizing.scale100,
+  paddingBottom: $theme.sizing.scale300,
 }));
 const FooterList = styled('ul', ({ $theme, $reversed }) => ({
   listStyleType: 'none',
@@ -28,6 +28,7 @@ const FooterList = styled('ul', ({ $theme, $reversed }) => ({
   },
 }));
 const Footer: React.FunctionComponent<IFooterProps> = (props) => {
+  return null;
   return (
     <FooterContainer>
       <Grid>

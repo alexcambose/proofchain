@@ -23,6 +23,7 @@ const ProductInformation: React.FunctionComponent<IProductInformationProps> = ({
     })();
   }, []);
   if (!data) return <LoadingOverlay />;
+  console.log('material', data);
   return (
     <>
       <ClientMaterialInfo

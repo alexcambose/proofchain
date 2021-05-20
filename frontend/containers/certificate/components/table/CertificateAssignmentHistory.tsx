@@ -64,6 +64,7 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
       const historyWithBlocks = await Promise.all(
         fetchedHistory.map(async (e) => ({
           ...e,
+          block: await web3Instance().eth.getBlock(e.event.event.blockNumber),
           certificateInstance: await proofchain().material.getCertificateInstance(
             e.event.certificateInstanceId
           ),
@@ -73,6 +74,13 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
     })();
   }, []);
   if (!history) return <LoadingSkeleton />;
+  const assignedToItem = e => (companyAddress ? 
+    { 'Assigned Company Address': (
+                    e.event.companyAddress
+                )
+  } : { 'Assigned Material Id': (
+                 e.event.materialTokenId
+                )})
   return (
     <>
       <Accordion>
@@ -89,7 +97,7 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
                   {assignmentStyle[e.type].icon}
                 </span>
                 {assignmentStyle[e.type].label} -{' '}
-                <TimeIndicator>{e.event.block.timestamp}</TimeIndicator>
+                <TimeIndicator>{e.block.timestamp}</TimeIndicator>
               </div>
             }
           >
@@ -97,20 +105,13 @@ const CertificateAssignmentHistory: React.FC<ICertificateAssignmentHistoryProps>
               withTransactionDetails={e.event.event.transactionHash}
               items={{
                 'Certificare Instance Id': e.event.certificateInstanceId,
-                'Material Id': (
-                  <StyledLink
-                    target="_blank"
-                    href={`/material/${e.event.materialTokenId}`}
-                  >
-                    {e.event.materialTokenId}
-                  </StyledLink>
-                ),
+               ...assignedToItem(e),
                 Stake:
                   web3Instance().utils.fromWei(
                     e.certificateInstance.stake,
                     'ether'
                   ) + ' ETH',
-                Time: <TimeIndicator>{e.event.block.timestamp}</TimeIndicator>,
+                Time: <TimeIndicator>{e.block.timestamp}</TimeIndicator>,
                 Creator: <Address>{e.event.event.address}</Address>,
                 Transaction: (
                   <TransactionLink>

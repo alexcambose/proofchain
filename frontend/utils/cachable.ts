@@ -9,6 +9,7 @@ export const getMaterialByUuid = async (uuid) => {
   );
   return materialInstance;
 };
+
 export const getMaterialById = async (materialTokenId) => {
   const cacheId = `m-id-${materialTokenId}`;
   const material = await LocalCache.cached(
@@ -18,6 +19,7 @@ export const getMaterialById = async (materialTokenId) => {
 
   return material;
 };
+
 export const getBatchById = async (batchId) => {
   const cacheId = `batch-id-${batchId}`;
   const batch = await LocalCache.cached(

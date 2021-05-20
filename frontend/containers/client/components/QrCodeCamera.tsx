@@ -1,13 +1,12 @@
 // @ts-ignore
-import QrScannerWorkerPath from '!!file-loader!node_modules/qr-scanner/qr-scanner-worker.min.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from 'baseui';
 import { Button } from 'baseui/button';
 import { ButtonGroup, SIZE } from 'baseui/button-group';
+import { useRouter } from 'next/router';
 import QrScanner from 'qr-scanner';
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-QrScanner.WORKER_PATH = QrScannerWorkerPath;
 
 interface IQrCodeCameraProps {
   onScanSuccessful: (data: string) => void;
@@ -20,16 +19,24 @@ const Video = styled('video', ({ $theme }) => ({
   height: 'auto',
 }));
 const QrCodeCamera: React.FC<IQrCodeCameraProps> = ({ onScanSuccessful }) => {
+  const router = useRouter();
   const videoElem = useRef(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [hasFlash, setHasFlash] = useState(false);
   const [qrScanner, setQrScanner] = useState(null);
   useEffect(() => {
-    const qrScannerInstance = new QrScanner(videoElem.current, (result) =>
-      console.log('decoded qr code:', result)
-    );
+    QrScanner.WORKER_PATH = '/qr-scanner-worker.min.js';
 
-    qrScannerInstance.start();
+    const qrScannerInstance = new QrScanner(videoElem.current, (result) => {
+      if (confirm('Material code: ' + result + '. Is that correct ?')) {
+        // Save it!
+        router.push('/client/' + result);
+      }
+    });
+
+    qrScannerInstance.start().then(() => {
+      console.log('start');
+    });
     setQrScanner(qrScannerInstance);
     (async () => {
       setHasFlash(await qrScannerInstance.hasFlash());
