@@ -136,85 +136,83 @@ const generateElements = (elements, history, parentNode = null) => {
         background: 'transparent',
       },
       animated: false,
+      data: {},
     };
+    let hash = null;
+
     if (parentNode.data.historyElement.type === 'MATERIAL') {
-      edgeElement.label = (
-        <>
-          <TransactionLink noLink maxLength={5}>
-            {parentNode.data.historyElement.mintEvent.event.transactionHash}
-          </TransactionLink>
-        </>
-      );
+      hash = parentNode.data.historyElement.mintEvent.event.transactionHash;
     } else if (parentNode.data.historyElement.type === 'BATCH') {
-      edgeElement.label = (
-        <>
-          <TransactionLink noLink maxLength={5}>
-            {parentNode.data.historyElement.createEvent.event.transactionHash}
-          </TransactionLink>
-        </>
-      );
+      hash = parentNode.data.historyElement.createEvent.event.transactionHash;
     }
+    edgeElement.label = (
+      <>
+        <TransactionLink noLink maxLength={5}>
+          {hash}
+        </TransactionLink>
+      </>
+    );
+    edgeElement.data.onClick = () => history.onHashClick(hash);
     elements.push(edgeElement);
   }
 
   elements.push(newElement);
 };
-const ProductHistoryVisualization: React.FunctionComponent<IProductHistoryVisualizationProps> = ({
-  history,
-  isLoading,
-}) => {
-  const [rfInstance, setRfInstance] = useState(null);
-  const onLoad = useCallback((instance) => {
-    setRfInstance(instance);
-  }, []);
+const ProductHistoryVisualization: React.FunctionComponent<IProductHistoryVisualizationProps> =
+  ({ history, isLoading }) => {
+    const [rfInstance, setRfInstance] = useState(null);
+    const onLoad = useCallback((instance) => {
+      setRfInstance(instance);
+    }, []);
 
-  const elements = useMemo(() => {
-    let data = [];
-    generateElements(data, history);
-    rfInstance &&
-      rfInstance.fitView({ padding: 0.2, includeHiddenNodes: true });
-
-    console.log('fit');
-    return data;
-  }, [history, rfInstance]);
-  useEffect(() => {
-    setTimeout(() => {
+    const elements = useMemo(() => {
+      let data = [];
+      generateElements(data, history);
       rfInstance &&
         rfInstance.fitView({ padding: 0.2, includeHiddenNodes: true });
-      console.log('fit');
-    }, 500);
-  }, []);
-  const onElementClick = (e, element) => {
-    element?.data?.onClick && element.data.onClick(element.data.historyElement);
-  };
 
-  return (
-    <div style={{ height: '50vh', minHeight: 400 }}>
-      <ReactFlow
-        onElementClick={onElementClick}
-        nodesConnectable={false}
-        onLoad={onLoad}
-        elements={getLayoutedElements(elements)}
-      >
-        {!isLoading && (
-          <>
-            <MiniMap
-              style={{ opacity: 0.8, width: 150, height: 100 }}
-              //@ts-ignore
-              nodeStrokeColor={(n) => {
-                return n.style.background;
-              }}
-              //@ts-ignore
-              nodeColor={(n) => {
-                return n.style.background;
-              }}
-            />
-            <Controls />
-          </>
-        )}
-      </ReactFlow>
-    </div>
-  );
-};
+      console.log('fit');
+      return data;
+    }, [history, rfInstance]);
+    useEffect(() => {
+      setTimeout(() => {
+        rfInstance &&
+          rfInstance.fitView({ padding: 0.2, includeHiddenNodes: true });
+        console.log('fit');
+      }, 500);
+    }, []);
+    const onElementClick = (e, element) => {
+      element?.data?.onClick &&
+        element.data.onClick(element.data.historyElement);
+    };
+
+    return (
+      <div style={{ height: '50vh', minHeight: 400 }}>
+        <ReactFlow
+          onElementClick={onElementClick}
+          nodesConnectable={false}
+          onLoad={onLoad}
+          elements={getLayoutedElements(elements)}
+        >
+          {!isLoading && (
+            <>
+              <MiniMap
+                style={{ opacity: 0.8, width: 150, height: 100 }}
+                //@ts-ignore
+                nodeStrokeColor={(n) => {
+                  return n.style.background;
+                }}
+                //@ts-ignore
+                nodeColor={(n) => {
+                  return n.style.background;
+                }}
+              />
+              <Controls />
+            </>
+          )}
+        </ReactFlow>
+      </div>
+    );
+  };
 
 export default ProductHistoryVisualization;

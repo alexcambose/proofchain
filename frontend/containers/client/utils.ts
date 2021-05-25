@@ -36,6 +36,7 @@ export const generateHistory = async (
     mintEvent: materialInstance.mintEvent,
     type: 'MATERIAL',
     onClick,
+    onHashClick: onClick,
     children: [],
   };
   // get batch information
@@ -55,6 +56,7 @@ export const generateHistory = async (
       createEvent: createEvent[0],
       children: [], //PARTIAL LOAD
       onClick,
+      onHashClick: onClick,
     };
     history.children[i] = child;
   }

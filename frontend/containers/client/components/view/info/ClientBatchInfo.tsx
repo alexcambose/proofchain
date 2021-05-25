@@ -5,6 +5,7 @@ import VerticalTable from '@components/table/VerticalTable';
 import TimeIndicator from '@components/TimeIndicator';
 import TransactionLink from '@components/TransactionLink';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getMaterialById } from '@utils/cachable';
 import { useStyletron } from 'baseui';
 import { Accordion } from 'baseui/accordion';
 import { ORIENTATION } from 'baseui/tabs-motion';
@@ -25,6 +26,7 @@ const ClientBatchInfo: React.FunctionComponent<IClientBatchInfoProps> = ({
   historyItem,
 }) => {
   const [css, theme] = useStyletron();
+  const [batchMaterial, setBatchMaterial] = useState(null);
   const { batchInstance, createEvent, material } = historyItem;
   const [historyEvents, setHistoryEvents] = useState(null);
   useEffect(() => {
@@ -34,6 +36,7 @@ const ClientBatchInfo: React.FunctionComponent<IClientBatchInfoProps> = ({
       event: createEvent,
     });
     (async () => {
+      setBatchMaterial(await getMaterialById(batchInstance.materialTokenId));
       const transferEvents: any = await proofchain().batch.getPastEvents(
         'BatchTransfer',
         { batchId: batchInstance.batchId },
@@ -59,7 +62,6 @@ const ClientBatchInfo: React.FunctionComponent<IClientBatchInfoProps> = ({
           });
         }
       }
-      console.log(events);
 
       setHistoryEvents(events);
     })();
@@ -130,12 +132,15 @@ const ClientBatchInfo: React.FunctionComponent<IClientBatchInfoProps> = ({
           title: 'Information',
           content: (
             <VerticalTable
+              withTransactionDetails={createEvent.event.transactionHash}
               items={{
                 Id: batchInstance.batchId,
                 Code: batchInstance.code,
                 'Current owner': batchInstance.owner,
-                'Contains material': material.name,
-                'Current Materials': batchInstance.materialsUuid.join(', '),
+                'Contains material': batchMaterial && batchMaterial.name,
+                'Current materials uuid': batchInstance.materialsUuid.length
+                  ? batchInstance.materialsUuid.join(', ')
+                  : '-',
                 Created: (
                   <TimeIndicator>{createEvent.block.timestamp}</TimeIndicator>
                 ),

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductHistoryVisualization from './ProductHistoryVisualisation';
 import ProductInfoModal from './ProductInfoModal';
+import TransactionInfoModal from './TransactionInfoModal';
 interface IProductInfoHistoryProps {
   uuid: number;
 }
@@ -21,7 +22,6 @@ const ProductInfoHistory: React.FunctionComponent<IProductInfoHistoryProps> = ({
     (state: State) => state.client.information.materialInstance
   );
   const onClick = (item) => {
-    console.log(item);
     setSelectedHistoryItem(item);
   };
   useEffect(() => {
@@ -36,10 +36,17 @@ const ProductInfoHistory: React.FunctionComponent<IProductInfoHistoryProps> = ({
   if (!history) return <LoadingSkeleton />;
   return (
     <>
-      <ProductInfoModal
-        onClose={() => setSelectedHistoryItem(null)}
-        historyItem={selectedHistoryItem}
-      />
+      {typeof selectedHistoryItem == 'string' ? (
+        <TransactionInfoModal
+          onClose={() => setSelectedHistoryItem(null)}
+          hash={selectedHistoryItem}
+        />
+      ) : (
+        <ProductInfoModal
+          onClose={() => setSelectedHistoryItem(null)}
+          historyItem={selectedHistoryItem}
+        />
+      )}
       <ProductHistoryVisualization isLoading={isLoading} history={history} />
     </>
   );
