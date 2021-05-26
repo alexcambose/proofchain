@@ -83,6 +83,10 @@ npm install
 └── truffle-config.js  - Truffle configuration file. See https://www.trufflesuite.com/docs/truffle/reference/configuration
 ```
 
+## Factory contract address
+
+After running the `migrate:test` or `migrate:rinkeby` commands, the .env file in the root directory is updated with the newly deployed factory contract address (either DEVELOPMENT_FACTORY_CONTRACT_ADDRESS or PRODUCTION_FACTORY_CONTRACT_ADDRESS)
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

@@ -34,38 +34,38 @@ module.exports = async (
       code: "2020",
       amountIdentifier: "kg",
       account: mainAccount,
-      amount: 10,
-      materialTokenId: null,
-      uuids: [],
     },
     {
       name: "Yeast",
       code: "L93J",
       amountIdentifier: "gram",
       account: mainAccount,
-      amount: 10,
-      materialTokenId: null,
-      uuids: [],
     },
     {
       name: "Salt",
       code: "v9z4",
       amountIdentifier: "gram",
       account: otherAccount,
-      amount: 10,
-      materialTokenId: null,
-      uuids: [],
     },
     {
       name: "Sugar",
       code: "xtg2",
       amountIdentifier: "kg",
       account: otherAccount,
-      amount: 10,
-      materialTokenId: null,
-      uuids: [],
     },
-  ];
+    {
+      name: "Milk",
+      code: "mtk2",
+      amountIdentifier: "L",
+      account: mainAccount,
+    },
+    {
+      name: "Salt",
+      code: "v324",
+      amountIdentifier: "gram",
+      account: mainAccount,
+    },
+  ].map((e) => ({ ...e, amount: 10, materialTokenId: null, uuids: [] }));
   for (let i = 0; i < materials.length; i++) {
     const { name, code, amountIdentifier, account, amount } = materials[i];
     const result = await materialInstance.methods
