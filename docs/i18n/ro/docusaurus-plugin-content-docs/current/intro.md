@@ -2,9 +2,9 @@
 sidebar_position: 1
 ---
 
-# Intro
+# Tutorial Intro
 
-Proofchain is a collection of tools,
+Let's diaaaaaaaaascover **Docusaurus in less than 5 minutes**.
 
 ## Getting Started
 
