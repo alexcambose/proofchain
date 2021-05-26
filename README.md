@@ -32,7 +32,7 @@
 
 **Smart Contracts**: At the core of Proofchain are the smart contracts, written in Solidity, which live on the Ethereum blockchain. These make up an open platform that anyone can interact with.
 
-**Proofchain Dashboard**: It offers a snapshot of the core features of
+**Proofchain Dashboard**: It offers a snapshot of the core features of the smart contracts based platform.
 
 **Proofchain Web3 library**: A JS library which simplifies interacting with Proofchain contracts, facilitating communication between existing Supply Chain Management software and distributed ledged technology.
 
@@ -77,7 +77,7 @@ Supply chain entities and materials can be audited by third party "certificate a
 ```
 ├── frontend - Proofchain Dashboard and Client App source
 ├── library - Proofchain Library
-├── truffle - Proffchain Smart Contracts
+├── truffle - Proofchain Smart Contracts
 ├── docs - Overall project documentation
 ├── presentation - Proofchian presentation website
 ├── misc - Other utility code
@@ -89,7 +89,21 @@ Supply chain entities and materials can be audited by third party "certificate a
 
 ## Resources
 
-Proofchain
+- [Proofchain DEMO](https://demo.proofchain.alexcambose.ro/)
+
+- [Presentation website](https://proofchain.alexcambose.ro/)
+
+- [General documentation](https://docs.proofchain.alexcambose.ro/)
+
+- [Frontend information](./frontend/)
+
+- [Smart contracts information](./truffle/)
+
+- [Smart contracts docs](./truffle/docs)
+
+- [Library informtion](./library/)
+
+- [Library docs](https://library.proofchain.alexcambose.ro/)
 
 ## Contributing
 
