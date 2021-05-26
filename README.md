@@ -18,9 +18,9 @@
 <p align="center">
   <a href="#platform">Platform</a> •
   <a href="#core-features">Core features</a> •
-  <a href="#download">Structure</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
+  <a href="#project-structure">Project Structure</a> •
+  <a href="#resources">Resources</a> •
+  <a href="#contributing">Contributing</a> •
   <a href="#license">License</a>
 </p>
 
@@ -36,7 +36,7 @@
 
 **Proofchain Web3 library**: A JS library which simplifies interacting with Proofchain contracts, facilitating communication between existing Supply Chain Management software and distributed ledged technology.
 
-**Proofchain Client App**: A mobile-first web application that provides end users with the ability to view a complete provenance history of each product.
+**Proofchain Client App**: A mobile-first web application that provides end users with the ability to view the complete provenance history of each product.
 
 ## Core features overview
 
@@ -60,12 +60,43 @@ Supply chain entities and materials can be audited by third party "certificate a
   - Manufacturer company: Creates raw materials, materials, batches and transports.
   - Transport company: Intermediary between other company types, can manage transports.
 - **Raw Materials**
-  - represented using non-fungible digital tokens that are created on a blockchain for each batch of manufactured products
+  - Represented using non-fungible digital tokens that are created on a blockchain for each batch of manufactured products
 - **Materials**
+  - Similar to raw materials but are composed of multiple raw materials
 - **Batches**
-  - Ba
+  - Batches are a collection composed of the same material or raw material type
 - **Transports**
-- **Certificate authorities**:
+  - Property exchange mechanism. A transport is composed of the sender, receiver and transport company
 - **Certificates**
   - Certificates are a method by which companies communicates impact about their business, proudcts and supply chains practices.
+- **Certificate authorities**:
   - Certificate authorities can create and assign certificates to materials, raw materials and companies.
+
+## Project structure
+
+```
+├── frontend - Proofchain Dashboard and Client App source
+├── library - Proofchain Library
+├── truffle - Proffchain Smart Contracts
+├── docs - Overall project documentation
+├── presentation - Proofchian presentation website
+├── misc - Other utility code
+├── lerna.json
+├── package.json
+├── README.md
+└── ...
+```
+
+## Resources
+
+Proofchain
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
