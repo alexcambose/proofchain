@@ -2,6 +2,6 @@
 sidebar_position: 1
 ---
 
-# Architecture
+# Architecture - Dasboard
 
-..TBD...
+![Architecture](/img/docs/web-app-dashbaord-architecture.png)

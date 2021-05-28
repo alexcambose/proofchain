@@ -19,7 +19,7 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_usability_testing_2xs4.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily integrated in
+        Proofchain was designed from the ground up to be easily integrated in
         your existing supply chain management software.
       </>
     ),
@@ -29,7 +29,7 @@ const FeatureList = [
     Svg: require('../../static/img/undraw_ethereum_desire_wy1b.svg').default,
     description: (
       <>
-        At the core, proochain uses smart contracts to manage traceability.
+        At the core, Proochain uses smart contracts to manage traceability.
         These smart contracts are running on the Ethereum - EVM plafrom.
       </>
     ),
