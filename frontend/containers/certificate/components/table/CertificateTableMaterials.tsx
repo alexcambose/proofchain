@@ -16,6 +16,7 @@ interface ICertificateTableMaterialsProps {
     material: IMaterial;
     certificateInstance: ICertificateInstance;
     assignEvent: any;
+    assignTime: any;
   }[];
   isLoading?: boolean;
 }
@@ -24,7 +25,6 @@ const CertificateTableMaterials: React.FC<ICertificateTableMaterialsProps> = ({
   certificateCode,
   info,
 }) => {
-  console.log(info);
   return (
     <Table
       isLoading={isLoading}
