@@ -2,7 +2,7 @@
   "name": "proofchain-library",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/Proofchain.js",
+  "main": "./src/Proofchain.ts",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",

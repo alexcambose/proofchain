@@ -148,7 +148,9 @@ describe('certificate', () => {
       const assignedMaterialsHistory = await proofchain.material.certificateAssignmentHistory(
         { materialTokenId: materialTokenId1 }
       );
-      expect(assignedMaterialsHistory).toEqual(certificateEvents);
+      expect(Object.keys(assignedMaterialsHistory)).toEqual(
+        Object.keys(certificateEvents)
+      );
       // expect(assignedMaterialsHistory[0].materialTokenId).toEqual(materialTokenId1);
     });
     it('filters the history by materialTokenId and certificateCode', async () => {
