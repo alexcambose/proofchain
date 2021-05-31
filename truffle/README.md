@@ -18,8 +18,8 @@ npm install
 - `test` - runs `truffle test`
 - `solc` - compiles solidity with solc, used for generating proper bytecode and ABI for the proofchain library
 - `migrate:rinkeby` - builds and deploys to the rinkeby testnet blockchain
-- `migrate:test` - builds and deploys to localhost network
-- `fixtures` - runs `./fixtures/index.js`. It gene
+- `migrate:test` - builds and deploys to localhost network (ganache must be running)
+- `fixtures` - runs `./fixtures/index.js`. It create transaction containing dummy data. Only works on the test network
 - `docs` - Generates markdown API docs
 
 #### Folder structure

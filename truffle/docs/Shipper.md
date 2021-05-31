@@ -52,14 +52,14 @@ Sets the status of a transport
 
 ### `finaliseTransport(uint256 _transportId)` (public)
 
-Sets a transport as finalised
+Finalises a transport
 
 
 
 
 ### `finaliseTransport(uint256 _transportId, string _password)` (public)
 
-Sets the status of a transport
+Finalises a transport
 
 
 
