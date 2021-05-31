@@ -1,0 +1,14 @@
+## `CertificateAuthorityOwnable`
+
+
+
+
+
+### `senderHasCertificateAuthority()`
+
+
+
+
+
+
+

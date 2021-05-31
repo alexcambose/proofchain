@@ -1,3 +1,11 @@
+---
+sidebar_position: 1
+---
+
 # Architecture
 
-..TBD...
+Smart contracts for the proofchain system.
+
+## Overview
+
+![Architecture](/img/docs/sc-architecture.png)
