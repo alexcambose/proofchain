@@ -21,24 +21,6 @@ These include:
 
 **Proofchain Client App**: A mobile-first web application that provides end users with the ability to view the complete provenance history of each product.
 
-## Resources
-
-- [Proofchain DEMO](https://demo.proofchain.alexcambose.ro/)
-
-- [Presentation website](https://proofchain.alexcambose.ro/)
-
-- [General documentation](https://docs.proofchain.alexcambose.ro/)
-
-- [Frontend information](./frontend/)
-
-- [Smart contracts information](./truffle/)
-
-- [Smart contracts docs](./truffle/docs)
-
-- [Library informtion](./library/)
-
-- [Library docs](https://library.proofchain.alexcambose.ro/)
-
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
