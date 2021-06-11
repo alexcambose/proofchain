@@ -2,6 +2,10 @@ import { isClient } from '@utils/next';
 import config from 'config';
 import proofchain, { initProofchain } from 'proofchain';
 import Web3 from 'web3';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 
 let _web3Instance;
 
@@ -24,7 +28,13 @@ const initWeb3FromMetamask = async (): Promise<string> => {
   const ethereum = window.ethereum;
   // @ts-ignore
   _web3Instance = new Web3(ethereum);
-  await ethereum.send('eth_requestAccounts');
+  try {
+    await ethereum.send('eth_requestAccounts');
+  } catch (e) {
+    await MySwal.fire({
+      title: e.message,
+    });
+  }
   return _web3Instance.givenProvider.selectedAddress;
 };
 

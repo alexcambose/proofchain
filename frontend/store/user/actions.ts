@@ -9,12 +9,12 @@ import dayjs from 'dayjs';
 export const refreshUserInfo = async (authManager = AuthManager) => {
   const address = await initWeb3Instance(authManager.getInfo());
   const hasCompany = await proofchain().company.hasCompany();
-  const hasCertificateAuthority = await proofchain().certificateAuthority.hasCertificateAuthority();
+  const hasCertificateAuthority =
+    await proofchain().certificateAuthority.hasCertificateAuthority();
   let name = '';
   const company = await proofchain().company.getCompany(address);
-  const certificateAuthority = await proofchain().certificateAuthority.getCertificateAuthority(
-    address
-  );
+  const certificateAuthority =
+    await proofchain().certificateAuthority.getCertificateAuthority(address);
   if (hasCompany) {
     name = company.name;
   } else if (hasCertificateAuthority) {

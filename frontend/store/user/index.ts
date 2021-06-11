@@ -58,6 +58,7 @@ export const UserSlice = createSlice({
       AuthManager.setInfo({ type: 'metamask' });
       state.loggedIn = true;
     });
+    builder.addCase(loginWithMetamask.rejected, (state, { payload }) => {});
     builder.addCase(loginWithTorus.fulfilled, (state, { payload }) => {
       console.log(payload);
       const { privateKey, publicAddress } = payload;

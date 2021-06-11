@@ -4,7 +4,7 @@ import '@assets/styles/style.css';
 import LoadingOverlay from '@components/loading/LoadingOverlay';
 import { setApplicationLoading } from '@store/application';
 import { fetchGasPrice } from '@store/application/actions';
-import { setInitialData, setLoggedIn } from '@store/user';
+import { logout, setInitialData, setLoggedIn } from '@store/user';
 import { refreshBalance, refreshUserInfo } from '@store/user/actions';
 import '@styles/icons';
 import theme from '@styles/theme';
@@ -51,9 +51,16 @@ function MyApp({ Component, pageProps }) {
       (async () => {
         if (loggedIn) {
           dispatch(setApplicationLoading(true));
-          await dispatch(setInitialData(await refreshUserInfo(authManager)));
+          try {
+            const data = await refreshUserInfo(authManager);
+            await dispatch(setInitialData(data));
 
-          await dispatch(refreshBalance());
+            await dispatch(refreshBalance());
+          } catch (e) {
+            dispatch(logout());
+
+            console.log('errrrrr', e);
+          }
           dispatch(setApplicationLoading(false));
           // dispatch(fetchGasPrice());
         }
