@@ -292,7 +292,7 @@ export class Material extends Base implements IEntity {
     } = options;
 
     const material = await this.getById(materialTokenId);
-    if (material?.creator !== this.fromAddress) {
+    if (material?.creator.toLowerCase() !== this.fromAddress.toLowerCase()) {
       throw new Error('You are not the owner of this material');
     }
     const isRaw = material?.recipeMaterialAmount.length === 0;
