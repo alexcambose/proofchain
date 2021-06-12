@@ -70,7 +70,7 @@ export abstract class Base {
       parsedEvents = await Promise.all(
         parsedEvents.map(async (e) => ({
           ...e,
-          block: await this.web3.eth.getBlock(e.event.event.blockNumber),
+          block: await this.web3.eth.getBlock(e.event.blockNumber),
         }))
       );
     }
