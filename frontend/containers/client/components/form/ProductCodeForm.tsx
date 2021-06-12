@@ -24,9 +24,8 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [materialFound, setMaterialFound] = useState<
-    { uuid: string } & IMaterial
-  >(null);
+  const [materialFound, setMaterialFound] =
+    useState<{ uuid: string } & IMaterial>(null);
   // highlight-starts
   const searchProduct = useCallback(
     throttle(async (uuid) => {
@@ -38,12 +37,17 @@ const ProductCodeForm: React.FunctionComponent<IProductCodeFormProps> = (
       } else if (uuid !== '0') {
         console.log('getting instance');
         const materialInstance = await getMaterialByUuid(uuid);
-        console.log('got instance');
-        const materialFromInstance = await getMaterialById(
-          materialInstance.materialTokenId
-        );
-        console.log('finish', materialInstance, materialFromInstance);
-        setMaterialFound({ ...materialFromInstance, uuid });
+        if (materialInstance.uuid === '0') {
+          setError('Not found');
+        } else {
+          console.log('got instance');
+          const materialFromInstance = await getMaterialById(
+            materialInstance.materialTokenId
+          );
+
+          console.log('finish', materialInstance, materialFromInstance);
+          setMaterialFound({ ...materialFromInstance, uuid });
+        }
       } else {
         setError('Products codes start at 1');
       }
