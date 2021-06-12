@@ -11,6 +11,8 @@ import * as Yup from 'yup';
 import proofchain from 'proofchain';
 import transactionWrapper from '@utils/transactionWrapper';
 import { TransportStatusEnum } from '@enums';
+import { EMPTY_66, EMPTY_ADDRESS } from '@utils/eth';
+const hasPassword = (pass) => pass && pass.length > 0 && pass !== EMPTY_66;
 interface FinaliseTransportFormProps
   extends ReturnType<typeof mapDispatchToProps> {
   transport: ITransport;
@@ -28,10 +30,11 @@ const _FinaliseTransportForm: React.FC<
     return <>This transport needs to be in the "Pending Finalised" status.</>;
   }
   const { isSubmitting } = props;
+  console.log(transport);
 
   return (
     <Form>
-      {transport.hashedPassword && (
+      {hasPassword(transport.hashedPassword) && (
         <FormikField
           label="Hashed password"
           name="password"
@@ -59,7 +62,7 @@ const FinaliseTransportForm = withFormik<
   validate: (values, { transport }) => {
     const errors: any = {};
     if (
-      transport.hashedPassword &&
+      hasPassword(transport.hashedPassword) &&
       '0x' + keccak256(values.password).toString('hex') !==
         transport.hashedPassword
     ) {
