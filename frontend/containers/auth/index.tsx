@@ -14,6 +14,10 @@ import {
 import { loginWithMnemonic } from '@store/user/actions';
 import LogoSvg from '@assets/images/logo/proofchain-logo-full-dark.svg';
 import { styled } from 'baseui';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 const Logo = styled(LogoSvg, {
   width: '100%',
   height: '24%',
@@ -22,8 +26,17 @@ const Auth: React.FC = () => {
   const dispatch = useDispatch();
   const onSocialButtonsClick = async (loginType: SocialLoginTypeEnum) => {
     if (loginType === SocialLoginTypeEnum.METAMASK) {
-      await dispatch(loginWithMetamask());
-      location.reload();
+      if (!window.ethereum) {
+        await MySwal.fire({
+          title: 'Metamask is not installed',
+        });
+        return;
+      }
+      await dispatch(
+        loginWithMetamask(() => {
+          location.reload();
+        })
+      );
     } else {
       await dispatch(loginWithTorus(loginType));
     }

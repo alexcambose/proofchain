@@ -102,7 +102,7 @@ const TransportInfo: React.FC<ITransportInfoProps> = ({ transportId }) => {
         }
         right={
           <>
-            <Label1>Transport Cotents</Label1>
+            <Label1>Transport Contents</Label1>
             <TransportBatchesTable transportbatches={batchInfo} />
           </>
         }

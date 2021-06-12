@@ -6,6 +6,10 @@ import { getAccountFromMnemonic } from '@utils/eth';
 import web3Instance, { initWeb3Instance } from 'web3Instance';
 import proofchain from 'proofchain';
 import dayjs from 'dayjs';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+const MySwal = withReactContent(Swal);
 export const refreshUserInfo = async (authManager = AuthManager) => {
   const address = await initWeb3Instance(authManager.getInfo());
   const hasCompany = await proofchain().company.hasCompany();
@@ -36,8 +40,21 @@ export const refreshUserInfo = async (authManager = AuthManager) => {
 
 export const loginWithMetamask = createAsyncThunk(
   'users/loginWithMetamask',
-  async () => {
-    await window.ethereum.send('eth_requestAccounts');
+  async (onSuccess: Function) => {
+    // if (!window.ethereum) {
+    //   await MySwal.fire({
+    //     title: 'Metamask is not installed',
+    //   });
+    //   return;
+    // }
+    try {
+      await window.ethereum.send('eth_requestAccounts');
+      onSuccess();
+    } catch (e) {
+      // await MySwal.fire({
+      // title: e.message,
+      // });
+    }
     return;
   }
 );

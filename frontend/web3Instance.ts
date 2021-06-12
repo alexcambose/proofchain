@@ -28,12 +28,14 @@ const initWeb3FromMetamask = async (): Promise<string> => {
   const ethereum = window.ethereum;
   // @ts-ignore
   _web3Instance = new Web3(ethereum);
+
   try {
     await ethereum.send('eth_requestAccounts');
   } catch (e) {
     await MySwal.fire({
       title: e.message,
     });
+    return;
   }
   return _web3Instance.givenProvider.selectedAddress;
 };
