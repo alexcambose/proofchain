@@ -25,6 +25,17 @@ interface IHeaderProps {}
 const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const videoRef = useRef();
+  const scrollHandler = () => {
+    if (videoRef.current) {
+      if (scrollY > window.innerHeight + 300) {
+        // @ts-ignore
+        videoRef.current.pause();
+      } else {
+        // @ts-ignore
+        videoRef.current.play();
+      }
+    }
+  };
   useEffect(() => {
     if (!isDevelopment()) {
       // @ts-ignore
@@ -34,8 +45,10 @@ const Header: React.FunctionComponent<IHeaderProps> = (props) => {
   useEffect(() => {
     if (isLoaded) {
       document.body.style.overflowY = 'scroll';
+      document.addEventListener('scroll', scrollHandler);
     } else {
       document.body.style.overflowY = 'hidden';
+      document.removeEventListener('scroll', scrollHandler);
     }
   }, [isLoaded]);
   return (
