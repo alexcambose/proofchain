@@ -27,6 +27,10 @@ const Navbar: React.FunctionComponent<INavbarProps> = (props) => {
     }
   };
   useEffect(() => {
+    setIsCollapsed(true);
+    setTimeout(() => {
+      setIsCollapsed(false);
+    }, 500);
     document.addEventListener('scroll', scrollHandler);
     return () => {
       document.removeEventListener('scroll', scrollHandler);
