@@ -59,12 +59,8 @@ const CreateTransportForm = withFormik<CreateTransportFormProps, FormValues>({
   // Transform outer props into form values
   mapPropsToValues: () => {
     return {
-      receiver: isDevelopment()
-        ? '0x92f28A28BEBAa0150d6A50752aB0AbC2FC3D0D35'
-        : '',
-      transportCompany: isDevelopment()
-        ? '0x15Af53F1ceA4f68710DF740538B26d0A90197B94'
-        : '',
+      receiver: isDevelopment() ? '' : '',
+      transportCompany: isDevelopment() ? '' : '',
       batchIds: [],
     };
   },

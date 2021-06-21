@@ -64,11 +64,11 @@ const HelloGreeting: React.FunctionComponent<IHelloGreetingProps> = (props) => {
   }, []);
   return (
     <HelloContainer
-      title={`Now you know how to say "hello" in ${greetings[messageIndex].language}.`}
+      title={`Now you know how to say "hello" in ${greetings[0].language}.`}
     >
       <Title>Proofchain</Title>
       <Display4 onClick={handleClick}>
-        {greetings[messageIndex].title}, {name} !
+        {greetings[0].title}, {name} !
       </Display4>
     </HelloContainer>
   );

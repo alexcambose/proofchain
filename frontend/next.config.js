@@ -25,9 +25,10 @@ const nextConfiguration = {
   ['!' + PHASE_DEVELOPMENT_SERVER]: {
     publicRuntimeConfig: {
       ethProvider: {
-        http: 'https://rinkeby.infura.io/v3/27c99ce149ba413080a05eff7597f5cc',
-        wss: 'wss://rinkeby.infura.io/ws/v3/27c99ce149ba413080a05eff7597f5cc',
-        factoryContractAddress: process.env.PRODUCTION_FACTORY_CONTRACT_ADDRESS,
+        http: 'http://127.0.0.1:8545',
+        wss: '',
+        factoryContractAddress:
+          process.env.DEVELOPMENT_FACTORY_CONTRACT_ADDRESS,
         etherscan: 'https://rinkeby.etherscan.io/',
       },
     },
