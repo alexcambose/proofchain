@@ -65,7 +65,7 @@ module.exports = async (
       amountIdentifier: "gram",
       account: mainAccount,
     },
-  ].map((e) => ({ ...e, amount: 10, materialTokenId: null, uuids: [] }));
+  ].map((e) => ({ ...e, amount: 12, materialTokenId: null, uuids: [] }));
   for (let i = 0; i < materials.length; i++) {
     const { name, code, amountIdentifier, account, amount } = materials[i];
     const result = await materialInstance.methods
@@ -75,7 +75,7 @@ module.exports = async (
     const { materialTokenId } = result.events.MaterialCreate.returnValues;
     const mintResult = await materialInstance.methods
       .mint(materialTokenId, amount)
-      .send({ from: account, gas: 900000 });
+      .send({ from: account, gas: 1900000 });
 
     uuidsMaterialTokenId = mintResult.events.MaterialTransfer.map((e) => e.returnValues.uuid);
     console.log(`Minted ${amount} ${name}. Uuids: ${uuidsMaterialTokenId}`);
