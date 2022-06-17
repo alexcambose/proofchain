@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^12.0.1",
+    "electron": "^15.5.5",
     "keccak256": "^1.0.2",
     "web3": "1.3.3",
     "web3-core": "^1.3.4",
