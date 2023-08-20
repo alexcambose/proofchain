@@ -60,7 +60,7 @@ Supply chain entities and materials can be audited by third party "certificate a
   - Manufacturer company: Creates raw materials, materials, batches and transports.
   - Transport company: Intermediary between other company types, can manage transports.
 - **Raw Materials**
-  - Represented using non-fungible digital tokens that are created on a blockchain for each batch of manufactured products
+  - Represented using non-fungible digital tokens that are created on a blockchain for each batch of manufactured products.
 - **Materials**
   - Similar to raw materials but are composed of multiple raw materials
 - **Batches**
